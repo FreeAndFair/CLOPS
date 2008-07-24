@@ -1,0 +1,14 @@
+/** 
+ *  Declarative specification of command line options,
+ *  with ESC/Java2 as a case study and example.
+ *
+ *	Using first-order JML with generalised quantifiers over finite domains
+ *  as a domain specific language for command line options
+ */
+ 
+ /**
+  * Exclusions
+  *
+  * <BON>
+  * </BON>
+  */

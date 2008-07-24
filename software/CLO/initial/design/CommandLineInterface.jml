@@ -1,0 +1,142 @@
+/** Declarative specification of command line options,
+ *  with ESC/Java2 as a case study and example.
+ *
+ *	Using first-order JML with generalised quantifiers over finite domains
+ *  as a domain specific language for command line options
+ */
+ 
+ // JML Model Classes for Command Line Interfaces
+
+ //@ model package ie.ucd.kindopts;
+ 
+ /**
+  * Default
+  *
+  *@ public model class Default {}
+  */
+
+ /**
+  * FeatureRelationship
+  * 
+  * <BON>
+  * class_chart FEATURE_RELATIONSHIP
+  * explanation
+  *   "The interaction between two different features in a feature model"
+  * end
+  * </BON>
+  * 
+  * <JML>
+  * </JML>
+  */
+
+  /**
+   * DefaultRelationship
+   * 
+   * <BON>
+   * class_chart DEFAULT_RELATIONSHIP
+   * explanation 
+   *   "The defaulting of one command line option by another"
+   * inherit FEATURE_RELATIONSHIP
+   * end
+   * </BON>
+   */
+
+
+  /**
+   * OverrideRelationship
+   * 
+   * <BON>
+   * class_chart OVERRIDE_RELATIONSHIP
+   * explanation 
+   *   "The overriding of one command line option by another"
+   * inherit FEATURE_RELATIONSHIP
+   * end
+   * </BON>
+   */
+
+ /**
+  * Overrides
+  * 
+  * 
+  *<JML>
+  *@ public model class Override {}
+  *</JML>
+  */
+  
+ /**
+  * Parameter
+  * 
+  *<JML>
+  *@ public model class Parameter {}
+  *</JML>
+  */ 
+
+ /**
+  * Feature Interface
+  *
+  * <BON>
+  * class_chart FEATURE_INTERFACE
+  * explanation 
+  *   "Abstraction of command line interface and GUI"
+  * inherit PROGRAM_INTERFACE
+  * end
+  * </BON>
+  *
+  * <JML>
+  *@ public model class FeatureInterface extends ProgramInterface {}
+  * </JML>
+  */
+
+ /**
+  * Program Interface
+  *  
+  * <BON>
+  * class_chart PROGRAM_INTERFACE
+  *   explanation "Abstraction of FeatureInterface and API"
+  * end
+  * </BON>
+  *
+  * <JML>
+  *@ public model class ProgramInterface {}
+  * </JML>
+  */
+
+ /**
+  * Command Line Interface
+  *
+  * <JML>
+  *@ public model class CommandLineInterface extends FeatureInterface {}
+  * </JML>
+  */
+ 
+ /**
+  * Command Line Option
+  *
+  * <JML>
+  *@ public model class CommandLineOption extends Feature {}
+  * </JML>
+  */
+
+ /**
+  * FeatureSwitch
+  *
+  * <BON>
+  * class_chart FEATURE_SWITCH
+  * explanation
+  *   "Abstraction of command line option and GUI widget"
+  * query
+  *   "What is my default state?",
+  *   "What is my overriden state?",
+  *   "What features do I override?",
+  *   "What features do I change the default of?",
+  *   "What is my state?"
+  * end
+  * </BON>
+  *
+  * <JML>
+  *@ public model class FeatureSwitch {
+  *@   Default default;
+  *@   Override override;
+  *@   }
+  * </JML>
+  */

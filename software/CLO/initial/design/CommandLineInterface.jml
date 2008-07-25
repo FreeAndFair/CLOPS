@@ -6,137 +6,63 @@
  */
  
  // JML Model Classes for Command Line Interfaces
-
- //@ model package ie.ucd.kindopts;
- 
- /**
-  * Default
-  *
-  *@ public model class Default {}
-  */
-
- /**
-  * FeatureRelationship
-  * 
-  * <BON>
-  * class_chart FEATURE_RELATIONSHIP
-  * explanation
-  *   "The interaction between two different features in a feature model"
-  * end
-  * </BON>
-  * 
-  * <JML>
-  * </JML>
-  */
-
-  /**
-   * DefaultRelationship
-   * 
-   * <BON>
-   * class_chart DEFAULT_RELATIONSHIP
-   * explanation 
-   *   "The defaulting of one command line option by another"
-   * inherit FEATURE_RELATIONSHIP
-   * end
-   * </BON>
-   */
-
-
-  /**
-   * OverrideRelationship
-   * 
-   * <BON>
-   * class_chart OVERRIDE_RELATIONSHIP
-   * explanation 
-   *   "The overriding of one command line option by another"
-   * inherit FEATURE_RELATIONSHIP
-   * end
-   * </BON>
-   */
-
- /**
-  * Overrides
-  * 
-  * 
-  *<JML>
-  *@ public model class Override {}
-  *</JML>
-  */
   
  /**
-  * Parameter
-  * 
-  *<JML>
-  *@ public model class Parameter {}
-  *</JML>
-  */ 
-
- /**
-  * Feature Interface
-  *
-  * <BON>
-  * class_chart FEATURE_INTERFACE
-  * explanation 
-  *   "Abstraction of command line interface and GUI"
-  * inherit PROGRAM_INTERFACE
-  * end
-  * </BON>
-  *
-  * <JML>
-  *@ public model class FeatureInterface extends ProgramInterface {}
-  * </JML>
-  */
-
- /**
-  * Program Interface
-  *  
-  * <BON>
-  * class_chart PROGRAM_INTERFACE
-  *   explanation "Abstraction of FeatureInterface and API"
-  * end
-  * </BON>
-  *
-  * <JML>
-  *@ public model class ProgramInterface {}
-  * </JML>
-  */
-
- /**
-  * Command Line Interface
-  *
-  * <JML>
-  *@ public model class CommandLineInterface extends FeatureInterface {}
-  * </JML>
-  */
- 
- /**
   * Command Line Option
-  *
-  * <JML>
-  *@ public model class CommandLineOption extends Feature {}
-  * </JML>
-  */
-
- /**
-  * FeatureSwitch
-  *
+  * 
   * <BON>
-  * class_chart FEATURE_SWITCH
+  * class_chart COMMAND_LINE_OPTION
   * explanation
-  *   "Abstraction of command line option and GUI widget"
+  *   "Keyword which activates a feature of the software"
   * query
-  *   "What is my default state?",
-  *   "What is my overriden state?",
   *   "What features do I override?",
   *   "What features do I change the default of?",
-  *   "What is my state?"
+  *   "What features am I valid with?"
+  * command
+  *   "Exclude that feature!",
+  *   "Override that feature!",
+  *   "Enable that feature by default!" 
   * end
   * </BON>
-  *
-  * <JML>
-  *@ public model class FeatureSwitch {
-  *@   Default default;
-  *@   Override override;
-  *@   }
-  * </JML>
-  */
+   */
+  public abstract class CommandLineOption {
+	  
+	  // Default means not set explicitly, taken to
+	  // be false unless set by another command line option
+	  public class Visibility = enum {True,False,Default};
+	  
+	  // The setting of the command line option
+	  State visibility;
+	  
+	  /**
+	   *@ ensures \result == visibility;
+	   */
+	  public State getState();
+  
+	  /**
+	   *@ ensures ! (this.overrides (option) && option.overrides (this));
+	   */
+	  public boolean isValidWith (CommandLineOption option);
+	  
+	  /**
+	   * Negative implication
+	   * 
+	   *@ ensures ! (option.Enabled() && this.isEnabled());
+	   */
+	  public boolean overrides (CommandLineOption option);
+	  
+	  /**
+	   *@ ensures !thisEnabled() || (this.Enabled() && option.Enabled());
+	   */
+	  public boolean defaults (CommandLineOption option);
+	  
+	  /**
+	   * @ensures !thisIsValidWith (option);
+	   */
+	  public void exclude (CommandLineOption option);
+	  
+	  /**
+	   * @ensures (implies_default && this.defaults(option)) || (!implies_default && this.overrides(option));
+	   */
+	  public void implies (CommandLineOption option, boolean implies_default);
+  }

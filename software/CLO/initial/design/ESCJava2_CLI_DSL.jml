@@ -7,8 +7,8 @@
  */
  
  /**
-  * Exclusions
-  *
-  * <BON>
-  * </BON>
+  * ESCJava2 Command Lien Option
   */
+ 
+  public abstract class ESCJava2Option implements CommandLineOption {
+  }

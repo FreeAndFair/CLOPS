@@ -1,10 +1,17 @@
 import java.util.*;
 
 /**
- * An interface that provides a so-called override function, which returns
- * an overriding value for the given option under the given values of options. 
- * Returns {@cod null} if there is no such overriding value.
+ * An interface that provides a so-called override function.
  */
 public interface IOverride {
-    public Boolean getOverride(OptVals vals, Option opt);
+
+    /**
+     * Determines the value that should override the current value of the given option under 
+     * the given values of other options.
+     *
+     * @param vals the values of other options, the value of {@code opt} should be ignored
+     * @param opt the option whose value should be overriden
+     * @return the overriding value, {@code null} iff  {@code opt} should not be overriden
+     */
+    public /*@pure*/ Boolean getOverride(/*@non_null*/OptVals vals, /*@non_null*/Option opt);
 }

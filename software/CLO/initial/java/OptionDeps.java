@@ -1,14 +1,21 @@
 import java.util.*;
 
-abstract class Dependency {
+/**
+ * An abstract class corresponding to the {@code IConstraint} interface.
+ * @author Mikolas Janota
+ */
+public abstract class Constraint implements IConstraint {
     abstract public boolean isValid(Map<Option, Boolean> vals);
 
-    public static Dependency and(final Iterable<Dependency> dependencies) {
-        return new Dependency() {
-            final Iterable<Dependency> ds = dependencies;
+    /**
+     * Computes an and over the given constraints.
+     */
+    public static /*@non_null*/Constraint and(final /*@non_null*/ Iterable<Constraint> constraints) {
+        return new Constraint() {
+            final Iterable<Constraint> cs = constraints;
             public boolean isValid(Map<Option, Boolean> vals) {
-                for (Dependency d : ds) {
-                    if (!d.isValid(vals)) return false;
+                for (Constraint c : cs) {
+                    if (!c.isValid(vals)) return false;
                 }
                 return true;
             }

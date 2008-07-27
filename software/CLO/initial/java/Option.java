@@ -13,6 +13,12 @@ import java.text.Collator;
     class StrCmp implements Comparator<String> 
     {  public int compare(String s1, String s2) { return s1.compareTo(s2);}  }
 
+/**
+ * Describe class <code>Option</code> here.
+ *
+ * @author <a href="mailto:mikolas@functor-3.local">Mikoláš Janota</a>
+ * @version 1.0
+ */
 public class Option {
     //@ private invariant \nonnullelements(names);
     private final /*@ non_null*/String[] names;
@@ -28,7 +34,10 @@ public class Option {
        //@ set options.elementType = \type(Option);
     }
 
-    public static Iterable<Option> getOptions() {
+    /**
+     * Returns an iterator over all registered options.
+     */
+    public static /*@non_null*/Iterable<Option> getOptions() {
         return options;
     }
 
@@ -70,13 +79,12 @@ public class Option {
         return null;
     }
 
-
     // Tests whether the given option has been registered.
-    /*@ pure */ public static boolean isRegistered(/*@ non_null*/Option o) {
+    public /*@pure*/ static boolean isRegistered(/*@ non_null*/Option o) {
         return options.contains(o);
     }
 
-    /*@ pure */public /*@ non_null*/String toString() {
+    public /*@pure*/ /*@ non_null*/String toString() {
         if (names.length > 0) {
             return names[0];
         } else {
@@ -84,12 +92,12 @@ public class Option {
         }
     }
 
-    /*@ pure */ public boolean equals(Object o) {
+    public /*@pure*/ boolean equals(Object o) {
         return this == o;
     }
 
     /** Typed equivalent of the <code>equals</code> method. */
-    /*@ pure */public boolean isSame(Option o) {
+    public /*@pure*/ boolean isSame(Option o) {
         return this == o;
     }
 
@@ -100,7 +108,10 @@ public class Option {
         this.names = (String[]) names.clone();
     }
 
-    /*@ pure */public boolean isMe(/*@ non_null */String name) {
+    /**
+     * Determines whether the given string is one of the names of this option.
+     */
+    public /*@pure*/ boolean isMe(/*@non_null*/String name) {
         //@ loop_invariant (\forall int x; 0 <= x & x < i; !(stringComparator.compare(names[x], name) == 0));
         for (int i = 0; i < names.length; i++) {
             if (stringComparator.compare(names[i], name) == 0) {

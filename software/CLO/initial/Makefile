@@ -1,6 +1,4 @@
-.PHONY: doc build celan run
-
-
+.PHONY: doc build clean run
 
 build:
 	javac -Xlint -d bin java/*.java
@@ -14,7 +12,7 @@ run: build
 
 
 jml:
-	jml java/*.java
+	jml -G java/*.java
 
 doc:
 	javadoc -d doc java/*.java

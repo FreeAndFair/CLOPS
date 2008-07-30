@@ -5,7 +5,7 @@ import java.util.*;
  * @author Mikolas Janota
  */
 public abstract class Constraint implements IConstraint {
-    abstract public boolean isValid(Map<Option, Boolean> vals);
+    abstract public boolean isValid(OptVals vals);
 
     /**
      * Computes an and over the given constraints.
@@ -13,7 +13,7 @@ public abstract class Constraint implements IConstraint {
     public static /*@non_null*/Constraint and(final /*@non_null*/ Iterable<Constraint> constraints) {
         return new Constraint() {
             final Iterable<Constraint> cs = constraints;
-            public boolean isValid(Map<Option, Boolean> vals) {
+            public boolean isValid(OptVals vals) {
                 for (Constraint c : cs) {
                     if (!c.isValid(vals)) return false;
                 }

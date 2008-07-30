@@ -57,41 +57,4 @@ public class LSDefs implements IOptionDefs {
     public boolean isValid(OptVals vals) {
         return true;
     }
-
-    private class Cancel extends OptionOverride {
-        Option o, toCancel;
-        Cancel(String explanation, Option o, Option toCancel) {
-            super(explanation);
-            this.o = o; 
-            this.toCancel = toCancel;
-        }
-        public Boolean getOverride(OptVals vals, Option opt) {
-            if (!opt.equals(toCancel)) return null;
-            if (vals.isTrue(o)) return false;
-            return null;
-        }
-    }
-
-    class MutualOverride implements IOverride {
-        Set<Option> os;
-        MutualOverride(Option[] os) {
-            this.os = new HashSet<Option>();
-            for (int i = 0; i < os.length; i++) { 
-                assert !this.os.contains(os[i]);
-                this.os.add(os[i]);
-            }
-        }
-
-        public Boolean getOverride(OptVals vals, Option opt) {
-            if (!os.contains(opt)) return null;
-            for (Option o : os) {
-                if (opt.equals(o)) continue;
-                if (vals.isTrue(o) && vals.before(opt, o)) { 
-                    System.out.println(o + " knocking down " + opt);
-                    return false;
-                }
-            }
-            return null;
-        }
-    }
 }

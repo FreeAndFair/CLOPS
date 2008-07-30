@@ -1,7 +1,8 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Comparator;
-import java.text.Collator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Represents a command line option. Constructor and new options obtained by calling {@code registerOption}, 
@@ -26,6 +27,7 @@ public class Option {
     //@ private static invariant options.elementType == \type(Option) && !options.containsNull;
     private static /*@ non_null*/ ArrayList<Option> options = new ArrayList<Option>();
 
+    private static Map<String,Option> optionNamesMap = new HashMap<String,Option>();
 
     private static /*@ non_null*/ Comparator<String> stringComparator = new StrCmp();
         //String.CASE_SENSITIVE_ORDER;
@@ -53,6 +55,9 @@ public class Option {
     public static /*@ non_null*/Option registerOption(/*@ non_null*/String[] names) {
         Option newOption = new Option(names);
         options.add(newOption);
+        for (String name : names) {
+          optionNamesMap.put(name, newOption);
+        }
         return newOption;
     }
 
@@ -69,14 +74,7 @@ public class Option {
      */
     //@ ensures \result != null ==> \result.isMe(name);
     public static Option findOption(/*@ non_null*/String name) {
-        for (Iterator it = options.iterator(); it.hasNext();) {
-            Option o = (Option)it.next();
-            if (o.isMe(name)) {
-                    return o;
-            }
-
-        }
-        return null;
+        return optionNamesMap.get(name);
     }
 
     // Tests whether the given option has been registered.

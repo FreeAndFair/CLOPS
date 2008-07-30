@@ -48,7 +48,9 @@ public class SVNDefs extends AbstractOptionDefs {
     //options
     addOption(new String[] {"-v", "--verbose"});
     addOption(new String[] {"-q", "--quiet"});
-
+    addOption(new String[] {"--auto-props"});
+    addOption(new String[] {"--no-auto-props"});
+    
     //Overrides
     addOverride(new Cancel("verbose cancels quiet", getOption("-v"), getOption("-q")));
 

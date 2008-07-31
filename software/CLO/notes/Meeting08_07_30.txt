@@ -1,0 +1,79 @@
+==== Meeting  July 30, 2008 === 
+Joe, Fint, Miko (taking notes)
+
++ Joe has started working on declarative specs for gcc. "It's coming along."
+
++ Fint: in svn it's difficult how to identify what is an argument and what is an option.
+
+e.g. 
+svn add -v file1 -d
+How to deal with hyphenated files?
+
+svn [:option:]* cmd* [:option:]* arg
+
++ We want to allow unique binders for options and names are attributes.
+
++ Arguments: what are the valid arguments to the option, what should happen if no argument is provided.
+
++  Each option is in one of the two states specified or unspecified. Then the argument has a value.
+We allow the state that an option is specified but the argument does not have a value. 
+IMO, this might be conceptually somewhat too fine or complicated, 
+I think we need to think about this more.
+
+e.g. 
+Prog baz
+Defaults
+  a -> 4
+  bool1 -> false
+  b -> 5
+Spec by default
+   a, 
+   bool0
+
+baz = baz -a=4 -bool0
+
++ We do like dataflow for overrides.
+To ensure that the dataflow is respected by function not generated from the DSL, runtime checks or option masking can be used.
+
++ Consider bags for repeated options. E.g. -v -v -v -> | TRUE, TRUE, TRUE |
+
++ An option might have a default but might not be specified by default.
+I.e. we might want for "baz -x" to default to "baz -x 1000" but "baz" itself is not specifying "x" at all.
+Fint's solution, which Mikolas likes, is:
+!boggle -> set x to 1000   // means x is specified and defaults to 1000
+!boggle & x is set -> set x to 1000 // with this trick I provide the behavior described above.
+
++ We are debating whether we need the information about positions. If yes, then whether and ordering operator (left-of) suffices.
+
++ Miko talks about the solution that Dermot and him discussed last time for repeated options. But realizes that he does not understand how it works but believes that he knows now.
+
+The idea to use positions in the data flow definition.
+  The same option in different positions is seen as a different instance of the same option. 
+Then I can say that option a is overriden by option b iff a is leftof b.
+
+Example: in "ls" -1 -l override one another, ie last one wins.
+Rules:
+  l depends on 1 iff l leftof 1
+  l depends on l iff l leftof l  // this is necessary, this basically means that no multiple copies of -l make sense
+  1 depends on l iff 1 leftof l
+  1 depends on 1 iff 1 leftof 1
+  l overrides 1 with ? iff 1 leftof l
+  1 overrides l with ? iff l leftof 1
+
+sample run:
+-l -1 -l -> l_0 1_1 l_2 WHERE  
+l_0 depends on 1_1, l_2 
+1_1 depends on l_2
+l_2 depends on no one
+
+(Here we operate on a cartesian product of options and nats but it's not important that it's nats, just as long as there's an ordering)
+
+Run overrides in topological order:
+   1_1 := ? because of l_2
+   l_0 := ? because of l_2 // note that not because of 1_1 as that already has the value ?
+ now the result is equiv to -l
+
++ The mistake I made in the previous design was that overrides where assigning false which is incorrect.
+We need to make sure that if x overrides y than
+prog y x is equiv to prog x, turning y to false is obviously no equivalent.
+

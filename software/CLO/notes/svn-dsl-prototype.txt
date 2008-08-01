@@ -90,7 +90,8 @@ SPECIFIED_BY_DEFAULT::
 
 OVERRIDES::
 
-( checkout v log v export) ^ revision != ?  ~>  revision:="HEAD"    // If checkout or log are selected, then use head revision by default
+// The following could be also a default
+(checkout v log v export) ^ (revision == ?)  ~>  revision:="HEAD"    // If checkout or log are selected, then use head revision by default
 
 (import v add) ^ auto_props == ? ~> auto_props:=True  //If importing or adding, auto_props by default
 
@@ -99,11 +100,11 @@ VALIDITY::
 //The args format should take care of a lot of things, but here we must enforce the options that are allowed with the various subcommands
 //e.g.
 
-auto_props => (import v add)    :"The option %auto_props.text is not valid for subcommand %s"   
+auto_props => (import v add)    :"The option %auto_props.text is not valid for subcommand %subcommand.text"
 //Allowing informative explanations for validity conditions. We could provide placeholder tokens for various pieces of information, 
-//like %auto_props.text for the text that was used to select auto_props (default if none used), or %s for the selected subcommand here? How to do this though without cluttering.
+//like %auto_props.text for the text that was used to select auto_props (default if none used), or %subcommand.text for the selected subcommand here? How to do this though without cluttering.
 
-revision => ( checkout v export v log )  :"The option %revision.text is not valid for subcommand %s"
+(revision != ?) => ( checkout v export v log )  :"The option %revision.text is not valid for subcommand %subcommand.text"
 //Revision can only be specified for checkout, log or export subcommands
 
 !( auto_props ^ no_auto_props )  :"%auto_props.text and %no_auto_props.text are mutually exclusive"

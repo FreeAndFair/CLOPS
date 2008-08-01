@@ -1,0 +1,111 @@
+NAME::
+ svn "Subversion version control."
+
+ARGS::
+
+ //Subcommands
+ [add:{"add"}]
+ [blame:{"blame","praise","annotate","ann"}]
+ [cat:{"cat}]
+ [checkout:{"checkout","co"}]
+ [cleanup:{"cleanup"}]
+ [commit:{"commit,"ci"}]
+ [copy:{"copy","cp"}]
+
+/* remaining subcommands:
+   delete (del, remove, rm)
+   diff (di)
+   export
+   help (?, h)
+   import
+   info
+   list (ls)
+   lock
+   log
+   merge
+   mkdir
+   move (mv, rename, ren)
+   propdel (pdel, pd)
+   propedit (pedit, pe)
+   propget (pget, pg)
+   proplist (plist, pl)
+   propset (pset, ps)
+   resolved
+   revert
+   status (stat, st)
+   switch (sw)
+   unlock
+   update (up)
+*/
+
+ [version:{"--version"}]
+ [quiet:{"--quiet"}]
+
+ [targets:{"—targets"}:{existing_file}]
+ [non_recursive:{"-N","--non-recursive"}]
+ [quiet:{"-q","--quiet"}]
+ [config_dir:{"--config-dir"}:{existing_dir}]
+ [force:{--force}]
+ [no_ignore:{"--no-ignore"}]
+ [auto-props:{"--auto-props"}]
+ [no_auto_props:{"--no_auto_props"}]
+ [revision:{"-r","--revision"}:{revision_arg}]
+
+ARGS_FORMAT::
+
+( (option)* subcommand (option)* )
+|
+( (quiet)? version (quiet)? )
+
+
+WHERE::
+
+subcommand ::=     add | blame | cat | checkout | cleanup | commit | copy | delete | diff | export | help | import 
+                 | info | list | lock | log | merge | mkdir | move | propdel | propedit | propget | proplist 
+                 | propset | resolved | revert | status | switch | unlock | update
+
+option ::=    quiet | targets | non_recursive | config_dir | force | no_ignore | auto_props | no_auto_props
+
+
+existing_file ::= FILE(exists,not_dir)
+existing_dir ::= FILE(exists,dir)
+
+revision_arg ::=    positive_int 
+                 | '{' DATE '}' 
+                 | "HEAD"
+                 | "BASE"
+                 | "COMMITTED"
+                 | "PREV"
+
+positive_int ::= INT(x>=0)
+
+
+DEFAULTS::
+
+//Nothing
+
+SPECIFIED_BY_DEFAULT::
+
+//Nothing
+
+OVERRIDES::
+
+( checkout v log v export) ^ revision != ?  ~>  revision:="HEAD"    // If checkout or log are selected, then use head revision by default
+
+(import v add) ^ auto_props == ? ~> auto_props:=True  //If importing or adding, auto_props by default
+
+VALIDITY::
+
+//The args format should take care of a lot of things, but here we must enforce the options that are allowed with the various subcommands
+//e.g.
+
+auto_props => (import v add)    :"The option %auto_props.text is not valid for subcommand %s"   
+//Allowing informative explanations for validity conditions. We could provide placeholder tokens for various pieces of information, 
+//like %auto_props.text for the text that was used to select auto_props (default if none used), or %s for the selected subcommand here? How to do this though without cluttering.
+
+revision => ( checkout v export v log )  :"The option %revision.text is not valid for subcommand %s"
+//Revision can only be specified for checkout, log or export subcommands
+
+NOTES::
+
+It seems to be clear that an option without a default cannot be provided without the proper argument (i.e. the tool should complain should a user try to do so).

@@ -41,7 +41,7 @@ ARGS::
  [version:{"--version"}]
  [quiet:{"--quiet"}]
 
- [targets:{"—targets"}:{existing_file}]
+ [targets:{"--targets"}:{existing_file}]
  [non_recursive:{"-N","--non-recursive"}]
  [quiet:{"-q","--quiet"}]
  [config_dir:{"--config-dir"}:{existing_dir}]

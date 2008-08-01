@@ -106,6 +106,8 @@ auto_props => (import v add)    :"The option %auto_props.text is not valid for s
 revision => ( checkout v export v log )  :"The option %revision.text is not valid for subcommand %s"
 //Revision can only be specified for checkout, log or export subcommands
 
+!( auto_props ^ no_auto_props )  :"%auto_props.text and %no_auto_props.text are mutually exclusive"
+
 NOTES::
 
 It seems to be clear that an option without a default cannot be provided without the proper argument (i.e. the tool should complain should a user try to do so).

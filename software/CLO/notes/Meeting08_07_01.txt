@@ -1,0 +1,25 @@
+Aug 1 2008, Command Line Options meeting
+Joe, Fint, Viliam, Miko (taking notes)
+
+
++ Battle Fint vs. Miko:
+ - Miko has a beautiful mechanism where we deal with instances of options an multiple occurrences of
+are dealt with overrides and a composition operator run at the end.
+ - Fint (supported by Joe) claims such mechanism is overly complicated and multiple options should be dealt with in the parsing stage. The option is responsible for collecting and composing the instances on the input.
+
+On second thought, you guys might be right. For the GUI version your approach is more appropriate
+I will just have a different mechanism of filling the values, then if I want to allow multiple occurrences of the same option, output filename let's say, then I can use a list, for example, in the GUI.
+
++ The process:
+  0) We have a set of options where each one of them has a list of identifiers and a type.
+  1) Parse options
+  2) Run overrides in topological order of DFG
+  3) Apply validity functions
+
++ The DSL might contain defaults as a concepts but are implemented as overrides conditioned by value unknown.
+
++ Viliam is pointing to apt-get and other tools have files that contain defaults.
+etc/apt
+
++ We can generate code for option data structures as well. This datastructure will contain something to store the value of the pertaining value type and some way of feeding things in from the commandline.
+

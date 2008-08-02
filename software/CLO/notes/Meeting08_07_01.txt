@@ -3,12 +3,15 @@ Joe, Fint, Viliam, Miko (taking notes)
 
 
 + Battle Fint vs. Miko:
- - Miko has a beautiful mechanism where we deal with instances of options an multiple occurrences of
+ - Miko has a beautiful mechanism where parsing produces instances of options and multiple occurrences 
 are dealt with overrides and a composition operator run at the end.
  - Fint (supported by Joe) claims such mechanism is overly complicated and multiple options should be dealt with in the parsing stage. The option is responsible for collecting and composing the instances on the input.
 
-On second thought, you guys might be right. For the GUI version your approach is more appropriate
-I will just have a different mechanism of filling the values, then if I want to allow multiple occurrences of the same option, output filename let's say, then I can use a list, for example, in the GUI.
+   On second thought, you guys might be right. For the GUI version your approach is more appropriate.
+ One will just have a different mechanism of filling the values, then if one wants to allow multiple occurrences of the same option, output filename let's say, then a list can be used, for example, in the GUI.
+
+  On the other hand, if -1 overrides -l (and vica versa) then I will need to implement this overriding mechanism
+in the later stage anyhow. So from SW engineering point of view, we have two different mechanism for dealing with the same thing. But I guess the main thing is that the DSL will contain such constructs as rightmost-wins etc., their translation can be played with in the future.
 
 + The process:
   0) We have a set of options where each one of them has a list of identifiers and a type.
@@ -23,3 +26,16 @@ etc/apt
 
 + We can generate code for option data structures as well. This datastructure will contain something to store the value of the pertaining value type and some way of feeding things in from the commandline.
 
++ After-meeting note. 
+   The unspecified/specified option + value could be  emulated
+by a pair for the options for which it is needed. This would mean no special mechanism for
+the two types of values, no schism over Boolean options where specified means true.
+
+ So if I say an option has the domain  { specified } X
+any-val-domain,  // Cartesian product of a singleton and anything
+else.
+the possible states are
+ ? ?
+ ? val   // invalid
+  specified ? // invalid
+  specified val

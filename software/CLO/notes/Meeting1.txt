@@ -1,0 +1,36 @@
+\section{Meeting 1}
+\label{sec:meeting1}
+
+\begin{itemize}
+\item Options are \emph{registered}, they have \emph{arguments} of
+  which have \emph{types} (such as integer argument), and
+  \emph{documentation}.
+\item We can have (Joe is suggesting must have) \emph{predicates} on
+  arguments
+\item How to deal with the dependencies like in \texttt{svn},
+  \texttt{svn checkout} can be followed by a different set of options
+  than for \texttt{svn commit}?  This is related to documentation,
+  because that could be reused for \texttt{svn help checkout}
+\item \emph{grammars}, how expressive are they? Radu is looking into
+  that.
+\item \emph{dependencies} in general, predicates, inducements,
+  grammars are basically instances of that.  \emph{excludes} etc.
+  might be required.
+\item \emph{alternative} dependencies (something is either this or
+  that). This includes the cases when instead of an integer with small
+  domain I introduce several different options.
+\item \emph{induced} options, when I set option \texttt{a}, option
+  \texttt{b} is set automatically. How does this relate to
+  \emph{aliasing} (e.g.,~\texttt{ll} $\equiv$ \texttt{ls -l})?
+\item \emph{defaults} --- they are generated automatically in
+  documentation
+\item \emph{list of arguments}, this includes cases when I can use the
+  same option multiple times.  Example: For \texttt{dot} I can do
+  \texttt{dot -Tps -Tjpeg} and it produces multiple outputs of the
+  appropriate type.
+\item \emph{GUI} how this connects to GUI
+\item \emph{evolveability:} the library should not require the user to
+  change everything when adding an option
+\item the interface should be \emph{simple} and \emph{easy} to use
+\end{itemize}
+

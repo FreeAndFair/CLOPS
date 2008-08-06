@@ -1,0 +1,48 @@
+Present: Miko, Fint. Viliam, Dermot
+
++ Fint talking about annotation used for option definitions.
+  //@ this is an option
+  int i;
+
++ More discussion whether to allow dealing with multiple instance of the same  option. 
+ What I'm (me being mikolas) concerned with is that the left of
+ operator is undefined when multiple instances are permitted.
+
++ Rough structure of the DSL
+
+  1) Definition of options
+  2) A BNF+reg ex. definition of a grammar defining how options are
+  parsed. The terminals are options defined in 1) and STR which is
+  just an any argument.
+
+=== example
+  STANDARD_OPTION :=  Opt1,
+                     | Opt2;
+  COMMAND :=  C1,
+            | C2;
+
+  GRAMMAR := STANDARD_OPTIONS* COMMAND (STANDARD_OPTION | STR)*
+=== end of example
+
+  3) Override functions: guard, which is a side-effect free formula,
+  and an assignment to a certain option value
+
+  4) Validity function(s), sife-effect free formulas
+
++ Tool data flow 
+  
+ DSL input -> ANTLR -> JavaCode consisting of the following:
+   a) Java Data Structures, for each option we have a data structure
+   enabling storing and retrieving its value and parse input
+   b) Parse(String[]) returns Collection<Option>, Collection<Argument>
+   c) EvalOverrides(Collection<Option>, Collection<Argument>) returns Collection<Option>, Collection<Argument>
+   d) CheckValidity(Collection<Option>, Collection<Argument>) returns OK/ErrorDescription
+
+
+
++ How do we proceed
+  ++ Fint starts an ANTL grammar file in the repo
+  ++ everyone trying to come up with some syntax for the DSL, then we
+  will merge
+  ++ Viliam is going to take a look on tar or auto tools
+

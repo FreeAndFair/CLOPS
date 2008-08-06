@@ -1,11 +1,34 @@
 NAME::
-  escj "Extended Static Checking for Java, Version 2"
+  escj | escjava2 "Extended Static Checking for Java, Version 2"
 
 ARGS::
 
+ [-warn]
+ [-simplify]
+ [-useInternal]
+ [-javaVersion]
+ [-noCheck]
+ [-classpath]
+ 
+ <filename>
+
 ARGS_FORMAT::
 
+ [-warn <flag:enum>]{*}
+ [-classpath <cp:string>]
+ [-simplify <path:string>]
+
 WHERE::
+
+ <flag:enum> = ZeroDiv | ArrayStore | Assert | Cast | Reachable \
+        | Inconsistent | Constraint | CLeak | DecreasesBound \
+        | Decreases | Unreadable | Undefined | UndefinedNormalPost \
+        | UndefinedExceptionalPost | IndexNegative | IndexTooBig \
+        | Uninit | ILeak | Initially | Deadlock | LoopInv | LoopObjInv \
+        | ModExt | Modifies | NegSize | NonNull | NonNullInit | Null \
+        | Invariant | OwnerNull | Post | Pre | Race | RaceAllNull \
+        | Unenforcable | Exception | SpecificationException \
+        | Deferred | Writable
 
 DEFAULTS::
 
@@ -13,10 +36,13 @@ SPECIFIED_BY_DEFAULT::
 
 OVERRIDES::
 
+ [-nowarn <flag:enum>] overrides [-warn <flag:enum>] 
+ [-useInternal] overrides [-simplify]
+
 VALIDITY::
 
 DOCS::
 
 NOTES::
 
-https://mobius.ucd.ie/trac/wiki/ESCCLI
+ https://mobius.ucd.ie/trac/wiki/ESCCLI

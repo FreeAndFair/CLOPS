@@ -1,5 +1,23 @@
 Present: Miko, Fint. Viliam, Dermot
 
+Discussion about DSL editor and grammer:
+----------------------------------------
+
+The Eclipse based DSL editor is called Xtext
+
+It was suggested that options have three states:
+
+	1. Off
+	2. On-but-not-defined
+	3. On-with-value
+	
+It was suggested that there is a distinction between basic and advanced options
+
+The basic options might have a simpler DSL which can be translated into the advanced DSL
+
+It was suggested that the basic DSL allows only string, boolean and integer options with at most one argument and no repeated options
+i.e. the same option would not be used twice with different arguments e..g -warn and -prover in ESCJava2
+
 + Fint talking about annotation used for option definitions.
   //@ this is an option
   int i;
@@ -7,6 +25,8 @@ Present: Miko, Fint. Viliam, Dermot
 + More discussion whether to allow dealing with multiple instance of the same  option. 
  What I'm (me being mikolas) concerned with is that the left of
  operator is undefined when multiple instances are permitted.
+ 
+ This requires elimination of duplicate options and assuming that the "last option wins" e.g. cmd -A -B -A means cmd -B -A
 
 + Rough structure of the DSL
 
@@ -27,7 +47,7 @@ Present: Miko, Fint. Viliam, Dermot
   3) Override functions: guard, which is a side-effect free formula,
   and an assignment to a certain option value
 
-  4) Validity function(s), sife-effect free formulas
+  4) Validity function(s), side-effect free formulas
 
 + Tool data flow 
   
@@ -38,7 +58,18 @@ Present: Miko, Fint. Viliam, Dermot
    c) EvalOverrides(Collection<Option>, Collection<Argument>) returns Collection<Option>, Collection<Argument>
    d) CheckValidity(Collection<Option>, Collection<Argument>) returns OK/ErrorDescription
 
+The generated Java code will contain an API with public fields or getters for each of the options e.g. isSet(option),getValue(option),getOptions()
 
+It should be possible for the client code to inherit and override the parse method if required i.e. for special cases not handled by the model
+
+Options can be grouped into categories e.g. some options are platform specific.
+
+Overriding an option means making it unspecified i.e. as if it had never appeared on the command line (almost like time travel).
+
+Meta-options are possible e.g. the choice of subcommand in svn determines the format and syntax of the other options. This could be recursive; each
+subcommand has its own sub-model for its own options
+
+Mutual overriding is slightly different from mutual exclusion
 
 + How do we proceed
   ++ Fint starts an ANTL grammar file in the repo

@@ -1,14 +1,35 @@
 NAME::
-  escj | escjava2 "Extended Static Checking for Java, Version 2"
+
+  [escj | escjava2] description "Extended Static Checking for Java, Version 2"
 
 ARGS::
 
- [-warn]
- [-simplify]
- [-useInternal]
- [-javaVersion]
- [-noCheck]
+ [-warn <category> | -nowarn <category>] multiplicity "*" description "Which types of warnings to show"
+ [-simplify <pathname> | -useInternal] description "Which version i.e. platform of Simplify theorem prover to use"
+ [-javaVersion <version>] description "Which version of JDK specifications in JML to use"
+ [-noCheck | -typecheck]
  [-classpath]
+ [-PrettyPrintVC | -PrintVC]
+ [-eaJML | -eaJava]
+ [-prover <prover> | -svcg <prover> | -NoCheck]
+ [-noTrace | -VerboseTrace]
+ [-Loop <positive integer|half-integer> | -LoopSafe | -LoopFallThru]
+ [-Routine <routine> | -RoutineIndirect? <filename>]
+ [-idc -erst]
+ [-inlineConstructors | -inlineCheckDepth | -inlineDepthPastCheck | -inlineCheckDepth -inlineDepthPastCheck] 
+ [-CounterExample] description "Show a counter example for each warning"
+ [-NoSemicolonWarnings]
+ [-Simplify <pathname>]
+ [-Specs <pathname | filename>] description "Where to find the JML specifications for the Java JDK"
+    * NoRedundancy
+    * nonNullByDefault
+    * NoWarn
+    * PlainWarning
+    * Start <positive integer>
+    * Stats
+    * Suggest
+    * VCLimit <positive integer>
+    * Warn <category> 
  
  <filename>
 

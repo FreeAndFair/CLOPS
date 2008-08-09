@@ -8,12 +8,12 @@ ARGS::
  [-simplify <pathname> | -useInternal] description "Which version i.e. platform of Simplify theorem prover to use"
  [-javaVersion <version>] description "Which version of JDK specifications in JML to use"
  [-noCheck | -typecheck]
- [-classpath]
+ [-classpath]  //>>> needs an arg
  [-PrettyPrintVC | -PrintVC]
  [-eaJML | -eaJava]
  [-prover <prover> | -svcg <prover> | -NoCheck]
  [-noTrace | -VerboseTrace]
- [-Loop <positive integer|half-integer> | -LoopSafe | -LoopFallThru]
+ [-Loop <positive integer|half-integer> | -LoopSafe | -LoopFallThru] //>>> what does | mean? these override one another whereas warn nowarn are more complicated
  [-Routine <routine> | -RoutineIndirect? <filename>]
  [-idc -erst]
  [-inlineConstructors | -inlineCheckDepth | -inlineDepthPastCheck | -inlineCheckDepth -inlineDepthPastCheck] 
@@ -35,7 +35,7 @@ ARGS::
 
 ARGS_FORMAT::
 
- [-warn <flag:enum>]{*}
+ [-warn <flag:enum>]{*} //>>> how does this relate to the preceeding declarations?
  [-classpath <cp:string>]
  [-simplify <path:string>]
 
@@ -57,7 +57,7 @@ SPECIFIED_BY_DEFAULT::
 
 OVERRIDES::
 
- [-nowarn <flag:enum>] overrides [-warn <flag:enum>] 
+ [-nowarn <flag:enum>] overrides [-warn <flag:enum>] //>>> here you need the value on the left hand side, interesting, maybe use something linke \1 in regex
  [-useInternal] overrides [-simplify]
 
 VALIDITY::

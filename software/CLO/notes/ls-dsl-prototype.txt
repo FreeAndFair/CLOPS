@@ -1,0 +1,44 @@
+// NOTE: the left-of precondition in the guard should be implicit
+// NOTE: unless specified otherwise, otions override itself
+
+override(-b, -N, -q, --show-control-chars); // mutual override between bools
+override(-a, -A);                           // where override means setting to ?
+
+[on(-U)] -> off(r); // [guard] -> list-of-assignments
+[on(-f)] -> on(A, U), off(l, s, t);
+
+
+[on(--help)] -> undef(ALL - --help); // kills everybody else
+[on(--version)] -> undef(ALL - --version); 
+//TODO: check what really happens for the two above
+
+override(-h, -H); // TODO: check
+
+enum format :=
+    across  (-x), // -x is bool repr of the expression format==accross 
+    commas (-m),  // this means that they will automatically override one another
+    horizontal (-x), 
+    long (-l), 
+    single-column (-1),
+    verbose (-l), 
+    vertical (-C);
+
+override(-o, -format); // TODO: check
+
+enum --indicator-style :=
+   none (DEFAULT)
+   classify (-F)
+   slash (-p)
+   file-type (--file-type);
+
+equiv(on(--full-time), on(-l) --time-style=full-iso); // not sure how this exactly works, it would be nice if the rule work in both directions
+
+
+
+// fancy feature some way of definining equalities between combinations
+ASSERT (OPT|-g)* = OPT*;  // -g is ignored
+
+
+
+
+

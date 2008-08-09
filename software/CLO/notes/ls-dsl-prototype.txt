@@ -1,4 +1,4 @@
-// NOTE: the left-of precondition in the guard should be implicit
+// NOTE: We might need some implicit left-of precondition in the guard 
 // NOTE: unless specified otherwise, otions override itself
 
 override(-b, -N, -q, --show-control-chars); // mutual override between bools

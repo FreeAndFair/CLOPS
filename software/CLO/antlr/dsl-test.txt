@@ -1,0 +1,50 @@
+ARGS::
+
+ [add:{"add"}]
+ [blame:{"blame","praise","annotate","ann"}]
+ [cat:{"cat"}]
+ [checkout:{"checkout","co"}]
+ [cleanup:{"cleanup"}]
+ [commit:{"commit","ci"}]
+ [copy:{"copy","cp"}]
+
+ [version:{"--version"}]
+ [quiet:{"--quiet"}]
+
+ [targets:{"--targets"}:{existing_file}]
+ [non_recursive:{"-N","--non-recursive"}]
+ [quiet:{"-q","--quiet"}]
+ [config_dir:{"--config-dir"}:{existing_dir}]
+ [force:{"--force"}]
+ [no_ignore:{"--no-ignore"}]
+ [auto-props:{"--auto-props"}]
+ [no_auto_props:{"--no_auto_props"}]
+ [revision:{"-r","--revision"}:{revision_arg}]
+
+//Single-line comment test
+
+/* Multi
+   line
+   comment
+   test
+*/
+
+TBD
+
+TBD
+
+DEFAULTS::
+
+TBD -> TBD
+TBD -> TBD
+TBD -> TBD
+
+OVERRIDES::
+
+TBD -> TBD
+TBD -> TBD
+TBD -> TBD
+
+VALIDITY::
+
+

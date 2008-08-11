@@ -7,7 +7,6 @@ override(-a, -A);                           // where override means setting to ?
 [on(-U)] -> off(r); // [guard] -> list-of-assignments
 [on(-f)] -> on(A, U), off(l, s, t);
 
-
 [on(--help)] -> undef(ALL - --help); // kills everybody else
 [on(--version)] -> undef(ALL - --version); 
 //TODO: check what really happens for the two above

@@ -1,0 +1,28 @@
+system_chart COMMAND_LINE_OPTIONS
+indexing
+  created: "2008-08-11-dc"
+cluster COMMAND_LINE_OPTIONS description "Feature Model for Command Line Options"
+end
+
+cluster_chart COMMAND_LINE_OPTIONS
+indexing
+  author: "Dermot Cochran";
+  created: "2008-07-23-dc";
+  revised: "2008-08-11-dc";
+  level_of_detail: "1";
+explanation
+  "Feature Model for Command Line Options"
+class COMMAND_LINE_INTERFACE description "Set of keywords used to control the behaviour of a program"
+class COMMAND_LINE_OPTION description "A keyword which activates, deactivates or controls a feature of the program"
+class DEFAULT description "The initial setting of command line option unless explicitly set or overridden"
+class EXCLUSION_SET description "Subset of command line options which cannot be used together"
+class FEATURE_RELATIONSHIP description "The interaction between two different features in a feature model"
+class FEATURE_SWITCH description "Abstraction of Command Line option and GUI widget"
+class DEFAULT_RELATIONSHIP description "The relationship betwee the default value of one command line option and the actual value of another"
+class OVERRIDE_RELATIONSHIP description "The interdependant relationship between two different command line options"
+class FEATURE_INTERFACE description "Abstraction of Command Line Interfaces (CLI) and Graphical User Interfaces (GUI)"
+class PROGRAM_INTERFACE description "Abstraction of Feature Interfaces and Application Programmer Interfaces (API)"
+class COMMAND_LINE_OPTION description "Keyword which activates or controls a feature of the program"
+class FEATURE_RELATIONSHIP description "The dependecies, overrides, defaults and exclusions between features"
+class INPUT_SET description "The set of valid data needed to run the feature tests"
+end

@@ -1,0 +1,80 @@
+--
+-- Command Line Options
+--
+class_chart COMMAND_LINE_INTERFACE
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "Set of keywords used to control the behaviour of a program"
+end
+
+class_chart DEFAULT
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "The initial setting of command line option unless explicitly set or overridden"
+end
+
+class_chart DEFAULT_RELATIONSHIP
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "The relationship betwee the default value of one command line option and the actual value of another"
+end
+
+class_chart EXCLUSION_SET
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "Subset of command line options which cannot be used together"
+end
+
+class_chart FEATURE_INTERFACE
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "Abstraction of Command Line Interfaces (CLI) and Graphical User Interfaces (GUI)"
+end
+
+class_chart FEATURE_SWITCH
+indexing
+  created: "2008-08-11-dc"
+explanation 
+  "Abstraction of Command Line Option and GUI switch"
+end
+
+class_chart FEATURE_RELATIONSHIP
+explanation
+  "The intercation between two different features in a feature model"
+end
+
+class_chart COMMAND_LINE_OPTION
+indexing
+  proposed_refinement: "kindopts.options.Option"
+explanation
+  "Parameter which can be specified via a command line interface"
+inherit FEATURE_SWITCH
+end
+
+class_chart INPUT_SET
+indexing
+  author: "Dermot Cochran";
+  created: "2008-08-11-dc";
+  level_of_detail: "1"
+explanation
+  "Set of input data used to test some of all permutations of the command line options"
+end
+
+class_chart OVERRIDE_RELATIONSHIP
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "The interdependant relationship between two different command line options"
+end
+
+class_chart PROGRAM_INTERFACE
+indexing
+  created: "2008-08-11-dc"
+explanation
+  "Abstraction of Feature Interfaces and Application Programmer Interfaces (API)"
+end

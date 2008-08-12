@@ -1,0 +1,32 @@
++ loops because of defaults are easy to detect to prevent termination but the order is messed up
+
++ allow defaults only as self-loops remove self-loops and do topological order
+
++ maybe overriding with ? is not the same as ignoring
+
++ how to ensure that the rules are really functions?
+  c = 6 -> a := false;
+  c = 6 -> b := 4;
+  a= ? ^ b = 4 -> a := true;
+
+--- use rules in the order they are written
+
++ the problem function resolved by the ordering on the rules e.g.
+  c1 and c2 are mutually exclusive
+  default verbosity for c1 is 3 
+  default verbosity for c2 is 4 
+  default verbosity for others is v1, this makes sense to be written as the last, a la default in a switch
+
++ Viliam: having two type of rule: one that are applied after parsing each option
+
++ we still have problems with dependency cycle in mutual overrides
+
++ how to deal with gcc -O2 --noflag boo
+
++ e.g. chmod +r -r
+
+
++ Viliam have a rule associated to each option that is run one in the order of which they came on the commandline (flying rules)
+ -- if multiple instances, these rules are triggered each time a new instance is met
+
++ argument for collating -b=6 -b=4

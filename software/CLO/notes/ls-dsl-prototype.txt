@@ -13,7 +13,7 @@ override(-a, -A);                           // where override means setting to ?
 
 override(-h, -H); // TODO: check
 
-enum format :=
+enum --format :=
     across  (-x), // -x is bool repr of the expression format==accross 
     commas (-m),  // this means that they will automatically override one another
     horizontal (-x), 
@@ -32,12 +32,5 @@ enum --indicator-style :=
 
 equiv(on(--full-time), on(-l) --time-style=full-iso); // not sure how this exactly works, it would be nice if the rule work in both directions
 
-
-
 // fancy feature some way of definining equalities between combinations
 ASSERT (OPT|-g)* = OPT*;  // -g is ignored
-
-
-
-
-

@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+ <title>ESCCLI - Mobius - Trac</title><link rel="start" href="https://mobius.ucd.ie/trac/wiki"><link rel="search" href="https://mobius.ucd.ie/trac/search"><link rel="help" href="https://mobius.ucd.ie/trac/wiki/TracGuide"><link rel="stylesheet" href="ESCCLI_files/trac.css" type="text/css"><link rel="stylesheet" href="ESCCLI_files/tractags.css" type="text/css"><link rel="stylesheet" href="ESCCLI_files/wiki.css" type="text/css"><link rel="stylesheet" href="ESCCLI_files/trac_003.css"><link rel="stylesheet" href="ESCCLI_files/trac_002.css" type="text/css"><link rel="icon" href="https://mobius.ucd.ie/trac/chrome/common/trac.ico" type="image/x-icon"><link rel="shortcut icon" href="https://mobius.ucd.ie/trac/chrome/common/trac.ico" type="image/x-icon"><link rel="alternate" href="https://mobius.ucd.ie/trac/wiki/ESCCLI?format=txt" title="Plain Text" type="text/x-trac-wiki"><style type="text/css">
+</style>
+ <script type="text/javascript" src="ESCCLI_files/trac.js"></script>
+ <script type="text/javascript" src="ESCCLI_files/ctxtnavadd.js"></script>
+</head><body>
+
+
+<div id="banner">
+
+ 
+
+
+
+ 
+ <div id="main">
+
+
+
+
+ 
+
+<div id="content" class="wiki">
+
+ 
+  
+  
+   
+   <div class="wikipage">
+    <div id="searchable"><h1 id="ExtendedStaticChecking-CommandLineInterface">Extended Static Checking - Command Line Interface<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#ExtendedStaticChecking-CommandLineInterface"> ¶</a></h1>
+<h2 id="Introduction">Introduction<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Introduction"> ¶</a></h2>
+<p>
+The Extended Static Checking system has its own command line interface, based on the original command line interface for <acronym title="Extended Static Checking">ESC</acronym>/Java2 and recent extensions by <acronym title="Mobility, Ubiquity, Security">Mobius</acronym> and other reseachers.
+</p>
+<p>
+</p><div class="wiki-toc">
+<h4>Table of Contents</h4>
+<ol><li class="active"><a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Introduction">Introduction</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Syntax">Syntax</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#ExcludedCombinations">Excluded Combinations</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Non-ExclusiveOptions">Non-Exclusive Options</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#DependentOptions">Dependent Options</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#ParameterTypes">Parameter Types</a><ol><li class="active"><a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Filenames::String">Filenames::String</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Pathnames::String">Pathnames::String</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Provers::String">Provers::String</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#PositiveIntegers::Integer">Positive Integers::Integer</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#PositiveHalves::IntegerdotDigit">Positive Halves::Integer&lt;dot&gt;Digit</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Routines::String">Routines::String</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Categories::String">Categories::String</a></li></ol></li><li class="active"><a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Defaults">Defaults</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#SynonymsandAbbreviations">Synonyms and Abbreviations</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Parameters">Parameters</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#MultipleInstancesofOptions">Multiple Instances of Options</a></li><li class="active">
+<a href="https://mobius.ucd.ie/trac/wiki/ESCCLI#DeclarativeSpecification">Declarative Specification</a></li></ol></div>
+
+
+<h2 id="Syntax">Syntax<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Syntax"> ¶</a></h2>
+<ul><li>Options begin with a dash "-", parameters do not; syntax is
+&lt;dash&gt;&lt;option
+name&gt;&lt;space&gt;{&lt;parameter&gt;&lt;space&gt;}
+</li><li>Options are case-sensitive
+</li></ul><h2 id="ExcludedCombinations">Excluded Combinations<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#ExcludedCombinations"> ¶</a></h2>
+<p>
+The following combinations of options are not possible:
+</p>
+<ul><li>-PrettyPrintVC -PrintVC
+</li><li>-eaJML -eaJava
+</li><li>-prover|svcg &lt;Prover&gt; -<a class="missing wiki" href="https://mobius.ucd.ie/trac/wiki/NoCheck" rel="nofollow">NoCheck?</a>
+</li><li>-noTrace -<a class="missing wiki" href="https://mobius.ucd.ie/trac/wiki/VerboseTrace" rel="nofollow">VerboseTrace?</a>
+</li><li>-Loop &lt;positive integer|half-integer&gt;, -<a class="missing wiki" href="https://mobius.ucd.ie/trac/wiki/LoopSafe" rel="nofollow">LoopSafe?</a>, -<a class="missing wiki" href="https://mobius.ucd.ie/trac/wiki/LoopFallThru" rel="nofollow">LoopFallThru?</a>
+</li><li>-Routine &lt;routine&gt; -<a class="missing wiki" href="https://mobius.ucd.ie/trac/wiki/RoutineIndirect" rel="nofollow">RoutineIndirect?</a> &lt;filename&gt;
+</li><li>-idc -erst
+</li><li>-inlineConstructors -inlineCheckDepth|inlineDepthPastCheck
+</li></ul><h2 id="Non-ExclusiveOptions">Non-Exclusive Options<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Non-ExclusiveOptions"> ¶</a></h2>
+<ul><li>CounterExample
+</li><li>NoSemicolonWarnings
+</li><li>Simplify <i>&lt;pathname&gt;</i>
+</li><li>Specs <i>&lt;pathname | filename&gt;</i>
+</li><li>Typecheck
+</li><li>NoRedundancy
+</li><li>NoTrace
+</li><li>nonNullByDefault
+</li><li>NoWarn
+</li><li>PlainWarning
+</li><li>Start <i>&lt;positive integer&gt;</i>
+</li><li>Stats
+</li><li>Suggest
+</li><li><acronym title="Verification Condition">VC</acronym>Limit <i>&lt;positive integer&gt;</i>
+</li><li>Warn <i>&lt;category&gt;</i>
+</li></ul><h2 id="DependentOptions">Dependent Options<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#DependentOptions"> ¶</a></h2>
+<ul><li>NoSingleDynmaicAssignment ⇒ nospvc 
+</li></ul><h2 id="ParameterTypes">Parameter Types<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#ParameterTypes"> ¶</a></h2>
+<h3 id="Filenames::String">Filenames::String<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Filenames::String"> ¶</a></h3>
+<h3 id="Pathnames::String">Pathnames::String<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Pathnames::String"> ¶</a></h3>
+<h3 id="Provers::String">Provers::String<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Provers::String"> ¶</a></h3>
+<h3 id="PositiveIntegers::Integer">Positive Integers::Integer<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#PositiveIntegers::Integer"> ¶</a></h3>
+<h3 id="PositiveHalves::IntegerdotDigit">Positive Halves::Integer&lt;dot&gt;Digit<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#PositiveHalves::IntegerdotDigit"> ¶</a></h3>
+<blockquote>
+<p>
+Numbers that are either positive integers or halfway between two position integers e.g. <i>1.5</i>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<a class="ext-link" href="http://en.wikipedia.org/wiki/Half-integer"><span class="icon">http://en.wikipedia.org/wiki/Half-integer</span></a>
+</p>
+</blockquote>
+<h3 id="Routines::String">Routines::String<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Routines::String"> ¶</a></h3>
+<ul><li>Routine identifiers e.g. a method identifier
+</li><li>Fully qualified signatures of routines e.g. a method signature
+</li></ul><p>
+ 
+</p>
+<h3 id="Categories::String">Categories::String<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Categories::String"> ¶</a></h3>
+<ul><li>Categories of Warnings
+</li></ul><h2 id="Defaults">Defaults<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Defaults"> ¶</a></h2>
+<ul><li>-Loop 1.5
+</li><li>-<acronym title="Java Modeling Language">JML</acronym>Assertions
+</li><li>-Prover simplify
+</li><li>-<acronym title="Verification Condition">VC</acronym>Limit 500000
+</li></ul><p>
+ 
+</p>
+<h2 id="SynonymsandAbbreviations">Synonyms and Abbreviations<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#SynonymsandAbbreviations"> ¶</a></h2>
+<blockquote>
+<table class="wiki">
+<tbody><tr><td><strong>Abbreviation</strong></td><td><strong>Synonym</strong>
+</td></tr><tr><td>bpf</td><td>BackPredFile
+</td></tr><tr><td>bnd</td><td>BubbleNotDown
+</td></tr><tr><td>eaJML</td><td><acronym title="Java Modeling Language">JML</acronym>Assertions
+</td></tr><tr><td>eaJava</td><td>JavaAssertions
+</td></tr><tr><td>era</td><td>ReachabilityAnalysis
+</td></tr><tr><td>erst</td><td>ReachabilitySpecTest
+</td></tr><tr><td>ersta</td><td>ReachabilitySpecTestAll
+</td></tr><tr><td>sds</td><td>ShowDesuguredSpecs
+</td></tr><tr><td>pcc</td><td>PrintCounterExampleContext
+</td></tr><tr><td>pgc</td><td>PrintGuardedCommands
+</td></tr><tr><td>ppvc</td><td>PrettyPrintVC
+</td></tr><tr><td>pvc</td><td>PrintVC
+</td></tr><tr><td>pjt</td><td>PrintJavaWithTypes
+</td></tr><tr><td>npdsa</td><td>NoDynamicSingleAssignment
+</td></tr><tr><td>psda</td><td>PrintDynamicSingleAssignment
+</td></tr><tr><td>nvu</td><td>NoVariableUniquification
+</td></tr><tr><td>ac</td><td>AssertContinue
+</td></tr><tr><td>nne</td><td>NonNullElements
+</td></tr><tr><td>inChk</td><td>ConsistencyCheck
+</td></tr></tbody></table>
+</blockquote>
+<h2 id="Parameters">Parameters<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#Parameters"> ¶</a></h2>
+<blockquote>
+<table class="wiki">
+<tbody><tr><td><strong>Option</strong></td><td><strong>Parameter</strong></td><td><strong>Allowed Values</strong></td><td><strong>Default</strong>
+</td></tr><tr><td>Loop</td><td>Number of iterations to check</td><td>Positive multiple of 0.5</td><td>1.5
+</td></tr></tbody></table>
+</blockquote>
+<h2 id="MultipleInstancesofOptions">Multiple Instances of Options<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#MultipleInstancesofOptions"> ¶</a></h2>
+<p>
+Most of the options cannot be repeated (or make no sense to be repeated), some
+can be. For instance -warn seems to support multiple occurrences.
+</p>
+<p>
+The -warn option is interesting as the category string is implemented as an
+enumeration.
+</p>
+<h2 id="DeclarativeSpecification">Declarative Specification<a title="Link to this section" class="anchor" href="https://mobius.ucd.ie/trac/wiki/ESCCLI#DeclarativeSpecification"> ¶</a></h2>
+<p>
+The command line interface <acronym title="Extended Static Checking">ESC</acronym>/Java2 will be modeled as a declarative specification
+written in first-order <acronym title="Java Modeling Language">JML</acronym> with generalised quantifiers over finite domains.
+</p>
+</div>
+   </div>
+   
+  
+  
+   
+  
+   
+ 
+</div>
+
+ 
+</div>
+
+ 
+
+
+
+ </body></html>

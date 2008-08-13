@@ -1,25 +1,28 @@
 --
 -- Command Line Options
 --
-class_chart COMMAND_LINE_INTERFACE
+ 
+class_chart RULE
 indexing
-  created: "2008-08-11-dc"
+  created: "2008-08-13-dc"
 explanation
-  "Set of keywords used to control the behaviour of a program"
+  "An expression in which the LHS is set of options values and the RHS is a single assignment of a new option value"
+query
+  "What is my left-hand-side (source) expression?",
+  "What is my right-hand-side (target) expression?"
+command
+  "Set target option",
+  "Set target value",
+  "Add to left hand side expression"
 end
 
-class_chart DEFAULT
-indexing
-  created: "2008-08-11-dc"
-explanation
-  "The initial setting of command line option unless explicitly set or overridden"
-end
-
-class_chart DEFAULT_RELATIONSHIP
+class_chart DEFAULT_RULE
 indexing
   created: "2008-08-11-dc"
 explanation
   "The relationship betwee the default value of one command line option and the actual value of another"
+inherit
+  RULE
 end
 
 class_chart EXCLUSION_SET
@@ -29,52 +32,31 @@ explanation
   "Subset of command line options which cannot be used together"
 end
 
-class_chart FEATURE_INTERFACE
-indexing
-  created: "2008-08-11-dc"
-explanation
-  "Abstraction of Command Line Interfaces (CLI) and Graphical User Interfaces (GUI)"
-end
-
-class_chart FEATURE_SWITCH
-indexing
-  created: "2008-08-11-dc"
-explanation 
-  "Abstraction of Command Line Option and GUI switch"
-end
-
-class_chart FEATURE_RELATIONSHIP
-explanation
-  "The intercation between two different features in a feature model"
-end
-
 class_chart COMMAND_LINE_OPTION
 indexing
-  proposed_refinement: "kindopts.options.Option"
+  proposed_refinement: "kindopts.options.Option";
+  created: "2008-08-12-dc";
+  revised: "2008-08-13-dc"
 explanation
   "Parameter which can be specified via a command line interface"
-inherit FEATURE_SWITCH
+query
+  "What is my value?",
+  "What is my type?",
+  "Am I specified?",
+  "What is my full name?",
+  "What abbreviations do I have?"
 end
 
-class_chart INPUT_SET
-indexing
-  author: "Dermot Cochran";
-  created: "2008-08-11-dc";
-  level_of_detail: "1"
-explanation
-  "Set of input data used to test some of all permutations of the command line options"
-end
-
-class_chart OVERRIDE_RELATIONSHIP
+class_chart OVERRIDE_RULE
 indexing
   created: "2008-08-11-dc"
 explanation
   "The interdependant relationship between two different command line options"
-end
-
-class_chart PROGRAM_INTERFACE
-indexing
-  created: "2008-08-11-dc"
-explanation
-  "Abstraction of Feature Interfaces and Application Programmer Interfaces (API)"
+inherit 
+  RULE
+query
+  "When is this option overriden?",
+  "What does this option override?"
+command
+  "Apply this rule"
 end

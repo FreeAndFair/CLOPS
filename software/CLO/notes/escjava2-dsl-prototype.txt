@@ -2,46 +2,57 @@ NAME::
 
   [escj | escjava2] description "Extended Static Checking for Java, Version 2"
 
-ARGS::
+ARGS:: //>>> Public options only are described here, private experimental options are not.
 
- [-warn <category> | -nowarn <category>] multiplicity "*" description "Which types of warnings to show"
- [-simplify <pathname> | -useInternal] description "Which version i.e. platform of Simplify theorem prover to use"
+ [-Warn <category>] multiplicity "*" description "Turns on all warnings of category <category> if they are currently turned off"
+ [-Simplify <path_to_executable>] description "The path to the SIMPLIFY executable"
  [-javaVersion <version>] description "Which version of JDK specifications in JML to use"
- [-noCheck | -typecheck]
- [-classpath]  //>>> needs an arg
- [-PrettyPrintVC | -PrintVC]
- [-eaJML | -eaJava]
- [-prover <prover> | -svcg <prover> | -NoCheck]
- [-noTrace | -VerboseTrace]
- [-Loop <positive integer|half-integer> | -LoopSafe | -LoopFallThru] //>>> what does | mean? these override one another whereas warn nowarn are more complicated
- [-Routine <routine> | -RoutineIndirect? <filename>]
- [-idc -erst]
- [-inlineConstructors | -inlineCheckDepth | -inlineDepthPastCheck | -inlineCheckDepth -inlineDepthPastCheck] 
- [-CounterExample] description "Show a counter example for each warning"
- [-NoSemicolonWarnings]
- [-Simplify <pathname>]
+ [-NoCheck] description "Do all steps, including verification condition generation, but perform no checking with the prover"
+ [-Typecheck] description "Perform only parsing and typechecking; no generation of verification conditions or execution of prover takes place"
+ [-JavaAssertions] description "Treat Java assert statements as normal Java asserts, cannot be used with -JMLAssertions"
+ [-JMLAsserations] description "Treat Java assert statements like JML assert statements, cannot be used with -JavaAssertions"
+ [-Prover <prover_list>] description "Specify which prover(s) should be used; /
+   /<prover_list> is a comma-separated list of names of the provers to be enabled. /
+   /Usage example : '-Prover simplify,harvey'. /
+   /Simplify is the default prover if this option is not used."
+ [-noTrace] description "Do not print the execution trace that leads to the potential error being warned about"
+ [-Loop <iteration_count>] description "Consider <iteration_count> iterations of all loops /
+   /(i.e., unroll all loops <iteration_count> times); if <iteration_count>.5, /
+   /evaluate loop guard one extra time. The default is -Loop 1.5."
+ [-LoopSafe] description "Use an alternate form of loop unrolling for VC generation that is more rigorous but more expensive"
+ [-Routine <routine_identifier> | <fully_quality_routine_signature>] description
+   "Check only the specified routine in all specified classes"
+ [-RoutineIndirect <routine_file>] description 
+   "The file <routine_file> should contain a list of all routines that are to be checked, similar to the -list option"
+ [-CounterExample] description "If a warning is discovered, generate a counter-example if possible."
+ [-NoSemicolonWarnings] description "Suppress warnings about semicolons missing at the end of annotations"
+ [-Simplify <pathname>] description "The path to the SIMPLIFY executable"
  [-Specs <pathname | filename>] description "Where to find the JML specifications for the Java JDK"
-    * NoRedundancy
-    * nonNullByDefault
-    * NoWarn
-    * PlainWarning
-    * Start <positive integer>
-    * Stats
-    * Suggest
-    * VCLimit <positive integer>
-    * Warn <category> 
- 
- <filename>
-
-ARGS_FORMAT::
-
- [-warn <flag:enum>]{*} //>>> how does this relate to the preceeding declarations?
- [-classpath <cp:string>]
- [-simplify <path:string>]
+ [-NoRedundancy] description "Do not check specs in redundant specification (e.g., requires_redundantly, etc.)."
+ [-NoWarn <category>] multiplicity "*" description "Do not warn about the specified warning category.  /
+   /The special category 'All' can be used to ignore all warnings.  The full list of warnings is found in the User's Manual."
+ [-nonNullByDefault] description "Declarations of reference types are assumed to be non-null by default"
+ [-PlainWarning] description "Suppress the output of the partial counterexample in the case of invariant warnings."
+ [-Start <line_number>] description
+   "Start checking the first class specified at line number/
+   /<line_number>; all lines before <line_number> have warnings disabled"
+ [-Stats <keyword>] description
+   "Display a more detailed breakdown of some information. You can supply some keyword \
+   \indicating what you want :  time space complexity termComplexity variableComplexity quantifierComplexity. \
+   \Usage example : -Stats time,space,variableComplexity. \
+   \Default behavior is -Stats time,space. The complexity parameter \
+   \displays all *Complexity flags" 
+ [-Specs <path_to_specs_directory_or_jarfile>] multiplicity "*" description 
+   "The jar file or directory path of the set of system specs to use; /
+   /these are appended to the sourcepath, if specified, or else the classpath.  /
+   /Multiple uses of -Specs are ignored; only final use of -Specs is recognized, as in javac.  /
+   /The default version of specs depends on the platform"
+ [-Suggest] description "After each warning, suggest an annotation that will suppress the warning"
+ [-VCLimit <positive_integer>] description "Maximum number of verification conditions to check"
 
 WHERE::
 
- <flag:enum> = ZeroDiv | ArrayStore | Assert | Cast | Reachable \
+ <category> = ZeroDiv | ArrayStore | Assert | Cast | Reachable \
         | Inconsistent | Constraint | CLeak | DecreasesBound \
         | Decreases | Unreadable | Undefined | UndefinedNormalPost \
         | UndefinedExceptionalPost | IndexNegative | IndexTooBig \
@@ -53,17 +64,32 @@ WHERE::
 
 DEFAULTS::
 
+ [-Stats] ==> [-Stats time,space]
+
 SPECIFIED_BY_DEFAULT::
+
+ -Loop 1.5 
+ -JMLAssertions 
+ -Prover Simplify
+ -VCLimit 500000
+ 
+ABBREVIATIONS:: //>>> could be modeled as default rules
+
+ [-eaJML] <--> [-JMLAssertions]
+ [-eaJava] <--> [-JavaAssertions]
 
 OVERRIDES::
 
- [-nowarn <flag:enum>] overrides [-warn <flag:enum>] //>>> here you need the value on the left hand side, interesting, maybe use something linke \1 in regex
- [-useInternal] overrides [-simplify]
+ [-NoWarn \1] overrides [-Warn \1] //>>> here you need the value on the left hand side, interesting, maybe use something like \1 in regex
+ [-Warn \1] overrides [-NoWarn \1]
+ [-Specs \2] overrides [-Specs \1]
+ 
+EXCLUSION SETS:: //>>> could be modeled as validity rules
+
+ {-eaJML, -eaJava}
 
 VALIDITY::
 
 DOCS::
 
 NOTES::
-
- https://mobius.ucd.ie/trac/wiki/ESCCLI

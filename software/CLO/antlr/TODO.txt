@@ -1,0 +1,4 @@
+1. Start section with general stuff like tool name, description.
+2. args format section.
+3. where section (for grouping options).
+4. Proper boolean expressions.

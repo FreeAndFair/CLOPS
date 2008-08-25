@@ -9,15 +9,15 @@ ARGS::
  copy:{"copy","cp"}
 
  version:{"--version"}
- quiet:{"--quiet"}
+ quiet:{"-q","--quiet"}
+ verbose:{"-v","--verbose"}
 
  targets:{"--targets"}:{existing_file}
  non_recursive:{"-N","--non-recursive"}
- quiet:{"-q","--quiet"}
  config_dir:{"--config-dir"}:{existing_dir}
  force:{"--force"}
  no_ignore:{"--no-ignore"}
- auto-props:{"--auto-props"}
+ auto_props:{"--auto-props"}
  no_auto_props:{"--no_auto_props"}
  revision:{"-r","--revision"}:{revision_arg}
 
@@ -34,15 +34,15 @@ TBD
 TBD
 
 FLY::
-
-TBD
+  //Below just an example, not the behaviour of svn
+  verbose -> quiet:=false;
+  quiet -> verbose:=false;
 
 OVERRIDES::
-
-TBD -> TBD
-TBD -> TBD
-TBD -> TBD
+  //Below just an example, not the behaviour of svn (probably all booleans will default to false anyway)
+  quiet=? -> quiet:=true;
 
 VALIDITY::
-
+  auto_props=false OR no_auto_props=false;
+  revision>=0;
 

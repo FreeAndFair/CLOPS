@@ -40,13 +40,14 @@ args_section  :  'ARGS::'
                  (arg_definition)+
               ;
 
-arg_definition  :  (arg_name ':')? '{' '"' a1=arg_alias '"' (',' '"' a=arg_alias '"')* '}' (':' param_definition)?
+//Currently allowing anything for the 
+arg_definition  :  (arg_name ':')? '{' '"' arg_alias '"' (',' '"' arg_alias '"')* '}' (':' param_definition)?
                 ;
 
 arg_name  :  NAME
           ;
 
-arg_alias  :  NAME
+arg_alias  :  possible_dash_started_name
            ;
 
 param_definition  :  '{' NAME '}' 
@@ -67,7 +68,7 @@ where_section  :  'TBD'
 fly_section  :  'FLY::' (fly_rule)*
                    ;
 
-fly_rule  :  'TBD'
+fly_rule  :  NAME '->' NAME ':=' constant (',' NAME ':=' constant)* ';'
                ;
 
 /**********************************************/
@@ -75,7 +76,7 @@ fly_rule  :  'TBD'
 overrides_section  :  'OVERRIDES::' (override_rule)*
                    ;
 
-override_rule  :  'TBD' '->' 'TBD'
+override_rule  :  NAME comparison_op constant ('AND' NAME comparison_op constant)* '->' NAME ':=' constant ';'
                ;
 
 /**********************************************/
@@ -83,7 +84,41 @@ override_rule  :  'TBD' '->' 'TBD'
 validity_section  :  'VALIDITY::' (validity_rule)*
                   ;
 
-validity_rule  :  'TBD' '->' 'TBD'
+validity_rule  :  NAME comparison_op constant ('OR' NAME comparison_op constant)* ';'
+               ;
+
+/**********************************************
+ **********************************************/
+
+constant  :    boolean_constant
+             | integer_constant  
+             | string_constant
+             | unspecified_constant
+          ;
+
+boolean_constant  :  'true' | 'false'
+                  ;
+
+integer_constant  :  INTEGER
+                  ;
+
+string_constant  :  '"' .* '"'
+                 ;
+
+unspecified_constant  :  '?'
+                      ;
+
+possible_dash_started_name  :  (DASH DASH?)? NAME
+                            ;
+
+/**********************************************/
+
+comparison_op  :    '='
+                  | '!='
+                  | '>'
+                  | '<'
+                  | '<='
+                  | '>='
                ;
 
 /**********************************************  
@@ -105,25 +140,26 @@ NEWLINE  :  '\r'? '\n'
 /**********************************************/
 
 //Standard name
-NAME  : ( ALPHANUMERIC_UNDERSCORE_OR_DASH )+
+NAME  : ALPHA ( ALPHANUMERIC | UNDERSCORE | DASH )*
       ;
-
-fragment 
-ALPHANUMERIC_UNDERSCORE_OR_DASH  : ALPHANUMERIC | UNDERSCORE | DASH 
-                                 ;
-                                     
+                                    
 fragment 
 UNDERSCORE  :  '_' 
             ;
-
-fragment 
+ 
 DASH  :  '-'
       ;
                     
 fragment 
 ALPHANUMERIC  :  ALPHA | DIGIT 
               ;
-                     
+               
+INTEGER  :  (DIGIT)+ 
+         ;
+         
+REAL  :  DIGIT+ '.' DIGIT+ 
+      ;
+      
 fragment 
 DIGIT  :  '0'..'9' 
        ;

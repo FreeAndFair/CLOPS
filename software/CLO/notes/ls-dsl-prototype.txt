@@ -14,9 +14,10 @@
   //TODO: check what really happens for the two above
 
   override(-o, -format); // TODO: this is a bit complicated, as it doesn't really override long format
+  // TODO -g has analogous behavior
 
   enum --format :=
-    across  (-x), // -x is bool repr of the expression format==accross 
+    across  (-x), // -x is bool repr of the expression format==across 
     commas (-m),  // this means that they will automatically override one another
     horizontal (-x), 
     long (-l), 
@@ -24,15 +25,14 @@
     verbose (-l), 
     vertical (-C);
 
- 
-
-  enum --indicator-style :=
+ enum --indicator-style :=
    none (DEFAULT)
    classify (-F)
    slash (-p)
    file-type (--file-type);
 
-  equiv(on(--full-time), on(-l) --time-style=full-iso); // not sure how this exactly works, it would be nice if the rules  worked in both directions
+  // not sure how this exactly works, it would be nice if the rules worked in both directions
+  equiv(on(--full-time), on(-l) --time-style=full-iso); 
 
   // fancy feature some way of definining equalities between combinations
-  ASSERT (OPT|-g)* = OPT*;  // -g is ignored
+  ASSERT (OPT|-g)* = OPT*;  // -g is ignored, this is actually not true

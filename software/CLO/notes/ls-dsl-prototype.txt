@@ -13,7 +13,7 @@
   [on(--version)] -> undef(ALL - --version); 
   //TODO: check what really happens for the two above
 
-  override(-o, -format); // TODO: check
+  override(-o, -format); // TODO: this is a bit complicated, as it doesn't really override long format
 
   enum --format :=
     across  (-x), // -x is bool repr of the expression format==accross 

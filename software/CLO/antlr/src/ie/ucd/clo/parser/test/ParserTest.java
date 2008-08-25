@@ -34,7 +34,12 @@ public class ParserTest {
 
       parser.prog();
 
-      System.out.println("Done!");
+      if (parser.isValidParse()) {
+        System.out.println("Successfully parsed!");
+      } else {
+        System.out.println("Did not parse successfully.");
+      }
+      
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

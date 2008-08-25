@@ -49,7 +49,7 @@
 	 	<echo message="Checking if the ANTLR generated files are up to date"/>
 		<condition property="antlrBuild.required">
 			<not>
-				<uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}.java"/>
+				<uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}Parser.java"/>
 			</not>
 		</condition>
   </target>
@@ -72,6 +72,12 @@
     </javac>
   </target>
 
+  <target name="test-parser" depends="compile" description="simple test">
+    <java fork="yes" classname="ie.ucd.clo.parser.test.ParserTest">
+      <classpath refid="test.path"/>
+      <arg value="dsl-test.txt"/>
+    </java>
+  </target>
 
   <target name="clean-all" depends="clean-build,clean-antlr" description="clean up"/>
   <target name="clean" depends="clean-all"/>	

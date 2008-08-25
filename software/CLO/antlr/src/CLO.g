@@ -1,8 +1,9 @@
 
 grammar CLO;
 
-//options {
-//}
+options {
+  superClass=AbstractParser;
+}
 
 @header {
   package ie.ucd.clo.parser; 
@@ -28,7 +29,7 @@ prog  :  clo_specification EOF
 clo_specification  :  args_section
                       args_format_section
                       where_section
-                      defaults_section
+                      fly_section
                       overrides_section
                       validity_section
                    ;
@@ -39,7 +40,7 @@ args_section  :  'ARGS::'
                  (arg_definition)+
               ;
 
-arg_definition  :  '[' (arg_name ':')? '{' '"' a1=arg_alias '"' (',' '"' a=arg_alias '"')* '}' (':' param_definition)? ']'
+arg_definition  :  (arg_name ':')? '{' '"' a1=arg_alias '"' (',' '"' a=arg_alias '"')* '}' (':' param_definition)?
                 ;
 
 arg_name  :  NAME
@@ -63,11 +64,11 @@ where_section  :  'TBD'
 
 /**********************************************/
 
-defaults_section  :  'DEFAULTS::' (default_rule)*
-                  ;
+fly_section  :  'FLY::' (fly_rule)*
+                   ;
 
-default_rule  :  'TBD' '->' 'TBD'
-              ;
+fly_rule  :  'TBD'
+               ;
 
 /**********************************************/
 

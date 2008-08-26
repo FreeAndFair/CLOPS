@@ -5,13 +5,13 @@
 	<projects>
 	</projects>
 	<buildSpec>
-		<buildCommand>
-			<name>ie.ucd.bon.plugin.boncbuilder</name>
+	    <buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>ie.ucd.bon.plugin.boncnature</nature>
+			<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

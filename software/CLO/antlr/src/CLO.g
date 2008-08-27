@@ -41,7 +41,7 @@ args_section  :  'ARGS::'
               ;
 
 //Currently allowing anything for the 
-arg_definition  :  (arg_name ':')? '{' '"' arg_alias '"' (',' '"' arg_alias '"')* '}' (':' param_definition)?
+arg_definition  :  arg_name ':' '{' '"' arg_alias '"' (',' '"' arg_alias '"')* '}' (':' param_definition)?
                 ;
 
 arg_name  :  NAME
@@ -55,13 +55,33 @@ param_definition  :  '{' NAME '}'
 
 /**********************************************/
 
-args_format_section  :  'TBD'  
+args_format_section  :  'FORMAT::' format_clause  ';'
                      ;
+
+format_clause  :  format_subclause
+               ;
+
+format_subclause  :  (   NAME  
+                       | ( '(' format_subclause ')' )
+                     ) 
+                     (repitition_operator)?
+                     (or_format_subclause)?
+                  ;
+
+or_format_subclause  :  ('OR')? format_subclause
+                     ;
+
+repitition_operator  : '*' | '+' | '?'
+                    ;
+
 
 /**********************************************/
 
-where_section  :  'TBD'
+where_section  :  'WHERE::' (where_clause)*
                ;
+
+where_clause  :  NAME ':' NAME  ('OR' NAME)* ';'
+              ;
 
 /**********************************************/
 
@@ -76,7 +96,7 @@ fly_rule  :  NAME '->' NAME ':=' constant (',' NAME ':=' constant)* ';'
 overrides_section  :  'OVERRIDES::' (override_rule)*
                    ;
 
-override_rule  :  NAME comparison_op constant ('AND' NAME comparison_op constant)* '->' NAME ':=' constant ';'
+override_rule  :  NAME comparison_op constant ('AND' NAME comparison_op constant)* '->' NAME ':=' constant (',' NAME ':=' constant)* ';'
                ;
 
 /**********************************************/

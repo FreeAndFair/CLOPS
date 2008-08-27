@@ -29,9 +29,23 @@ ARGS::
    test
 */
 
-TBD
+FORMAT::
 
-TBD
+     ( option* subcommand option* arg* option* ) 
+  OR ( (quiet OR version)* version (quiet OR version)* );
+
+WHERE::
+
+subcommand  :     add  
+               OR blame 
+               OR cat 
+               OR checkout
+               OR cleanup 
+               OR commit 
+               OR copy
+            ;
+
+option  :  quiet OR verbose OR targets OR non_recursive OR config_dir OR force OR no_ignore OR auto_props OR no_auto_props OR revision;
 
 FLY::
   //Below just an example, not the behaviour of svn

@@ -28,9 +28,10 @@ public class ParserTest {
       System.out.println("File " + args[0] + " does not exist");
     }
 
+    CLOParser parser = null;
     try {
       CLOLexer lexer = new CLOLexer(new ANTLRInputStream(new FileInputStream(file)));
-      CLOParser parser = new CLOParser(new CommonTokenStream(lexer));
+      parser = new CLOParser(new CommonTokenStream(lexer));
 
       parser.prog();
 
@@ -38,6 +39,9 @@ public class ParserTest {
         System.out.println("Successfully parsed!");
       } else {
         System.out.println("Did not parse successfully.");
+        if (parser.getCustomErrorMessage() != null) {
+          System.err.println(parser.getCustomErrorMessage());
+        }
       }
       
     } catch (FileNotFoundException e) {
@@ -47,9 +51,13 @@ public class ParserTest {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (RecognitionException e) {
+      System.out.println("Caught recognition error");
+      if (parser.getCustomErrorMessage() != null) {
+        System.err.println(parser.getCustomErrorMessage());
+      }
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
+    } 
 
   }
 

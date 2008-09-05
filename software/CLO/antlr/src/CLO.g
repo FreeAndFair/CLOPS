@@ -7,6 +7,14 @@ options {
 
 @header {
   package ie.ucd.clo.parser; 
+  
+  import ie.ucd.clo.dsl.structs.OptionDescription;
+  import ie.ucd.clo.dsl.structs.BasicOptionDescription;
+  import ie.ucd.clo.dsl.structs.OptionType;
+  
+  import ie.ucd.clo.dsl.OptionTypeFactory;
+  import ie.ucd.clo.dsl.DSLParseException;
+  
 }
 
 @lexer::header {
@@ -41,17 +49,37 @@ args_section  :  'ARGS::'
               ;
 
 //Currently allowing anything for the 
-arg_definition  :  arg_name ':' '{' '"' arg_alias '"' (',' '"' arg_alias '"')* '}' (':' param_definition)?
+arg_definition  
+@init { OptionDescription option = new BasicOptionDescription(); }
+                :  id=arg_name ':'
+                   { option.setId($id.text); } 
+                   '{' '"' a1=arg_alias '"' 
+                   { option.addAlias($a1.text); }
+                   (',' '"' a=arg_alias '"'
+                    { option.addAlias($a.text); }
+                   )* 
+                   '}'  
+                   ( ':' '{' t=NAME '}'
+                       { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
+                     )? 
+                   { System.out.println("Parsed option: " + option); }
                 ;
+                catch [DSLParseException e] {
+                  System.out.println("Here.");
+                  setCustomErrorMessage(e.toString());
+                  throw new RecognitionException();
+                } 
+                catch [RecognitionException re] {
+                  System.out.println("Here2.");
+                  reportError(re);
+                  recover(input,re);
+                }
 
 arg_name  :  NAME
           ;
 
 arg_alias  :  possible_dash_started_name
            ;
-
-param_definition  :  '{' NAME '}' 
-                  ;
 
 /**********************************************/
 

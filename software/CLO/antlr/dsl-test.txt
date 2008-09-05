@@ -8,18 +8,26 @@ ARGS::
  commit:{"commit","ci"}
  copy:{"copy","cp"}
 
+//Testing int args
+ int:{"-i","--int"}:{int}
+
  version:{"--version"}
  quiet:{"-q","--quiet"}
  verbose:{"-v","--verbose"}
 
- targets:{"--targets"}:{existing_file}
+//targets:{"--targets"}:{existing_file}
+ targets:{"--targets"}:{string}
  non_recursive:{"-N","--non-recursive"}
- config_dir:{"--config-dir"}:{existing_dir}
+//config_dir:{"--config-dir"}:{existing_dir}
+ config_dir:{"--config-dir"}:{string}
  force:{"--force"}
  no_ignore:{"--no-ignore"}
  auto_props:{"--auto-props"}
  no_auto_props:{"--no_auto_props"}
- revision:{"-r","--revision"}:{revision_arg}
+//revision:{"-r","--revision"}:{revision_arg}
+revision:{"-r","--revision"}:{string}
+
+
 
 //Single-line comment test
 

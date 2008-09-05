@@ -26,7 +26,7 @@ public class GenericCLParser {
      * @param arg a a <code>String</code> that came on the command line
      * @return an <code>Option</code> value, returns {@code null} if no such option was found
      */
-    Option findMatchingOption(/*@non_null*/String arg) {
+    Option findMatchingOption(/*@non_null*/String arg, Collection<Option> options) {
         for (Option o : options) {
             if (o.matches(args[index]) ){
                 assert matchingOption == null; // find maximally one option that matches on args[index]
@@ -44,7 +44,9 @@ public class GenericCLParser {
         int index = 0;
         // init automaton
         while (index < args.length) {
-            Option matchingOption = findMatchingOption(args[index]);
+            // options = automaton.getOptionsThatDoNotLeadToAnErrorState
+            // if (options.isEmpty && !automaton.canMatchArgument) ERROR
+            Option matchingOption = findMatchingOption(args[index], options);
 
             if (matchingOption == null) {
                 // no option has matched on args[index], store it in arguments

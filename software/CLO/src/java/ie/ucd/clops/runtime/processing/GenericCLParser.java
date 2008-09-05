@@ -42,6 +42,7 @@ public class GenericCLParser {
      */
     public void parse(/*@non_null*/String[] args) {
         int index = 0;
+        // init automaton
         while (index < args.length) {
             Option matchingOption = findMatchingOption(args[index]);
 
@@ -49,6 +50,7 @@ public class GenericCLParser {
                 // no option has matched on args[index], store it in arguments
                 arguments.add(args[index]);
                 ++index;
+                // automaton.transition(ARGUMENT)
             } else {
                 // process the arguments
                 MatchResult mr = matchingOption.match(args, index);
@@ -57,7 +59,10 @@ public class GenericCLParser {
                 }
                 // TODO: trigger fly rule (could be maybe in a separate stage)
                 index += mr.getNumberOfArgsConsumed(); // move forward on the command-line
+                // automaton.transition(matchingOption)
             }
+            // assert that automaton is in a valid state
         }
+        // assert that the automaton is in the final state
     }
 }

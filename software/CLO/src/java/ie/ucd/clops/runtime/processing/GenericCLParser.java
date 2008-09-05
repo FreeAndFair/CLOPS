@@ -23,7 +23,8 @@ public class GenericCLParser {
     /**
      * Finds the option that triggers on a given command line string.
      *
-     * @param arg a a <code>String</code> that came on the command line
+     * @param arg a <code>String</code> that came on the command line
+     * @param options the set of candidates for matching
      * @return an <code>Option</code> value, returns {@code null} if no such option was found
      */
     Option findMatchingOption(/*@non_null*/String arg, Collection<Option> options) {
@@ -44,6 +45,16 @@ public class GenericCLParser {
         int index = 0;
         // init automaton
         while (index < args.length) {
+            /* The following automaton code accounts for the case when
+             * multiple options (including the argument) could match
+             * but only some of them are correct (in some sense). For
+             * instance, in "svn add add" the command "add" would
+             * match on the argument but this would bring the
+             * automaton into the error state as only one command is
+             * allowed. This could be solved more generally using
+             * backtracking but we believe that such is not needed. 
+             * Miko, Viliam */
+
             // options = automaton.getOptionsThatDoNotLeadToAnErrorState
             // if (options.isEmpty && !automaton.canMatchArgument) ERROR
             Option matchingOption = findMatchingOption(args[index], options);

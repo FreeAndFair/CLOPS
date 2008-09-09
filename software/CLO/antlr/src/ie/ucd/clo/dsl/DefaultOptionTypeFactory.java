@@ -1,8 +1,6 @@
 package ie.ucd.clo.dsl;
 
-import java.awt.geom.Line2D;
-
-import ie.ucd.clo.dsl.structs.OptionType;
+import ie.ucd.clo.runtime.options.OptionType;
 
 /**
  * @author fintan
@@ -13,7 +11,6 @@ public class DefaultOptionTypeFactory implements OptionTypeFactory {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.OptionTypeFactory#getOptionType(java.lang.String)
    */
-  @Override
   public OptionType getOptionType(String optionType) throws DSLParseException {
     if (optionType.equalsIgnoreCase("bool") || optionType.equalsIgnoreCase("boolean")) {
       return OptionType.BOOLEAN;

@@ -1,4 +1,4 @@
-package ie.ucd.clo.parser;
+package ie.ucd.clo.dsl.parser;
 
 import ie.ucd.clo.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clo.dsl.OptionTypeFactory;

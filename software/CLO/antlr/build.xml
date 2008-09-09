@@ -3,7 +3,7 @@
   <description>CLO Build File</description>
 
   <property name="src" location="src"/>
-  <property name="src-antlr" value="${src}/ie/ucd/clo/parser"/>
+  <property name="src-antlr" value="${src}/ie/ucd/clo/dsl/parser"/>
   <property name="build" location="bin"/>
   <property name="dist"  location="dist"/>
   <property name="lib"  location="lib"/>

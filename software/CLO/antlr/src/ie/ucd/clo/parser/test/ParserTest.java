@@ -1,7 +1,7 @@
 package ie.ucd.clo.parser.test;
 
-import ie.ucd.clo.parser.CLOLexer;
-import ie.ucd.clo.parser.CLOParser;
+import ie.ucd.clo.dsl.parser.CLOLexer;
+import ie.ucd.clo.dsl.parser.CLOParser;
 
 import java.io.File;
 import java.io.FileInputStream;

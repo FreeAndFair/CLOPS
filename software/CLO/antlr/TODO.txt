@@ -1,4 +1,9 @@
 1. Start section with general stuff like tool name, description.
-2. args format section.
-3. where section (for grouping options).
-4. Proper boolean expressions.
+2. Proper boolean expressions.
+
+
+
+global option ideas:
+-tool name
+-description
+-all aliases available in interface (i.e. allow people to access via short and long forms of an option)

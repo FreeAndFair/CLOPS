@@ -9,6 +9,8 @@ import org.antlr.runtime.RecognitionException;
  */
 public class DSLParseException extends RecognitionException {
 
+  private static final long serialVersionUID = -4554218055743899739L;
+  
   private String message;
   
   public DSLParseException(String message) {

@@ -1,5 +1,7 @@
 package ie.ucd.clo.dsl.structs;
 
+import ie.ucd.clo.runtime.options.OptionType;
+
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -23,7 +25,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getId()
    */
-  @Override
   public String getId() {
     return identifier;
   }
@@ -31,7 +32,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getType()
    */
-  @Override
   public OptionType getType() {
     return type;
   }
@@ -39,15 +39,13 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#addAlias(java.lang.String)
    */
-  @Override
-  public void addAlias(String alias) {
+  public void addAlias(final String alias) {
     aliases.add(alias);
   }
   
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getAliases()
    */
-  @Override
   public Set<String> getAliases() {
     return aliases;
   }
@@ -55,7 +53,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setProperty(java.lang.String, java.lang.String)
    */
-  @Override
   public void setProperty(String key, String value) {
     properties.setProperty(key, value);
   }
@@ -63,7 +60,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */
-  @Override
   public Properties getProperties() {
     return properties;
   }
@@ -71,7 +67,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setId(java.lang.String)
    */
-  @Override
   public void setId(String id) {
     this.identifier = id;
   }
@@ -79,7 +74,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setType(ie.ucd.clo.dsl.structs.OptionType)
    */
-  @Override
   public void setType(OptionType type) {
     this.type = type;
   }

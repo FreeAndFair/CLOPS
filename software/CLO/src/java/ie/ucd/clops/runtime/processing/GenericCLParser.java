@@ -33,9 +33,10 @@ public class GenericCLParser {
      * @return an <code>Option</code> value, returns {@code null} if no such option was found
      */
     Option findMatchingOption(/*@non_null*/String arg, Collection<Option> options) {
+        Option matchingOption = null;
         for (Option o : options) {
-            if (o.matches(args[index]) ){
-                assert matchingOption == null; // find maximally one option that matches on args[index]
+            if (o.doIMatch(arg) ){
+                assert matchingOption == null; // find maximally one option that matches on arg
                 matchingOption = o;
             }
         }

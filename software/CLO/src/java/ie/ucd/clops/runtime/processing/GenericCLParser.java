@@ -1,3 +1,8 @@
+
+import java.util.*;
+
+import ie.ucd.clops.runtime.structs.*;
+
 /**
  * Class parsing the command-line, for the moment it's not taking into
  * account the regular expression describing the allowed formats.
@@ -68,7 +73,7 @@ public class GenericCLParser {
                 // process the arguments
                 MatchResult mr = matchingOption.match(args, index);
                 if (mr.errorDuringProcessing()) {
-                    throw up mr.getErrorMessage();
+                    throw /*up*/ mr.getErrorMessage();
                 }
                 // TODO: trigger fly rule (could be maybe in a separate stage)
                 index += mr.getNumberOfArgsConsumed(); // move forward on the command-line

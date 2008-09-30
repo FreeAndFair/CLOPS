@@ -1,4 +1,6 @@
 
+package ie.ucd.clops.runtime.processing;
+
 /**
  * Internal representation of an automaton state.
  * @author Viliam Holub

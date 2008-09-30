@@ -1,10 +1,13 @@
 
+package ie.ucd.clops.runtime.processing;
+
 /*
  * The implementation slighty follows the reg-exp NDA implementation at
  * http://swtch.com/~rsc/regexp/
  */
 
 import java.util.*;
+import ie.ucd.clops.runtime.structs.*;
 
 //import ie.ucd.clops.runtime.structs.*;
 
@@ -291,6 +294,7 @@ class Automaton {
 	*/
 
 
+/*
 	public static void main( String[] argv) {
 		Token[] tokens;
 		Option[] options;
@@ -322,4 +326,5 @@ class Automaton {
 			System.out.println( "");
 		}
 	}
+*/
 }

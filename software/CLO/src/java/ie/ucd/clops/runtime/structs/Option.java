@@ -44,4 +44,12 @@ public abstract class Option {
      * Brings the option into the undefined state.
      */
     public abstract void unset();
+
+
+    /**
+     * Matches arguments if any.
+     * @param args arguments on command line
+     * @param index index in the command line, first argument of the option
+     */
+    public abstract MatchResult match( String[] args, int index);
 }

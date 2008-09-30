@@ -1,4 +1,6 @@
 
+package ie.ucd.clops.runtime.processing;
+
 import java.util.*;
 
 import ie.ucd.clops.runtime.structs.*;
@@ -40,6 +42,8 @@ public class GenericCLParser {
                 matchingOption = o;
             }
         }
+
+	return matchingOption;
     }
 
     /**
@@ -47,7 +51,7 @@ public class GenericCLParser {
      *
      * @param args a <code>String[]</code> value
      */
-    public void parse(/*@non_null*/String[] args) {
+    public void parse(/*@non_null*/String[] args) throws Exception {
         int index = 0;
         // init automaton
         while (index < args.length) {

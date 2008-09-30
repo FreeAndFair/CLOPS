@@ -1,4 +1,6 @@
 
+package ie.ucd.clops.runtime.processing;
+
 /**
  * Enumeration of token types.
  * <dl>

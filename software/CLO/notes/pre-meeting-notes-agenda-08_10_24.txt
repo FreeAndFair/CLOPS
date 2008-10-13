@@ -1,0 +1,17 @@
+Pre-Meeting Notes / Agenda 14th October 2008
+--------------------------------------------
+  
+It should be recorded how the library is to be used.
+It is almost the same, but focused on interactions between objects in the system.
+What the key components in the system are.
+and how they interact.
+Yes, for CLOPS, the components are the rules, options, parser, command line, format ...
+You might want to have some sort of user-point-of-view descritpion
+But maybe a high level of abstraction is sufficient for such
+for instgance, if a new user comes
+I want to present him with concepts like "commandline dependencies description"
+rather than rules etc
+ We can have different levels of abstraction in BON. The top-level abstractions would be the command-line, dependencies and description.
+ so that's where you could start from
+the highest level of abstraction description
+ Yes - we could use the whiteboard and then I would make a note of all the clusters of concepts

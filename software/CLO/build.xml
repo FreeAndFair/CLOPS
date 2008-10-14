@@ -1,3 +1,6 @@
+<!--   I think there's no javadoc target  -->
+<!--   the Xlint:all is not setup in the compilation,  -->
+<!--   java should be run with -ea option -->
 
 <project name="CLO" default="compile" basedir=".">
   <description>CLO Build File</description>

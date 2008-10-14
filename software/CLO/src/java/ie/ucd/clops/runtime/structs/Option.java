@@ -8,19 +8,12 @@ import ie.ucd.clops.dsl.structs.OptionDescription;
  * Plus pertaining functionality, such as parsing of arguments.
  *
  */
-public abstract class Option {
+public abstract class Option implements IMatchable {
     /**
      * Static information about this option.
      */
     public abstract /*@non_null*/OptionDescription getDescription();
 
-
-    // TODO: should doIMatch be collapsed into parseMyself(...)==0
-    /**
-     * Determines whether the given command line argumnet pertains to this option.
-     */
-    public boolean doIMatch(/*@non_null*/String arg) { return getDescription().isAlias(arg); }
-    
 
     /**
      * Fill in this option according to the command line arguments.
@@ -44,7 +37,15 @@ public abstract class Option {
      * Brings the option into the undefined state.
      */
     public abstract void unset();
+    
+    
+    // TODO: should doIMatch be collapsed into parseMyself(...)==0
+    /**
+     * Determines whether the given command line argumnet pertains to this option.
+     */
+    public boolean doIMatch(/*@non_null*/String arg) { return getDescription().isAlias(arg); }
 
+    public boolean doIMatch(/*@non_null*/Option o) { return o == this; }
 
     /**
      * Matches arguments if any.

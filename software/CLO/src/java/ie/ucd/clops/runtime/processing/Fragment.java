@@ -73,7 +73,7 @@ class Fragment {
 		LinkedList<State> out = new LinkedList<State>( f1.out);
 		out.addAll( f2.out);
 		return new Fragment(
-			new State( StateType.SPLIT, "", f1.start, f2.start),
+			new State( StateType.SPLIT, null, f1.start, f2.start),
 			out);
 	}
 
@@ -84,7 +84,7 @@ class Fragment {
 	 * @param f fragment the plus operator is applied to
 	 */
 	static Fragment plus( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, "", f.start, null);
+		State s = new State( StateType.SPLIT, null, f.start, null);
 		f.assignNext( s);
 		LinkedList<State> out = new LinkedList<State>();
 		out.add( s);
@@ -97,7 +97,7 @@ class Fragment {
 	 * @param f fragment the star operator is applied to
 	 */
 	static Fragment star( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, "", f.start, null);
+		State s = new State( StateType.SPLIT, null, f.start, null);
 		f.assignNext( s);
 		LinkedList<State> out = new LinkedList<State>();
 		out.add( s);
@@ -110,7 +110,7 @@ class Fragment {
 	 * @param f fragment the question mark operator is applied to
 	 */
 	static Fragment question( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, "", f.start, null);
+		State s = new State( StateType.SPLIT, null, f.start, null);
 		LinkedList<State> out = new LinkedList<State>( f.out);
 		out.add( s);
 		return new Fragment( s, out);

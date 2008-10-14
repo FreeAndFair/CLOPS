@@ -1,6 +1,8 @@
 
 package ie.ucd.clops.runtime.processing;
 
+import ie.ucd.clops.runtime.structs.*;
+
 /**
  * Internal representation of an automaton state.
  * @author Viliam Holub
@@ -8,31 +10,31 @@ package ie.ucd.clops.runtime.processing;
 class State {
 	/** Type of the state. */
 	/*@ non_null @*/ StateType type;
-	/** Name of the state, suppose to be Option. */
-	final String name;
+	/** Matchable interface for states that may match. */
+	IMatchable match;
 	/** Successors of the state. */
 	State next1, next2;
 	/** Stae index, used for effective generation of net-step lists. */
 	int state_index;
 
 	State( /*@ non_null @*/ StateType type,
-			/*@ non_null @*/ final String name) {
+			/*@ non_null @*/ IMatchable match) {
 		this.type = type;
-		this.name = name;
+		this.match = match;
 	}
 
 	/**
 	 * Creates new state with specified fields.
 	 * @param type type of the state
-	 * @param name suppose to be Object
+	 * @param match matchable interface if the state is matchable
 	 * @param next1 first successor
 	 * @param next2 second successor
 	 */
 	State( /*@ non_null @*/ StateType type,
-			/*@ non_null @*/ final String name,
+			/*@ non_null @*/ IMatchable match,
 			State next1, State next2) {
 		this.type  = type;
-		this.name  = name;
+		this.match  = match;
 		this.next1 = next1;
 		this.next2 = next2;
 	}

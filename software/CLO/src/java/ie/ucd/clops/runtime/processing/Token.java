@@ -1,24 +1,30 @@
 
 package ie.ucd.clops.runtime.processing;
 
+import ie.ucd.clops.runtime.structs.*;
+
 /**
  * Representation of a token in the format.
  */
 class Token {
 	TokenType type;
-	String name;
+	IMatchable match;
+
+	public Token( TokenType type) {
+		this.type = type;
+	}
+
 	public Token( /*@ non_null @*/ TokenType type,
-			/*@ non_null @*/ String name)
+			/*@ non_null @*/ IMatchable match)
 	{
 		this.type = type;
-		this.name = name;
+		this.match = match;
 	}
+
+	static final Token LEFT     = new Token( TokenType.LEFT);
+	static final Token RIGHT    = new Token( TokenType.RIGHT);
+	static final Token OR       = new Token( TokenType.OR);
+	static final Token PLUS     = new Token( TokenType.PLUS);
+	static final Token STAR     = new Token( TokenType.STAR);
+	static final Token QUESTION = new Token( TokenType.QUESTION);
 }
-/*
-static Token t_left     = new Token( STRING,   "(");
-static Token t_right    = new Token( LEFT,     ")");
-static Token t_or       = new Token( OR,       "|");
-static Token t_plus     = new Token( PLUS,     "+");
-static Token t_star     = new Token( STAR,     "*");
-static Token t_question = new Token( QUESTION, "?");
-*/

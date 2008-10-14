@@ -4,7 +4,7 @@ package ie.ucd.clops.runtime.processing;
 /**
  * Enumeration of token types.
  * <dl>
- * 	<dt>STRING</dt><dd>arbitrary string, parameter on the command line</dd>
+ * 	<dt>MATCH</dt><dd>parameter identificator (option, option group)</dd>
  * 	<dt>LEFT</dt><dd>left parenthesis (</dd>
  * 	<dt>RIGHT</dt><dd>right parenthesis )</dd>
  * 	<dt>OR</dt><dd>alternative oprator |</dd>
@@ -14,5 +14,5 @@ package ie.ucd.clops.runtime.processing;
  * </dl>
  */
 enum TokenType {
-	STRING, LEFT, RIGHT, OR, PLUS, STAR, QUESTION
+	MATCH, LEFT, RIGHT, OR, PLUS, STAR, QUESTION
 }

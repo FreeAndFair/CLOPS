@@ -7,9 +7,8 @@ package ie.ucd.clops.runtime.processing;
  */
 
 import java.util.*;
-import ie.ucd.clops.runtime.structs.*;
 
-//import ie.ucd.clops.runtime.structs.*;
+import ie.ucd.clops.runtime.structs.*;
 
 
 /**
@@ -70,7 +69,7 @@ class Automaton {
 		Context ctx = new Context();
 
 		for (Token t:tokens) switch (t.type) {
-			case STRING:
+			case MATCH:
 				// If there are two atom fragments on stack, concatenate
 				if (ctx.atoms > 1) {
 					Fragment f = fragments.pop();
@@ -79,10 +78,8 @@ class Automaton {
 				}
 				// Create fragment that matches the given string
 				// Push fragment into stack
-				fragments.push( new Fragment( new State( StateType.MATCH, t.name)));
+				fragments.push( new Fragment( new State( StateType.MATCH, t.match)));
 				ctx.atoms++;
-
-				System.out.println( t.name);
 				break;
 			case LEFT:
 				// Concatenate atoms on stack
@@ -90,7 +87,6 @@ class Automaton {
 					Fragment f = fragments.pop();
 					fragments.peek().concatenate( f);
 					ctx.atoms--;
-					System.out.print( "."); //XXX
 				}
 				// Save context and create a new one
 				ctxs.push( ctx);
@@ -110,13 +106,11 @@ class Automaton {
 					Fragment f = fragments.pop();
 					fragments.peek().concatenate( f);
 					ctx.atoms--;
-					System.out.print( "."); //XXX
 				}
 				// Create alternatives from fragments on stack
 				if (ctx.alternatives > 0) {
 					fragments.push( Fragment.alternative(
 						fragments.pop(), fragments.pop()));
-					System.out.print( "|"); //XXX
 				}
 				// Recover old context
 				ctx = ctxs.pop();
@@ -139,13 +133,11 @@ class Automaton {
 					// Concatenate two fragments
 					Fragment f = fragments.pop();
 					fragments.peek().concatenate( f);
-					System.out.print( "."); //XXX
 				}
 				// Continue to make alternatives...
 				if (ctx.alternatives > 0) {
 					fragments.push( Fragment.alternative(
 						fragments.pop(), fragments.pop()));
-					System.out.print( "|"); //XXX
 				}
 				// Set status of alternatives
 				ctx.alternatives = 1;
@@ -161,7 +153,6 @@ class Automaton {
 
 				// Apply operator to the last fragment
 				fragments.push( Fragment.apply_operator( t.type, fragments.pop()));
-				System.out.print( t.name); //XXX
 				break;
 		}
 
@@ -184,14 +175,14 @@ class Automaton {
 					fragments.pop(), fragments.pop()));
 		}
 		// Create final fragment
-		State s = new State( StateType.END, "", null, null);
+		State s = new State( StateType.END, null, null, null);
 		Fragment fin = fragments.pop();
 		fin.assignNext( s);
 		
 		assert fragments.isEmpty();
 
 		// Write start state
-		start_state = new State( StateType.SPLIT, "", fin.start, null);
+		start_state = new State( StateType.SPLIT, null, fin.start, null);
 	}
 
 	/** Adds successors of s which has the type MATCH or END.
@@ -229,7 +220,7 @@ class Automaton {
 	}
 
 	/** Tests if the current state matched with the token, follows outgoing
-	 * transitions if so and saves cussessor states.
+	 * transitions if so and saves successor states.
 	 * @param s state to follow
 	 * @param t current option to process
 	 * @param ll list of successor states
@@ -241,7 +232,7 @@ class Automaton {
 		if (s.type != StateType.MATCH)
 			return;
 		// Test the state if matches.
-		if (!o.doIMatch( s.name))
+		if (!s.match.doIMatch( o))
 			return;
 		// We have a match, add succesors
 		addSuccessors( s, ll);
@@ -303,14 +294,14 @@ class Automaton {
 
 		// Internal tests
 		tokens = new Token[ 8];
-		tokens[ 0] = new Token( TokenType.STRING, "Ahoj");
-		tokens[ 1] = new Token( TokenType.STRING, "Options");
-		tokens[ 2] = new Token( TokenType.LEFT, "(");
-		tokens[ 3] = new Token( TokenType.STRING, "OtherOptions");
-		tokens[ 4] = new Token( TokenType.OR, "|");
-		tokens[ 5] = new Token( TokenType.STRING, "What");
-		tokens[ 6] = new Token( TokenType.RIGHT, ")");
-		tokens[ 7] = new Token( TokenType.STAR, "*");
+		tokens[ 0] = new Token( Token.OPTION, "Ahoj");
+		tokens[ 1] = new Token( Token.OPTION, "Options");
+		tokens[ 2] = new Token( Token.LEFT);
+		tokens[ 3] = new Token( Token.OPTION, "OtherOptions");
+		tokens[ 4] = new Token( Token.OR);
+		tokens[ 5] = new Token( Token.OPTION, "What");
+		tokens[ 6] = new Token( Token.RIGHT);
+		tokens[ 7] = new Token( Token.STAR);
 		options = new Option[ 5];
 		options[ 0] = new Option( "Ahoj");
 		options[ 1] = new Option( "Options");

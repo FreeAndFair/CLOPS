@@ -4,7 +4,10 @@
  
 class_chart RULE
 indexing
-  created: "2008-08-13-dc"
+  created: "2008-08-13-dc";
+  revised: "2008-10-14-dc";
+  level_of_detail: "1";
+  level_of_abstraction: "low"
 explanation
   "An expression in which the LHS is set of options values and the RHS is a single assignment of a new option value"
 query
@@ -18,16 +21,22 @@ end
 
 class_chart DEFAULT_RULE
 indexing
-  created: "2008-08-11-dc"
+  created: "2008-08-11-dc";
+  revised: "2008-10-14-dc";
+  level_of_detail: "2";
+  level_of_abstraction: "low"
 explanation
-  "The relationship betwee the default value of one command line option and the actual value of another"
+  "The relationship between the default value of one command line option and the actual value of another"
 inherit
   RULE
 end
 
 class_chart EXCLUSION_SET
 indexing
-  created: "2008-08-11-dc"
+  created: "2008-08-11-dc";
+  revised: "2008-10-14-dc";
+  level_of_detail: "2";
+  level_of_abstraction: "medium"
 explanation
   "Subset of command line options which cannot be used together"
 end
@@ -36,7 +45,9 @@ class_chart COMMAND_LINE_OPTION
 indexing
   proposed_refinement: "kindopts.options.Option";
   created: "2008-08-12-dc";
-  revised: "2008-08-13-dc"
+  revised: "2008-10-14-dc";
+  level_of_abstraction: "high";
+  level_of_detail: "0"
 explanation
   "Parameter which can be specified via a command line interface"
 query
@@ -49,13 +60,16 @@ end
 
 class_chart OVERRIDE_RULE
 indexing
-  created: "2008-08-11-dc"
+  created: "2008-08-11-dc";
+  revised: "2008-10-14-dc";
+  level_of_detail: "2";
+  level_of_abstraction: "low"
 explanation
   "The interdependant relationship between two different command line options"
 inherit 
   RULE
 query
-  "When is this option overriden?",
+  "When is this option overridden?",
   "What does this option override?"
 command
   "Apply this rule"

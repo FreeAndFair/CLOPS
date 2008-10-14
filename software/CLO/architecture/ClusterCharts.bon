@@ -3,18 +3,35 @@ indexing
   author: "Dermot Cochran";
   created: "2008-07-23-dc";
   revised: "2008-08-11-dc", "2008-08-13-dc";
-  level_of_detail: "1";
+  level_of_detail: "0";
+  level_of_abstraction: "high";
 explanation
   "Set of keywords used to control the behaviour of a program"
 class COMMAND_LINE_OPTION description "A keyword which activates, deactivates or controls a feature of the program"
 class RULE description "An expression in which the LHS is set of options values and the RHS is a single assignment of a new option value"
 class EXCLUSION_SET description "Subset of command line options which cannot be used together"
 class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
-class OVERRIDE_RULE description "The interdependant relationship between two different command line options"
+class OVERRIDE_RULE description "The interdependent relationship between two different command line options"
 end
 
 cluster_chart DEPENDENCY
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "";
+  level_of_detail: "0";
+  level_of_abstraction: "high"
+explanation 
+  ""
 end
 
 cluster_chart DESCRIPTION
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "";
+  level_of_detail: "0";
+  level_of_abstraction: "high"
+explanation 
+  ""
 end

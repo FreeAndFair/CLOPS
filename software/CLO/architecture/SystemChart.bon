@@ -2,9 +2,9 @@ system_chart COMMAND_LINE_OPTIONS
 indexing
   created: "2008-08-11-dc";
   revised: "2008-08-12-dc", "2008-08-13-dc", "2008-10-14-dc";
-  authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" 
+  authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" , "Radu Grigore"
   cluster COMMAND_LINE_INTERFACE description "Feature Model for Command Line Options"
-  cluster DEPENDENCY description ""
-  cluster DESCRIPTION description ""
+  cluster DEPENDENCY description "The relationships between command line options"
+  cluster DESCRIPTION description "The official description of the command line option as displayed to the user"
 end
  

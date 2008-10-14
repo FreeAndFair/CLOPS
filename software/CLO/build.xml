@@ -36,7 +36,7 @@
   </path>
 
   <path id="compile.path">
-		<path refid="test.path"/>
+    <path refid="test.path"/>
   </path>
 
 
@@ -47,28 +47,29 @@
   </target>
 
   <target name="checkAntlrBuildUpToDate">
-	 	<echo message="Checking if the ANTLR generated files are up to date"/>
-		<condition property="antlrBuild.required">
-			<not>
-				<uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}Parser.java"/>
-			</not>
-		</condition>
+    <echo message="Checking if the ANTLR generated files are up to date"/>
+    <condition property="antlrBuild.required">
+      <not>
+        <uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}Parser.java"/>
+      </not>
+    </condition>
   </target>
 
   <target name="buildAntlr" depends="checkAntlrBuildUpToDate" if="antlrBuild.required">
-		<antcall target="clean-antlr"/>
-		<echo message="Running antlr"/>
-		<java fork="yes" dir="${java-src}" classname="org.antlr.Tool">      
-	    <classpath refid="antlr.path" />
-	    <arg value="-o"/>
-	    <arg value="${src-antlr}"/>
-	    <arg value="${src}/${antlr-src}.g"/>
-	  </java>
-	</target>
+    <antcall target="clean-antlr"/>
+    <echo message="Running antlr"/>
+    <java fork="yes" dir="${java-src}" classname="org.antlr.Tool">
+      <classpath refid="antlr.path" />
+      <arg value="-o"/>
+      <arg value="${src-antlr}"/>
+      <arg value="${src}/${antlr-src}.g"/>
+    </java>
+  </target>
 
   <target name="compile" depends="all-src" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
     <javac srcdir="${java-src}" destdir="${build}" target="${java-target-version}">
+      <compilerarg value="-Xlint"/>
       <classpath refid="compile.path"/>
     </javac>
   </target>
@@ -84,19 +85,17 @@
   <target name="clean" depends="clean-all"/>	
   <target name="all-src" depends="init,buildAntlr" description="Create all source files"/>
 
-	<target name="clean-build" description="Clean up the build">
-		<delete dir="${build}"/>
-		<delete dir="${dist}"/>
-	</target>
+  <target name="clean-build" description="Clean up the build">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
 
   <target name="clean-antlr" description="Clean up antlr generated files">
-		<echo message="Deleting antlr generated files"/>
-		<delete file="${src-antlr}/${antlr-src}.tokens"/>
-		<delete file="${src-antlr}/${antlr-src}__.g"/>
-		<delete file="${src-antlr}/${antlr-src}Parser.java"/>
-		<delete file="${src-antlr}/${antlr-src}Lexer.java"/>
-	</target>	
-
-
+    <echo message="Deleting antlr generated files"/>
+    <delete file="${src-antlr}/${antlr-src}.tokens"/>
+    <delete file="${src-antlr}/${antlr-src}__.g"/>
+    <delete file="${src-antlr}/${antlr-src}Parser.java"/>
+    <delete file="${src-antlr}/${antlr-src}Lexer.java"/>
+  </target>	
 
 </project>

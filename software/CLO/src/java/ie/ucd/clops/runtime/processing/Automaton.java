@@ -277,13 +277,13 @@ class Automaton {
 	
 	/** Returns list of available options.
 	 */
-	/*
-	public LinkedList<State> availableOptions() {
-		LinkedList<State> ll = new LinkedList<State>();
+	
+	public LinkedList<IMatchable> availableOptions() {
+		LinkedList<IMatchable> ll = new LinkedList<IMatchable>();
 		for (State s:arr)
-			ll.add( s.option);
+			ll.add( s.match);
 	}
-	*/
+	
 
 
 /*

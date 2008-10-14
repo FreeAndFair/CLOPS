@@ -1,15 +1,64 @@
-package ie.ucd.clops.dsl.structs;
+package ie.ucd.clo.dsl.structs;
 
-import java.util.*;
+import ie.ucd.clo.runtime.options.OptionType;
 
-public class OptionDescription {
-    private /*@non_null*/Set<String> aliases;
-    private /*@non_null*/OptionType type;
+import java.util.Properties;
+import java.util.Set;
 
-    public OptionType getType() { return type; }
+/**
+ *
+ * @author Mikolas
+ * @author Fintan
+ *
+ */
+public interface OptionDescription {
 
-    /**
-     * Determines whether the given string is an alias of this option description.
-     */
-    public boolean isAlias(String alias) { return aliases.contains(alias); }
+  /**
+   * Set this option's String identifier.
+   * @param id this options's identifier.
+   */
+  void setId(final String id);
+  
+  /**
+   * Get this option's String identifier as specified in the DSL.
+   * @return this option's identifier.
+   */
+  String getId();
+
+  /**
+   * 
+   * @param type
+   */
+  void setType(final OptionType type);
+  
+  /**
+   * Get the type of this option.
+   * @return this option's type.
+   */
+  OptionType getType();
+
+  /**
+   * Get the aliases associated with this option.
+   * @return the Set of aliases.
+   */
+  Set<String> getAliases();
+
+  /**
+   * Add an alias for this option.
+   * @param alias the alias to add for this option.
+   */
+  void addAlias(final String alias);
+  
+  /**
+   * Set a property key,value pair for this option.
+   * @param key the property key to set.
+   * @param value the property value to set.
+   */
+  void setProperty(final String key, final String value);
+  
+  /**
+   * Get the properties associated with this option.
+   * @return the properties associated with this option.
+   */
+  Properties getProperties();
 }

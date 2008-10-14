@@ -4,7 +4,7 @@ package ie.ucd.clops.runtime.processing;
 import java.util.*;
 import java.lang.*;
 
-import ie.ucd.clops.runtime.structs.*;
+import ie.ucd.clops.runtime.options.*;
 
 /**
  * Transforming format line into a list of tokens.

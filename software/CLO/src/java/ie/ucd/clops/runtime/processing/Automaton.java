@@ -6,9 +6,9 @@ package ie.ucd.clops.runtime.processing;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -31,16 +31,16 @@ class Automaton {
 	State /*@ non_null @*/ start_state;
 	/** List of active states.
 	 * The list is updated every step. */
-	LinkedList<State> /*@ non_null @*/ arr;
+	ArrayList<State> /*@ non_null @*/ arr;
 	/** Backup of active states.
 	 * The backup is used for error reporting only. */
-	LinkedList<State> /*@ non_null @*/ arr_backup;
+	ArrayList<State> /*@ non_null @*/ arr_backup;
 
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
 	Automaton( /*@ non_null @*/ Token[] tokens) {
-		arr = arr_backup = new LinkedList<State>();
+		arr = arr_backup = new ArrayList<State>();
 		step_index = 1;
 		error = false;
 
@@ -194,7 +194,7 @@ class Automaton {
 	 * @param ll output list of states
 	 */
 	private void addSuccessors2( State s,
-			/*@ non_null @*/LinkedList<State> ll) {
+			/*@ non_null @*/ArrayList<State> ll) {
 		if (s == null || s.state_index == step_index)
 			return;
 		s.state_index = step_index;
@@ -212,7 +212,7 @@ class Automaton {
 	 * @param ll output list of states
 	 */
 	private void addSuccessors( /*@ non_null @*/ State s,
-			/*@ non_null @*/LinkedList<State> ll) {
+			/*@ non_null @*/ArrayList<State> ll) {
 		if (s.state_index == step_index)
 			return;
 		addSuccessors2( s.next1, ll);
@@ -228,7 +228,7 @@ class Automaton {
 	 */
 	private void follow( /*@ non_null @*/ State s,
 			/*@ non_null @*/ Option o,
-			/*@ non_null @*/ LinkedList<State> ll) {
+			/*@ non_null @*/ ArrayList<State> ll) {
 		// Type of the state must be ready to match.
 		if (s.type != StateType.MATCH)
 			return;
@@ -249,7 +249,7 @@ class Automaton {
 			return false;
 
 		// Process next step, store states
-		LinkedList<State> arr2 = new LinkedList<State>();
+		ArrayList<State> arr2 = new ArrayList<State>();
 		for (State s:arr)
 			follow( s, o, arr2);
 		arr_backup = arr;
@@ -278,10 +278,10 @@ class Automaton {
 	/** Returns list of available options.
 	 */
 	
-	public LinkedList<IMatchable> availableOptions() {
-		LinkedList<IMatchable> ll = new LinkedList<IMatchable>();
+	public ArrayList<IMatchable> availableOptions() {
+		ArrayList<IMatchable> ll = new ArrayList<IMatchable>();
 		for (State s:arr)
-			ll.add( s.match);
+			ll.addAll( s.match.getOptions());
 	}
 	
 

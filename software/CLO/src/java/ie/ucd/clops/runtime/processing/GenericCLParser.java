@@ -1,7 +1,7 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.*;
 import ie.ucd.clops.runtime.parser.MatchResult;
 
 import java.util.Collection;

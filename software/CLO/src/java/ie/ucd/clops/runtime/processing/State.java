@@ -1,7 +1,7 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import ie.ucd.clops.runtime.structs.*;
+import ie.ucd.clops.runtime.options.*;
 
 /**
  * Internal representation of an automaton state.

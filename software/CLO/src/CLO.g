@@ -6,21 +6,21 @@ options {
 }
 
 @header {
-  package ie.ucd.clo.dsl.parser; 
+  package ie.ucd.clops.dsl.parser; 
   
-  import ie.ucd.clo.dsl.structs.OptionDescription;
-  import ie.ucd.clo.dsl.structs.BasicOptionDescription;
-  import ie.ucd.clo.dsl.OptionTypeFactory;
-  import ie.ucd.clo.dsl.DSLParseException;
+  import ie.ucd.clops.dsl.structs.OptionDescription;
+  import ie.ucd.clops.dsl.structs.BasicOptionDescription;
+  import ie.ucd.clops.dsl.OptionTypeFactory;
+  import ie.ucd.clops.dsl.DSLParseException;
   
-  import ie.ucd.clo.dsl.DSLParseException;
+  import ie.ucd.clops.dsl.DSLParseException;
   
-  import ie.ucd.clo.runtime.options.OptionType;
+  import ie.ucd.clops.dsl.structs.OptionType;
     
 }
 
 @lexer::header {
-  package ie.ucd.clo.dsl.parser;
+  package ie.ucd.clops.dsl.parser;
 }
 
 @members {

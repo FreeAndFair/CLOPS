@@ -1,6 +1,4 @@
-package ie.ucd.clo.dsl.structs;
-
-import ie.ucd.clo.runtime.options.OptionType;
+package ie.ucd.clops.dsl.structs;
 
 import java.util.Properties;
 import java.util.Set;

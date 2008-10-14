@@ -6,9 +6,10 @@ package ie.ucd.clops.runtime.processing;
  * http://swtch.com/~rsc/regexp/
  */
 
-import java.util.*;
+import ie.ucd.clops.runtime.options.Option;
 
-import ie.ucd.clops.runtime.structs.*;
+import java.util.LinkedList;
+import java.util.Stack;
 
 
 /**

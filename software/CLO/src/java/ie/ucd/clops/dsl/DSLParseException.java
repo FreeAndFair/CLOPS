@@ -1,4 +1,4 @@
-package ie.ucd.clo.dsl;
+package ie.ucd.clops.dsl;
 
 import org.antlr.runtime.RecognitionException;
 

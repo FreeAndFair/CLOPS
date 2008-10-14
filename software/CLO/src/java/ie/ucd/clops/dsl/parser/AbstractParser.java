@@ -1,7 +1,7 @@
-package ie.ucd.clo.dsl.parser;
+package ie.ucd.clops.dsl.parser;
 
-import ie.ucd.clo.dsl.DefaultOptionTypeFactory;
-import ie.ucd.clo.dsl.OptionTypeFactory;
+import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
+import ie.ucd.clops.dsl.OptionTypeFactory;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;

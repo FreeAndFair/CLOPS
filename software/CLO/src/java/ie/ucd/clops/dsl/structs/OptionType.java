@@ -1,4 +1,4 @@
-package ie.ucd.clo.dsl.structs;
+package ie.ucd.clops.dsl.structs;
 
 /**
  *

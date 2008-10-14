@@ -1,9 +1,13 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import java.util.*;
+import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.parser.MatchResult;
 
-import ie.ucd.clops.runtime.structs.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class parsing the command-line, for the moment it's not taking into
@@ -37,6 +41,7 @@ public class GenericCLParser {
     Option findMatchingOption(/*@non_null*/String arg, Collection<Option> options) {
         Option matchingOption = null;
         for (Option o : options) {
+            //MatchResult mr 
             if (o.doIMatch(arg) ){
                 assert matchingOption == null; // find maximally one option that matches on arg
                 matchingOption = o;
@@ -78,7 +83,8 @@ public class GenericCLParser {
                 // process the arguments
                 MatchResult mr = matchingOption.match(args, index);
                 if (mr.errorDuringProcessing()) {
-                    throw /*up*/ mr.getErrorMessage();
+                    //TODO: actually throw Exception
+                    //throw /*up*/ mr.getErrorMessage();
                 }
                 // TODO: trigger fly rule (could be maybe in a separate stage)
                 index += mr.getNumberOfArgsConsumed(); // move forward on the command-line

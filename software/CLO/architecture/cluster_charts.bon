@@ -1,11 +1,3 @@
-system_chart COMMAND_LINE_OPTIONS
-indexing
-  created: "2008-08-11-dc";
-  revised: "2008-08-12-dc", "2008-08-13-dc";
-  authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" 
-  cluster COMMAND_LINE_INTERFACE description "Feature Model for Command Line Options"
-end
-
 cluster_chart COMMAND_LINE_INTERFACE
 indexing
   author: "Dermot Cochran";
@@ -20,4 +12,9 @@ class EXCLUSION_SET description "Subset of command line options which cannot be 
 class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
 class OVERRIDE_RULE description "The interdependant relationship between two different command line options"
 end
- 
+
+cluster_chart DEPENDENCY
+end
+
+cluster_chart DESCRIPTION
+end

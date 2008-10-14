@@ -50,7 +50,7 @@ class Tokenizer {
 		}
 	}
 
-	void tokenize( String format, MatchThis match_this)
+	Collection<Token> tokenize( String format, MatchThis match_this)
 		throws IllegalCharacterException, UnknownOptionException {
 		ArrayList<Token> tokens = new ArrayList<Token>();
 		int format_len = format.length();
@@ -85,5 +85,6 @@ class Tokenizer {
 			index++;
 			index = skipWhiteSpaces( format, index);
 		}
+		return tokens;
 	}
 }

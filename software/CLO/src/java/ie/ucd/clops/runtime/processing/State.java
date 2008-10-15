@@ -1,24 +1,23 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import ie.ucd.clops.runtime.options.*;
 
 /**
  * Internal representation of an automaton state.
  * @author Viliam Holub
  */
-class State {
+class State<T> {
 	/** Type of the state. */
 	/*@ non_null @*/ StateType type;
 	/** Matchable interface for states that may match. */
-	IMatchable match;
+	T match;
 	/** Successors of the state. */
-	State next1, next2;
-	/** Stae index, used for effective generation of net-step lists. */
+	State<T> next1, next2;
+	/** State index, used for effective generation of net-step lists. */
 	int state_index;
 
 	State( /*@ non_null @*/ StateType type,
-			/*@ non_null @*/ IMatchable match) {
+			/*@ non_null @*/ T match) {
 		this.type = type;
 		this.match = match;
 	}
@@ -31,8 +30,8 @@ class State {
 	 * @param next2 second successor
 	 */
 	State( /*@ non_null @*/ StateType type,
-			/*@ non_null @*/ IMatchable match,
-			State next1, State next2) {
+			/*@ non_null @*/ T match,
+			State<T> next1, State<T> next2) {
 		this.type  = type;
 		this.match  = match;
 		this.next1 = next1;
@@ -42,7 +41,7 @@ class State {
 	/** Add new successor state.
 	 * @param s new succesor state
 	 */
-	void addNext( State s) {
+	void addNext( State<T> s) {
 		if (next1 == null)
 			next1 = s;
 		else

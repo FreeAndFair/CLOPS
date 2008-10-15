@@ -14,9 +14,9 @@ public class CodeGenerator {
   
   public static void createCode(Set<OptionDescription> opDescriptions, File outputDir) {
     
-    JavaClass specificParser = new JavaClass();
+    //JavaClass specificParser = new JavaClass();
     
-    Method optionMethod = specificParser.addMethod("createOptions", "", "Options");
+    //Method optionMethod = specificParser.addMethod("createOptions", "", "Options");
     
     //etc.
     

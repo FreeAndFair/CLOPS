@@ -3,7 +3,7 @@
  */
 package ie.ucd.clops.runtime.options;
 
-import ie.ucd.clops.runtime.parser.MatchResult;
+import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 import java.util.Set;
 
@@ -19,6 +19,10 @@ public abstract class BasicOption implements Option {
     this.aliases = aliases;
   }
   
+  public Set<String> getAliases() {
+    return aliases;
+  }
+
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#getType()
    */
@@ -40,18 +44,7 @@ public abstract class BasicOption implements Option {
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String[], int)
    */
-  public MatchResult match(String[] args, int offset) {
-    String arg = args[offset];
-    for (String alias : aliases) {
-      if (arg.startsWith(alias)) {
-        //return internalMatch?
-        
-      }
-    }
-    return MatchResult.negativeMatch();
-  }
-  
-  protected abstract MatchResult handleMatched(final String[] args, final int offset);
+  public abstract ProcessingResult process(String[] args, int offset);
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)

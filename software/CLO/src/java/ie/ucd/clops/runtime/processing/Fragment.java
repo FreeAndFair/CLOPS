@@ -11,19 +11,19 @@ import java.util.*;
  *
  * @author Viliam Holub
  */
-class Fragment {
+class Fragment<T> {
 	/** Starting state. */
-	State start;
+	State<T> start;
 	/** List of states of outgoing transitions. */
-	LinkedList<State> out;
+	List<State<T>> out;
 
 	/**
 	 * Creates a fragment consisting of a single outputting state.
 	 * @param start starting state, we create automaton with this state
 	 */
-	Fragment( /*@ non_null @*/ State start) {
+	Fragment( /*@ non_null @*/ State<T> start) {
 		this.start = start;
-		this.out = new LinkedList<State>();
+		this.out = new LinkedList<State<T>>();
 		this.out.add( start);
 	}
 
@@ -32,12 +32,12 @@ class Fragment {
 	 * @param state the starting state, we create autoamton with this state
 	 * @param ll list of outgoing transitions (state they are heading to)
 	 */
-	Fragment( /*@ non_null @*/ State start, /*@ non_null @*/ LinkedList<State> out) {
+	Fragment( /*@ non_null @*/ State<T> start, /*@ non_null @*/ List<State<T>> out) {
 		this.start = start;
 		if (out != null)
 			this.out = out;
 		else
-			this.out = new LinkedList<State>();
+			this.out = new LinkedList<State<T>>();
 	}
 
 	/**
@@ -45,8 +45,8 @@ class Fragment {
 	 * modifying this fragment.
 	 * @param f fragment of automaton we are concatenating
 	 */
-	Fragment concatenate( /*@ non_null @*/ final Fragment f) {
-		for (State s:out)
+	Fragment<T> concatenate( /*@ non_null @*/ final Fragment<T> f) {
+		for (State<T> s:out)
 			s.addNext( f.start);
 		this.out = f.out;
 		return this;
@@ -56,8 +56,8 @@ class Fragment {
 	 * Assign the specified state as the one with outgoing transitions.
 	 * @param s state with outgoing transition
 	 */
-	Fragment assignNext( /*@ non_null @*/ State s) {
-		for (State sx:out)
+	Fragment<T> assignNext( /*@ non_null @*/ State<T> s) {
+		for (State<T> sx:out)
 			sx.addNext( s);
 		return this;
 	}
@@ -68,12 +68,12 @@ class Fragment {
 	 * @param f1 left fragment of the alternative operator
 	 * @param f2 right fragment of the alternative operator
 	 */
-	static Fragment alternative( /*@ non_null @*/ final Fragment f1,
-			/*@ non_null @*/ final Fragment f2) {
-		LinkedList<State> out = new LinkedList<State>( f1.out);
+	static <G> Fragment<G> alternative( /*@ non_null @*/ final Fragment<G> f1,
+			/*@ non_null @*/ final Fragment<G> f2) {
+		LinkedList<State<G>> out = new LinkedList<State<G>>( f1.out);
 		out.addAll( f2.out);
-		return new Fragment(
-			new State( StateType.SPLIT, null, f1.start, f2.start),
+		return new Fragment<G>(
+			new State<G>( StateType.SPLIT, null, f1.start, f2.start),
 			out);
 	}
 
@@ -83,12 +83,12 @@ class Fragment {
 	 * the state either to the fragment f or outside.
 	 * @param f fragment the plus operator is applied to
 	 */
-	static Fragment plus( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, null, f.start, null);
+	static <G> Fragment<G> plus( /*@ non_null @*/ Fragment<G> f) {
+		State<G> s = new State<G>( StateType.SPLIT, null, f.start, null);
 		f.assignNext( s);
-		LinkedList<State> out = new LinkedList<State>();
+		LinkedList<State<G>> out = new LinkedList<State<G>>();
 		out.add( s);
-		return new Fragment( f.start, out);
+		return new Fragment<G>( f.start, out);
 	}
 
 	/** Apply the star operator to existing fragment.
@@ -96,12 +96,12 @@ class Fragment {
 	 * continue either to the specified fragment or outside.
 	 * @param f fragment the star operator is applied to
 	 */
-	static Fragment star( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, null, f.start, null);
+	static <G> Fragment<G> star( /*@ non_null @*/ Fragment<G> f) {
+		State<G> s = new State<G>( StateType.SPLIT, null, f.start, null);
 		f.assignNext( s);
-		LinkedList<State> out = new LinkedList<State>();
+		LinkedList<State<G>> out = new LinkedList<State<G>>();
 		out.add( s);
-		return new Fragment( s, out);
+		return new Fragment<G>( s, out);
 	}
 
 	/** Apply the question mark operator to existing fragment.
@@ -109,18 +109,18 @@ class Fragment {
 	 * specified fragment or outside.
 	 * @param f fragment the question mark operator is applied to
 	 */
-	static Fragment question( /*@ non_null @*/ Fragment f) {
-		State s = new State( StateType.SPLIT, null, f.start, null);
-		LinkedList<State> out = new LinkedList<State>( f.out);
+	static <G> Fragment<G> question( /*@ non_null @*/ Fragment<G> f) {
+		State<G> s = new State<G>( StateType.SPLIT, null, f.start, null);
+		LinkedList<State<G>> out = new LinkedList<State<G>>( f.out);
 		out.add( s);
-		return new Fragment( s, out);
+		return new Fragment<G>( s, out);
 	}
 
 	/** Apply the specified operator on a fragment.
 	 * @param type token type, one of PLUS, STAR, QUESTION
 	 */
-	static Fragment apply_operator( /*@ non_null @*/ TokenType type,
-			/*@ non_null @*/ Fragment f) {
+	static <G> Fragment<G> apply_operator( /*@ non_null @*/ TokenType type,
+			/*@ non_null @*/ Fragment<G> f) {
 		switch (type) {
 			case PLUS: return plus( f);
 			case STAR: return star( f);

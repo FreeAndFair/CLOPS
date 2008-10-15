@@ -1,6 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class OptionGroup implements IMatchable {
 
@@ -10,7 +11,7 @@ public class OptionGroup implements IMatchable {
 		options = new ArrayList<IMatchable>();
 	}
 
-	public void addOptionGroup( IMatchable option) {
+	public void addOptionOrGroup( IMatchable option) {
 		options.add( option);
 	}
 
@@ -18,31 +19,14 @@ public class OptionGroup implements IMatchable {
 	 * Determines whether the given command line argumnet pertains to one
 	 * of contained options or option groups.
 	 */
-	public boolean doIMatch(/*@non_null*/String arg) {
-		for (IMatchable option:options)
-			if (option.doIMatch( arg))
-				return true;
-		return false;
+	public Option getMatchingOption(/*@non_null*/String arg) {
+		for (IMatchable option:options) {
+		  Option o = option.getMatchingOption(arg);
+		  if (o != null) {
+		    return o;
+		  }
+		}
+		return null;
 	}
-
-	/**
-	 * Determines whether the given option is in the container.
-	 * @param o option to match
-	 */
-	public boolean doIMatch(/*@non_null*/Option o) {
-		for (IMatchable option:options)
-			if (option.doIMatch( o))
-				return true;
-		return false;
-	}
-
-	/**
-	* Returns add options it represents.
-	*/
-	public ArrayList<Options> getOptions() {
-		ArrayList<Options> list = new ArrayList<Options>();
-		for (IMatchable option:options)
-			list.addAll( option.getOptions());
-		return list;
-	}
+	
 }

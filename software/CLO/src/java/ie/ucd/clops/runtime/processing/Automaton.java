@@ -6,19 +6,20 @@ package ie.ucd.clops.runtime.processing;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.*;
-
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 
 /**
- * Represents format of the command line as an automaton and allows travesing
+ * Represents format of the command line as an automaton and allows traversing
  * the automaton with options.
  *
  * @author Viliam Holub
  */
-class Automaton {
+class Automaton<T> {
 
 	/** Step serial number.
 	 * Step number is used for effective creation of the list of active
@@ -28,19 +29,19 @@ class Automaton {
 	 * If this variable is set, we are in the error state. */
 	boolean error;
 	/** Starting state of the automaton. */
-	State /*@ non_null @*/ start_state;
+	State<T> /*@ non_null @*/ start_state;
 	/** List of active states.
 	 * The list is updated every step. */
-	ArrayList<State> /*@ non_null @*/ arr;
+	ArrayList<State<T>> /*@ non_null @*/ arr;
 	/** Backup of active states.
 	 * The backup is used for error reporting only. */
-	ArrayList<State> /*@ non_null @*/ arr_backup;
+	ArrayList<State<T>> /*@ non_null @*/ arr_backup;
 
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
-	Automaton( /*@ non_null @*/ Token[] tokens) {
-		arr = arr_backup = new ArrayList<State>();
+	Automaton( /*@ non_null @*/ Collection<Token<T>> tokens) {
+		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
 
@@ -61,31 +62,31 @@ class Automaton {
 	 * Builds automaton from the list of tokens.
 	 */
 	//@ tokens.size() != 0;
-	private void build( /*@ non_null @*/ Token[] tokens) {
+	private void build( /*@ non_null @*/ Collection<Token<T>> tokens) {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
-		Stack<Fragment> fragments = new Stack<Fragment>();
+		Stack<Fragment<T>> fragments = new Stack<Fragment<T>>();
 		// Current context
 		Context ctx = new Context();
 
-		for (Token t:tokens) switch (t.type) {
+		for (Token<T> t:tokens) switch (t.type) {
 			case MATCH:
 				// If there are two atom fragments on stack, concatenate
 				if (ctx.atoms > 1) {
-					Fragment f = fragments.pop();
+					Fragment<T> f = fragments.pop();
 					fragments.peek().concatenate( f);
 					ctx.atoms--;
 				}
 				// Create fragment that matches the given string
 				// Push fragment into stack
-				fragments.push( new Fragment( new State( StateType.MATCH, t.match)));
+				fragments.push( new Fragment<T>( new State<T>( StateType.MATCH, t.match)));
 				ctx.atoms++;
 				break;
 			case LEFT:
 				// Concatenate atoms on stack
 				if (ctx.atoms > 1) {
-					Fragment f = fragments.pop();
+					Fragment<T> f = fragments.pop();
 					fragments.peek().concatenate( f);
 					ctx.atoms--;
 				}
@@ -104,7 +105,7 @@ class Automaton {
 				}
 				// Concatenate atoms on stack
 				if (ctx.atoms > 1) {
-					Fragment f = fragments.pop();
+					Fragment<T> f = fragments.pop();
 					fragments.peek().concatenate( f);
 					ctx.atoms--;
 				}
@@ -132,7 +133,7 @@ class Automaton {
 				// Concatenate fragments on stack
 				while (ctx.atoms>1) {
 					// Concatenate two fragments
-					Fragment f = fragments.pop();
+					Fragment<T> f = fragments.pop();
 					fragments.peek().concatenate( f);
 				}
 				// Continue to make alternatives...
@@ -167,7 +168,7 @@ class Automaton {
 		}
 		// Concatenate any residual atoms
 		if (ctx.atoms > 1) {
-			Fragment f = fragments.pop();
+			Fragment<T> f = fragments.pop();
 			fragments.peek().concatenate( f);
 		}
 		// If there is unclosed alternative, close it
@@ -176,14 +177,14 @@ class Automaton {
 					fragments.pop(), fragments.pop()));
 		}
 		// Create final fragment
-		State s = new State( StateType.END, null, null, null);
-		Fragment fin = fragments.pop();
+		State<T> s = new State<T>( StateType.END, null, null, null);
+		Fragment<T> fin = fragments.pop();
 		fin.assignNext( s);
 		
 		assert fragments.isEmpty();
 
 		// Write start state
-		start_state = new State( StateType.SPLIT, null, fin.start, null);
+		start_state = new State<T>( StateType.SPLIT, null, fin.start, null);
 	}
 
 	/** Adds successors of s which has the type MATCH or END.
@@ -193,8 +194,8 @@ class Automaton {
 	 * @param s state to add or follow
 	 * @param ll output list of states
 	 */
-	private void addSuccessors2( State s,
-			/*@ non_null @*/ArrayList<State> ll) {
+	private void addSuccessors2( State<T> s,
+			/*@ non_null @*/ List<State<T>> ll) {
 		if (s == null || s.state_index == step_index)
 			return;
 		s.state_index = step_index;
@@ -211,8 +212,8 @@ class Automaton {
 	 * @param s state to follow
 	 * @param ll output list of states
 	 */
-	private void addSuccessors( /*@ non_null @*/ State s,
-			/*@ non_null @*/ArrayList<State> ll) {
+	private void addSuccessors( /*@ non_null @*/ State<T> s,
+			/*@ non_null @*/List<State<T>> ll) {
 		if (s.state_index == step_index)
 			return;
 		addSuccessors2( s.next1, ll);
@@ -226,15 +227,16 @@ class Automaton {
 	 * @param t current option to process
 	 * @param ll list of successor states
 	 */
-	private void follow( /*@ non_null @*/ State s,
-			/*@ non_null @*/ Option o,
-			/*@ non_null @*/ ArrayList<State> ll) {
+	private void follow( /*@ non_null @*/ State<T> s,
+			/*@ non_null @*/ T o,
+			/*@ non_null @*/ List<State<T>> ll) {
 		// Type of the state must be ready to match.
 		if (s.type != StateType.MATCH)
 			return;
 		// Test the state if matches.
-		if (!s.match.doIMatch( o))
-			return;
+		if (!s.match.equals(o)) {
+		  return;
+		}
 		// We have a match, add succesors
 		addSuccessors( s, ll);
 	}
@@ -243,14 +245,14 @@ class Automaton {
 	 * @param t option to process
 	 * @returns if the option is correctly positioned according to format
 	 */
-	public boolean nextStep( /*@ non_null @*/ Option o) {
+	public boolean nextStep( /*@ non_null @*/ T o) {
 		// Do not continue if we are in an error state
 		if (error)
 			return false;
 
 		// Process next step, store states
-		ArrayList<State> arr2 = new ArrayList<State>();
-		for (State s:arr)
+		ArrayList<State<T>> arr2 = new ArrayList<State<T>>();
+		for (State<T> s:arr)
 			follow( s, o, arr2);
 		arr_backup = arr;
 		arr = arr2;
@@ -268,7 +270,7 @@ class Automaton {
 	/** Returns if the current automaton state is accepting.
 	 */
 	public boolean isAccepting() {
-		for (State s:arr) {
+		for (State<T> s:arr) {
 			if (s.type == StateType.END)
 				return true;
 		}
@@ -278,10 +280,12 @@ class Automaton {
 	/** Returns list of available options.
 	 */
 	
-	public ArrayList<IMatchable> availableOptions() {
-		ArrayList<IMatchable> ll = new ArrayList<IMatchable>();
-		for (State s:arr)
-			ll.addAll( s.match.getOptions());
+	public Collection<T> availableTransitions() {
+	  Collection<T> transitions = new LinkedList<T>();
+	  for (State<T> state : arr) {
+	    transitions.add(state.match);
+	  }
+		return transitions;
 	}
 	
 

@@ -1,16 +1,22 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import java.util.*;
-import java.lang.*;
+import ie.ucd.clops.runtime.options.IMatchable;
 
-import ie.ucd.clops.runtime.options.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Transforming format line into a list of tokens.
  */
 class Tokenizer {
 
+  static final Token<IMatchable> LEFT     = new Token<IMatchable>( TokenType.LEFT);
+  static final Token<IMatchable> RIGHT    = new Token<IMatchable>( TokenType.RIGHT);
+  static final Token<IMatchable> OR       = new Token<IMatchable>( TokenType.OR);
+  static final Token<IMatchable> PLUS     = new Token<IMatchable>( TokenType.PLUS);
+  static final Token<IMatchable> STAR     = new Token<IMatchable>( TokenType.STAR);
+  static final Token<IMatchable> QUESTION = new Token<IMatchable>( TokenType.QUESTION);
 
 	public class TokenizerException extends Exception {
 		private static final long serialVersionUID = 1L;
@@ -50,20 +56,20 @@ class Tokenizer {
 		}
 	}
 
-	Collection<Token> tokenize( String format, MatchThis match_this)
+	Collection<Token<IMatchable>> tokenize( String format, MatchThis match_this)
 		throws IllegalCharacterException, UnknownOptionException {
-		ArrayList<Token> tokens = new ArrayList<Token>();
+		ArrayList<Token<IMatchable>> tokens = new ArrayList<Token<IMatchable>>();
 		int format_len = format.length();
 		int index = skipWhiteSpaces( format, 0);
 
 		while (index < format_len) {
-			switch (format.charAt( 0)) {
-				case '(': tokens.add( Token.LEFT); break;
-				case ')': tokens.add( Token.RIGHT); break;
-				case '|': tokens.add( Token.OR); break;
-				case '+': tokens.add( Token.PLUS); break;
-				case '*': tokens.add( Token.STAR); break;
-				case '?': tokens.add( Token.QUESTION); break;
+			switch (format.charAt( index)) {
+				case '(': tokens.add( Tokenizer.LEFT); break;
+				case ')': tokens.add( Tokenizer.RIGHT); break;
+				case '|': tokens.add( Tokenizer.OR); break;
+				case '+': tokens.add( Tokenizer.PLUS); break;
+				case '*': tokens.add( Tokenizer.STAR); break;
+				case '?': tokens.add( Tokenizer.QUESTION); break;
 				default:
 					// The first character must be letter or number
 					if (!Character.isLetterOrDigit( format.charAt(index)))
@@ -79,7 +85,7 @@ class Tokenizer {
 					IMatchable match = match_this.getMatchable( param);
 					if (match == null)
 						throw new UnknownOptionException( param);
-					tokens.add( new Token( TokenType.MATCH, match));
+					tokens.add( new Token<IMatchable>( TokenType.MATCH, match));
 					break;
 			}
 			index++;

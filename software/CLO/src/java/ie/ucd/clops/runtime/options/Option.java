@@ -1,13 +1,13 @@
 package ie.ucd.clops.runtime.options;
 
-import ie.ucd.clops.runtime.parser.MatchResult;
+import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
  * @author Mikolas
  * @author Fintan
  *
  */
-public interface Option {
+public interface Option extends IMatchable {
 
   /**
    * Get the type of this Option.
@@ -23,7 +23,7 @@ public interface Option {
    * @param offset
    * @return
    */
-  MatchResult match(String[] args, int offset);
+  ProcessingResult process(String[] args, int offset);
   
   /**
    * Does this Option have a value?

@@ -35,3 +35,12 @@ indexing
 explanation 
   ""
 end
+
+cluster_chart DOCUMENTATION
+cluster DESCRIPTION description ""
+end
+
+cluster_chart PARSING
+cluster DEPENDENCY description ""
+cluster COMMAND_LINE_INTERFACE description ""
+end

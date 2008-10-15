@@ -1,32 +1,62 @@
-cluster_chart DEPENDENCY
+--
+-- COMMANDO - Generalized parsing of command line options
+--
+
+cluster_chart DEPENDENCIES
 indexing
   author: "Dermot Cochran";
   created: "2008-10-14-dc";
-  revised: "";
-  level_of_detail: "0";
+  revised: "2008-10-15-dc";
+  level_of_detail: "1";
 explanation 
-  ""
-class RULE description "An expression in which the LHS is set of options values and the RHS is a single assignment of a new option value"
+  "Permitted relationships between options"
+class RULE description "Expression in which the LHS is set of options values and the RHS is a single assignment\
+                        \ of a new option value"
 class EXCLUSION_SET description "Subset of command line options which cannot be used together"
 class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
 class OVERRIDE_RULE description "The interdependent relationship between two different command line options"
 end
 
-cluster_chart DESCRIPTION
+cluster_chart DOCUMENTATION
 indexing
   author: "Dermot Cochran";
   created: "2008-10-14-dc";
-  revised: "";
+  revised: "2008-10-15-dc";
   level_of_detail: "0";
 explanation 
-  ""
-end
-
-cluster_chart DOCUMENTATION
-cluster DESCRIPTION description ""
+  "Information about how to use the command line options"
+class OPTION_DESCRIPTION description "Information about each command line option"
+class OPTION_TYPE description "The range and type of values for the arguments of the command line option"
 end
 
 cluster_chart PARSING
-cluster DEPENDENCY description ""
-class COMMAND_LINE_OPTION description "A keyword which activates, deactivates or controls a feature of the program"
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "2008-10-15-dc";
+  level_of_detail: "0";
+explanation 
+  "Reading and interpretation of the command line"
+class COMMAND_LINE description ""
+class COMMAND_LINE_INTERFACE description ""
+class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
+cluster DEPENDENCIES description "Permitted relationships between options"
+cluster ERRORS description ""
+cluster PROCESSING description ""
+end
+
+cluster_chart ERRORS
+explanation
+  ""
+class ERROR_HANDLER description ""
+class EXCEPTION description ""
+end
+
+cluster_chart PROCESSING
+explanation
+  ""
+class DSL_PARSER description ""
+class INTERNAL_REPRESENTATION description ""
+class JAVA_API description ""
+class CODE_GENERATION description ""
 end

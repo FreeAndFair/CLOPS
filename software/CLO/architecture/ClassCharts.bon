@@ -1,6 +1,15 @@
 --
--- Command Line Options
+-- COMMANDO - Generalized parsing of command line options
 --
+
+class_chart CODE_GENERATION
+end
+
+class_chart COMMAND_LINE
+end
+
+class_chart COMMAND_LINE_INTERFACE
+end
  
 class_chart RULE
 indexing
@@ -31,6 +40,15 @@ inherit
   RULE
 end
 
+class_chart DSL_PARSER
+end
+
+class_chart ERROR_HANDLER
+end
+
+class_chart EXCEPTION
+end
+
 class_chart EXCLUSION_SET
 indexing
   created: "2008-08-11-dc";
@@ -56,6 +74,18 @@ query
   "Am I specified?",
   "What is my full name?",
   "What abbreviations do I have?"
+end
+
+class_chart INTERNAL_REPRESENTATION
+end
+
+class_chart JAVA_API
+end
+
+class_chart OPTION_TYPE
+end
+
+class_chart OPTION_DESCRIPTION
 end
 
 class_chart OVERRIDE_RULE

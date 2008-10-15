@@ -1,0 +1,24 @@
+--
+-- COMMANDO - Generalized parsing of command line options 
+--
+dynamic_diagram Parse_options
+component
+  scenario "PARSE_OPTIONS"
+  action
+    "1" "Read the list of options"
+  end
+  object COMMAND_LINE
+  object SPECIFIC_PARSER
+  SPECIFIC_PARSER calls COMMAND_LINE "1"
+end
+
+dynamic_diagram Generate_API
+component
+  scenario "GENERATE_API"
+  action
+    "1" "Read the list of options"
+  end
+  object COMMAND_LINE
+  object PARSER
+  PARSER calls COMMAND_LINE "1"
+end

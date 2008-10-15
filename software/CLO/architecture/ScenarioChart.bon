@@ -1,0 +1,18 @@
+--
+-- COMMANDO - Generalized parsing of command line options
+--
+scenario_chart COMMANDO
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-15-dc"
+explanation 
+  "Scenarios for processing of command line options"
+scenario 
+  "PROCESS_OPTIONS"
+description
+  "Process the options at the command line"
+scenario 
+  "GENERATE_API"
+description
+  "Generate the API for the specific parser"
+end

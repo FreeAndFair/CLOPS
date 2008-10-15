@@ -1,0 +1,14 @@
+--
+-- COMMANDO - Generalized parsing of command line options
+--
+creation_chart COMMANDO
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-15";
+  level_of_detail: "1"
+explanation 
+  "Objects created while processing command line options"
+creator DSL_PARSER creates INTERNAL_REPRESENTATION
+creator CODE_GENERATION creates JAVA_API
+creator ERROR_HANDLER creates EXCEPTION
+end

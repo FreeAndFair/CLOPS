@@ -9,8 +9,8 @@
   <property name="java-src" location="${src}/java"/>
   <property name="src-antlr" value="${java-src}/ie/ucd/clops/dsl/parser"/>
   <property name="build" location="bin"/>
-	<property name="docs" location="doc"/>
-	<property name="java-docs" location="${docs}/javadoc"/>
+  <property name="docs" location="doc"/>
+  <property name="java-docs" location="${docs}/javadoc"/>
   <property name="dist"  location="dist"/>
   <property name="lib"  location="lib"/>
   <property name="java-target-version" value="1.5"/>
@@ -34,8 +34,8 @@
     <filelist dir="${lib}" files="antlr-3.0.1.jar"/>
   </path>
 
-	<path id="runtime.path">
-		<path refid="base.path"/>
+  <path id="runtime.path">
+   <path refid="base.path"/>
 		<filelist dir="${lib}" files="antlr-runtime-3.0.1.jar"/>
 	</path>
 	
@@ -82,7 +82,7 @@
   <target name="compile" depends="all-src" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
     <javac srcdir="${java-src}" destdir="${build}" target="${java-target-version}">
-      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:all"/>
       <classpath refid="compile.path"/>
     </javac>
   </target>

@@ -38,17 +38,16 @@ public class GenericCLParser {
       //Main loop
       for (int i=0; i < args.length; ) {
         //Get available next options
-        Collection<IMatchable> nextStates = automaton.availableTransitions();
+        Collection<IMatchable> possibleTransitions = automaton.availableTransitions();
         
         //Matched option
         Option matchedOption = null;
                 
         //Try and find a match
-        for (Object o : nextStates) {
-          IMatchable state = (IMatchable)o;
-          matchedOption = state.getMatchingOption(args[i]);
+        for (IMatchable transition : possibleTransitions) {
+          matchedOption = transition.getMatchingOption(args[i]);
           if (matchedOption != null) {
-            automaton.nextStep(state);
+            automaton.nextStep(transition);
             break;
           }
         }
@@ -57,6 +56,7 @@ public class GenericCLParser {
         if (matchedOption == null) {
           //Check if we can have a program argument here...
           //if not, report error 
+          System.out.println();
         } else {
           ProcessingResult pr = matchedOption.process(args, i);
           if (pr.errorDuringProcessing()) {

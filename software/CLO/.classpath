@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="java/" kind="src" path="src"/>
+	<classpathentry kind="src" path="antlr/src/ie"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.5"/>
 	<classpathentry kind="lib" path="lib/antlr-runtime-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/stringtemplate.jar"/>
+	<classpathentry kind="src" path="/jmlspecs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

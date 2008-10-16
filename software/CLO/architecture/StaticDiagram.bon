@@ -3,12 +3,12 @@
 --
 static_diagram
 component
-  cluster PARSING
+  cluster GENERIC_PARSING
   component
     cluster DEPENDENCIES
-    cluster PROCESSING
     cluster ERRORS
     cluster EXTENSION_POINTS
     end
   cluster DOCUMENTATION
+  cluster API_GENERATION
 end

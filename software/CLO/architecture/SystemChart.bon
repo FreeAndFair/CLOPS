@@ -3,10 +3,11 @@
 ---
 system_chart COMMANDO
 indexing
-  created: "2008-08-11-dc";
-  revised: "2008-10-15-dc";
+  created: "2008-10-14-dc";
+  revised: "2008-10-16-dc";
   authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" , "Radu Grigore"
-  cluster PARSING description "Parsing of Command Line Options"
-  cluster DOCUMENTATION description "Information about Command Line Options"
+  cluster GENERIC_PARSING description "Generic parsing and dependency handling of command line options"
+  cluster DOCUMENTATION description "Information about command line options"
+  clsuter API_GENERATION description "Generation of an API for handling specific options"
 end
  

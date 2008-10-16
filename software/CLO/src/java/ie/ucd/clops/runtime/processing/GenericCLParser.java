@@ -1,4 +1,3 @@
-
 package ie.ucd.clops.runtime.processing;
 
 import ie.ucd.clops.runtime.options.*;
@@ -10,8 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class parsing the command-line, for the moment it's not taking into
- * account the regular expression describing the allowed formats.
+ * Class parsing the command-line.
  *
  * @author Mikolas Janota
  * @author Fintan

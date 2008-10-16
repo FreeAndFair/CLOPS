@@ -29,10 +29,10 @@ public class GenericCLParser {
         this.options = new HashSet<Option>(options);
     }
     
-    public void parse(String formatString, String[] args) throws Exception {
+   public boolean parse(String formatString, OptionStore optionStore, String[] args) throws Exception {
       
       //Set up automaton
-      Collection<Token<IMatchable>> tokens = new Tokenizer().tokenize(formatString, null);
+      Collection<Token<IMatchable>> tokens = new Tokenizer().tokenize(formatString, optionStore);
       Automaton<IMatchable> automaton = new Automaton<IMatchable>(tokens);
       
       //Main loop
@@ -56,7 +56,9 @@ public class GenericCLParser {
         if (matchedOption == null) {
           //Check if we can have a program argument here...
           //if not, report error 
-          System.out.println();
+           System.out.println("illegal option"); // debugging
+           i++;
+           return false;
         } else {
           ProcessingResult pr = matchedOption.process(args, i);
           if (pr.errorDuringProcessing()) {
@@ -69,7 +71,40 @@ public class GenericCLParser {
         }
         
       }
-      
+
+      System.out.println("finished parsing"); // debugging
+      return true;
+     
     }
+
+   /*==== Testing ====*/
+   private static Set<String> singleton(String s) {
+      Set<String> retv = new HashSet<String>(1);
+      retv.add(s);
+      return retv;
+   }
+
+   public static void main(String[] args) throws Exception {
+      OptionStore os = new OptionStore();
+      BooleanOption bo1 = new BooleanOption(singleton("-bo"));
+      BooleanOption bo2 = new BooleanOption(singleton("-boo"));
+
+      os.addOption(bo1);
+      os.addOption(bo2);
+
+      GenericCLParser gp = new GenericCLParser(os.getOptions());
+      assert !gp.parse("-bo", os, new String[] {"-boo"}); // shouldn't parse
+      assert gp.parse("-boo", os, new String[] {"-boo"}); // should parse
+      assert gp.parse("-boo?", os, new String[] {"-boo"}); // should parse
+      assert gp.parse("-boo*", os, new String[] {"-boo" , "-boo" , "-boo"}); // should parse
+
+      assert gp.parse("-boo* -bo*", os, new String[] {"-boo" , "-boo" , "-boo", "-bo", "-bo"}); // should parse
+
+      assert !gp.parse("-boo+ -bo*", os, new String[] {"-bo"}); // shouldn't go thru
+
+      assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
+
+      assert gp.parse("-boo*", os, new String[] {"xxx"}); // this crashes at the moment
+   }
     
 }

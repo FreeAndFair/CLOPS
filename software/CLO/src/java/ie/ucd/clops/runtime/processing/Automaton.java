@@ -41,6 +41,7 @@ class Automaton<T> {
 	 */
 	//@ tokens.size() != 0;
 	Automaton( /*@ non_null @*/ Collection<Token<T>> tokens) {
+           //TODO: shouldn't this take in a List?
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;

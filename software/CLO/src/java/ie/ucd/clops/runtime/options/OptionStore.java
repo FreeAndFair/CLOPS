@@ -25,15 +25,16 @@ public class OptionStore implements IMatchString  {
    }
 
    /**
-    * Add an option to this store.
+    * Obtain the set of options in this store.
     */
    public Set<Option> getOptions() {
       return s;
    }
 
-   /**
-    * Add an option to this store.
-    */
+
+  /* (non-Javadoc)
+   * @see ie.ucd.clo.runtime.options.IMatchString#getMatchable(java.lang.String)
+   */  
    public IMatchable getMatchable(String param) {
       return m.get(param);
    }

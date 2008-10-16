@@ -32,22 +32,24 @@ cluster_chart GENERIC_PARSING
 indexing
   author: "Dermot Cochran";
   created: "2008-10-14-dc";
-  revised: "2008-10-15-dc";
+  revised: "2008-10-16-dc";
   level_of_detail: "0";
 explanation 
   "Reading and interpretation of the command line"
 class COMMAND_LINE description ""
+class COMMAND_LINE_FORMAT description "The syntax of and dependencies between command line options" 
 class COMMAND_LINE_INTERFACE description ""
 class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
 cluster DEPENDENCIES description "Permitted relationships between options"
 cluster ERRORS description "Handling of inconsistencies in the command line options"
+cluster EXTENSION_POINTS description "Optional extensions of the command line inteface (e.g. tab completion) or alternative interfaces e.g GUI"
 end
 
 cluster_chart ERRORS
 explanation
   ""
 class ERROR_HANDLER description ""
-class EXCEPTION description ""
+class JAVA_EXCEPTION description ""
 end
 
 cluster_chart API_GENERATION
@@ -57,4 +59,10 @@ class DSL_PARSER description ""
 class INTERNAL_REPRESENTATION description ""
 class JAVA_API description ""
 class CODE_GENERATION description ""
+end
+
+cluster_chart EXTENSION_POINTS 
+explanation
+  "Optional extensions of the command line inteface (e.g. tab completion) or alternative interfaces e.g GUI"
+class EXTENSION_POINT description "Extension of or alternative interface, layered over the command line interface"
 end

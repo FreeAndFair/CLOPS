@@ -8,6 +8,6 @@ indexing
   authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" , "Radu Grigore"
   cluster GENERIC_PARSING description "Generic parsing and dependency handling of command line options"
   cluster DOCUMENTATION description "Information about command line options"
-  clsuter API_GENERATION description "Generation of an API for handling specific options"
+  cluster API_GENERATION description "Generation of an API for handling specific options"
 end
  

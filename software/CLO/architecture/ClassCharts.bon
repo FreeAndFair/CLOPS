@@ -46,7 +46,11 @@ end
 class_chart ERROR_HANDLER
 end
 
-class_chart EXCEPTION
+class_chart JAVA_EXCEPTION
+indexing
+  created: "2008-10-16-dc"
+explanation
+  ""
 end
 
 class_chart EXCLUSION_SET
@@ -57,6 +61,21 @@ indexing
   level_of_abstraction: "medium"
 explanation
   "Subset of command line options which cannot be used together"
+end
+
+class_chart EXTENSION_POINT
+indexing
+  created: "2008-10-16-dc"
+explanation
+  "An extension of Command Line Parser by enhancing or changing the interface, or a plug-in to the system"
+end
+
+
+class_chart COMMAND_LINE_FORMAT
+indexing
+  created: "2008-10-16-dc"
+explanation 
+  "The syntax and dependencies of the command line options" 
 end
 
 class_chart COMMAND_LINE_OPTION
@@ -77,12 +96,15 @@ query
 end
 
 class_chart INTERNAL_REPRESENTATION
+indexing
+  created: "2008-10-15-dc";
+  revised: "2008-10-16-dc";
+  keywords: "COMMAND_LINE_FORMAT"
+explanation
+  "An AST, String or other representation of the Command Line Format"
 end
 
 class_chart JAVA_API
-end
-
-class_chart OPTION_TYPE
 end
 
 class_chart OPTION_DESCRIPTION

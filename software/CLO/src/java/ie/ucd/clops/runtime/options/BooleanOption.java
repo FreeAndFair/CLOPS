@@ -63,7 +63,7 @@ public class BooleanOption extends BasicOption {
   }
 
   /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.IMatchabel#getMatchingOption(java.lang.String)
+   * @see ie.ucd.clo.runtime.options.IMatchable#getMatchingOption(java.lang.String)
    */  
   public Option getMatchingOption(String argument) {
      return getAliases().contains(argument) ? this : null;

@@ -13,7 +13,6 @@ public class ProcessingResult {
       
   /**
    * 
-   * @param matched
    * @param numberOfArgsConsumed
    * @param errorDuringProcessing
    * @param errorMessage

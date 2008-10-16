@@ -36,9 +36,7 @@ indexing
   level_of_detail: "0";
 explanation 
   "Reading and interpretation of the command line"
-class COMMAND_LINE description ""
 class COMMAND_LINE_FORMAT description "The syntax of and dependencies between command line options" 
-class COMMAND_LINE_INTERFACE description ""
 class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
 cluster DEPENDENCIES description "Permitted relationships between options"
 cluster ERRORS description "Handling of inconsistencies in the command line options"
@@ -47,15 +45,15 @@ end
 
 cluster_chart ERRORS
 explanation
-  ""
-class ERROR_HANDLER description ""
-class JAVA_EXCEPTION description ""
+  "Inconsistencies arising from dependencies between differnt command line options"
+class ERROR_HANDLER description "Subcomponent which handles and reports errors"
+class JAVA_EXCEPTION description "Mechanism by which errors are sent to the client code"
 end
 
 cluster_chart API_GENERATION
 explanation
   "Generation of an API for handling the specifics of each command line option"
-class DSL_PARSER description ""
+class DSL_PROCESSING description ""
 class INTERNAL_REPRESENTATION description ""
 class JAVA_API description ""
 class CODE_GENERATION description ""

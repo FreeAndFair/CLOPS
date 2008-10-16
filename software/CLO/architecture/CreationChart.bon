@@ -8,7 +8,7 @@ indexing
   level_of_detail: "1"
 explanation 
   "Objects created while processing command line options"
-creator DSL_PARSER creates INTERNAL_REPRESENTATION
+creator DSL_PROCESSING creates INTERNAL_REPRESENTATION
 creator CODE_GENERATION creates JAVA_API
 creator ERROR_HANDLER creates JAVA_EXCEPTION
 end

@@ -3,7 +3,7 @@ package ie.ucd.clops.runtime.options;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
- * @author Mikolas
+ * @author Mikolas Janota
  * @author Fintan
  *
  */

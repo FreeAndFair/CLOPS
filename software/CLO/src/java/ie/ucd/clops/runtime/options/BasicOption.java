@@ -37,7 +37,6 @@ public abstract class BasicOption implements Option {
   /* (non-Javadoc)
    * @see ie.ucd.clops.runtime.options.IMatchable#getIdentifier()
    */
-  @Override
   public String getIdentifier() {
     return identifier;
   }

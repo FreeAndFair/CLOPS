@@ -32,7 +32,6 @@ public class OptionGroup implements IMatchable {
 		return null;
 	}
 
-  @Override
   public String getIdentifier() {
     return identifier;
   }

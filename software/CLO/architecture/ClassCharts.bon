@@ -3,16 +3,21 @@
 --
 
 class_chart CODE_GENERATION
+indexing
+  level_of_detail: "1";
+  in_cluster: "API_GENERATION"
 explanation
-  "Automatic generation of GPL (e.g. Java) code from a DSL, XML or other high-level specification" 
+  "Automatic generation of GPL (e.g. Java) code from a DSL, XML or other high-level specification"
+command
+  "Generate the command line parser"
 end
  
 class_chart RULE
 indexing
   created: "2008-08-13-dc";
   revised: "2008-10-14-dc";
-  level_of_detail: "1";
-  level_of_abstraction: "low"
+  level_of_detail: "0";
+  in_cluster: "DEPENDENCIES"
 explanation
   "An expression in which the LHS is set of options values and the RHS is a single assignment of a new option value"
 query
@@ -28,8 +33,8 @@ class_chart DEFAULT_RULE
 indexing
   created: "2008-08-11-dc";
   revised: "2008-10-14-dc";
-  level_of_detail: "2";
-  level_of_abstraction: "low"
+  level_of_detail: "1";
+  in_cluster: "DEPENDENCIES"
 explanation
   "The relationship between the default value of one command line option and the actual value of another"
 inherit
@@ -40,9 +45,14 @@ class_chart DSL_PROCESSING
 indexing
   in_cluster: "API_GENERATION";
   created: "2008-10-16-dc";
-  level_of_detail: "0"
+  level_of_detail: "0";
+  in_cluster: "API_GENERATION"
 explanation 
   "Validation and processing of the DSL which represents the model of the Command Line Format and Dependencies"
+query
+  "Is this DSL valid?"
+command
+  "Generate the internal representation for this DSL"
 end
 
 class_chart ERROR_HANDLER
@@ -51,6 +61,14 @@ indexing
   level_of_detail: "0"
 explanation
   "Reporting mechanism for inconsistencies due to dependencies between different command line options"
+end
+
+class_chart GUI_LAYER
+indexing
+  in_cluster: "EXTENSIONS";
+  level_of_detail: "1"
+explanation
+  "GUI representation of the command line schema"
 end
 
 class_chart JAVA_EXCEPTION
@@ -80,7 +98,13 @@ explanation
   "An extension of Command Line Parser by enhancing or changing the interface, or a plug-in to the system"
 end
 
-class_chart COMMAND_LINE_FORMAT
+class_chart COMMAND_LINE
+end
+
+class_chart COMMAND_LINE_ENGINE
+end
+
+class_chart COMMAND_LINE_SCHEMA
 indexing
   created: "2008-10-16-dc"
 explanation 
@@ -130,8 +154,7 @@ class_chart OVERRIDE_RULE
 indexing
   created: "2008-08-11-dc";
   revised: "2008-10-14-dc";
-  level_of_detail: "2";
-  level_of_abstraction: "low"
+  level_of_detail: "1"
 explanation
   "The interdependant relationship between two different command line options"
 inherit 
@@ -141,4 +164,10 @@ query
   "What does this option override?"
 command
   "Apply this rule"
+end
+
+class_chart PLUGIN_INTERFACE
+end
+
+class_chart TAB_COMPLETION
 end

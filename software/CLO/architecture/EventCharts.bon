@@ -14,11 +14,11 @@ part
 event
   "A new command line is entered"
 involves
-  COMMAND_LINE_FORMAT
+  COMMAND_LINE
 event
   "A new command line interface is specified"
 involves
-  COMMAND_LINE_FORMAT
+  COMMAND_LINE_SCHEMA
 end
 
 -- Internal (outgoing) events
@@ -33,9 +33,9 @@ part
 event
   "The command line model is inconsistent or incomplete"
 involves
-  COMMAND_LINE_FORMAT
+  COMMAND_LINE_SCHEMA
 event 
   "The command line options are invalid"
 involves
-  COMMAND_LINE_OPTION
+  COMMAND_LINE
 end

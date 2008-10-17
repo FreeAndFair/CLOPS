@@ -102,7 +102,7 @@ public class GenericCLParser {
 
       assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
 
-      assert gp.parse("-boo*", os, new String[] {"xxx"}); // this crashes at the moment
+      assert gp.parse("-boo*", os, new String[] {"-boo", "-boo", "-boo"}); // should parse
    }
     
 }

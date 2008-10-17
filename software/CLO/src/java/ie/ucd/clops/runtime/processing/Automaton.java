@@ -230,7 +230,7 @@ class Automaton<T> {
 	 */
 	private void follow( /*@ non_null @*/ State<T> s,
 			/*@ non_null @*/ T o,
-			/*@ non_null @*/ List<State<T>> ll) {
+			/*@ non_null @*/ List<State<T>> arr) {
 		// Type of the state must be ready to match.
 		if (s.type != StateType.MATCH)
 			return;
@@ -239,7 +239,7 @@ class Automaton<T> {
 		  return;
 		}
 		// We have a match, add succesors
-		addSuccessors( s, ll);
+		addSuccessors( s, arr);
 	}
 
 	/** Apply next step in automaton.
@@ -281,11 +281,11 @@ class Automaton<T> {
 	/** Returns list of available options.
 	 */
 	
-	public Collection<T> availableTransitions() {
-	  Collection<T> transitions = new LinkedList<T>();
-	  for (State<T> state : arr) {
-	    transitions.add(state.match);
-	  }
+	public List<T> availableTransitions() {
+		List<T> transitions = new LinkedList<T>();
+		for (State<T> state : arr)
+			if (state.type == StateType.MATCH)
+				transitions.add(state.match);
 		return transitions;
 	}
 	

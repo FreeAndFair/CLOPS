@@ -14,8 +14,12 @@ import java.util.Set;
 public class BooleanOption extends BasicOption {
   private Boolean value;
     
-  public BooleanOption(final Set<String> aliases) {
-     super(aliases);
+  public BooleanOption(String identifier, final Set<String> aliases) {
+     super(identifier, aliases);
+  }
+  
+  public BooleanOption(String identifier) {
+    super(identifier);
   }
   
   /* (non-Javadoc)

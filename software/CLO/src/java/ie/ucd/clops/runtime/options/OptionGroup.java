@@ -6,9 +6,12 @@ import java.util.Collection;
 public class OptionGroup implements IMatchable {
 
 	Collection<IMatchable> options;
+	
+	private String identifier;
 
-	public OptionGroup() {
+	public OptionGroup(String identifier) {
 		options = new ArrayList<IMatchable>();
+		this.identifier = identifier;
 	}
 
 	public void addOptionOrGroup( IMatchable option) {
@@ -28,5 +31,10 @@ public class OptionGroup implements IMatchable {
 		}
 		return null;
 	}
+
+  @Override
+  public String getIdentifier() {
+    return identifier;
+  }
 	
 }

@@ -4,41 +4,61 @@ import ie.ucd.clops.codegeneration.java.GeneratedClass;
 import ie.ucd.clops.codegeneration.java.GeneratedCodePrinter;
 import ie.ucd.clops.codegeneration.java.GeneratedConstructor;
 import ie.ucd.clops.codegeneration.java.GeneratedMethod;
-import ie.ucd.clops.codegeneration.java.GeneratedStatement;
 import ie.ucd.clops.codegeneration.java.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.structs.OptionDescription;
+import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 
 import java.io.File;
-import java.util.Set;
+import java.util.Collection;
 
 public class CodeGenerator {
 
-  
+
   //Input: OptionDescriptions
   //       Directory to output to
   //Ouput: Some .java files
-  
-  public static void createCode(Set<OptionDescription> opDescriptions, File outputDir) {
-    
+
+  public static void createCode(Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions, File outputDir) {
+
     GeneratedClass specificParser = new GeneratedClass("Parser", Visibility.Public);
-    
-    GeneratedMethod createOps = new GeneratedMethod("createOptions", "void", Visibility.Public);
+
+    //Create the method that will initialise the OptionStore
+    GeneratedMethod createOps = new GeneratedMethod("createOptions", "OptionStore", Visibility.Public);
     specificParser.addMethod(createOps);
     
-    createOps.addStatement(new GeneratedStatement("Option op1 = new BooleanOption(\"a\")"));
+    //Create the OptionStore method
+    createOps.addStatement("OptionStore opStore = new OptionStore()");
+    //Create and add each Option
+    for (OptionDescription opDesc : opDescriptions) {
+      //TODO need a code generator factory in line with the option factory
+      createOps.addStatement("Option " + opDesc.getIdentifier() + " = new BooleanOption(\"" + opDesc.getIdentifier() + "\")");
+      for (String alias : opDesc.getAliases()) {
+        createOps.addStatement(opDesc.getIdentifier() + ".addAlias(\"" + alias + "\")");
+      }
+      createOps.addStatement("opStore.addOption(" + opDesc.getIdentifier() + ")");
+    }
     
+    //Create and add each OptionGroup
+    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
+      createOps.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
+      createOps.addStatement("opStore.addOptionGroup(" + opGroupDesc.getIdentifier() + ")");
+    }
+    
+    //Loop again, this time adding the children
+    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
+      for (String child : opGroupDesc.getChildren()) {
+        createOps.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + "\")");
+      }
+    }
+
+    //Finally, return the OptionStore
+    createOps.addStatement("return opStore");
+
     specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
-    
+
     new GeneratedCodePrinter(System.out).printClass(specificParser);
-    
-    //Method optionMethod = specificParser.addMethod("createOptions", "", "Options");
-    
-    //etc.
-    
-  }
-  
-  public static void main(String[] args) {
-    createCode(null, null);
+
+
   }
   
 }

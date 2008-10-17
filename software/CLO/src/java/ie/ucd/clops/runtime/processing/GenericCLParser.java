@@ -21,7 +21,6 @@ public class GenericCLParser {
 
     /**
      * @param options instances of runtime descriptions of options
-     * @param flyRules set of fly rules to be executed on the options
      */
     public GenericCLParser(Set<Option> options) {
         this.options = new HashSet<Option>(options);
@@ -84,8 +83,8 @@ public class GenericCLParser {
 
    public static void main(String[] args) throws Exception {
       OptionStore os = new OptionStore();
-      BooleanOption bo1 = new BooleanOption(singleton("-bo"));
-      BooleanOption bo2 = new BooleanOption(singleton("-boo"));
+      BooleanOption bo1 = new BooleanOption("bo1", singleton("-bo"));
+      BooleanOption bo2 = new BooleanOption("bo2", singleton("-boo"));
 
       os.addOption(bo1);
       os.addOption(bo2);

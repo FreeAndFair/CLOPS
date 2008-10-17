@@ -9,6 +9,7 @@ options {
   package ie.ucd.clops.dsl.parser; 
   
   import ie.ucd.clops.dsl.structs.OptionDescription;
+  import ie.ucd.clops.dsl.structs.OptionGroupDescription;
   import ie.ucd.clops.dsl.structs.BasicOptionDescription;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.DSLParseException;
@@ -64,7 +65,8 @@ arg_definition
                    ( ':' '{' t=NAME '}'
                        { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
                      )? 
-                   { System.out.println("Parsed option: " + option); }
+                   { System.out.println("Parsed option: " + option); 
+                     addOptionDescription(option);                   }
                 ;
                 catch [DSLParseException e] {
                   System.out.println("Here.");
@@ -110,7 +112,14 @@ repitition_operator  : '*' | '+' | '?'
 where_section  :  'WHERE::' (where_clause)*
                ;
 
-where_clause  :  NAME ':' NAME  ('OR' NAME)* ';'
+where_clause  :  group=NAME
+                 { OptionGroupDescription opGroup = new OptionGroupDescription($group.text); } 
+                 ':' child1=NAME
+                 { opGroup.addChild($child1.text); }  
+                 ('OR' child=NAME { opGroup.addChild($child.text); } )* 
+                 { addOptionGroupDescription(opGroup); 
+                   System.out.println("Parsed option group: " + opGroup); }
+                 ';'
               ;
 
 /**********************************************/

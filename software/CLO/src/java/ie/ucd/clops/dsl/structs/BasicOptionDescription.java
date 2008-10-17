@@ -23,7 +23,7 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getId()
    */
-  public String getId() {
+  public String getIdentifier() {
     return identifier;
   }
 

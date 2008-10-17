@@ -5,22 +5,41 @@ package ie.ucd.clops.runtime.options;
 
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author fintan
+ * @author Fintan
  *
  */
 public abstract class BasicOption implements Option {
 
   private final Set<String> aliases;
+  private final String identifier;
   
-  public BasicOption(final Set<String> aliases) {
+  public BasicOption(String identifier, final Set<String> aliases) {
+    this.identifier = identifier;
     this.aliases = aliases;
+  }
+  
+  public BasicOption(String identifier) {
+    this(identifier, new HashSet<String>());
   }
   
   public Set<String> getAliases() {
     return aliases;
+  }
+  
+  public void addAlias(String alias) {
+    aliases.add(alias);
+  }
+  
+  /* (non-Javadoc)
+   * @see ie.ucd.clops.runtime.options.IMatchable#getIdentifier()
+   */
+  @Override
+  public String getIdentifier() {
+    return identifier;
   }
 
   /* (non-Javadoc)

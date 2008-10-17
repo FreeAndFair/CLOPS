@@ -12,7 +12,7 @@ public interface OptionTypeFactory {
   /**
    * 
    * @param optionType
-   * @return
+   * @return The option type for this name.
    */
   OptionType getOptionType(final String optionType) throws DSLParseException;
   

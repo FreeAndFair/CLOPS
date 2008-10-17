@@ -2,6 +2,11 @@ package ie.ucd.clops.dsl.parser;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionTypeFactory;
+import ie.ucd.clops.dsl.structs.OptionDescription;
+import ie.ucd.clops.dsl.structs.OptionGroupDescription;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
@@ -16,15 +21,18 @@ import org.antlr.runtime.TokenStream;
 public abstract class AbstractParser extends Parser {
 
   private boolean validParse;
-//  private final Context context;
   private OptionTypeFactory optionTypeFactory;
   private String customErrorMessage;
+  
+  private final Collection<OptionDescription> optionDescriptions;
+  private final Collection<OptionGroupDescription> optionGroupDescriptions;
   
   public AbstractParser(TokenStream ts) {
     super(ts);
     validParse = true;
     optionTypeFactory = new DefaultOptionTypeFactory();
-//    context = new Context();
+    optionDescriptions = new LinkedList<OptionDescription>();
+    optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
   }
 
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
@@ -95,5 +103,29 @@ public abstract class AbstractParser extends Parser {
   public void setCustomErrorMessage(String customErrorMessage) {
     this.customErrorMessage = customErrorMessage;
   }
+  
+  public void addOptionDescription(OptionDescription opDesc) {
+    optionDescriptions.add(opDesc);
+  }
 
+  /**
+   * @return the optionDescriptions
+   */
+  public Collection<OptionDescription> getOptionDescriptions() {
+    return optionDescriptions;
+  }
+
+  public void addOptionGroupDescription(OptionGroupDescription opGroupDesc) {
+    optionGroupDescriptions.add(opGroupDesc);
+  }
+  
+  /**
+   * @return the optionGroupDescriptions
+   */
+  public Collection<OptionGroupDescription> getOptionGroupDescriptions() {
+    return optionGroupDescriptions;
+  }
+
+  
+  
 }

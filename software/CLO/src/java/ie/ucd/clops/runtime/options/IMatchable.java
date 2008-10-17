@@ -7,6 +7,8 @@ package ie.ucd.clops.runtime.options;
  */
 public interface IMatchable {
   
-  public Option getMatchingOption(String argument);
+  String getIdentifier();
+  
+  Option getMatchingOption(String argument);
   
 }

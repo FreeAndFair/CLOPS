@@ -31,6 +31,10 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     statements.add(statement);
   }
   
+  public void addStatement(String statementText) {
+    statements.add(new GeneratedStatement(statementText));
+  }
+  
   public List<GeneratedArgument> getArgs() {
     return args;
   }

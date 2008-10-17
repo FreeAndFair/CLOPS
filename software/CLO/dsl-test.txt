@@ -1,0 +1,70 @@
+ARGS::
+
+ add:{"add"}
+ blame:{"blame","praise","annotate","ann"}
+ cat:{"cat"}
+ checkout:{"checkout","co"}
+ cleanup:{"cleanup"}
+ commit:{"commit","ci"}
+ copy:{"copy","cp"}
+
+//Testing int args
+ int:{"-i","--int"}:{int}
+
+ version:{"--version"}
+ quiet:{"-q","--quiet"}
+ verbose:{"-v","--verbose"}
+
+//targets:{"--targets"}:{existing_file}
+ targets:{"--targets"}:{string}
+ non_recursive:{"-N","--non-recursive"}
+//config_dir:{"--config-dir"}:{existing_dir}
+ config_dir:{"--config-dir"}:{string}
+ force:{"--force"}
+ no_ignore:{"--no-ignore"}
+ auto_props:{"--auto-props"}
+ no_auto_props:{"--no_auto_props"}
+//revision:{"-r","--revision"}:{revision_arg}
+revision:{"-r","--revision"}:{string}
+
+
+
+//Single-line comment test
+
+/* Multi
+   line
+   comment
+   test
+*/
+
+FORMAT::
+
+     ( option* subcommand option* arg* option* ) 
+  OR ( (quiet OR version)* version (quiet OR version)* );
+
+WHERE::
+
+subcommand  :     add  
+               OR blame 
+               OR cat 
+               OR checkout
+               OR cleanup 
+               OR commit 
+               OR copy
+            ;
+
+option  :  quiet OR verbose OR targets OR non_recursive OR config_dir OR force OR no_ignore OR auto_props OR no_auto_props OR revision;
+
+FLY::
+  //Below just an example, not the behaviour of svn
+  verbose -> quiet:=false;
+  quiet -> verbose:=false;
+
+OVERRIDES::
+  //Below just an example, not the behaviour of svn (probably all booleans will default to false anyway)
+  quiet=? -> quiet:=true;
+
+VALIDITY::
+  auto_props=false OR no_auto_props=false;
+  revision>=0;
+

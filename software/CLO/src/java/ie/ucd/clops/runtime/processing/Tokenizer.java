@@ -1,12 +1,11 @@
 
 package ie.ucd.clops.runtime.processing;
 
-import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.IMatchString;
+import ie.ucd.clops.runtime.options.IMatchable;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Transforming format line into a list of tokens.

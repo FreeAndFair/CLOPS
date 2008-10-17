@@ -92,7 +92,7 @@
   </target>
 	
   <target name="test-parser" depends="compile" description="simple test">
-    <java fork="yes" classname="ie.ucd.clo.parser.test.ParserTest">
+    <java fork="yes" classname="ie.ucd.clops.dsl.parser.ParserTest">
       <classpath refid="test.path"/>
       <arg value="dsl-test.txt"/>
     </java>

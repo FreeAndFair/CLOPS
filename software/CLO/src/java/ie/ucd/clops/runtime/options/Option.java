@@ -1,5 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Set;
+
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
@@ -8,33 +10,35 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  *
  */
 public interface Option extends IMatchable {
-
+  
   /**
    * Get the type of this Option.
-   * @return
+   * @return The OptionType associated with this Option.
    */
   OptionType getType();
   
   /**
    * Match this option against the arguments starting at the given offset.
-   * Returns a MatchResult indicating a match, lack of match or an error 
-   * that occurred during matching.
+   * Returns a ProcessingResult indicating whether there was an error in processing
+   * If there was an error an error message is contained in the ProcessingResult.
+   * If the processing was successful, the ProcessingResult indicates how many arguments
+   * were consumed.
    * @param args
    * @param offset
-   * @return
+   * @return a ProcessingResult indicating the result of this processing.
    */
   ProcessingResult process(String[] args, int offset);
   
   /**
    * Does this Option have a value?
-   * @return
+   * @return whether or not the option has a value set.
    */
   boolean hasValue();
   
   /**
    * Get the value associated with this Option.
    * hasValue() <=> getValue()!=null.
-   * @return
+   * @return the value associated with this Option.
    */
   Object getValue();
   
@@ -54,5 +58,7 @@ public interface Option extends IMatchable {
    * @param value
    */
   void set(Object value);
+
+  Set<String> getAliases();
   
 }

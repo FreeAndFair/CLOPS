@@ -21,7 +21,7 @@ public interface OptionDescription {
    * Get this option's String identifier as specified in the DSL.
    * @return this option's identifier.
    */
-  String getId();
+  String getIdentifier();
 
   /**
    * 

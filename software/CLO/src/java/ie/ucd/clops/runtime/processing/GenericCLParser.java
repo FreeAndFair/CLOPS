@@ -103,6 +103,15 @@ public class GenericCLParser {
       assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
 
       assert gp.parse("-boo*", os, new String[] {"-boo", "-boo", "-boo"}); // should parse
+
+      assert !gp.parse("-bo", os, new String[] {"xxxx"});
+
+      try {
+          gp.parse("xxx", os, new String[] {"-boo"});
+          assert false;
+      } catch (Tokenizer.UnknownOptionException e) {
+          assert true;
+      }
    }
     
 }

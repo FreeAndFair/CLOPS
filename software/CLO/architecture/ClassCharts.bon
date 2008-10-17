@@ -76,17 +76,18 @@ class_chart EXTENSION_POINT
 indexing
   created: "2008-10-16-dc";
   in_cluster: "EXTENSION_POINTS";
-  
 explanation
   "An extension of Command Line Parser by enhancing or changing the interface, or a plug-in to the system"
 end
-
 
 class_chart COMMAND_LINE_FORMAT
 indexing
   created: "2008-10-16-dc"
 explanation 
-  "The syntax and dependencies of the command line options" 
+  "The syntax and dependencies of set of the command line options" 
+query
+  "What combinations of command line options are permitted?",
+  "What command line options are available?"
 end
 
 class_chart COMMAND_LINE_OPTION
@@ -116,9 +117,13 @@ explanation
 end
 
 class_chart JAVA_API
+explanation
+  "Application program interafce to a Java library. interface, package or class"
 end
 
 class_chart OPTION_DESCRIPTION
+explanation
+  "Informal textual description of the purpose, format, dependencies and behaviour of a command line option"
 end
 
 class_chart OVERRIDE_RULE

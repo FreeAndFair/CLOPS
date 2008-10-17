@@ -24,18 +24,22 @@ indexing
 explanation 
   "Information about how to use the command line options"
 class OPTION_DESCRIPTION description "Information about each command line option"
+class COMMAND_LINE_HELP description "Help information displayed on the command line"
+class MANUAL_PAGE description "Additional information shown on a manual page"
 end
 
 cluster_chart SCHEMA
 indexing
   author: "Dermot Cochran";
   created: "2008-10-14-dc";
-  revised: "2008-10-16-dc"
+  revised: "2008-10-17-dc"
 explanation 
   "Reading and interpretation of the command line"
+class ARGUMENT description "Additional parameter within a command line option"
 class COMMAND_LINE_SCHEMA description "The syntax of and dependencies between command line options" 
 class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
 class COMMAND_LINE description "The set of options chosen by the user"
+class VALUE description "The specific value assigned to a command line option or one of its arguments"
 end
 
 cluster_chart ERRORS
@@ -46,6 +50,7 @@ indexing
 explanation
   "Inconsistencies arising from dependencies between differnt command line options"
 class ERROR_HANDLER description "Subcomponent which handles and reports errors"
+class ERROR_MESSAGE description "Detailed description of a specific inconsistency or problem"
 class JAVA_EXCEPTION description "Mechanism by which errors are sent to the client code"
 end
 
@@ -56,11 +61,15 @@ indexing
   revised: "2008-10-16-dc"
 explanation
   "Generation of an API for handling the specifics of each command line option"
-class DSL_PROCESSING description ""
-class INTERNAL_REPRESENTATION description ""
-class JAVA_API description ""
-class CODE_GENERATION description ""
-class COMMAND_LINE_ENGINE description ""
+class AST description "Abstract Syntax Tree representation of the command line schema"
+class DSL_PROCESSING description "Interpretation of a domain specific language (DSL) for command line options"
+class INTERNAL_REPRESENTATION description "Internal or generic representation of the command line schema"
+class JAVA_API description "Java classes and interfaces generated from the schema"
+class MORPHISM description "Transformation from one entity to another which preserves its meaning and behaviour"
+class CODE_GENERATION description "Generation of general purpose lanaguage (GPL) code for \
+	\processing of command line options"
+class COMMAND_LINE_ENGINE description "Morphism or mechanism which transforms the command line schema into a parser"
+class STRING description "Linear textual representation of the command line schema"
 end
 
 cluster_chart EXTENSIONS

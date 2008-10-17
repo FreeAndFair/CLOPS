@@ -12,8 +12,8 @@ cluster PARSER description "Generic parsing and dependency handling of command l
 cluster DOCUMENTATION description "Information about command line options and depedencies"
 cluster API_GENERATION description "Generation of an API for handling specific options"
 cluster SCHEMA description "The format, syntax and dependencies of the command line options"
-cluster DEPENDENCIES description ""
-cluster ERRORS description ""
-cluster EXTENSIONS description ""
+cluster DEPENDENCIES description "The relationship and interactions between different options"
+cluster ERRORS description "Inconsistencies in the schema or in the command line"
+cluster EXTENSIONS description "Additional interfaces for inputing the options or aids for using the command line"
 end
  

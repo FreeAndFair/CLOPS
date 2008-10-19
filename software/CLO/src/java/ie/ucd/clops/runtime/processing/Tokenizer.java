@@ -4,8 +4,7 @@ package ie.ucd.clops.runtime.processing;
 import ie.ucd.clops.runtime.options.IMatchString;
 import ie.ucd.clops.runtime.options.IMatchable;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Transforming format line into a list of tokens.
@@ -68,10 +67,9 @@ class Tokenizer {
    /**
     * Split a given string into a list of tokens.
     */
-   Collection<Token<IMatchable>> tokenize( String format, IMatchString match_this)
+   List<Token<IMatchable>> tokenize( String format, IMatchString match_this)
       throws IllegalCharacterException, UnknownOptionException {
-      //TODO: shouldn't this return a List?
-      ArrayList<Token<IMatchable>> tokens = new ArrayList<Token<IMatchable>>();
+      LinkedList<Token<IMatchable>> tokens = new LinkedList<Token<IMatchable>>();
       int format_len = format.length();
       int index = skipWhiteSpaces( format, 0);
       

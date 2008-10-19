@@ -8,6 +8,29 @@ package ie.ucd.clops.runtime.processing;
 
 import java.util.*;
 
+/*
+ * Automaton exceptions
+ */
+
+class AutomatonException extends Exception {
+	private static final long serialVersionUID = 1L;
+}
+
+/** Right open bracket without corresponding left bracket. */
+class RightOpenBracket extends AutomatonException {
+	private static final long serialVersionUID = 1L;
+}
+
+/** Left open bracket has not been closed. */
+class LeftOpenBracket extends AutomatonException {
+	private static final long serialVersionUID = 1L;
+}
+
+/** Using question mark operator wihtout predecessor. */
+class OpenQuestion extends AutomatonException {
+	private static final long serialVersionUID = 1L;
+}
+
 
 /**
  * Represents format of the command line as an automaton and allows traversing
@@ -16,6 +39,10 @@ import java.util.*;
  * @author Viliam Holub
  */
 class Automaton<T> {
+
+	/*
+	 * Automaton fields
+	 */
 
 	/** Step serial number.
 	 * Step number is used for effective creation of the list of active
@@ -33,10 +60,15 @@ class Automaton<T> {
 	 * The backup is used for error reporting only. */
 	ArrayList<State<T>> /*@ non_null @*/ arr_backup;
 
+
+	/*
+	 * Code
+	 */
+
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
-	Automaton( /*@ non_null @*/ List<Token<T>> tokens) {
+	Automaton( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -58,7 +90,7 @@ class Automaton<T> {
 	 * Builds automaton from the list of tokens.
 	 */
 	//@ tokens.size() != 0;
-	private void build( /*@ non_null @*/ List<Token<T>> tokens) {
+	private void build( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
@@ -91,10 +123,10 @@ class Automaton<T> {
 				ctx = new Context();
 				break;
 			case RIGHT:
-				// Test if right brace without left one
-				if (ctxs.size() == 0) {
-					//TODO: raise syntax error
-				}
+				// Test if right bracket without left one
+				if (ctxs.size() == 0)
+					throw new RightOpenBracket();
+				
 				// If there are no atoms, syntax error -- ok if alternatives != 0
 				if (ctx.atoms == 0) {
 					// TODO: raise syntax error
@@ -123,7 +155,8 @@ class Automaton<T> {
 					// TODO: what now?
 				}
 				if (ctx.atoms == 0 && ctx.alternatives != 0) {
-					// TODO: use of double alternative ||
+					// Use of multiple alternatives ||
+					break;
 				}
 				
 				// Concatenate fragments on stack
@@ -145,9 +178,8 @@ class Automaton<T> {
 			case STAR:
 			case QUESTION:
 				// If there are no atom fragments, raise error
-				if (ctx.atoms == 0) {
-					// TODO: raise error
-				}
+				if (ctx.atoms == 0)
+					throw new OpenQuestion();
 
 				// Apply operator to the last fragment
 				fragments.push( Fragment.apply_operator( t.type, fragments.pop()));
@@ -155,9 +187,9 @@ class Automaton<T> {
 		}
 
 		// Report error if there are unclosed brackets
-		if (ctxs.size() != 0) {
-			// TODO
-		}
+		if (ctxs.size() != 0)
+			throw new LeftOpenBracket();
+		
 		// If the stack is empty, comply
 		if (fragments.size() == 0) {
 			// TODO

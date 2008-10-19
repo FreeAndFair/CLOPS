@@ -3,10 +3,7 @@ package ie.ucd.clops.runtime.processing;
 import ie.ucd.clops.runtime.options.*;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class parsing the command-line.
@@ -29,7 +26,7 @@ public class GenericCLParser {
    public boolean parse(String formatString, OptionStore optionStore, String[] args) throws Exception {
       
       //Set up automaton
-      Collection<Token<IMatchable>> tokens = new Tokenizer().tokenize(formatString, optionStore);
+      List<Token<IMatchable>> tokens = new Tokenizer().tokenize(formatString, optionStore);
       Automaton<IMatchable> automaton = new Automaton<IMatchable>(tokens);
       
       //Main loop

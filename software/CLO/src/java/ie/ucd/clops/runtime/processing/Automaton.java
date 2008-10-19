@@ -6,11 +6,7 @@ package ie.ucd.clops.runtime.processing;
  * http://swtch.com/~rsc/regexp/
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 /**
@@ -40,8 +36,7 @@ class Automaton<T> {
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
-	Automaton( /*@ non_null @*/ Collection<Token<T>> tokens) {
-           //TODO: shouldn't this take in a List?
+	Automaton( /*@ non_null @*/ List<Token<T>> tokens) {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -63,7 +58,7 @@ class Automaton<T> {
 	 * Builds automaton from the list of tokens.
 	 */
 	//@ tokens.size() != 0;
-	private void build( /*@ non_null @*/ Collection<Token<T>> tokens) {
+	private void build( /*@ non_null @*/ List<Token<T>> tokens) {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton

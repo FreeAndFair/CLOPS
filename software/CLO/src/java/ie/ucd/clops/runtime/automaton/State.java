@@ -1,5 +1,5 @@
 
-package ie.ucd.clops.runtime.processing;
+package ie.ucd.clops.runtime.automaton;
 
 
 /**

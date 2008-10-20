@@ -1,11 +1,11 @@
 
-package ie.ucd.clops.runtime.processing;
+package ie.ucd.clops.runtime.automaton;
 
 
 /**
  * Representation of a token in the format.
  */
-class Token<T> {
+public class Token<T> {
 	TokenType type;
 	T match;
 

@@ -1,7 +1,10 @@
-package ie.ucd.clops.runtime.processing;
+package ie.ucd.clops.runtime.parser;
 
+import ie.ucd.clops.runtime.automaton.Automaton;
+import ie.ucd.clops.runtime.automaton.Token;
+import ie.ucd.clops.runtime.automaton.Tokenizer;
+import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
 import ie.ucd.clops.runtime.options.*;
-import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 import java.util.*;
 
@@ -105,7 +108,7 @@ public class GenericCLParser {
       try {
           gp.parse("xxx", os, new String[] {"-boo"});
           assert false;
-      } catch (Tokenizer.UnknownOptionException e) {
+      } catch (UnknownOptionException e) {
           assert true;
       }
    }

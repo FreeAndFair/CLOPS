@@ -93,13 +93,16 @@
 	
   <target name="test-parser" depends="compile" description="simple test">
     <java fork="yes" classname="ie.ucd.clops.dsl.parser.ParserTest">
+      <assertions>
+        <enable/>
+      </assertions>
       <classpath refid="test.path"/>
       <arg value="dsl-test.txt"/>
     </java>
   </target>
 
   <target name="test-generic-parser" depends="compile" description="simple test">
-    <java fork="yes" classname="ie.ucd.clops.runtime.processing.GenericCLParser">
+    <java fork="yes" classname="ie.ucd.clops.runtime.parser.GenericCLParser">
       <assertions>
          <enable/>
       </assertions>

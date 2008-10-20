@@ -1,5 +1,5 @@
 
-package ie.ucd.clops.runtime.processing;
+package ie.ucd.clops.runtime.automaton;
 
 import ie.ucd.clops.runtime.options.IMatchString;
 import ie.ucd.clops.runtime.options.IMatchable;
@@ -12,7 +12,7 @@ import java.util.*;
  * @author Viliam Holub
  * @author Mikolas Janota
  */
-class Tokenizer {
+public class Tokenizer {
 
   static final Token<IMatchable> LEFT     = new Token<IMatchable>( TokenType.LEFT);
   static final Token<IMatchable> RIGHT    = new Token<IMatchable>( TokenType.RIGHT);
@@ -67,7 +67,7 @@ class Tokenizer {
    /**
     * Split a given string into a list of tokens.
     */
-   List<Token<IMatchable>> tokenize( String format, IMatchString match_this)
+   public List<Token<IMatchable>> tokenize( String format, IMatchString match_this)
       throws IllegalCharacterException, UnknownOptionException {
       LinkedList<Token<IMatchable>> tokens = new LinkedList<Token<IMatchable>>();
       int format_len = format.length();

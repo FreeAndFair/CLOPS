@@ -1,12 +1,15 @@
 
-package ie.ucd.clops.runtime.processing;
+package ie.ucd.clops.runtime.automaton;
 
 /*
  * The implementation slighty follows the reg-exp NDA implementation at
  * http://swtch.com/~rsc/regexp/
  */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 /*
  * Automaton exceptions
@@ -38,7 +41,7 @@ class OpenQuestion extends AutomatonException {
  *
  * @author Viliam Holub
  */
-class Automaton<T> {
+public class Automaton<T> {
 
 	/*
 	 * Automaton fields
@@ -68,7 +71,7 @@ class Automaton<T> {
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
-	Automaton( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
+	public Automaton( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -270,8 +273,8 @@ class Automaton<T> {
 	}
 
 	/** Apply next step in automaton.
-	 * @param t option to process
-	 * @returns if the option is correctly positioned according to format
+	 * @param o option to process
+	 * @return if the option is correctly positioned according to format
 	 */
 	public boolean nextStep( /*@ non_null @*/ T o) {
 		// Do not continue if we are in an error state

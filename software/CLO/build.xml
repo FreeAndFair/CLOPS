@@ -84,7 +84,6 @@
            target="${java-target-version}"
            debug="yes">
       <compilerarg value="-Xlint:all"/>
-      <compilerarg value="-g"/>
       <classpath refid="compile.path"/>
     </javac>
   </target>

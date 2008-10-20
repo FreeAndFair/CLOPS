@@ -1,6 +1,7 @@
 package ie.ucd.clops.runtime.parser;
 
 import ie.ucd.clops.runtime.automaton.Automaton;
+import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
 import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
@@ -25,10 +26,11 @@ public class GenericCLParser {
 
     public GenericCLParser() {}
     
-   public boolean parse(String formatString, OptionStore optionStore, String[] args) throws Exception {
+   public boolean parse(String formatString, OptionStore optionStore, String[] args) {
       
       //Set up automaton
       List<Token<IMatchable>> tokens = null;
+      Automaton<IMatchable> automaton = null;
       try {
         tokens = new Tokenizer().tokenize(formatString, optionStore);
       }
@@ -36,7 +38,20 @@ public class GenericCLParser {
       	System.err.println( "Error: Unkown option name \"" +e.opt_name +"\".");
 	System.exit( 1);
       }
-      Automaton<IMatchable> automaton = new Automaton<IMatchable>(tokens);
+      catch (Tokenizer.IllegalCharacterException e) {
+      	System.err.println( "Error: Illegal character \"" +formatString.charAt( e.index)
+			+"\" at position " +e.index +".");
+	System.exit( 1);
+      }
+
+      try {
+        automaton = new Automaton<IMatchable>(tokens);
+      }
+      catch (AutomatonException e) {
+      	// TODO: Exception refinement
+      	System.err.println( "Error: Automaton exception.");
+	System.exit( 1);
+      }
       
       //Main loop
       for (int i=0; i < args.length; ) {
@@ -111,12 +126,7 @@ public class GenericCLParser {
 
       assert !gp.parse("-bo", os, new String[] {"xxxx"});
 
-      try {
-          gp.parse("xxx", os, new String[] {"-boo"});
-          assert false;
-      } catch (UnknownOptionException e) {
-          assert true;
-      }
+      assert gp.parse("xxx", os, new String[] {"-boo"}); // Will stop the program
    }
     
 }

@@ -14,28 +14,6 @@ import ie.ucd.clops.runtime.options.Option;
 
 import java.util.*;
 
-/*
- * Automaton exceptions
- */
-
-class AutomatonException extends Exception {
-	private static final long serialVersionUID = 1L;
-}
-
-/** Right open bracket without corresponding left bracket. */
-class RightOpenBracket extends AutomatonException {
-	private static final long serialVersionUID = 1L;
-}
-
-/** Left open bracket has not been closed. */
-class LeftOpenBracket extends AutomatonException {
-	private static final long serialVersionUID = 1L;
-}
-
-/** Using question mark operator wihtout predecessor. */
-class OpenQuestion extends AutomatonException {
-	private static final long serialVersionUID = 1L;
-}
 
 
 /**

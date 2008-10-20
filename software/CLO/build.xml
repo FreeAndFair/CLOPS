@@ -90,6 +90,9 @@
 
   <target name="javadocs" depends="buildAntlr" description="Generate javadocs">
     <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path">
+            <packageset dir="${java-src}">    
+                <include name="**"/>
+            </packageset>
     </javadoc>
   </target>
 	

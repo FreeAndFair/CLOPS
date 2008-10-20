@@ -2,22 +2,22 @@ package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class GeneratedCodePrinter {
 
   private int indentationLevel;
-  private PrintStream ps;
+  private PrintWriter ps;
 
   private static int SPACES_PER_INDENT = 2;
 
-  public GeneratedCodePrinter(PrintStream ps) {
+  public GeneratedCodePrinter(PrintWriter ps) {
     indentationLevel = 0;
     this.ps = ps;
   }
 
-  public void reset(PrintStream ps) {
+  public void reset(PrintWriter ps) {
     indentationLevel = 0;
     this.ps = ps;
   }
@@ -62,10 +62,26 @@ public class GeneratedCodePrinter {
   public void printClass(GeneratedClass genClass) {
     startLine();
 
+    for (String im : genClass.getImports()) {
+      printImport(im);
+    }
+    
+    if (genClass.getImports().size() > 0) {
+      newLine();
+    }
+    
     printVisibility(genClass.getVisibility());
     printModifiers(genClass.getModifiers());
+    ps.print("class ");
     ps.print(genClass.getName());
     space();
+    
+    String superName = genClass.getSuperClass();
+    if (superName != null) {
+      ps.print("extends ");
+      ps.print(superName);
+      space();
+    }
     
     openBraces();
     
@@ -78,6 +94,13 @@ public class GeneratedCodePrinter {
     }
     
     closeBraces();    
+  }
+  
+  private final void printImport(String im) {
+    ps.print("import ");
+    ps.print(im);
+    ps.print(";");
+    newLine();
   }
   
   public void printField(GeneratedField field) {

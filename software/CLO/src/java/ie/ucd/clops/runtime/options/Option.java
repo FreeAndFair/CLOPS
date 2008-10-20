@@ -59,6 +59,8 @@ public interface Option extends IMatchable {
    */
   void set(Object value);
 
+  void addAlias(String alias);
+  
   Set<String> getAliases();
   
 }

@@ -1,6 +1,3 @@
-<!--   the Xlint:all is not setup in the compilation,  -->
-<!--   java should be run with -ea option -->
-
 <project name="CLO" default="compile" basedir=".">
   <description>CLO Build File</description>
 
@@ -12,9 +9,11 @@
   <property name="java-docs" location="${docs}/javadoc"/>
   <property name="dist"  location="dist"/>
   <property name="lib"  location="lib"/>
+  <property name="test" location="test"/>
+  <property name="temp-test" location="${test}/temp"/>
   <property name="java-target-version" value="1.5"/>
-
   <property name="antlr-src" value="CLO"/>
+  <property name="runtime-jar-name" value="CLO"/>
 
   <path id="base.path">
     <filelist dir="${lib}">
@@ -29,14 +28,14 @@
   </path>
 	
   <path id="antlr.path">
-  	<path refid="base.path"/>
+    <path refid="base.path"/>
     <filelist dir="${lib}" files="antlr-3.0.1.jar"/>
   </path>
 
   <path id="runtime.path">
    <path refid="base.path"/>
-		<filelist dir="${lib}" files="antlr-runtime-3.0.1.jar"/>
-	</path>
+   <filelist dir="${lib}" files="antlr-runtime-3.0.1.jar"/>
+  </path>
 	
   <path id="test.path">
     <path refid="runtime.path"/>
@@ -91,14 +90,34 @@
     </javadoc>
   </target>
 	
+  <target name="dist" depends="compile" description="Generate the distribution">
+    <mkdir dir="${dist}/lib"/>
+
+    <mkdir dir="${dist}/lib"/>
+    <copy todir="${dist}/lib">
+    	<fileset dir="${lib}/" includes="antlr-runtime-3.0.1.jar,antlr-2.7.7.jar,stringtemplate.jar"/>
+    </copy>
+		
+    <!-- Build runtime jar -->
+    <jar jarfile="${dist}/lib/${runtime-jar-name}.jar" basedir="${build}"/>
+	  	
+  </target>
+	
   <target name="test-parser" depends="compile" description="simple test">
+    <delete dir="${temp-test}"/>
+    <mkdir dir="${temp-test}"/>
     <java fork="yes" classname="ie.ucd.clops.dsl.parser.ParserTest">
       <assertions>
         <enable/>
       </assertions>
       <classpath refid="test.path"/>
       <arg value="dsl-test.txt"/>
+      <arg value="${temp-test}"/>
     </java>
+    <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
+      <compilerarg value="-Xlint:all"/>
+      <classpath refid="test.path"/>
+    </javac>
   </target>
 
   <target name="test-generic-parser" depends="compile" description="simple test">
@@ -117,7 +136,7 @@
   <target name="clean-build" description="Clean up the build">
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
-  	<delete dir="${java-docs}"/>
+    <delete dir="${java-docs}"/>
   </target>
 
   <target name="clean-antlr" description="Clean up antlr generated files">

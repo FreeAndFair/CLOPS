@@ -65,8 +65,7 @@ arg_definition
                    ( ':' '{' t=NAME '}'
                        { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
                      )? 
-                   { System.out.println("Parsed option: " + option); 
-                     addOptionDescription(option);                   }
+                   { addOptionDescription(option); }
                 ;
                 catch [DSLParseException e] {
                   System.out.println("Here.");
@@ -87,7 +86,9 @@ arg_alias  :  possible_dash_started_name
 
 /**********************************************/
 
-args_format_section  :  'FORMAT::' format_clause  ';'
+args_format_section  :  'FORMAT::' format_clause  
+                        { setFormatString($format_clause.text); }
+                        ';'
                      ;
 
 format_clause  :  format_subclause
@@ -117,8 +118,7 @@ where_clause  :  group=NAME
                  ':' child1=NAME
                  { opGroup.addChild($child1.text); }  
                  ('OR' child=NAME { opGroup.addChild($child.text); } )* 
-                 { addOptionGroupDescription(opGroup); 
-                   System.out.println("Parsed option group: " + opGroup); }
+                 { addOptionGroupDescription(opGroup); }
                  ';'
               ;
 

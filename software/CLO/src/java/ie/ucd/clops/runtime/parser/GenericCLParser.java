@@ -22,15 +22,8 @@ import java.util.Set;
  * @author Viliam Holub
  */
 public class GenericCLParser {
-    List<String> arguments;
-    Set<Option> options;
 
-    /**
-     * @param options instances of runtime descriptions of options
-     */
-    public GenericCLParser(Set<Option> options) {
-        this.options = new HashSet<Option>(options);
-    }
+    public GenericCLParser() {}
     
    public boolean parse(String formatString, OptionStore optionStore, String[] args) throws Exception {
       
@@ -95,7 +88,7 @@ public class GenericCLParser {
       os.addOption(bo1);
       os.addOption(bo2);
 
-      GenericCLParser gp = new GenericCLParser(os.getOptions());
+      GenericCLParser gp = new GenericCLParser();
       assert !gp.parse("-bo", os, new String[] {"-boo"}); // shouldn't parse
       assert gp.parse("-boo", os, new String[] {"-boo"}); // should parse
       assert gp.parse("-boo?", os, new String[] {"-boo"}); // should parse

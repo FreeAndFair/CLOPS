@@ -20,14 +20,19 @@ public class ParserTest {
    * @param args
    */
   public static void main(String[] args) {
-    if (args.length != 1) {
-      System.out.println("Usage: java ie.ucd.clo.parser.test.ParserTest <filename>");
+    if (args.length != 2) {
+      System.out.println("Usage: java ie.ucd.clo.parser.test.ParserTest <filename> <outputdir>");
       System.exit(1);
     }
 
     File file = new File(args[0]);
     if (!file.exists()) {
       System.out.println("File " + args[0] + " does not exist");
+    }
+    
+    File outputDir = new File(args[1]);
+    if (!outputDir.exists() || !outputDir.isDirectory()) {
+      System.out.println("Output directory " + args[1] + " does not exist");
     }
 
     CLOParser parser = null;
@@ -42,8 +47,10 @@ public class ParserTest {
         
         Collection<OptionDescription> optionDescriptions = parser.getOptionDescriptions();
         Collection<OptionGroupDescription> optionGroupDescriptions = parser.getOptionGroupDescriptions();
+        String formatString = parser.getFormatString();
         
-        CodeGenerator.createCode(optionDescriptions, optionGroupDescriptions, null);
+        formatString = formatString.replaceAll("\\n", "");
+        CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, outputDir);
         
         
       } else {
@@ -57,7 +64,7 @@ public class ParserTest {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
+      // TODO A`uto-generated catch block
       e.printStackTrace();
     } catch (RecognitionException e) {
       System.out.println("Caught recognition error");

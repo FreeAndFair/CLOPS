@@ -26,6 +26,7 @@ public abstract class AbstractParser extends Parser {
   
   private final Collection<OptionDescription> optionDescriptions;
   private final Collection<OptionGroupDescription> optionGroupDescriptions;
+  private String formatString;
   
   public AbstractParser(TokenStream ts) {
     super(ts);
@@ -124,6 +125,14 @@ public abstract class AbstractParser extends Parser {
    */
   public Collection<OptionGroupDescription> getOptionGroupDescriptions() {
     return optionGroupDescriptions;
+  }
+
+  public String getFormatString() {
+    return formatString;
+  }
+
+  public void setFormatString(String formatString) {
+    this.formatString = formatString;
   }
 
   

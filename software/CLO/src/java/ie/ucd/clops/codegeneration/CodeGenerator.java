@@ -5,6 +5,9 @@ import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 public class CodeGenerator {
@@ -13,12 +16,54 @@ public class CodeGenerator {
   //Input: OptionDescriptions
   //       Directory to output to
   //Ouput: Some .java files
-
-  public static void createCode(Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions, File outputDir) {
+  public static void createCode(String formatString, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions, File outputDir) {
 
     GeneratedClass specificParser = new GeneratedClass("Parser", Visibility.Public);
-
+    addNecessaryImports(specificParser);
+    specificParser.setSuperClass("ie.ucd.clops.runtime.parser.AbstractSpecificCLParser");
+    specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
+    
     //Create the method that will initialise the OptionStore
+    createOptionInitialisationCode(specificParser, opDescriptions, opGroupDescriptions);
+
+    GeneratedMethod createFormat = new GeneratedMethod("getFormatString", "String", Visibility.Public);
+    createFormat.addStatement("return \"" + formatString + "\"");
+    specificParser.addMethod(createFormat);
+    
+    try {
+      writeGeneratedClasses(outputDir, specificParser);
+    } catch (FileNotFoundException fnfe) {
+      System.out.println("Error creating file. " + fnfe);
+    }
+    
+    //new GeneratedCodePrinter(System.out).printClass(specificParser);
+  }
+  
+  private static void addNecessaryImports(GeneratedClass genClass) {
+    final String pack = "ie.ucd.clops.runtime.options";
+    genClass.addImport(pack + ".Option");
+    genClass.addImport(pack + ".OptionGroup");
+    genClass.addImport(pack + ".OptionStore");
+    genClass.addImport(pack + ".BooleanOption");
+  }
+  
+  private static void writeGeneratedClasses(File outputDir, GeneratedClass... classes) throws FileNotFoundException {
+    for (GeneratedClass genClass : classes) {
+      writeGeneratedClass(outputDir, genClass);
+    }
+  }
+  
+  private static void writeGeneratedClass(File outputDir, GeneratedClass genClass) throws FileNotFoundException {
+    PrintWriter pw = new PrintWriter(new FileOutputStream(outputDir.getAbsolutePath() + File.separator + genClass.getName() + ".java"));
+    
+    new GeneratedCodePrinter(pw).printClass(genClass);
+    
+    pw.flush();
+    pw.close();
+  }
+  
+  private static void createOptionInitialisationCode(GeneratedClass specificParser, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions) {
+  
     GeneratedMethod createOps = new GeneratedMethod("createOptions", "OptionStore", Visibility.Public);
     specificParser.addMethod(createOps);
     
@@ -43,19 +88,12 @@ public class CodeGenerator {
     //Loop again, this time adding the children
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
       for (String child : opGroupDesc.getChildren()) {
-        createOps.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + "\")");
+        createOps.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + ")");
       }
     }
 
     //Finally, return the OptionStore
     createOps.addStatement("return opStore");
-
-    specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
-
-    new GeneratedCodePrinter(System.out).printClass(specificParser);
-
-    
-
   }
   
 }

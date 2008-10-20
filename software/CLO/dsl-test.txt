@@ -9,7 +9,7 @@ ARGS::
  copy:{"copy","cp"}
 
 //Testing int args
- int:{"-i","--int"}:{int}
+ integer:{"-i","--int"}:{int}
 
  version:{"--version"}
  quiet:{"-q","--quiet"}

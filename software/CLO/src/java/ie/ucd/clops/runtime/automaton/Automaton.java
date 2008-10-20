@@ -53,7 +53,7 @@ public class Automaton<T> {
 	 */
 	//@ tokens.size() != 0;
 	public Automaton( /*@ non_null @*/ List<Token<T>> tokens)
-			throws RightOpenBracket, LeftOpenBracket, OpenQuestion {
+			throws RightOpenBracketException, LeftOpenBracketException, OpenQuestionException {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -76,7 +76,7 @@ public class Automaton<T> {
 	 */
 	//@ tokens.size() != 0;
 	private void build( /*@ non_null @*/ List<Token<T>> tokens)
-			throws RightOpenBracket, LeftOpenBracket, OpenQuestion {
+			throws RightOpenBracketException, LeftOpenBracketException, OpenQuestionException {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
@@ -111,7 +111,7 @@ public class Automaton<T> {
 			case RIGHT:
 				// Test if right bracket without left one
 				if (ctxs.size() == 0)
-					throw new RightOpenBracket();
+					throw new RightOpenBracketException();
 				
 				// If there are no atoms, syntax error -- ok if alternatives != 0
 				if (ctx.atoms == 0) {
@@ -165,7 +165,7 @@ public class Automaton<T> {
 			case QUESTION:
 				// If there are no atom fragments, raise error
 				if (ctx.atoms == 0)
-					throw new OpenQuestion();
+					throw new OpenQuestionException();
 
 				// Apply operator to the last fragment
 				fragments.push( Fragment.apply_operator( t.type, fragments.pop()));
@@ -174,7 +174,7 @@ public class Automaton<T> {
 
 		// Report error if there are unclosed brackets
 		if (ctxs.size() != 0)
-			throw new LeftOpenBracket();
+			throw new LeftOpenBracketException();
 		
 		// If the stack is empty, comply
 		if (fragments.size() == 0) {
@@ -318,12 +318,12 @@ public class Automaton<T> {
 		catch (ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException e) {
 			
 		}
-		catch (ie.ucd.clops.runtime.automaton.RightOpenBracket e) {
+		catch (ie.ucd.clops.runtime.automaton.RightOpenBracketException e) {
 
 		}
-		catch (ie.ucd.clops.runtime.automaton.LeftOpenBracket e) {
+		catch (ie.ucd.clops.runtime.automaton.LeftOpenBracketException e) {
 		}
-		catch (ie.ucd.clops.runtime.automaton.OpenQuestion e) {
+		catch (ie.ucd.clops.runtime.automaton.OpenQuestionException e) {
 		}
 		catch (Tokenizer.TokenizerException e) {
 		}

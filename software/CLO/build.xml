@@ -132,6 +132,15 @@
     </java>
   </target>
 
+  <target name="test-automaton" depends="compile" description="Automaton test">
+    <java fork="yes" classname="ie.ucd.clops.runtime.automaton.Automaton">
+      <assertions>
+         <enable/>
+      </assertions>
+      <classpath refid="test.path"/>
+    </java>
+  </target>
+
   <target name="clean-all" depends="clean-build,clean-antlr" description="clean up"/>
   <target name="clean" depends="clean-all"/>	
   <target name="all-src" depends="init,buildAntlr" description="Create all source files"/>

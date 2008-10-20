@@ -28,7 +28,14 @@ public class GenericCLParser {
    public boolean parse(String formatString, OptionStore optionStore, String[] args) throws Exception {
       
       //Set up automaton
-      List<Token<IMatchable>> tokens = new Tokenizer().tokenize(formatString, optionStore);
+      List<Token<IMatchable>> tokens = null;
+      try {
+        tokens = new Tokenizer().tokenize(formatString, optionStore);
+      }
+      catch (Tokenizer.UnknownOptionException e) {
+      	System.err.println( "Error: Unkown option name \"" +e.opt_name +"\".");
+	System.exit( 1);
+      }
       Automaton<IMatchable> automaton = new Automaton<IMatchable>(tokens);
       
       //Main loop

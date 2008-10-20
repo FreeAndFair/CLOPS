@@ -6,10 +6,13 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import ie.ucd.clops.runtime.options.OptionStore; //XXX for tests
+import ie.ucd.clops.runtime.options.BooleanOption;
+import ie.ucd.clops.runtime.options.IMatchable;
+import ie.ucd.clops.runtime.options.Option;
+
+
+import java.util.*;
 
 /*
  * Automaton exceptions
@@ -71,7 +74,8 @@ public class Automaton<T> {
 	/** Creates automaton representation of command line format.
 	 */
 	//@ tokens.size() != 0;
-	public Automaton( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
+	public Automaton( /*@ non_null @*/ List<Token<T>> tokens)
+			throws RightOpenBracket, LeftOpenBracket, OpenQuestion {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -93,7 +97,8 @@ public class Automaton<T> {
 	 * Builds automaton from the list of tokens.
 	 */
 	//@ tokens.size() != 0;
-	private void build( /*@ non_null @*/ List<Token<T>> tokens) throws AutomatonException {
+	private void build( /*@ non_null @*/ List<Token<T>> tokens)
+			throws RightOpenBracket, LeftOpenBracket, OpenQuestion {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
@@ -319,6 +324,84 @@ public class Automaton<T> {
 		return transitions;
 	}
 	
+	
+	
+	/*==== Testing ====*/
+   private static Set<String> singleton(String s) {
+      Set<String> retv = new HashSet<String>(1);
+      retv.add(s);
+      return retv;
+   }
+
+   	private static void automaton_test( String format, OptionStore os) {
+		try {
+			Automaton<IMatchable> a = new Automaton<IMatchable>( new Tokenizer().tokenize( format, os));
+		}
+		catch (ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException e) {
+			
+		}
+		catch (ie.ucd.clops.runtime.automaton.RightOpenBracket e) {
+
+		}
+		catch (ie.ucd.clops.runtime.automaton.LeftOpenBracket e) {
+		}
+		catch (ie.ucd.clops.runtime.automaton.OpenQuestion e) {
+		}
+		catch (Tokenizer.TokenizerException e) {
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		System.out.println( "works");
+
+		String s1 = "bo1 bo2 bo3";
+
+		OptionStore os = new OptionStore();
+		Option o1 = new BooleanOption("bo1", singleton("-b1"));
+		Option o2 = new BooleanOption("bo2", singleton("-b2"));
+		Option o3 = new BooleanOption("bo3", singleton("-b3"));
+		Option o4 = new BooleanOption("bo4", singleton("-b4"));
+
+		os.addOption( o1);
+		os.addOption( o2);
+		os.addOption( o3);
+		os.addOption( o4);
+
+		automaton_test( "bo1 bo2 bo3", os);
+
+		/*
+		OptionStore os = new OptionStore();
+		BooleanOption bo1 = new BooleanOption("bo1", singleton("-bo"));
+		BooleanOption bo2 = new BooleanOption("bo2", singleton("-boo"));
+
+		os.addOption(bo1);
+		os.addOption(bo2);
+
+		GenericCLParser gp = new GenericCLParser(os.getOptions());
+		assert !gp.parse("-bo", os, new String[] {"-boo"}); // shouldn't parse
+		assert gp.parse("-boo", os, new String[] {"-boo"}); // should parse
+		assert gp.parse("-boo?", os, new String[] {"-boo"}); // should parse
+		assert gp.parse("-boo*", os, new String[] {"-boo" , "-boo" , "-boo"}); // should parse
+
+		assert gp.parse("-boo* -bo*", os, new String[] {"-boo" , "-boo" , "-boo", "-bo", "-bo"}); // should parse
+
+		assert !gp.parse("-boo+ -bo*", os, new String[] {"-bo"}); // shouldn't go thru
+
+		assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
+
+		assert gp.parse("-boo*", os, new String[] {"-boo", "-boo", "-boo"}); // should parse
+
+		assert !gp.parse("-bo", os, new String[] {"xxxx"});
+
+		try {
+			gp.parse("xxx", os, new String[] {"-boo"});
+			assert false;
+		} catch (UnknownOptionException e) {
+			assert true;
+		}
+		*/
+	}
+
 
 
 /*

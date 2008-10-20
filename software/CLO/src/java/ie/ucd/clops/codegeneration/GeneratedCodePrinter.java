@@ -1,6 +1,6 @@
-package ie.ucd.clops.codegeneration.java;
+package ie.ucd.clops.codegeneration;
 
-import ie.ucd.clops.codegeneration.java.GeneratedCodeUnit.Visibility;
+import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 
 import java.io.PrintStream;
 import java.util.List;

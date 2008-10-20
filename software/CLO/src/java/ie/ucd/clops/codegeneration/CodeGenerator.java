@@ -1,10 +1,6 @@
 package ie.ucd.clops.codegeneration;
 
-import ie.ucd.clops.codegeneration.java.GeneratedClass;
-import ie.ucd.clops.codegeneration.java.GeneratedCodePrinter;
-import ie.ucd.clops.codegeneration.java.GeneratedConstructor;
-import ie.ucd.clops.codegeneration.java.GeneratedMethod;
-import ie.ucd.clops.codegeneration.java.GeneratedCodeUnit.Visibility;
+import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 
@@ -58,6 +54,7 @@ public class CodeGenerator {
 
     new GeneratedCodePrinter(System.out).printClass(specificParser);
 
+    
 
   }
   

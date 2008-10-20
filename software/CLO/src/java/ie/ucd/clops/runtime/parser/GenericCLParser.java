@@ -4,9 +4,15 @@ import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
 import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
-import ie.ucd.clops.runtime.options.*;
+import ie.ucd.clops.runtime.options.BooleanOption;
+import ie.ucd.clops.runtime.options.IMatchable;
+import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.OptionStore;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class parsing the command-line.

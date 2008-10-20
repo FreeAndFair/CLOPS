@@ -1,4 +1,4 @@
-package ie.ucd.clops.codegeneration.java;
+package ie.ucd.clops.codegeneration;
 
 public class GeneratedStatement {
 

@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * A class for storing options, implementing a retrival function from Strings to options. 
  *
- * @author Mikolas Java
+ * @author Mikolas Janota
  */
 public class OptionStore implements IMatchString  {
   

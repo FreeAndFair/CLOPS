@@ -6,7 +6,6 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.OptionStore; //XXX for tests
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
@@ -53,7 +52,9 @@ public class Automaton<T> {
 	 */
 	//@ tokens.size() != 0;
 	public Automaton( /*@ non_null @*/ List<Token<T>> tokens)
-			throws RightOpenBracketException, LeftOpenBracketException, OpenQuestionException {
+			throws RightOpenBracketException, LeftOpenBracketException,
+			OpenQuestionException, EmptyAlternativeException,
+			OpenStarException, OpenPlusException {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -76,7 +77,9 @@ public class Automaton<T> {
 	 */
 	//@ tokens.size() != 0;
 	private void build( /*@ non_null @*/ List<Token<T>> tokens)
-			throws RightOpenBracketException, LeftOpenBracketException, OpenQuestionException {
+			throws RightOpenBracketException, LeftOpenBracketException,
+			OpenQuestionException, EmptyAlternativeException,
+			OpenStarException, OpenPlusException {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
@@ -115,7 +118,7 @@ public class Automaton<T> {
 				
 				// If there are no atoms, syntax error -- ok if alternatives != 0
 				if (ctx.atoms == 0) {
-					// TODO: raise syntax error
+					throw new RightOpenBracketException();
 				}
 				// Concatenate atoms on stack
 				if (ctx.atoms > 1) {
@@ -125,6 +128,8 @@ public class Automaton<T> {
 				}
 				// Create alternatives from fragments on stack
 				if (ctx.alternatives > 0) {
+					if (fragments.size() == 1)
+						throw new EmptyAlternativeException();
 					fragments.push( Fragment.alternative(
 						fragments.pop(), fragments.pop()));
 				}
@@ -133,16 +138,14 @@ public class Automaton<T> {
 				ctx.atoms++;
 				break;
 			case OR:
-				// If there are no fragments, raise error
-				// TODO
-				// FIXME: this may be absolutely legal
-				
-				if (ctx.atoms == 0 && ctx.alternatives == 0) {
-					// TODO: what now?
-				}
 				if (ctx.atoms == 0 && ctx.alternatives != 0) {
 					// Use of multiple alternatives ||
+					// Ignore this one
 					break;
+				}
+				if (ctx.atoms == 0 && ctx.alternatives == 0) {
+					// If there are no fragments, raise error
+					throw new EmptyAlternativeException();
 				}
 				
 				// Concatenate fragments on stack
@@ -150,6 +153,7 @@ public class Automaton<T> {
 					// Concatenate two fragments
 					Fragment<T> f = fragments.pop();
 					fragments.peek().concatenate( f);
+					ctx.atoms--;
 				}
 				// Continue to make alternatives...
 				if (ctx.alternatives > 0) {
@@ -161,14 +165,22 @@ public class Automaton<T> {
 				ctx.atoms = 0;
 				break;
 			case PLUS:
+				// If there are no atom fragments, raise error
+				if (ctx.atoms == 0) throw new OpenPlusException();
+				// Apply operator to the last fragment
+				fragments.push( Fragment.apply_operator( TokenType.PLUS, fragments.pop()));
+				break;
 			case STAR:
+				// If there are no atom fragments, raise error
+				if (ctx.atoms == 0) throw new OpenStarException();
+				// Apply operator to the last fragment
+				fragments.push( Fragment.apply_operator( TokenType.STAR, fragments.pop()));
+				break;
 			case QUESTION:
 				// If there are no atom fragments, raise error
-				if (ctx.atoms == 0)
-					throw new OpenQuestionException();
-
+				if (ctx.atoms == 0) throw new OpenQuestionException();
 				// Apply operator to the last fragment
-				fragments.push( Fragment.apply_operator( t.type, fragments.pop()));
+				fragments.push( Fragment.apply_operator( TokenType.QUESTION, fragments.pop()));
 				break;
 		}
 
@@ -187,6 +199,8 @@ public class Automaton<T> {
 		}
 		// If there is unclosed alternative, close it
 		if (ctx.alternatives != 0) {
+			if (fragments.size() == 1)
+				throw new EmptyAlternativeException();
 			fragments.push( Fragment.alternative(
 					fragments.pop(), fragments.pop()));
 		}
@@ -205,61 +219,64 @@ public class Automaton<T> {
 	 * To avoid duplicates in the output list (and avoid cycling as well),
 	 * we update each state with step index and add only those, which state
 	 * index is less than the current one.
-	 * @param s state to add or follow
-	 * @param ll output list of states
+	 * @param state state to add or follow
+	 * @param successors output list of states
 	 */
-	private void addSuccessors2( State<T> s,
-			/*@ non_null @*/ List<State<T>> ll) {
-		if (s == null || s.state_index == step_index)
+	private void addSuccessors2( State<T> state,
+			/*@ non_nusuccessors @*/ List<State<T>> successors) {
+		if (state == null || state.state_index == step_index)
 			return;
-		s.state_index = step_index;
-		if (s.type == StateType.SPLIT) {
-			addSuccessors2( s.next1, ll);
-			addSuccessors2( s.next2, ll);
+		state.state_index = step_index;
+		if (state.type == StateType.SPLIT) {
+			addSuccessors2( state.next1, successors);
+			addSuccessors2( state.next2, successors);
 		} else {
-			ll.add( s);
+			successors.add( state);
 		}
 	}
 
 	/** Adds successors of s of the type MATCH or END to the list.
 	 * Type of the state s must by MATCH or END.
-	 * @param s state to follow
-	 * @param ll output list of states
+	 * @param state state to follow
+	 * @param successors output list of states
 	 */
-	private void addSuccessors( /*@ non_null @*/ State<T> s,
-			/*@ non_null @*/List<State<T>> ll) {
-		if (s.state_index == step_index)
+	private void addSuccessors( /*@ non_null @*/ State<T> state,
+			/*@ non_null @*/List<State<T>> successors) {
+		if (state.state_index == step_index)
 			return;
-		addSuccessors2( s.next1, ll);
-		addSuccessors2( s.next2, ll);
-		s.state_index = step_index;
+		addSuccessors2( state.next1, successors);
+		addSuccessors2( state.next2, successors);
+		state.state_index = step_index;
 	}
 
 	/** Tests if the current state matched with the token, follows outgoing
 	 * transitions if so and saves successor states.
-	 * @param s state to follow
-	 * @param t current option to process
-	 * @param ll list of successor states
+	 * @param state state to follow
+	 * @param transition_labels a collection of transition labels to process
+	 * @param add list of successor states
 	 */
-	private void follow( /*@ non_null @*/ State<T> s,
-			/*@ non_null @*/ T o,
+	private void follow(
+			/*@ non_null @*/ State<T> state,
+			/*@ non_null @*/ Collection<T> transition_labels,
 			/*@ non_null @*/ List<State<T>> arr) {
+
 		// Type of the state must be ready to match.
-		if (s.type != StateType.MATCH)
+		if (state.type != StateType.MATCH)
 			return;
-		// Test the state if matches.
-		if (!s.match.equals(o)) {
-		  return;
+		// Follow all the transition labels.
+		for (T transition_label:transition_labels) {
+			if (state.match.equals(transition_label)) {
+				// We have a match, add succesors
+				addSuccessors( state, arr);
+			}
 		}
-		// We have a match, add succesors
-		addSuccessors( s, arr);
 	}
 
 	/** Apply next step in automaton.
-	 * @param o option to process
-	 * @return if the option is correctly positioned according to format
+	 * @param o collection of transition labels to process
+	 * @return true if we could follow at least one of the transition labels
 	 */
-	public boolean nextStep( /*@ non_null @*/ T o) {
+	public boolean nextStep( /*@ non_null @*/ Collection<T> o) {
 		// Do not continue if we are in an error state
 		if (error)
 			return false;
@@ -281,7 +298,21 @@ public class Automaton<T> {
 		return !error;
 	}
 
-	/** Returns if the current automaton state is accepting.
+	/** Apply next step in automaton.
+	 * @param transition transition label to process
+	 * @return true if we could follow that transition label
+	 */
+	public boolean nextStep( /*@ non_null @*/ T transition) {
+		List<T> l = new LinkedList<T>();
+		l.add( transition);
+		return nextStep( l);
+	}
+
+	/** Returns true if the automaton is accepting.
+	 * Automaton is accepting if at least one of the current automaton
+	 * states is accepting.
+	 *
+	 * @return true if the automaton is accepting
 	 */
 	public boolean isAccepting() {
 		for (State<T> s:arr) {
@@ -290,10 +321,17 @@ public class Automaton<T> {
 		}
 		return false;
 	}
-	
-	/** Returns list of available options.
+
+	/** Returns in the automaton is in error state.
+	 * @return true if the automaton is in error state
 	 */
+	public boolean inErrorState() {
+		return error;
+	}
 	
+	/** Returns list of available transitions.
+	 * @return list of available trantions
+	 */
 	public List<T> availableTransitions() {
 		List<T> transitions = new LinkedList<T>();
 		for (State<T> state : arr)
@@ -302,117 +340,14 @@ public class Automaton<T> {
 		return transitions;
 	}
 	
-	
-	
-	/*==== Testing ====*/
-   private static Set<String> singleton(String s) {
-      Set<String> retv = new HashSet<String>(1);
-      retv.add(s);
-      return retv;
-   }
-
-   	private static void automaton_test( String format, OptionStore os) {
-		try {
-			Automaton<IMatchable> a = new Automaton<IMatchable>( new Tokenizer().tokenize( format, os));
-		}
-		catch (ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException e) {
-			
-		}
-		catch (ie.ucd.clops.runtime.automaton.RightOpenBracketException e) {
-
-		}
-		catch (ie.ucd.clops.runtime.automaton.LeftOpenBracketException e) {
-		}
-		catch (ie.ucd.clops.runtime.automaton.OpenQuestionException e) {
-		}
-		catch (Tokenizer.TokenizerException e) {
-		}
+	/** Returns list of available transitions.
+	 * @return list of available trantions
+	 */
+	public HashSet<T> availableTransitionsUnique() {
+		HashSet<T> transitions = new HashSet<T>( arr.size());
+		for (State<T> state : arr)
+			if (state.type == StateType.MATCH)
+				transitions.add(state.match);
+		return transitions;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		System.out.println( "works");
-
-		String s1 = "bo1 bo2 bo3";
-
-		OptionStore os = new OptionStore();
-		Option o1 = new BooleanOption("bo1", singleton("-b1"));
-		Option o2 = new BooleanOption("bo2", singleton("-b2"));
-		Option o3 = new BooleanOption("bo3", singleton("-b3"));
-		Option o4 = new BooleanOption("bo4", singleton("-b4"));
-
-		os.addOption( o1);
-		os.addOption( o2);
-		os.addOption( o3);
-		os.addOption( o4);
-
-		automaton_test( "bo1 bo2 bo3", os);
-
-		/*
-		OptionStore os = new OptionStore();
-		BooleanOption bo1 = new BooleanOption("bo1", singleton("-bo"));
-		BooleanOption bo2 = new BooleanOption("bo2", singleton("-boo"));
-
-		os.addOption(bo1);
-		os.addOption(bo2);
-
-		GenericCLParser gp = new GenericCLParser(os.getOptions());
-		assert !gp.parse("-bo", os, new String[] {"-boo"}); // shouldn't parse
-		assert gp.parse("-boo", os, new String[] {"-boo"}); // should parse
-		assert gp.parse("-boo?", os, new String[] {"-boo"}); // should parse
-		assert gp.parse("-boo*", os, new String[] {"-boo" , "-boo" , "-boo"}); // should parse
-
-		assert gp.parse("-boo* -bo*", os, new String[] {"-boo" , "-boo" , "-boo", "-bo", "-bo"}); // should parse
-
-		assert !gp.parse("-boo+ -bo*", os, new String[] {"-bo"}); // shouldn't go thru
-
-		assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
-
-		assert gp.parse("-boo*", os, new String[] {"-boo", "-boo", "-boo"}); // should parse
-
-		assert !gp.parse("-bo", os, new String[] {"xxxx"});
-
-		try {
-			gp.parse("xxx", os, new String[] {"-boo"});
-			assert false;
-		} catch (UnknownOptionException e) {
-			assert true;
-		}
-		*/
-	}
-
-
-
-/*
-	public static void main( String[] argv) {
-		Token[] tokens;
-		Option[] options;
-
-		Automaton a;
-
-		// Internal tests
-		tokens = new Token[ 8];
-		tokens[ 0] = new Token( Token.OPTION, "Ahoj");
-		tokens[ 1] = new Token( Token.OPTION, "Options");
-		tokens[ 2] = new Token( Token.LEFT);
-		tokens[ 3] = new Token( Token.OPTION, "OtherOptions");
-		tokens[ 4] = new Token( Token.OR);
-		tokens[ 5] = new Token( Token.OPTION, "What");
-		tokens[ 6] = new Token( Token.RIGHT);
-		tokens[ 7] = new Token( Token.STAR);
-		options = new Option[ 5];
-		options[ 0] = new Option( "Ahoj");
-		options[ 1] = new Option( "Options");
-		options[ 2] = new Option( "OtherOptions");
-		options[ 3] = new Option( "What");
-		options[ 4] = new Option( "OtherOptions");
-		a = new Automaton( tokens);
-		for (Option o:options) {
-			System.out.print( "Step \"" +o.name +"\": ");
-			a.nextStep( o);
-			System.out.print( " " +(a.error ? "error" : "ok"));
-			System.out.print( " " +(a.isAccepting() ? "acceptiong" : ""));
-			System.out.println( "");
-		}
-	}
-*/
 }

@@ -136,7 +136,7 @@
   </target>
 
   <target name="test-automaton" depends="compile" description="Automaton test">
-    <java fork="yes" classname="ie.ucd.clops.runtime.automaton.Automaton">
+    <java fork="yes" classname="ie.ucd.clops.runtime.automaton.AutomatonTest">
       <assertions>
          <enable/>
       </assertions>

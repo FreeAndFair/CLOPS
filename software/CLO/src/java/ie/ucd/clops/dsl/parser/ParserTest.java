@@ -64,7 +64,7 @@ public class ParserTest {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO A`uto-generated catch block
+      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (RecognitionException e) {
       System.out.println("Caught recognition error");

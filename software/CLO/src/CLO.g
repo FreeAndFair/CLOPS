@@ -101,7 +101,7 @@ format_subclause  :  (   NAME
                      (or_format_subclause)?
                   ;
 
-or_format_subclause  :  ('OR')? format_subclause
+or_format_subclause  :  ('|')? format_subclause
                      ;
 
 repitition_operator  : '*' | '+' | '?'

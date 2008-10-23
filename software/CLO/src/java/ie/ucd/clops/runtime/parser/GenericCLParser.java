@@ -57,7 +57,7 @@ public class GenericCLParser {
       for (int i=0; i < args.length; ) {
         //Get available next options
         Collection<IMatchable> possibleTransitions = automaton.availableTransitions();
-        
+        System.out.println("Transitions: " + possibleTransitions);
         //Matched option
         Option matchedOption = null;
                 
@@ -74,7 +74,7 @@ public class GenericCLParser {
         if (matchedOption == null) {
           //Check if we can have a program argument here...
           //if not, report error 
-           System.out.println("illegal option"); // debugging
+           System.out.println("illegal option: " + args[i]); // debugging
            i++;
            return false;
         } else {

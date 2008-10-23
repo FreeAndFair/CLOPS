@@ -39,8 +39,8 @@ revision:{"-r","--revision"}:{string}
 
 FORMAT::
 
-     ( option* subcommand option* arg* option* ) 
-  OR ( (quiet OR version)* version (quiet OR version)* );
+   ( option* subcommand option* ) 
+| ( (quiet | version)* version (quiet | version)* );
 
 WHERE::
 

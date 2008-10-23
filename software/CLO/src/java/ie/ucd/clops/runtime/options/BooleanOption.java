@@ -73,5 +73,11 @@ public class BooleanOption extends BasicOption {
      return getAliases().contains(argument) ? this : null;
   }
 
+  @Override
+  public String toString() {
+    return "Boolean Option: \"" + getIdentifier() + "\"";
+  }
+
+  
 
 }

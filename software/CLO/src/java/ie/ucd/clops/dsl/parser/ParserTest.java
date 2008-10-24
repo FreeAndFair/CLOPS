@@ -43,7 +43,7 @@ public class ParserTest {
       parser.prog();
 
       if (parser.isValidParse()) {
-        System.out.println("Successfully parsed!");
+        System.out.println("Successfully parsed dsl file!");
         
         Collection<OptionDescription> optionDescriptions = parser.getOptionDescriptions();
         Collection<OptionGroupDescription> optionGroupDescriptions = parser.getOptionGroupDescriptions();
@@ -51,7 +51,7 @@ public class ParserTest {
         
         formatString = formatString.replaceAll("\\n", "");
         CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, outputDir);
-        
+        System.out.println("Created code in " + outputDir.getAbsolutePath());
         
       } else {
         System.out.println("Did not parse successfully.");

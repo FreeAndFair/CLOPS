@@ -73,5 +73,22 @@ public abstract class BasicOption implements Option {
    * @see ie.ucd.clo.runtime.options.Option#unset()
    */
   public abstract void unset();
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof BasicOption) {
+      this.getIdentifier().equals(((BasicOption)obj).getIdentifier());
+    } else {
+      return false;
+    }
+    return super.equals(obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return getIdentifier().hashCode();
+  }
+  
+  
   
 }

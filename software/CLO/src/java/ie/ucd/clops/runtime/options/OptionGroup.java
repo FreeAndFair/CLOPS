@@ -41,6 +41,19 @@ public class OptionGroup implements IMatchable {
     return "Option Group: \"" + getIdentifier() + "\"";
   }
   
-  
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof OptionGroup) {
+      this.getIdentifier().equals(((OptionGroup)obj).getIdentifier());
+    } else {
+      return false;
+    }
+    return super.equals(obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return getIdentifier().hashCode();
+  }
 	
 }

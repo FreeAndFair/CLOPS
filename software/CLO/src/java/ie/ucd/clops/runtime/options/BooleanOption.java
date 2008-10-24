@@ -13,15 +13,15 @@ import java.util.Set;
  */
 public class BooleanOption extends BasicOption {
   private Boolean value;
-    
+
   public BooleanOption(String identifier, final Set<String> aliases) {
-     super(identifier, aliases);
+    super(identifier, aliases);
   }
-  
+
   public BooleanOption(String identifier) {
     super(identifier);
   }
-  
+
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#getType()
    */
@@ -36,41 +36,41 @@ public class BooleanOption extends BasicOption {
    * @see ie.ucd.clo.runtime.options.Option#hasValue()
    */
   public boolean hasValue() {
-     return value != null;
+    return value != null;
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String[], int)
    */
   public ProcessingResult process(String[] args, int offset) {
-     String currentArg = args[offset];
-     if (getAliases().contains(currentArg)) {
-        this.value = true;
-        return new ProcessingResult(1, false, null);
-     } else {
-        return null;
-     }
+    String currentArg = args[offset];
+    if (getAliases().contains(currentArg)) {
+      this.value = true;
+      return new ProcessingResult(1, false, null);
+    } else {
+      return null;
+    }
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
    */
   public void set(Object value) {
-     this.value = (Boolean)value;
+    this.value = (Boolean)value;
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#unset()
    */
   public void unset() {
-     this.value = null;
+    this.value = null;
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.IMatchable#getMatchingOption(java.lang.String)
    */  
   public Option getMatchingOption(String argument) {
-     return getAliases().contains(argument) ? this : null;
+    return getAliases().contains(argument) ? this : null;
   }
 
   @Override
@@ -78,6 +78,6 @@ public class BooleanOption extends BasicOption {
     return "Boolean Option: \"" + getIdentifier() + "\"";
   }
 
-  
+
 
 }

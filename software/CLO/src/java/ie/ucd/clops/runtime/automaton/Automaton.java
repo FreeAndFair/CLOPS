@@ -6,12 +6,12 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.BooleanOption;
-import ie.ucd.clops.runtime.options.IMatchable;
-import ie.ucd.clops.runtime.options.Option;
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 
 

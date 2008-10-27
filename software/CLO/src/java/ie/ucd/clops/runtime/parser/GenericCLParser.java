@@ -25,7 +25,9 @@ public class GenericCLParser {
 
   public GenericCLParser() {}
 
-  public boolean parse(String formatString, OptionStore optionStore, String[] args) {
+  public boolean parse(String formatString, OptionStore optionStore, String[] args)
+      throws Tokenizer.IllegalCharacterException,
+             Tokenizer.UnknownOptionException {
 
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
@@ -34,13 +36,15 @@ public class GenericCLParser {
       tokens = new Tokenizer().tokenize(formatString, optionStore);
     }
     catch (Tokenizer.UnknownOptionException e) {
-      System.err.println( "Error: Unkown option name \"" +e.opt_name +"\".");
-      System.exit( 1);
+        //TODO: logger?
+        System.err.println( "Error: Unkown option name \"" +e.opt_name +"\".");
+        throw e;
     }
     catch (Tokenizer.IllegalCharacterException e) {
-      System.err.println( "Error: Illegal character \"" +formatString.charAt( e.index)
-          +"\" at position " +e.index +".");
-      System.exit( 1);
+        //TODO: logger?
+        System.err.println( "Error: Illegal character \"" +formatString.charAt( e.index)
+                            +"\" at position " +e.index +".");
+        throw e;
     }
 
     try {

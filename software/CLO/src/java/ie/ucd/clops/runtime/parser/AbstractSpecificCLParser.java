@@ -12,7 +12,7 @@ public abstract class AbstractSpecificCLParser {
   public abstract String getFormatString();
   
   public boolean parse(String[] args) throws Exception {
-    System.out.println("Received args: " + new ArrayList(Arrays.asList(args)));
+    System.out.println("Received args: " + new ArrayList<String>(Arrays.asList(args)));
     GenericCLParser parser = new GenericCLParser();
     return parser.parse(getFormatString(), createOptions(), args);
   }

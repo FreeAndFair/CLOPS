@@ -3,11 +3,13 @@
 
   <property name="src" location="src"/>
   <property name="java-src" location="${src}/java"/>
+  <property name="test-src" location="${src}/test"/>
   <property name="src-antlr" value="${java-src}/ie/ucd/clops/dsl/parser"/>
   <property name="build" location="bin"/>
   <property name="docs" location="doc"/>
   <property name="java-docs" location="${docs}/javadoc"/>
   <property name="dist"  location="dist"/>
+  <property name="reports.tests" location="test-reports"/>
   <property name="lib"  location="lib"/>
   <property name="test" location="test"/>
   <property name="temp-test" location="${test}/temp"/>
@@ -21,6 +23,7 @@
       <file name="stringtemplate.jar"/>
       <file name="antlr-2.7.7.jar"/>
     </filelist>
+    <filelist dir="${lib}" files="junit-4.5.jar"/>
   </path>
 
   <path id="antlr-mod.path">
@@ -49,16 +52,18 @@
 	
   <path id="src.path">
     <pathelement path="${java-src}"/>
+    <pathelement path="${test-src}"/>
   </path>
 	
-	<path id="dist.path">
-	  <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
+  <path id="dist.path">
+    <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
   </path>
 
   <target name="init">
     <echo message="Creating timestamp"/>
     <tstamp/>
     <mkdir dir="${build}"/>
+    <mkdir dir="${reports.tests}"/>
   </target>
 
   <target name="checkAntlrBuildUpToDate">
@@ -81,7 +86,7 @@
     </java>
   </target>
 
-  <target name="compile" depends="all-src" description="compile the source">
+  <target name="compile-java" depends="all-src" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
     <javac srcdir="${java-src}" 
            destdir="${build}" 
@@ -91,6 +96,19 @@
       <classpath refid="compile.path"/>
     </javac>
   </target>
+
+  <target name="compile-tests" depends="all-src" description="compile junit tests">
+    <!-- Compile the java code from ${java-src} into ${build} -->
+    <javac srcdir="${test-src}" 
+           destdir="${build}" 
+           target="${java-target-version}"
+           debug="yes">
+      <compilerarg value="-Xlint:all"/>
+      <classpath refid="compile.path"/>
+    </javac>
+  </target>
+
+  <target name="compile" depends="compile-java,compile-tests" description="compile java and tests"/>
 
   <target name="javadocs" depends="buildAntlr" description="Generate javadocs">
     <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path">
@@ -131,15 +149,6 @@
     </javac>
   </target>
 
-  <target name="test-generic-parser" depends="compile" description="simple test">
-    <java fork="yes" classname="ie.ucd.clops.runtime.parser.GenericCLParser">
-      <assertions>
-         <enable/>
-      </assertions>
-      <classpath refid="test.path"/>
-    </java>
-  </target>
-
   <target name="test-automaton" depends="compile" description="Automaton test">
     <java fork="yes" classname="ie.ucd.clops.runtime.automaton.AutomatonTest">
       <assertions>
@@ -149,6 +158,21 @@
     </java>
   </target>
 
+
+  <target name="junit-tests" depends="compile" description="run junit tests">
+    <junit printsummary="yes" showoutput="yes">
+      <classpath refid="compile.path" />
+      <formatter type="plain"/>
+
+      <batchtest fork="yes" todir="${reports.tests}">
+        <fileset dir="${test-src}">
+          <include name="**/*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="test-all" depends="junit-tests,test-parser,test-automaton" description="clean up"/>
   <target name="clean-all" depends="clean-build,clean-antlr" description="clean up"/>
   <target name="clean" depends="clean-all"/>	
   <target name="all-src" depends="init,buildAntlr" description="Create all source files"/>

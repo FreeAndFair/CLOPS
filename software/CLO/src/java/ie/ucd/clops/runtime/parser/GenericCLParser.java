@@ -105,38 +105,4 @@ public class GenericCLParser {
 
   }
 
-  /*==== Testing ====*/
-  private static Set<String> singleton(String s) {
-    Set<String> retv = new HashSet<String>(1);
-    retv.add(s);
-    return retv;
-  }
-
-  public static void main(String[] args) throws Exception {
-    OptionStore os = new OptionStore();
-    BooleanOption bo1 = new BooleanOption("bo1", singleton("-bo"));
-    BooleanOption bo2 = new BooleanOption("bo2", singleton("-boo"));
-
-    os.addOption(bo1);
-    os.addOption(bo2);
-
-    GenericCLParser gp = new GenericCLParser();
-    assert !gp.parse("-bo", os, new String[] {"-boo"}); // shouldn't parse
-    assert gp.parse("-boo", os, new String[] {"-boo"}); // should parse
-    assert gp.parse("-boo?", os, new String[] {"-boo"}); // should parse
-    assert gp.parse("-boo*", os, new String[] {"-boo" , "-boo" , "-boo"}); // should parse
-
-    assert gp.parse("-boo* -bo*", os, new String[] {"-boo" , "-boo" , "-boo", "-bo", "-bo"}); // should parse
-
-    assert !gp.parse("-boo+ -bo*", os, new String[] {"-bo"}); // shouldn't go thru
-
-    assert gp.parse("(-boo | -bo)*", os, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"}); // should parse
-
-    assert gp.parse("-boo*", os, new String[] {"-boo", "-boo", "-boo"}); // should parse
-
-    assert !gp.parse("-bo", os, new String[] {"xxxx"});
-
-    assert gp.parse("xxx", os, new String[] {"-boo"}); // Will stop the program
-  }
-
 }

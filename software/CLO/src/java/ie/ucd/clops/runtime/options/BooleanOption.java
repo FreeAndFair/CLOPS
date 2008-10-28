@@ -56,6 +56,7 @@ public class BooleanOption extends BasicOption {
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
    */
   public void set(Object value) {
+    assert value instanceof Boolean;
     this.value = (Boolean)value;
   }
 
@@ -77,7 +78,5 @@ public class BooleanOption extends BasicOption {
   public String toString() {
     return "Boolean Option: \"" + getIdentifier() + "\"";
   }
-
-
 
 }

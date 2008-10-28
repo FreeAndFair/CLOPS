@@ -4,7 +4,6 @@ import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
-import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;

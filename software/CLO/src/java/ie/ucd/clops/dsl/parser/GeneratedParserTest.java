@@ -17,14 +17,14 @@ public class GeneratedParserTest {
     } else {
       
       try {
-        Class c = Class.forName(args[0]);
+        Class<?> c = Class.forName(args[0]);
 
         String[] newArgs = new String[args.length-1];
         System.arraycopy(args, 1, newArgs, 0, args.length-1);
         
-        Constructor[] constructors = c.getConstructors();
+        Constructor<?>[] constructors = c.getConstructors();
         assert constructors.length == 1;
-        Constructor constructor = constructors[0];
+        Constructor<?> constructor = constructors[0];
 
         Object o = constructor.newInstance();
 

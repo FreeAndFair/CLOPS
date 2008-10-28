@@ -7,6 +7,7 @@ import java.util.*;
  * A class for storing options, implementing a retrival function from Strings to options. 
  *
  * @author Mikolas Janota
+ * @author Fintan
  */
 public class OptionStore implements IMatchString  {
   
@@ -15,6 +16,9 @@ public class OptionStore implements IMatchString  {
    private final HashMap<String, IMatchable> identifierMatchableMap;
    private final HashSet<Option> options;
 
+   /**
+    * Create a new OptionStore. 
+    */
    public OptionStore() {
      identifierOptionMap = new HashMap<String, Option>();
      aliasOptionMap = new HashMap<String, Option>();
@@ -64,10 +68,22 @@ public class OptionStore implements IMatchString  {
       return identifierMatchableMap.get(param);
    }
 
+   /**
+    * Get the Option from this store with the provided identifier,
+    * if one is present (null otherwise).
+    * @param identifier the identifier to the Option to get.
+    * @return the Option with this identifier, or null.
+    */
    public Option getOptionByIdentifier(String identifier) {
      return identifierOptionMap.get(identifier);
    }
    
+   /**
+    * Get the Option that has the provided alias, if one is present
+    * (null otherwise).
+    * @param alias the alias to the Option to get.
+    * @return the Option with this alias, or null.
+    */
    public Option getOptionByAlias(String alias) {
      return aliasOptionMap.get(alias);
    }

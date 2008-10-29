@@ -222,8 +222,9 @@ public class Automaton<T> {
 	 * @param state state to add or follow
 	 * @param successors output list of states
 	 */
-	private void addSuccessors2( State<T> state,
-			/*@ non_nusuccessors @*/ List<State<T>> successors) {
+	private void addSuccessors2(
+			/*@ non_null @*/ State<T> state,
+			/*@ non_null @*/ List<State<T>> successors) {
 		if (state == null || state.state_index == step_index)
 			return;
 		state.state_index = step_index;
@@ -240,7 +241,8 @@ public class Automaton<T> {
 	 * @param state state to follow
 	 * @param successors output list of states
 	 */
-	private void addSuccessors( /*@ non_null @*/ State<T> state,
+	private void addSuccessors(
+			/*@ non_null @*/ State<T> state,
 			/*@ non_null @*/List<State<T>> successors) {
 		if (state.state_index == step_index)
 			return;
@@ -332,6 +334,7 @@ public class Automaton<T> {
 	/** Returns list of available transitions.
 	 * @return list of available trantions
 	 */
+	//@ ensures \return != null;
 	public List<T> availableTransitions() {
 		List<T> transitions = new LinkedList<T>();
 		for (State<T> state : arr)
@@ -343,6 +346,7 @@ public class Automaton<T> {
 	/** Returns list of available transitions.
 	 * @return list of available trantions
 	 */
+	//@ ensures \return != null;
 	public HashSet<T> availableTransitionsUnique() {
 		HashSet<T> transitions = new HashSet<T>( arr.size());
 		for (State<T> state : arr)

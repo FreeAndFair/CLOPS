@@ -3,8 +3,6 @@
  */
 package ie.ucd.clops.runtime.options;
 
-import ie.ucd.clops.runtime.parser.ProcessingResult;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,38 +39,19 @@ public abstract class BasicOption implements Option {
     return identifier;
   }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#getType()
-   */
-  public abstract OptionType getType();
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#getValue()
-   */
-  public abstract Object getValue();
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#hasValue()
-   */
-  public boolean hasValue() {
-    // TODO Auto-generated method stub
-    return false;
+  public Option getMatchingOption(String argument) {
+    String matchedAlias = getMatchingAlias(argument);
+    return matchedAlias == null ? null : this;
+  }  
+  
+  protected String getMatchingAlias(String argument) {
+    for (String alias : getAliases()) {
+      if (argument.startsWith(alias)) {
+        return alias;
+      }
+    }
+    return null;
   }
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String[], int)
-   */
-  public abstract ProcessingResult process(String[] args, int offset);
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
-   */
-  public abstract void set(Object value);
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#unset()
-   */
-  public abstract void unset();
 
   @Override
   public boolean equals(Object obj) {
@@ -89,6 +68,12 @@ public abstract class BasicOption implements Option {
     return getIdentifier().hashCode();
   }
   
+  @Override
+  public String toString() {
+    String r = getType().getTypeString() + " Option: \"" + getIdentifier() + "\"";
+    r += hasValue() ? "(=" + getValue() + ")" : "(not set)";
+    return r;
+  }
   
   
 }

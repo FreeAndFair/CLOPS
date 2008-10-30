@@ -5,8 +5,11 @@ import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
 import ie.ucd.clops.runtime.options.IMatchable;
+import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.OptionAssignment;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.overriderules.OverrideRuleStore;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,10 +27,12 @@ public class GenericCLParser {
 
   public GenericCLParser() {}
 
-  public boolean parse(String formatString, OptionStore optionStore, String[] args)
+  public boolean parse(String formatString, OptionStore optionStore, OverrideRuleStore orStore, String[] args)
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {
 
+    System.out.println(orStore.toString());
+    
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
     Automaton<IMatchable> automaton = null;
@@ -60,7 +65,10 @@ public class GenericCLParser {
       //Get available next options
       Collection<IMatchable> possibleTransitions = automaton.availableTransitionsUnique();
       System.out.println("Transitions: " + possibleTransitions);
-
+      System.out.print("Set options: ");
+      optionStore.printSetOptions(System.out);
+      System.out.println();
+      
       //Matched option
       Option matchedOption = null;
       Set<IMatchable> matches = new HashSet<IMatchable>();
@@ -91,13 +99,26 @@ public class GenericCLParser {
         assert matches.size() > 0;
         //Update automaton
         automaton.nextStep(matches);
+        
         ProcessingResult pr = matchedOption.process(args, i);
         if (pr.errorDuringProcessing()) {
           //output error
           System.out.println(pr.getErrorMessage());
         } else {
           i += pr.getNumberOfArgsConsumed();
-          //Apply fly rule
+          //Apply override rule
+          Collection<OptionAssignment> assignments = orStore.getAssignmentsForOption(matchedOption);
+          if (assignments != null) {
+            System.out.println("Assignments for " + matchedOption);
+            for (OptionAssignment assignment : assignments) {
+              Option optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
+              try {
+                optionToSet.setFromString(assignment.getOptionValue());
+              } catch (InvalidOptionValueException iove) {
+                System.out.println(iove);
+              }
+            }          
+          }
         }
       }
 

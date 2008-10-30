@@ -2,7 +2,7 @@ package ie.ucd.clops.runtime.parser;
 
 /**
  * 
- * @author fintan
+ * @author Fintan
  *
  */
 public class ProcessingResult {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ie.ucd.clops.runtime.options;
 
 import ie.ucd.clops.runtime.parser.ProcessingResult;
@@ -9,6 +6,7 @@ import java.util.Set;
 
 /**
  * @author Mikolas Janota
+ * @author Fintan
  *
  */
 public class BooleanOption extends BasicOption {
@@ -44,20 +42,45 @@ public class BooleanOption extends BasicOption {
    */
   public ProcessingResult process(String[] args, int offset) {
     String currentArg = args[offset];
-    if (getAliases().contains(currentArg)) {
-      this.value = true;
-      return new ProcessingResult(1, false, null);
+    assert this.getMatchingOption(currentArg) == this;
+    String alias = getMatchingAlias(currentArg);
+    //If we allow -arg=VALUE
+    if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
+      String subfix = currentArg.substring(alias.length() + 1);
+      try {
+        setFromString(subfix);
+        return ProcessingResult.successfulProcess(1);
+      } catch (InvalidOptionValueException iove) {
+        return ProcessingResult.erroneousProcess(iove.getMessage());
+      }
     } else {
-      return null;
+      //It's true...
+      this.value = Boolean.TRUE;
+      return ProcessingResult.successfulProcess(1);
     }
   }
 
+  private boolean validValueString(String valueString) {
+    return valueString.equalsIgnoreCase("true") || valueString.equalsIgnoreCase("false");
+  }
+  
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
    */
-  public void set(Object value) {
-    assert value instanceof Boolean;
-    this.value = (Boolean)value;
+  public void set(Object value) throws InvalidOptionValueException {
+    if (value instanceof Boolean) {
+      this.value = (Boolean)value;
+    } else {
+      throw new InvalidOptionValueException(value + " is not a Boolean.");
+    }
+  }
+
+  public void setFromString(String valueString) throws InvalidOptionValueException {
+    if (validValueString(valueString)) {
+      set(Boolean.valueOf(valueString));
+    } else {
+      throw new InvalidOptionValueException(valueString + " is not a boolean string.");
+    }    
   }
 
   /* (non-Javadoc)
@@ -70,13 +93,6 @@ public class BooleanOption extends BasicOption {
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.IMatchable#getMatchingOption(java.lang.String)
    */  
-  public Option getMatchingOption(String argument) {
-    return getAliases().contains(argument) ? this : null;
-  }
-
-  @Override
-  public String toString() {
-    return "Boolean Option: \"" + getIdentifier() + "\"";
-  }
+  
 
 }

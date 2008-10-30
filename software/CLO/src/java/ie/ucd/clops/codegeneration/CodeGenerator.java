@@ -56,7 +56,6 @@ public class CodeGenerator {
     genClass.addImport(pack + ".BooleanOption");
     genClass.addImport(pack + ".OptionAssignment");
     final String pack2 = "ie.ucd.clops.runtime.overriderules";
-    genClass.addImport(pack2 + ".OverrideRule");
     genClass.addImport(pack2 + ".OverrideRuleStore");
   }
   
@@ -120,7 +119,7 @@ public class CodeGenerator {
       String opId = orDescription.getTriggeringOptionIdentifier();
       for (AssignmentDescription desc : orDescription.getAssignments()) {
         //TODO conversion from String to specific Option value object type here...
-        createOverrideRules.addStatement("orStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", Boolean.valueOf(\"" + desc.getValue() + "\")))");
+        createOverrideRules.addStatement("orStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
       }
     }
     

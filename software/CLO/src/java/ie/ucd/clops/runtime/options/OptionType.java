@@ -28,6 +28,10 @@ public class OptionType {
     return "Type: " + type + "(" + typeString + ")"; 
   }
   
+  public String getTypeString() {
+    return typeString;
+  }
+  
   public static final OptionType BOOLEAN = new OptionType(BOOLEAN_TYPE, "boolean");
   public static final OptionType STRING = new OptionType(STRING_TYPE, "string");
   public static final OptionType INTEGER = new OptionType(INTEGER_TYPE, "int");

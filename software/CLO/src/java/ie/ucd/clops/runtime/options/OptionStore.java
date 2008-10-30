@@ -1,7 +1,9 @@
 package ie.ucd.clops.runtime.options;
 
-import ie.ucd.clops.runtime.options.IMatchable;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class for storing options, implementing a retrival function from Strings to options. 
@@ -88,5 +90,13 @@ public class OptionStore implements IMatchString  {
      return aliasOptionMap.get(alias);
    }
     
+   public void printSetOptions(PrintStream ps) {
+     for (Option op : options) {
+       if (op.hasValue()) {
+         ps.print(op.toString());
+         ps.print(", ");
+       }
+     }
+   }
 }
 

@@ -57,8 +57,14 @@ public interface Option extends IMatchable {
    * 
    * @param value
    */
-  void set(Object value);
+  void set(Object value) throws InvalidOptionValueException;
 
+  /**
+   * Sets the value of this Option from a string representation.
+   * @param value a string representation of the value to set
+   */
+  void setFromString(String value) throws InvalidOptionValueException;
+  
   void addAlias(String alias);
   
   Set<String> getAliases();

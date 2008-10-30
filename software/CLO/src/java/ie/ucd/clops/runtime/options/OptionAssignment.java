@@ -8,9 +8,9 @@ package ie.ucd.clops.runtime.options;
 public class OptionAssignment {
 
   private final String optionIdentifier;
-  private final Object optionValue;
+  private final String optionValue;
   
-  public OptionAssignment(String optionIdentifier, Object optionValue) {
+  public OptionAssignment(String optionIdentifier, String optionValue) {
     this.optionIdentifier = optionIdentifier;
     this.optionValue = optionValue;
   }
@@ -19,8 +19,13 @@ public class OptionAssignment {
     return optionIdentifier;
   }
 
-  public Object getOptionValue() {
+  public String getOptionValue() {
     return optionValue;
   }
 
+  @Override
+  public String toString() {
+    return optionIdentifier + ":=" + optionValue;
+  }  
+  
 }

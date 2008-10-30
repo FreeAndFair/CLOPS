@@ -23,10 +23,12 @@ public class OverrideRuleStore {
   
   public void addAssignmentForOption(String optionIdentifier, OptionAssignment assignment) {
     Collection<OptionAssignment> existingAssignments = optionIdentifierToAssignmentMap.get(optionIdentifier);
-    if (assignment == null) {
+    if (existingAssignments == null) {
       existingAssignments = new LinkedList<OptionAssignment>();
+      optionIdentifierToAssignmentMap.put(optionIdentifier, existingAssignments);
     }
     existingAssignments.add(assignment);
+    System.out.println("Added assignment " + assignment + " for " + optionIdentifier);
   }
 
   public Collection<OptionAssignment> getAssignmentsForOption(String optionIdentifier) {
@@ -36,5 +38,23 @@ public class OverrideRuleStore {
   public Collection<OptionAssignment> getAssignmentsForOption(Option option) {
     return getAssignmentsForOption(option.getIdentifier());
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Override rule store contents:\n");
+    
+    for (String opId : optionIdentifierToAssignmentMap.keySet()) {
+      sb.append(opId + " - ");
+      Collection<OptionAssignment> assignments = optionIdentifierToAssignmentMap.get(opId);
+      for (OptionAssignment assignment : assignments) {
+        sb.append(assignment.toString());
+        sb.append(", ");
+      }
+      sb.append('\n');
+    }
+    
+    return sb.toString();
+  }  
   
 }

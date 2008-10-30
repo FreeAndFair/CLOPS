@@ -46,9 +46,9 @@ public class BooleanOption extends BasicOption {
     String alias = getMatchingAlias(currentArg);
     //If we allow -arg=VALUE
     if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
-      String subfix = currentArg.substring(alias.length() + 1);
+      String suffix = currentArg.substring(alias.length() + 1);
       try {
-        setFromString(subfix);
+        setFromString(suffix);
         return ProcessingResult.successfulProcess(1);
       } catch (InvalidOptionValueException iove) {
         return ProcessingResult.erroneousProcess(iove.getMessage());
@@ -76,6 +76,9 @@ public class BooleanOption extends BasicOption {
   }
 
   public void setFromString(String valueString) throws InvalidOptionValueException {
+    if (valueString == null) {
+      throw new InvalidOptionValueException("null provided as value.");
+    }
     if (validValueString(valueString)) {
       set(Boolean.valueOf(valueString));
     } else {

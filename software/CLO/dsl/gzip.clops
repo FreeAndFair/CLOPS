@@ -38,7 +38,7 @@ ARGS::
 	compressionlevel9:{"-9"}
 	compressionlevel_fast:{"--fast"}
 	compressionlevel_best:{"--best"}
-	compressionlevel:{"dddd"}:{int}
+	compressionlevel:{}:{int}
 
 	suffix:{"-S","--suffix"}:{string}
 

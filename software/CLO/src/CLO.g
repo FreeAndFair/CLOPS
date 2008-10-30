@@ -58,12 +58,15 @@ arg_definition
 @init { OptionDescription option = new BasicOptionDescription(); }
                 :  id=arg_name ':'
                    { option.setId($id.text); } 
-                   '{' '"' a1=arg_alias '"' 
-                   { option.addAlias($a1.text); }
-                   (',' '"' a=arg_alias '"'
-                    { option.addAlias($a.text); }
-                   )* 
-                   '}'  
+                   '{'
+                   ( 
+                     '"' a1=arg_alias '"' 
+                     { option.addAlias($a1.text); }
+                     (',' '"' a=arg_alias '"'
+                      { option.addAlias($a.text); }
+                     )* 
+                   )?
+                   '}'
                    ( ':' '{' t=NAME '}'
                        { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
                      )? 
@@ -175,7 +178,8 @@ string_constant  :  '"' .* '"'
 unspecified_constant  :  '?'
                       ;
 
-possible_dash_started_name  :  (DASH DASH?)? NAME
+//Zero, one or two dashes, followed by an identifier that may start with a digit.
+possible_dash_started_name  :  (DASH DASH?)? ( NAME | INTEGER)+
                             ;
 
 /**********************************************/
@@ -206,14 +210,17 @@ NEWLINE  :  '\r'? '\n'
 
 /**********************************************/
 
-//Standard name
+//  : DIGIT  ( ALPHANUMERIC | UNDERSCORE | DASH )*
+//                   ;
+
+//Identifier name
 NAME  : ALPHA ( ALPHANUMERIC | UNDERSCORE | DASH )*
       ;
                                     
 fragment 
 UNDERSCORE  :  '_' 
             ;
- 
+
 DASH  :  '-'
       ;
                     

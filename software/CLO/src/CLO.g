@@ -11,7 +11,7 @@ options {
   import ie.ucd.clops.dsl.structs.OptionDescription;
   import ie.ucd.clops.dsl.structs.OptionGroupDescription;
   import ie.ucd.clops.dsl.structs.BasicOptionDescription;
-  import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
+  import ie.ucd.clops.dsl.structs.FlyRuleDescription;
   import ie.ucd.clops.dsl.structs.AssignmentDescription;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.DSLParseException;
@@ -128,7 +128,7 @@ fly_section  :  'FLY::' (fly_rule)*
              ;
 
 fly_rule  :  t=NAME
-             { OverrideRuleDescription or = new OverrideRuleDescription($t.text); } 
+             { FlyRuleDescription or = new FlyRuleDescription($t.text); } 
              '->' n1=NAME ':=' v1=constant
              { or.addAssignment(new AssignmentDescription($n1.text, $v1.text)); } 
              (',' 

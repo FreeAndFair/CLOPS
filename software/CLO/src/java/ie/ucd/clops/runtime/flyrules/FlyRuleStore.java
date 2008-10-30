@@ -1,4 +1,4 @@
-package ie.ucd.clops.runtime.overriderules;
+package ie.ucd.clops.runtime.flyrules;
 
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionAssignment;
@@ -13,11 +13,11 @@ import java.util.Map;
  * @author Fintan
  *
  */
-public class OverrideRuleStore {
+public class FlyRuleStore {
 
   private final Map<String,Collection<OptionAssignment>> optionIdentifierToAssignmentMap;
 
-  public OverrideRuleStore() {
+  public FlyRuleStore() {
     this.optionIdentifierToAssignmentMap = new HashMap<String,Collection<OptionAssignment>>();
   }
   
@@ -42,7 +42,7 @@ public class OverrideRuleStore {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Override rule store contents:\n");
+    sb.append("Fly rule store contents:\n");
     
     for (String opId : optionIdentifierToAssignmentMap.keySet()) {
       sb.append(opId + " - ");

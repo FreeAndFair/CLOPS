@@ -8,12 +8,12 @@ import java.util.LinkedList;
  * @author Fintan
  *
  */
-public class OverrideRuleDescription {
+public class FlyRuleDescription {
 
   private final String triggeringOptionIdentifier;
   private final Collection<AssignmentDescription> assignments;
   
-  public OverrideRuleDescription(String triggeringOptionIdentifier) {
+  public FlyRuleDescription(String triggeringOptionIdentifier) {
     this.assignments = new LinkedList<AssignmentDescription>();
     this.triggeringOptionIdentifier = triggeringOptionIdentifier;
   }

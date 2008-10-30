@@ -4,7 +4,7 @@ import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
-import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
+import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ public class CodeGenerator {
   public static void createCode(String formatString, 
       Collection<OptionDescription> opDescriptions, 
       Collection<OptionGroupDescription> opGroupDescriptions, 
-      Collection<OverrideRuleDescription> overrideRuleDescriptions,
+      Collection<FlyRuleDescription> overrideRuleDescriptions,
       File outputDir) {
 
     GeneratedClass specificParser = new GeneratedClass("Parser", Visibility.Public);
@@ -55,8 +55,8 @@ public class CodeGenerator {
     genClass.addImport(pack + ".OptionStore");
     genClass.addImport(pack + ".BooleanOption");
     genClass.addImport(pack + ".OptionAssignment");
-    final String pack2 = "ie.ucd.clops.runtime.overriderules";
-    genClass.addImport(pack2 + ".OverrideRuleStore");
+    final String pack2 = "ie.ucd.clops.runtime.flyrules";
+    genClass.addImport(pack2 + ".FlyRuleStore");
   }
   
   private static void writeGeneratedClasses(File outputDir, GeneratedClass... classes) throws FileNotFoundException {
@@ -108,22 +108,22 @@ public class CodeGenerator {
     createOps.addStatement("return opStore");
   }
   
-  private static void createOverrideRuleInitialisationCode(GeneratedClass specificParser, Collection<OverrideRuleDescription> overrideRuleDescriptions) {
+  private static void createOverrideRuleInitialisationCode(GeneratedClass specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
     
-    GeneratedMethod createOverrideRules = new GeneratedMethod("createOverrideRules", "OverrideRuleStore", Visibility.Public);
+    GeneratedMethod createOverrideRules = new GeneratedMethod("createFlyRules", "FlyRuleStore", Visibility.Public);
     specificParser.addMethod(createOverrideRules);
     
-    createOverrideRules.addStatement("OverrideRuleStore orStore = new OverrideRuleStore()");
+    createOverrideRules.addStatement("FlyRuleStore flyStore = new FlyRuleStore()");
     
-    for (OverrideRuleDescription orDescription : overrideRuleDescriptions) {
+    for (FlyRuleDescription orDescription : overrideRuleDescriptions) {
       String opId = orDescription.getTriggeringOptionIdentifier();
       for (AssignmentDescription desc : orDescription.getAssignments()) {
         //TODO conversion from String to specific Option value object type here...
-        createOverrideRules.addStatement("orStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
+        createOverrideRules.addStatement("flyStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
       }
     }
     
-    createOverrideRules.addStatement("return orStore");
+    createOverrideRules.addStatement("return flyStore");
   }
   
 }

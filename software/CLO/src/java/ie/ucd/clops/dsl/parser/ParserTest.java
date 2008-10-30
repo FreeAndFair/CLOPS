@@ -3,7 +3,7 @@ package ie.ucd.clops.dsl.parser;
 import ie.ucd.clops.codegeneration.CodeGenerator;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
-import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
+import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +48,7 @@ public class ParserTest {
         
         Collection<OptionDescription> optionDescriptions = parser.getOptionDescriptions();
         Collection<OptionGroupDescription> optionGroupDescriptions = parser.getOptionGroupDescriptions();
-        Collection<OverrideRuleDescription> overrideRuleDescriptions = parser.getOverrideRuleDescriptions();
+        Collection<FlyRuleDescription> overrideRuleDescriptions = parser.getOverrideRuleDescriptions();
         String formatString = parser.getFormatString();
         
         formatString = formatString.replaceAll("\\n", "");

@@ -4,12 +4,12 @@ import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
+import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionAssignment;
 import ie.ucd.clops.runtime.options.OptionStore;
-import ie.ucd.clops.runtime.overriderules.OverrideRuleStore;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,11 +27,11 @@ public class GenericCLParser {
 
   public GenericCLParser() {}
 
-  public boolean parse(String formatString, OptionStore optionStore, OverrideRuleStore orStore, String[] args)
+  public boolean parse(String formatString, OptionStore optionStore, FlyRuleStore flyStore, String[] args)
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {
 
-    System.out.println(orStore.toString());
+    System.out.println(flyStore.toString());
     
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
@@ -100,6 +100,8 @@ public class GenericCLParser {
         //Update automaton
         automaton.nextStep(matches);
         
+        System.out.println("Matched option: " + matchedOption);
+        
         ProcessingResult pr = matchedOption.process(args, i);
         if (pr.errorDuringProcessing()) {
           //output error
@@ -107,7 +109,7 @@ public class GenericCLParser {
         } else {
           i += pr.getNumberOfArgsConsumed();
           //Apply override rule
-          Collection<OptionAssignment> assignments = orStore.getAssignmentsForOption(matchedOption);
+          Collection<OptionAssignment> assignments = flyStore.getAssignmentsForOption(matchedOption);
           if (assignments != null) {
             System.out.println("Assignments for " + matchedOption);
             for (OptionAssignment assignment : assignments) {
@@ -125,6 +127,8 @@ public class GenericCLParser {
     }
 
     System.out.println("finished parsing"); // debugging
+    System.out.println("Final Option values: ");
+    optionStore.printSetOptions(System.out);
     return true;
 
   }

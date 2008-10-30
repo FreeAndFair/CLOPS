@@ -46,7 +46,7 @@ public abstract class BasicOption implements Option {
   
   protected String getMatchingAlias(String argument) {
     for (String alias : getAliases()) {
-      if (argument.startsWith(alias)) {
+      if (argument.startsWith(alias) && (argument.length() == alias.length() || argument.charAt(alias.length()) =='=' ) ) {
         return alias;
       }
     }

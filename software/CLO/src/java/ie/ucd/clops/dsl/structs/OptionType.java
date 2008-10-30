@@ -2,7 +2,7 @@ package ie.ucd.clops.dsl.structs;
 
 /**
  *
- * @author fintan
+ * @author Fintan
  *
  */
 public interface OptionType {

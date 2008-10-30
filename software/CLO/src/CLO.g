@@ -11,6 +11,8 @@ options {
   import ie.ucd.clops.dsl.structs.OptionDescription;
   import ie.ucd.clops.dsl.structs.OptionGroupDescription;
   import ie.ucd.clops.dsl.structs.BasicOptionDescription;
+  import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
+  import ie.ucd.clops.dsl.structs.AssignmentDescription;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.DSLParseException;
   
@@ -68,12 +70,10 @@ arg_definition
                    { addOptionDescription(option); }
                 ;
                 catch [DSLParseException e] {
-                  System.out.println("Here.");
                   setCustomErrorMessage(e.toString());
                   throw new RecognitionException();
                 } 
                 catch [RecognitionException re] {
-                  System.out.println("Here2.");
                   reportError(re);
                   recover(input,re);
                 }
@@ -125,10 +125,18 @@ where_clause  :  group=NAME
 /**********************************************/
 
 fly_section  :  'FLY::' (fly_rule)*
-                   ;
+             ;
 
-fly_rule  :  NAME '->' NAME ':=' constant (',' NAME ':=' constant)* ';'
-               ;
+fly_rule  :  t=NAME
+             { OverrideRuleDescription or = new OverrideRuleDescription($t.text); } 
+             '->' n1=NAME ':=' v1=constant
+             { or.addAssignment(new AssignmentDescription($n1.text, $v1.text)); } 
+             (',' 
+              n=NAME ':=' v=constant
+              { or.addAssignment(new AssignmentDescription($n.text, $v.text)); }
+             )* ';'
+             { addFlyRuleDescription(or); }
+          ;
 
 /**********************************************/
 

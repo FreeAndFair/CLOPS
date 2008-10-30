@@ -3,6 +3,7 @@ package ie.ucd.clops.dsl.parser;
 import ie.ucd.clops.codegeneration.CodeGenerator;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
+import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,10 +48,11 @@ public class ParserTest {
         
         Collection<OptionDescription> optionDescriptions = parser.getOptionDescriptions();
         Collection<OptionGroupDescription> optionGroupDescriptions = parser.getOptionGroupDescriptions();
+        Collection<OverrideRuleDescription> overrideRuleDescriptions = parser.getOverrideRuleDescriptions();
         String formatString = parser.getFormatString();
         
         formatString = formatString.replaceAll("\\n", "");
-        CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, outputDir);
+        CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, overrideRuleDescriptions, outputDir);
         System.out.println("Created code in " + outputDir.getAbsolutePath());
         
       } else {

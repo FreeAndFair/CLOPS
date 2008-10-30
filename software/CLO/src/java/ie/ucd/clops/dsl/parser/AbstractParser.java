@@ -2,6 +2,7 @@ package ie.ucd.clops.dsl.parser;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionTypeFactory;
+import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 
@@ -26,6 +27,7 @@ public abstract class AbstractParser extends Parser {
   
   private final Collection<OptionDescription> optionDescriptions;
   private final Collection<OptionGroupDescription> optionGroupDescriptions;
+  private final Collection<OverrideRuleDescription> flyRuleDescriptions;
   private String formatString;
   
   public AbstractParser(TokenStream ts) {
@@ -34,6 +36,7 @@ public abstract class AbstractParser extends Parser {
     optionTypeFactory = new DefaultOptionTypeFactory();
     optionDescriptions = new LinkedList<OptionDescription>();
     optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
+    flyRuleDescriptions = new LinkedList<OverrideRuleDescription>();
   }
 
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
@@ -120,11 +123,19 @@ public abstract class AbstractParser extends Parser {
     optionGroupDescriptions.add(opGroupDesc);
   }
   
+  public void addFlyRuleDescription(OverrideRuleDescription flyRule) {
+    flyRuleDescriptions.add(flyRule);
+  }
+  
   /**
    * @return the optionGroupDescriptions
    */
   public Collection<OptionGroupDescription> getOptionGroupDescriptions() {
     return optionGroupDescriptions;
+  }
+
+  public Collection<OverrideRuleDescription> getOverrideRuleDescriptions() {
+    return flyRuleDescriptions;
   }
 
   public String getFormatString() {

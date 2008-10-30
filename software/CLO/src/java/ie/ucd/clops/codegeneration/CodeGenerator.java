@@ -1,8 +1,10 @@
 package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
+import ie.ucd.clops.dsl.structs.AssignmentDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
+import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +18,11 @@ public class CodeGenerator {
   //Input: OptionDescriptions
   //       Directory to output to
   //Ouput: Some .java files
-  public static void createCode(String formatString, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions, File outputDir) {
+  public static void createCode(String formatString, 
+      Collection<OptionDescription> opDescriptions, 
+      Collection<OptionGroupDescription> opGroupDescriptions, 
+      Collection<OverrideRuleDescription> overrideRuleDescriptions,
+      File outputDir) {
 
     GeneratedClass specificParser = new GeneratedClass("Parser", Visibility.Public);
     addNecessaryImports(specificParser);
@@ -25,6 +31,9 @@ public class CodeGenerator {
     
     //Create the method that will initialise the OptionStore
     createOptionInitialisationCode(specificParser, opDescriptions, opGroupDescriptions);
+    
+    //Create the method that will initialise the override rules
+    createOverrideRuleInitialisationCode(specificParser, overrideRuleDescriptions);
 
     GeneratedMethod createFormat = new GeneratedMethod("getFormatString", "String", Visibility.Public);
     createFormat.addStatement("return \"" + formatString + "\"");
@@ -45,6 +54,10 @@ public class CodeGenerator {
     genClass.addImport(pack + ".OptionGroup");
     genClass.addImport(pack + ".OptionStore");
     genClass.addImport(pack + ".BooleanOption");
+    genClass.addImport(pack + ".OptionAssignment");
+    final String pack2 = "ie.ucd.clops.runtime.overriderules";
+    genClass.addImport(pack2 + ".OverrideRule");
+    genClass.addImport(pack2 + ".OverrideRuleStore");
   }
   
   private static void writeGeneratedClasses(File outputDir, GeneratedClass... classes) throws FileNotFoundException {
@@ -94,6 +107,24 @@ public class CodeGenerator {
 
     //Finally, return the OptionStore
     createOps.addStatement("return opStore");
+  }
+  
+  private static void createOverrideRuleInitialisationCode(GeneratedClass specificParser, Collection<OverrideRuleDescription> overrideRuleDescriptions) {
+    
+    GeneratedMethod createOverrideRules = new GeneratedMethod("createOverrideRules", "OverrideRuleStore", Visibility.Public);
+    specificParser.addMethod(createOverrideRules);
+    
+    createOverrideRules.addStatement("OverrideRuleStore orStore = new OverrideRuleStore()");
+    
+    for (OverrideRuleDescription orDescription : overrideRuleDescriptions) {
+      String opId = orDescription.getTriggeringOptionIdentifier();
+      for (AssignmentDescription desc : orDescription.getAssignments()) {
+        //TODO conversion from String to specific Option value object type here...
+        createOverrideRules.addStatement("orStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", Boolean.valueOf(\"" + desc.getValue() + "\")))");
+      }
+    }
+    
+    createOverrideRules.addStatement("return orStore");
   }
   
 }

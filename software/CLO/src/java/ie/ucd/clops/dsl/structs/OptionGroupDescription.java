@@ -3,6 +3,11 @@ package ie.ucd.clops.dsl.structs;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * 
+ * @author Fintan
+ *
+ */
 public class OptionGroupDescription {
 
   private final String identifier;

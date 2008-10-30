@@ -1,0 +1,80 @@
+/*
+
+DSL for the gzip program
+
+Interesting issues:
+
+-# parameter is in fact ten other parameters: -1, -2, ...
+
+-1, -2, ..., -9, --fast, --best modifies the same option, which has to be virtual
+
+*/
+
+ARGS::
+
+	ascii:{"-a","--ascii"}
+	stdout:{"-c","--stdout","--to-stdout"}
+	decomporess:{"-d","--decompress","--uncompress"}
+	force:{"-f","--force"}
+	help:{"-h","--help"}
+	list:{"-l","--list"}
+	license:{"-L","--license"}
+	noname:{"-n","--no-name"}
+	name:{"-N","--name"}
+	quiet:{"-q","--quiet"}
+	recursive:{"-r","--recursive"}
+	rsyncable:{"--rsyncable"}
+	test:{"-t","--test"}
+	verbose:{"-v","--verbose"}
+	version:{"-V","--version"}
+	compressionlevel1:{"-1"}
+	compressionlevel2:{"-2"}
+	compressionlevel3:{"-3"}
+	compressionlevel4:{"-4"}
+	compressionlevel5:{"-5"}
+	compressionlevel6:{"-6"}
+	compressionlevel7:{"-7"}
+	compressionlevel8:{"-8"}
+	compressionlevel9:{"-9"}
+	compressionlevel_fast:{"--fast"}
+	compressionlevel_best:{"--best"}
+	compressionlevel:{"dddd"}:{int}
+
+	suffix:{"-S","--suffix"}:{string}
+
+FORMAT::
+
+	option* suffixx?;
+
+WHERE::
+
+	option:
+		ascii OR stdout OR decomporess OR force OR help OR
+		list OR license OR noname OR name OR quiet OR recursive
+		OR rsyncable OR test OR verbose OR version OR
+		compressionlevel1 OR compressionlevel2 OR
+		compressionlevel3 OR compressionlevel4 OR
+		compressionlevel5 OR compressionlevel6 OR
+		compressionlevel7 OR compressionlevel8 OR
+		compressionlevel9 OR compressionlevel_fast OR
+		compressionlevel_best;
+
+	suffixx: suffix;
+
+FLY::
+	compressionlevel1 -> compressionlevel:=1;
+	compressionlevel2 -> compressionlevel:=2;
+	compressionlevel3 -> compressionlevel:=3;
+	compressionlevel4 -> compressionlevel:=4;
+	compressionlevel5 -> compressionlevel:=5;
+	compressionlevel6 -> compressionlevel:=6;
+	compressionlevel7 -> compressionlevel:=7;
+	compressionlevel8 -> compressionlevel:=8;
+	compressionlevel9 -> compressionlevel:=9;
+	compressionlevel_best -> compressionlevel:=9;
+	compressionlevel_fast -> compressionlevel:=1;
+
+OVERRIDES::
+
+VALIDITY::
+

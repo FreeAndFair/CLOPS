@@ -27,7 +27,7 @@ ARGS::
 	test:{"-t","--test"}
 	verbose:{"-v","--verbose"}
 	version:{"-V","--version"}
-	compressionlevel1:{"-1"}
+	compressionlevel1:{"-1","--fast"}
 	compressionlevel2:{"-2"}
 	compressionlevel3:{"-3"}
 	compressionlevel4:{"-4"}
@@ -35,9 +35,7 @@ ARGS::
 	compressionlevel6:{"-6"}
 	compressionlevel7:{"-7"}
 	compressionlevel8:{"-8"}
-	compressionlevel9:{"-9"}
-	compressionlevel_fast:{"--fast"}
-	compressionlevel_best:{"--best"}
+	compressionlevel9:{"-9","--best"}
 	compressionlevel:{}:{int}
 
 	suffix:{"-S","--suffix"}:{string}
@@ -56,8 +54,7 @@ WHERE::
 		compressionlevel3 OR compressionlevel4 OR
 		compressionlevel5 OR compressionlevel6 OR
 		compressionlevel7 OR compressionlevel8 OR
-		compressionlevel9 OR compressionlevel_fast OR
-		compressionlevel_best;
+		compressionlevel9;
 
 	suffixx: suffix;
 
@@ -71,10 +68,10 @@ FLY::
 	compressionlevel7 -> compressionlevel:=7;
 	compressionlevel8 -> compressionlevel:=8;
 	compressionlevel9 -> compressionlevel:=9;
-	compressionlevel_best -> compressionlevel:=9;
-	compressionlevel_fast -> compressionlevel:=1;
 
 OVERRIDES::
+	// Default compression level is 6
+	compressionlevel=? -> compressionlevel:=6;
 
 VALIDITY::
 

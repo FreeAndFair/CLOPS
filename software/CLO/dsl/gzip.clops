@@ -2,11 +2,14 @@
 
 DSL for the gzip program
 
+TODO: verbose is a counter, needs to default to 0
+
 Interesting issues:
 
--# parameter is in fact ten other parameters: -1, -2, ...
-
--1, -2, ..., -9, --fast, --best modifies the same option, which has to be virtual
+* -# parameter is in fact ten other parameters: -1, -2, ...; -1, -2, ..., -9, --fast, --best modifies the same option, which has to be virtual
+* verbose is a counter, increased by -v and reset by -q
+* --test and --list forces decompression and stdout
+* "-" is an argument, meaning standard input
 
 */
 
@@ -36,9 +39,11 @@ ARGS::
 	compressionlevel7:{"-7"}
 	compressionlevel8:{"-8"}
 	compressionlevel9:{"-9","--best"}
-	compressionlevel:{}:{int}
-
 	suffix:{"-S","--suffix"}:{string}
+
+	// Virtual arguments
+	compressionlevel:{}:{int}
+	verbose_cnt:{}:{int}
 
 FORMAT::
 
@@ -59,6 +64,7 @@ WHERE::
 	suffixx: suffix;
 
 FLY::
+	// Compression level aliases
 	compressionlevel1 -> compressionlevel:=1;
 	compressionlevel2 -> compressionlevel:=2;
 	compressionlevel3 -> compressionlevel:=3;
@@ -68,6 +74,23 @@ FLY::
 	compressionlevel7 -> compressionlevel:=7;
 	compressionlevel8 -> compressionlevel:=8;
 	compressionlevel9 -> compressionlevel:=9;
+
+	// List forces decompress and stdout
+	list -> decompress:=true;
+	list -> stdout:=true;
+
+	// Test forces decompress and stdout
+	test -> decompress:=true;
+	test -> stdout:=true;
+
+	// Quiet and verbose are reversed
+	quiet -> verbose:=false;
+	quiet -> verbose_cnt:=0;
+	verbose -> quiet:=false;
+
+	// Verbose increases verbosity
+	// XXX don't know the right syntax
+	verbose -> verbose_cnt++;
 
 OVERRIDES::
 	// Default compression level is 6

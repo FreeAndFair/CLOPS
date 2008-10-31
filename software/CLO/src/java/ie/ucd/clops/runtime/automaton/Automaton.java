@@ -19,6 +19,8 @@ import java.util.Stack;
  * Represents a regular expression (command line format) as a finite-state automaton and enables traversing
  * the automaton with tokens of the regular expression (options).
  *
+ * @param <T> TODO
+ *
  * @author Viliam Holub
  * @author Mikolas Janota
  */
@@ -295,10 +297,10 @@ public class Automaton<T> {
 		arr_backup = arr;
 		arr = arr2;
 
-		// Update step
+		// Update step counter
 		step_index++;
 
-		// If the final list of state is empty, we are in the error
+		// If the resulting list of states is empty, we are in an error
 		// state
 		error = arr2.isEmpty();
 

@@ -8,7 +8,7 @@ indexing
   authors: "Mikolas Janota", "Dermot Cochran", "Fintan Fairmichael", "Viliam Holub", "Joe Kiniry" , "Radu Grigore"
 explanation
   "Generalized dependency analysis and parsing of command line options"
-cluster PARSER description "Generic parsing and dependency handling of command line options"
+cluster PARSERS description "Generic parsing and dependency handling of command line options"
 cluster DOCUMENTATION description "Information about command line options and depedencies"
 cluster API_GENERATION description "Generation of an API for handling specific options"
 cluster SCHEMA description "The format, syntax and dependencies of the command line options"

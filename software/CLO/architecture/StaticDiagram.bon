@@ -9,5 +9,5 @@ component
   cluster EXTENSIONS
   cluster DOCUMENTATION
   cluster API_GENERATION
-  cluster PARSER
+  cluster PARSERS
 end

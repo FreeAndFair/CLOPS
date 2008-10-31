@@ -2,6 +2,24 @@
 -- COMMANDO - Generalized parsing of command line options
 --
 
+class_chart AST
+indexing
+  in_cluster: "API_GENERATION";
+  level_of_detail: "1";
+  created: "2008-10-31-dc"
+explanation
+  "Abstract Syntax Tree representation of the command line schema"
+end
+
+class_chart ARGUMENT
+indexing
+  in_cluster: "SCHEMA";
+  level_of_detail: "1";
+  created: "2008-10-31-dc"
+explanation
+  "The textual keyword used to express a command line option"
+end
+
 class_chart CODE_GENERATION
 indexing
   level_of_detail: "1";
@@ -10,6 +28,25 @@ explanation
   "Automatic generation of GPL (e.g. Java) code from a DSL, XML or other high-level specification"
 command
   "Generate the command line parser"
+end
+
+class_chart COMMAND_LINE_HELP
+indexing
+  in_cluster: "DOCUMENTATION";
+  level_of_detail: "1";
+  created: "2008-10-31-dc"
+explanation
+  "Documentation made available on the command line in response to the help directive, which itself might be a command line option"
+end
+
+
+class_chart DSL_TYPECHECKER
+indexing
+  in_cluster: "API_GENERATION";
+  level_of_detail: "1";
+  created: "2008-10-31-dc"
+explanation
+  "A component which checks that the DSL for the command line schema is well-formed"
 end
  
 class_chart RULE
@@ -45,8 +82,7 @@ class_chart DSL_PROCESSING
 indexing
   in_cluster: "API_GENERATION";
   created: "2008-10-16-dc";
-  level_of_detail: "0";
-  in_cluster: "API_GENERATION"
+  level_of_detail: "0"
 explanation 
   "Validation and processing of the DSL which represents the model of the Command Line Format and Dependencies"
 query
@@ -61,6 +97,15 @@ indexing
   level_of_detail: "0"
 explanation
   "Reporting mechanism for inconsistencies due to dependencies between different command line options"
+end
+
+class_chart ERROR_MESSAGE
+indexing
+  in_cluster: "ERRORS";
+  level_of_detail: "0";
+  created: "2008-10-31-dc"
+explanation
+  "A textual description of a problem encountered when processing or interpreting a command line option"
 end
 
 class_chart GUI_LAYER
@@ -170,4 +215,11 @@ class_chart PLUGIN_INTERFACE
 end
 
 class_chart TAB_COMPLETION
+end
+
+class_chart VIRTUAL_OPTION
+indexing
+  created: "2008-10-32-dc"
+explanation
+  ""
 end

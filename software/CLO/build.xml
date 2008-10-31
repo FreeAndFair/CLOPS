@@ -111,7 +111,8 @@
   <target name="compile" depends="compile-java,compile-tests" description="compile java and tests"/>
 
   <target name="javadocs" depends="buildAntlr" description="Generate javadocs">
-    <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path">
+    <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path"
+             Verbose="yes">
             <packageset dir="${java-src}">    
                 <include name="**"/>
             </packageset>

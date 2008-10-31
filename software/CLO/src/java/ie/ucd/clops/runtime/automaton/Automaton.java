@@ -16,10 +16,11 @@ import java.util.Stack;
 
 
 /**
- * Represents format of the command line as an automaton and allows traversing
- * the automaton with options.
+ * Represents a regular expression (command line format) as a finie state automaton and enables traversing
+ * the automaton with tokens of the regular expression (options).
  *
  * @author Viliam Holub
+ * @author Mikolas Janota
  */
 public class Automaton<T> {
 
@@ -48,7 +49,9 @@ public class Automaton<T> {
 	 * Code
 	 */
 
-	/** Creates automaton representation of command line format.
+	/** Creates an automaton representation of a given command line format.
+         * @param tokens a regular expression represented as a set of tokens
+         * @see ie.ucd.clops.runtime.automaton.Tokenizer
 	 */
 	//@ tokens.size() != 0;
 	public Automaton( /*@ non_null @*/ List<Token<T>> tokens)
@@ -73,7 +76,7 @@ public class Automaton<T> {
 	}
 
 	/**
-	 * Builds automaton from the list of tokens.
+	 * Builds an automaton from a given  list of tokens.
 	 */
 	//@ tokens.size() != 0;
 	private void build( /*@ non_null @*/ List<Token<T>> tokens)
@@ -229,6 +232,7 @@ public class Automaton<T> {
 			return;
 		state.state_index = step_index;
 		if (state.type == StateType.SPLIT) {
+                    // TODO: the comment talks only about MATCH and END --miko
 			addSuccessors2( state.next1, successors);
 			addSuccessors2( state.next2, successors);
 		} else {
@@ -251,6 +255,8 @@ public class Automaton<T> {
 		state.state_index = step_index;
 	}
 
+
+        //TODO: I don't really understand the following comment. --miko
 	/** Tests if the current state matched with the token, follows outgoing
 	 * transitions if so and saves successor states.
 	 * @param state state to follow
@@ -274,9 +280,11 @@ public class Automaton<T> {
 		}
 	}
 
+        /* TODO: what does it mean to do a step over multiple transitions? I presume it means
+         * all of them are done at the same time (not sequentially). --miko */
 	/** Apply next step in automaton.
-	 * @param o collection of transition labels to process
-	 * @return true if we could follow at least one of the transition labels
+	 * @param o a collection of transition labels to process
+	 * @return true iff we could follow at least one of the transition labels
 	 */
 	public boolean nextStep( /*@ non_null @*/ Collection<T> o) {
 		// Do not continue if we are in an error state
@@ -301,8 +309,8 @@ public class Automaton<T> {
 	}
 
 	/** Apply next step in automaton.
-	 * @param transition transition label to process
-	 * @return true if we could follow that transition label
+	 * @param transition a transition label to process
+	 * @return true iff it was possible to follow the given transition 
 	 */
 	public boolean nextStep( /*@ non_null @*/ T transition) {
 		List<T> l = new LinkedList<T>();
@@ -310,13 +318,13 @@ public class Automaton<T> {
 		return nextStep( l);
 	}
 
-	/** Returns true if the automaton is accepting.
+	/** Determines whether the automaton is in an accepting state.
 	 * Automaton is accepting if at least one of the current automaton
 	 * states is accepting.
 	 *
-	 * @return true if the automaton is accepting
+	 * @return true iff the automaton is in an accepting state
 	 */
-	public boolean isAccepting() {
+	/*@pure*/public boolean isAccepting() {
 		for (State<T> s:arr) {
 			if (s.type == StateType.END)
 				return true;
@@ -324,18 +332,19 @@ public class Automaton<T> {
 		return false;
 	}
 
-	/** Returns in the automaton is in error state.
-	 * @return true if the automaton is in error state
+	/** Determines whether the automaton is in an error state.
+	 * @return true iff the automaton is in an error state
 	 */
-	public boolean inErrorState() {
+	/*@pure*/public boolean inErrorState() {
 		return error;
 	}
 	
-	/** Returns list of available transitions.
+	/** Computes a list of transitions that lead from the current state to 
+         * a state that is not an error state.
 	 * @return list of available trantions
 	 */
-	//@ ensures \return != null;
-	public List<T> availableTransitions() {
+	//@ ensures \fresh(\result);
+	/*@pure*/public /*@non_null*/List<T> availableTransitions() {
 		List<T> transitions = new LinkedList<T>();
 		for (State<T> state : arr)
 			if (state.type == StateType.MATCH)
@@ -343,15 +352,12 @@ public class Automaton<T> {
 		return transitions;
 	}
 	
-	/** Returns list of available transitions.
-	 * @return list of available trantions
+	/** Computes a set of available transitions.
+         * @see ie.ucd.clops.runtime.automaton.Automaton#availableTransitions()
+	 * @return set of available transitions
 	 */
-	//@ ensures \return != null;
-	public HashSet<T> availableTransitionsUnique() {
-		HashSet<T> transitions = new HashSet<T>( arr.size());
-		for (State<T> state : arr)
-			if (state.type == StateType.MATCH)
-				transitions.add(state.match);
-		return transitions;
+	//@ ensures \fresh(\result);
+	/*@pure*/public /*@non_null*/HashSet<T> availableTransitionsUnique() {
+	    return new HashSet<T>(availableTransitions());
 	}
 }

@@ -4,6 +4,7 @@ package ie.ucd.clops.runtime.automaton;
 
 /**
  * Internal representation of an automaton state.
+ * @param <T> TODO
  * @author Viliam Holub
  */
 class State<T> {
@@ -13,7 +14,7 @@ class State<T> {
 	T match;
 	/** Successors of the state. */
 	State<T> next1, next2;
-	/** State index, used for effective generation of net-step lists. */
+	/** State index, used for effective generation of next-step lists. */
 	int state_index;
 
 	State( /*@ non_null @*/ StateType type,

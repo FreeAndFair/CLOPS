@@ -16,7 +16,7 @@ import java.util.Stack;
 
 
 /**
- * Represents a regular expression (command line format) as a finie state automaton and enables traversing
+ * Represents a regular expression (command line format) as a finite-state automaton and enables traversing
  * the automaton with tokens of the regular expression (options).
  *
  * @author Viliam Holub

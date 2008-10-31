@@ -5,7 +5,7 @@ package ie.ucd.clops.runtime.automaton;
 /**
  * Representation of a token in the regular expression (command line format).
  * @author Viliam Holub
- * @param T the type of the entity that has generated this token
+ * @param <T> the type of the entity that has generated this token
  */
 public class Token<T> {
 	TokenType type;

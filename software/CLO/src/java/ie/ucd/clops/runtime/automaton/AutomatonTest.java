@@ -6,7 +6,7 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.OptionStore; //XXX for tests
+import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
@@ -119,6 +119,7 @@ public class AutomatonTest {
 		catch (OpenStarException e) {result = "OpenStarException";}
 		catch (OpenPlusException e) {result = "OpenPlusException";}
 		catch (EmptyAlternativeException e) {result = "EmptyAlternativeException";}
+		catch (EmptyFormatException e) {result = "EmptyFormatException";}
 		catch (Exception e) {result = "Unhandled exception";}
 
 		if (result.equals( ti.result)) {
@@ -151,6 +152,7 @@ public class AutomatonTest {
 		os.addOption( bo4);
 
 		TestInstance[] test_instances = new TestInstance[] {
+			new TestInstance( "Empty(1)      ", "", new Option[] {}, "EmptyFormatException"),
 			new TestInstance( "Follow(1)     ", "bo1 bo2 bo3", new Option[] {}, "bo1 "),
 			new TestInstance( "",               "bo1 bo2 bo3", new Option[] {bo1}, "bo2 "),
 			new TestInstance( "",               "bo1 bo2 bo3", new Option[] {bo1, bo2}, "bo3 "),

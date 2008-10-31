@@ -57,7 +57,7 @@ public class Automaton<T> {
 	public Automaton( /*@ non_null @*/ List<Token<T>> tokens)
 			throws RightOpenBracketException, LeftOpenBracketException,
 			OpenQuestionException, EmptyAlternativeException,
-			OpenStarException, OpenPlusException {
+			OpenStarException, OpenPlusException, EmptyFormatException {
 		arr = arr_backup = new ArrayList<State<T>>();
 		step_index = 1;
 		error = false;
@@ -82,7 +82,7 @@ public class Automaton<T> {
 	private void build( /*@ non_null @*/ List<Token<T>> tokens)
 			throws RightOpenBracketException, LeftOpenBracketException,
 			OpenQuestionException, EmptyAlternativeException,
-			OpenStarException, OpenPlusException {
+			OpenStarException, OpenPlusException, EmptyFormatException {
 		// Stack of contexts, each context represents nested ()
 		Stack<Context> ctxs = new Stack<Context>();
 		// Fragments of automaton
@@ -193,7 +193,7 @@ public class Automaton<T> {
 		
 		// If the stack is empty, comply
 		if (fragments.size() == 0) {
-			// TODO
+			throw new EmptyFormatException();
 		}
 		// Concatenate any residual atoms
 		if (ctx.atoms > 1) {
@@ -218,10 +218,11 @@ public class Automaton<T> {
 		start_state = new State<T>( StateType.SPLIT, null, fin.start, null);
 	}
 
-	/** Adds successors of s which has the type MATCH or END.
+	/** Adds MATCH and END successors of a state.
 	 * To avoid duplicates in the output list (and avoid cycling as well),
-	 * we update each state with step index and add only those, which state
-	 * index is less than the current one.
+	 * we update each state with step index and process only those, which
+	 * state index is less than the current one. Uses recursion to
+	 * transitively explore the graph.
 	 * @param state state to add or follow
 	 * @param successors output list of states
 	 */
@@ -232,7 +233,6 @@ public class Automaton<T> {
 			return;
 		state.state_index = step_index;
 		if (state.type == StateType.SPLIT) {
-                    // TODO: the comment talks only about MATCH and END --miko
 			addSuccessors2( state.next1, successors);
 			addSuccessors2( state.next2, successors);
 		} else {
@@ -256,9 +256,7 @@ public class Automaton<T> {
 	}
 
 
-        //TODO: I don't really understand the following comment. --miko
-	/** Tests if the current state matched with the token, follows outgoing
-	 * transitions if so and saves successor states.
+	/** Follows specified transitions in the automaton and returns MATCH and END successor states.
 	 * @param state state to follow
 	 * @param transition_labels a collection of transition labels to process
 	 * @param add list of successor states
@@ -280,13 +278,12 @@ public class Automaton<T> {
 		}
 	}
 
-        /* TODO: what does it mean to do a step over multiple transitions? I presume it means
-         * all of them are done at the same time (not sequentially). --miko */
 	/** Apply next step in automaton.
-	 * @param o a collection of transition labels to process
+	 * If possible (i.e. matched), we follow all the transitions for all the active states.
+	 * @param t a collection of transition labels to process
 	 * @return true iff we could follow at least one of the transition labels
 	 */
-	public boolean nextStep( /*@ non_null @*/ Collection<T> o) {
+	public boolean nextStep( /*@ non_null @*/ Collection<T> t) {
 		// Do not continue if we are in an error state
 		if (error)
 			return false;
@@ -294,7 +291,7 @@ public class Automaton<T> {
 		// Process next step, store states
 		ArrayList<State<T>> arr2 = new ArrayList<State<T>>();
 		for (State<T> s:arr)
-			follow( s, o, arr2);
+			follow( s, t, arr2);
 		arr_backup = arr;
 		arr = arr2;
 

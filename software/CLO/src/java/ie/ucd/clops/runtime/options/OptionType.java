@@ -7,16 +7,13 @@ package ie.ucd.clops.runtime.options;
  */
 public class OptionType {
 
-  static final int BOOLEAN_TYPE = 0;
-  static final int STRING_TYPE = 1;
-  static final int INTEGER_TYPE = 2;
-  static final int FLOAT_TYPE = 3;
+  private static int count = 0;
   
   private int type;
   private String typeString;
   
-  public OptionType(final int type, final String typeString) {
-    this.type = type;
+  public OptionType(final String typeString, String typeClass) {
+    this.type = count++;
     this.typeString = typeString;
   }
   
@@ -32,9 +29,23 @@ public class OptionType {
     return typeString;
   }
   
-  public static final OptionType BOOLEAN = new OptionType(BOOLEAN_TYPE, "boolean");
-  public static final OptionType STRING = new OptionType(STRING_TYPE, "string");
-  public static final OptionType INTEGER = new OptionType(INTEGER_TYPE, "int");
-  public static final OptionType FLOAT = new OptionType(FLOAT_TYPE, "float");
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof OptionType) {
+      return getType() == ((OptionType)obj).getType();
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return getType(); 
+  }
+
+  public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption");
+  public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption");
+  public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption");
+  //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption");
   
 }

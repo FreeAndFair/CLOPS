@@ -21,11 +21,6 @@ public class BooleanOption extends BasicOption {
   }
 
   /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#getType()
-   */
-  public  OptionType getType() { return OptionType.BOOLEAN; }
-
-  /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#getValue()
    */
   public Object getValue() { return value; }
@@ -93,9 +88,11 @@ public class BooleanOption extends BasicOption {
     this.value = null;
   }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.IMatchable#getMatchingOption(java.lang.String)
-   */  
-  
+  @Override
+  protected String getTypeString() {
+    return "Boolean";
+  }
+
+    
 
 }

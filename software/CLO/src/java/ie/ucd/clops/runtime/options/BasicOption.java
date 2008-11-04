@@ -52,6 +52,25 @@ public abstract class BasicOption implements Option {
     }
     return null;
   }
+  
+  public boolean acceptsPropterty(String propertyName) {
+    if (propertyName.equals("default")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
+    if (propertyName.equals("default")) {
+      try {
+        this.setFromString(propertyValue);
+      } catch (InvalidOptionValueException iove) {
+        throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage());
+      }
+    }
+    //Else ignore
+  }
 
   @Override
   public boolean equals(Object obj) {
@@ -68,12 +87,13 @@ public abstract class BasicOption implements Option {
     return getIdentifier().hashCode();
   }
   
+  protected abstract String getTypeString();
+  
   @Override
   public String toString() {
-    String r = getType().getTypeString() + " Option: \"" + getIdentifier() + "\"";
+    String r = getTypeString() + " Option: \"" + getIdentifier() + "\"";
     r += hasValue() ? "(=" + getValue() + ")" : "(not set)";
     return r;
   }
-  
-  
+
 }

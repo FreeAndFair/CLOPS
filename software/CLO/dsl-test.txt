@@ -16,16 +16,16 @@ ARGS::
  verbose:{"-v","--verbose"}
 
 //targets:{"--targets"}:{existing_file}
- targets:{"--targets"}:{string}
+// targets:{"--targets"}:{string}
  non_recursive:{"-N","--non-recursive"}
 //config_dir:{"--config-dir"}:{existing_dir}
- config_dir:{"--config-dir"}:{string}
+// config_dir:{"--config-dir"}:{string}
  force:{"--force"}
  no_ignore:{"--no-ignore"}
  auto_props:{"--auto-props"}
  no_auto_props:{"--no_auto_props"}
 //revision:{"-r","--revision"}:{revision_arg}
-revision:{"-r","--revision"}:{string}
+//revision:{"-r","--revision"}:{string}
 
 
 
@@ -53,7 +53,12 @@ subcommand  :     add
                OR copy
             ;
 
-option  :  quiet OR verbose OR targets OR non_recursive OR config_dir OR force OR no_ignore OR auto_props OR no_auto_props OR revision;
+option  :  quiet OR verbose 
+				 //OR targets 
+                 OR non_recursive 
+                 //OR config_dir 
+                 OR force OR no_ignore OR auto_props OR no_auto_props; 
+                 //OR revision;
 
 FLY::
   //Below just an example, not the behaviour of svn

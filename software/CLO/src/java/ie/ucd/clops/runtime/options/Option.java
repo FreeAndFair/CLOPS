@@ -1,8 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.Set;
-
 import ie.ucd.clops.runtime.parser.ProcessingResult;
+
+import java.util.Set;
 
 /**
  * @author Mikolas Janota
@@ -10,12 +10,6 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  *
  */
 public interface Option extends IMatchable {
-  
-  /**
-   * Get the type of this Option.
-   * @return The OptionType associated with this Option.
-   */
-  OptionType getType();
   
   /**
    * Match this option against the arguments starting at the given offset.
@@ -69,4 +63,7 @@ public interface Option extends IMatchable {
   
   Set<String> getAliases();
   
+  void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException;
+  
+  boolean acceptsPropterty(String propertyName);
 }

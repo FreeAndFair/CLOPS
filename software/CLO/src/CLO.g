@@ -18,7 +18,7 @@ options {
   
   import ie.ucd.clops.dsl.DSLParseException;
   
-  import ie.ucd.clops.dsl.structs.OptionType;
+  import ie.ucd.clops.runtime.options.OptionType;
     
 }
 
@@ -69,7 +69,16 @@ arg_definition
                    '}'
                    ( ':' '{' t=NAME '}'
                        { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
-                     )? 
+                   )? 
+                   ( ':' '['
+                     pn1=property_name '=' '"' pv1=property_value '"'
+                     { option.setProperty($pn1.text, stripStringMarks($pv1.text)); }
+                     ( pn=property_name '=' '"' pv=property_value '"'
+                       { option.setProperty($pn.text, stripStringMarks($pv.text)); } 
+                     )*
+                     ']' 
+                   )?
+                     
                    { addOptionDescription(option); }
                 ;
                 catch [DSLParseException e] {
@@ -84,8 +93,14 @@ arg_definition
 arg_name  :  NAME
           ;
 
-arg_alias  :  possible_dash_started_name
+arg_alias  :  possible_dash_started_alias
            ;
+           
+property_name  :  NAME
+               ;
+               
+property_value  :  string_constant
+                ;
 
 /**********************************************/
 
@@ -179,8 +194,11 @@ unspecified_constant  :  '?'
                       ;
 
 //Zero, one or two dashes, followed by an identifier that may start with a digit.
-possible_dash_started_name  :  (DASH DASH?)? ( NAME | INTEGER)+
-                            ;
+possible_dash_started_alias  :  (DASH DASH?)? alias
+                             ;
+                            
+alias  :  ( NAME | INTEGER)+
+       ;
 
 /**********************************************/
 

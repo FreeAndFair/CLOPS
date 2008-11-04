@@ -1,6 +1,6 @@
 package ie.ucd.clops.dsl;
 
-import ie.ucd.clops.dsl.structs.OptionType;
+import ie.ucd.clops.runtime.options.OptionType;
 
 /**
  * 

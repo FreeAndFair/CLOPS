@@ -146,6 +146,8 @@ public abstract class AbstractParser extends Parser {
     this.formatString = formatString;
   }
 
-  
+  protected static String stripStringMarks(String s) {
+    return s.substring(1,s.length()-1);
+  }
   
 }

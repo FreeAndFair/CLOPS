@@ -42,7 +42,7 @@ ARGS::
 	suffix:{"-S","--suffix"}:{string}
 
 	// Virtual arguments
-	compressionlevel:{}:{int}
+	compressionlevel:{}:{int}:[default="6",maxvalue="9",minvalue="1"]
 	verbose_cnt:{}:{int}
 
 FORMAT::

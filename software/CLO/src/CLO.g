@@ -18,7 +18,7 @@ options {
   
   import ie.ucd.clops.dsl.DSLParseException;
   
-  import ie.ucd.clops.runtime.options.OptionType;
+  import ie.ucd.clops.dsl.OptionType;
     
 }
 

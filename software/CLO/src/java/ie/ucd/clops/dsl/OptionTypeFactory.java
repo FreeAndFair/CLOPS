@@ -1,6 +1,5 @@
 package ie.ucd.clops.dsl;
 
-import ie.ucd.clops.runtime.options.OptionType;
 
 /**
  * 
@@ -16,4 +15,5 @@ public interface OptionTypeFactory {
    */
   OptionType getOptionType(final String optionType) throws DSLParseException;
   
+  OptionType getDefaultOptionType();
 }

@@ -3,6 +3,7 @@ package ie.ucd.clops.codegeneration;
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.List;
 
 public class GeneratedCodePrinter {
@@ -59,12 +60,14 @@ public class GeneratedCodePrinter {
     newLine();
   }
 
-  public void printClass(GeneratedClass genClass) {
+  public void printClass(GeneratedClassOrInterface genClass) {
     startLine();
 
     for (String im : genClass.getImports()) {
       printImport(im);
     }
+    
+    printPackage(genClass.getPackageName());
     
     if (genClass.getImports().size() > 0) {
       newLine();
@@ -72,7 +75,11 @@ public class GeneratedCodePrinter {
     
     printVisibility(genClass.getVisibility());
     printModifiers(genClass.getModifiers());
-    ps.print("class ");
+    if (genClass.isInterface()) {
+      ps.print("interface ");
+    } else {
+      ps.print("class ");
+    }
     ps.print(genClass.getName());
     space();
     
@@ -99,8 +106,16 @@ public class GeneratedCodePrinter {
   private final void printImport(String im) {
     ps.print("import ");
     ps.print(im);
-    ps.print(";");
+    ps.print(';');
     newLine();
+  }
+  
+  private final void printPackage(String packageName) {
+    if (packageName != null && !packageName.equals("")) {
+      ps.print("package ");
+      ps.print(packageName);
+      ps.print(';');
+    }
   }
   
   public void printField(GeneratedField field) {
@@ -125,14 +140,19 @@ public class GeneratedCodePrinter {
     printArguments(method.getArgs());
     ps.print(')');
     
-    space();    
-    openBraces();
-    
-    for (GeneratedStatement statement : method.getStatements()) {
-      printStatement(statement);
-    }    
-    
-    closeBraces();
+    if (method.isAbstract()) {
+      ps.print(';');
+      newLine();
+    } else {
+      space();    
+      openBraces();
+
+      for (GeneratedStatement statement : method.getStatements()) {
+        printStatement(statement);
+      }    
+
+      closeBraces();
+    }
   }
   
   private final void printArguments(List<GeneratedArgument> args) {
@@ -176,7 +196,7 @@ public class GeneratedCodePrinter {
     }
   }
   
-  private final void printModifiers(List<String> mods) {
+  private final void printModifiers(Collection<String> mods) {
     for (String mod : mods) {
       ps.print(mod);
       space();

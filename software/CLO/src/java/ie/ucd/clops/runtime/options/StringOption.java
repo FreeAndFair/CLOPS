@@ -70,6 +70,8 @@ public class StringOption extends OneArgumentOption {
     return "String";
   }
 	
-	
+	public String getStringValue() {
+	  return value;
+	}
 	
 }

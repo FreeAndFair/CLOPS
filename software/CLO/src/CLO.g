@@ -67,9 +67,13 @@ arg_definition
                      )* 
                    )?
                    '}'
+                   (
                    ( ':' '{' t=NAME '}'
                        { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
-                   )? 
+                   )
+                   |
+                       { OptionType optionType = getOptionTypeFactory().getDefaultOptionType(); option.setType(optionType); }
+                   ) 
                    ( ':' '['
                      pn1=property_name '=' '"' pv1=property_value '"'
                      { option.setProperty($pn1.text, stripStringMarks($pv1.text)); }

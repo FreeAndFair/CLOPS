@@ -7,6 +7,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
 
   private final List<GeneratedArgument> args;
   private final List<GeneratedStatement> statements;
+  private boolean isAbstract;
   private final String returnType;
   
   public GeneratedMethod(String name, String returnType, Visibility visibility) {
@@ -14,6 +15,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     this.returnType = returnType;
     this.args = new LinkedList<GeneratedArgument>();
     this.statements = new LinkedList<GeneratedStatement>();
+    isAbstract = false;
   }
 
   public GeneratedMethod(String name, String returnType) {
@@ -21,6 +23,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     this.returnType = returnType;
     this.args = new LinkedList<GeneratedArgument>();
     this.statements = new LinkedList<GeneratedStatement>();
+    isAbstract = false;
   }
 
   public void addArg(GeneratedArgument arg) {
@@ -45,6 +48,14 @@ public class GeneratedMethod extends GeneratedCodeUnit {
 
   public String getReturnType() {
     return returnType;
-  }  
+  }
+
+  public boolean isAbstract() {
+    return isAbstract;
+  }
+
+  public void setAbstract(boolean isAbstract) {
+    this.isAbstract = isAbstract;
+  }
 
 }

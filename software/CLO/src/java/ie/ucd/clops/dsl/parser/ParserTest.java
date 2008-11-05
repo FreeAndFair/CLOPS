@@ -52,7 +52,7 @@ public class ParserTest {
         String formatString = parser.getFormatString();
         
         formatString = formatString.replaceAll("\\n", "");
-        CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, overrideRuleDescriptions, outputDir);
+        CodeGenerator.createCode(formatString, optionDescriptions, optionGroupDescriptions, overrideRuleDescriptions, outputDir, "");
         System.out.println("Created code in " + outputDir.getAbsolutePath());
         
       } else {

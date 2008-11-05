@@ -93,6 +93,8 @@ public class BooleanOption extends BasicOption {
     return "Boolean";
   }
 
-    
+  public boolean getBooleanValue() {
+    return value;
+  }
 
 }

@@ -1,6 +1,5 @@
 package ie.ucd.clops.dsl;
 
-import ie.ucd.clops.runtime.options.OptionType;
 
 /**
  * @author fintan
@@ -18,11 +17,19 @@ public class DefaultOptionTypeFactory implements OptionTypeFactory {
       return OptionType.STRING;
     } else if (optionType.equalsIgnoreCase("int") || optionType.equalsIgnoreCase("integer")) {
       return OptionType.INTEGER;
+    } else if (optionType.equalsIgnoreCase("file")) {
+      return OptionType.FILE;
 //    } else if (optionType.equalsIgnoreCase("float")) {
 //      return OptionType.FLOAT;
     } else {
       throw new DSLParseException("Unknown option type: " + optionType);
     }
   }
+
+  public OptionType getDefaultOptionType() {
+    return OptionType.BOOLEAN;
+  }
+  
+  
 
 }

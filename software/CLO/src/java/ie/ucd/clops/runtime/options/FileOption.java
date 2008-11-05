@@ -185,6 +185,8 @@ public class FileOption extends OneArgumentOption {
     return "File";
   }
 	
-	
+	public File getFileValue() {
+	  return value;
+	}
 	
 }

@@ -121,6 +121,8 @@ public class IntegerOption extends OneArgumentOption {
     return "Integer";
   }
 	
-	
+	public int getIntegerValue() {
+	  return value;
+	}
 	
 }

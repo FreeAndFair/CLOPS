@@ -3,26 +3,33 @@ package ie.ucd.clops.codegeneration;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GeneratedClass extends GeneratedCodeUnit {
+public class GeneratedClassOrInterface extends GeneratedCodeUnit {
 
   private final List<GeneratedMethod> methods;
   private final List<GeneratedField> fields;
   private final List<String> imports;
+  private final String packageName;
+  private final boolean isInterface;
   private String superClass;
   
-  public GeneratedClass(String name) {
+  public GeneratedClassOrInterface(String name, boolean isInterface, String packageName) {
     super(name);
+    this.isInterface = isInterface;
     this.methods = new LinkedList<GeneratedMethod>();
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
+    this.packageName = packageName;
     this.superClass = null;
   }
   
-  public GeneratedClass(String name, Visibility visibility) {
-    super(name, visibility); 
+  public GeneratedClassOrInterface(String name, boolean isInterface, String packageName, Visibility visibility) {
+    super(name, visibility);
+    this.isInterface = isInterface;
     this.methods = new LinkedList<GeneratedMethod>();
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
+    this.packageName = packageName;
+    this.superClass = null;
   }
 
   public List<GeneratedMethod> getMethods() {
@@ -56,5 +63,15 @@ public class GeneratedClass extends GeneratedCodeUnit {
   public String getSuperClass() {
     return superClass;
   }
+
+  public String getPackageName() {
+    return packageName;
+  }
+
+  public boolean isInterface() {
+    return isInterface;
+  }
+  
+  
   
 }

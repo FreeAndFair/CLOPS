@@ -22,9 +22,11 @@ public class CodeGenerator {
       Collection<OptionDescription> opDescriptions, 
       Collection<OptionGroupDescription> opGroupDescriptions, 
       Collection<FlyRuleDescription> overrideRuleDescriptions,
-      File outputDir) {
+      File outputDir,
+      String outputPackage) {
 
-    GeneratedClass specificParser = new GeneratedClass("Parser", Visibility.Public);
+    //Specific parser
+    GeneratedClassOrInterface specificParser = new GeneratedClassOrInterface("Parser", false, outputPackage, Visibility.Public);
     addNecessaryImports(specificParser);
     specificParser.setSuperClass("ie.ucd.clops.runtime.parser.AbstractSpecificCLParser");
     specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
@@ -39,8 +41,19 @@ public class CodeGenerator {
     createFormat.addStatement("return \"" + formatString + "\"");
     specificParser.addMethod(createFormat);
     
+    //OptionsInterface
+    GeneratedClassOrInterface optionsInterface = new GeneratedClassOrInterface("OptionsInterface", true, outputPackage, Visibility.Public);
+    for (OptionDescription od : opDescriptions) {
+      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
+      isSetMethod.setAbstract(true);
+      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
+      getValueMethod.setAbstract(true);
+      optionsInterface.addMethod(isSetMethod);
+      optionsInterface.addMethod(getValueMethod);
+    }
+    
     try {
-      writeGeneratedClasses(outputDir, specificParser);
+      writeGeneratedClasses(outputDir, specificParser, optionsInterface);
     } catch (FileNotFoundException fnfe) {
       System.out.println("Error creating file. " + fnfe);
     }
@@ -48,7 +61,7 @@ public class CodeGenerator {
     //new GeneratedCodePrinter(System.out).printClass(specificParser);
   }
   
-  private static void addNecessaryImports(GeneratedClass genClass) {
+  private static void addNecessaryImports(GeneratedClassOrInterface genClass) {
     final String pack = "ie.ucd.clops.runtime.options";
     genClass.addImport(pack + ".Option");
     genClass.addImport(pack + ".OptionGroup");
@@ -59,22 +72,22 @@ public class CodeGenerator {
     genClass.addImport(pack2 + ".FlyRuleStore");
   }
   
-  private static void writeGeneratedClasses(File outputDir, GeneratedClass... classes) throws FileNotFoundException {
-    for (GeneratedClass genClass : classes) {
+  private static void writeGeneratedClasses(File outputDir, GeneratedClassOrInterface... classes) throws FileNotFoundException {
+    for (GeneratedClassOrInterface genClass : classes) {
       writeGeneratedClass(outputDir, genClass);
     }
   }
   
-  private static void writeGeneratedClass(File outputDir, GeneratedClass genClass) throws FileNotFoundException {
-    PrintWriter pw = new PrintWriter(new FileOutputStream(outputDir.getAbsolutePath() + File.separator + genClass.getName() + ".java"));
-    
-    new GeneratedCodePrinter(pw).printClass(genClass);
-    
-    pw.flush();
-    pw.close();
+  private static void writeGeneratedClass(File outputDir, GeneratedClassOrInterface... genClasses) throws FileNotFoundException {
+    for (GeneratedClassOrInterface genClass : genClasses) {
+      PrintWriter pw = new PrintWriter(new FileOutputStream(outputDir.getAbsolutePath() + File.separator + genClass.getName() + ".java"));
+      new GeneratedCodePrinter(pw).printClass(genClass);
+      pw.flush();
+      pw.close();
+    }
   }
   
-  private static void createOptionInitialisationCode(GeneratedClass specificParser, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions) {
+  private static void createOptionInitialisationCode(GeneratedClassOrInterface specificParser, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions) {
   
     GeneratedMethod createOps = new GeneratedMethod("createOptions", "OptionStore", Visibility.Public);
     specificParser.addMethod(createOps);
@@ -108,7 +121,7 @@ public class CodeGenerator {
     createOps.addStatement("return opStore");
   }
   
-  private static void createOverrideRuleInitialisationCode(GeneratedClass specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
+  private static void createOverrideRuleInitialisationCode(GeneratedClassOrInterface specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
     
     GeneratedMethod createOverrideRules = new GeneratedMethod("createFlyRules", "FlyRuleStore", Visibility.Public);
     specificParser.addMethod(createOverrideRules);

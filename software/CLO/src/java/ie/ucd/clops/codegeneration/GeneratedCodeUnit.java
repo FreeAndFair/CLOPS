@@ -1,7 +1,7 @@
 package ie.ucd.clops.codegeneration;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GeneratedCodeUnit {
 
@@ -9,7 +9,7 @@ public class GeneratedCodeUnit {
   
   private Visibility visibility;
   private final String name;
-  private final List<String> modifiers;
+  private final Set<String> modifiers;
 
   public GeneratedCodeUnit(String name) {
     this(name, Visibility.PackagePrivate);
@@ -18,7 +18,7 @@ public class GeneratedCodeUnit {
   public GeneratedCodeUnit(String name, Visibility visibility) {
     this.visibility = visibility;
     this.name = name;
-    this.modifiers = new LinkedList<String>();
+    this.modifiers = new HashSet<String>();
   }
   
   public Visibility getVisibility() {
@@ -33,8 +33,11 @@ public class GeneratedCodeUnit {
     return name;
   }
 
-  public List<String> getModifiers() {
+  public Set<String> getModifiers() {
     return modifiers;
   }  
   
+  public void addModifier(String modifier) {
+    modifiers.add(modifier);
+  }
 }

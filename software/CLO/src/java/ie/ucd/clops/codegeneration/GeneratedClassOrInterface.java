@@ -10,6 +10,7 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
   private final List<String> imports;
   private final String packageName;
   private final boolean isInterface;
+  private final List<String> implementedInterfaces;
   private String superClass;
   
   public GeneratedClassOrInterface(String name, boolean isInterface, String packageName) {
@@ -18,6 +19,7 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     this.methods = new LinkedList<GeneratedMethod>();
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
+    this.implementedInterfaces = new LinkedList<String>();
     this.packageName = packageName;
     this.superClass = null;
   }
@@ -28,6 +30,7 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     this.methods = new LinkedList<GeneratedMethod>();
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
+    this.implementedInterfaces = new LinkedList<String>();
     this.packageName = packageName;
     this.superClass = null;
   }
@@ -44,6 +47,10 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     return imports;
   }
 
+  public List<String> getImplementedInterfaces() {
+    return implementedInterfaces;
+  }
+
   public void addMethod(GeneratedMethod genMethod) {
     methods.add(genMethod);
   }
@@ -54,6 +61,10 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
   
   public void addImport(String im) {
     imports.add(im);
+  }
+  
+  public void addImplementedInterface(String interfaceName) {
+    implementedInterfaces.add(interfaceName);
   }
   
   public void setSuperClass(String superClass) {

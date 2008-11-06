@@ -83,10 +83,28 @@ public class GeneratedCodePrinter {
     ps.print(genClass.getName());
     space();
     
-    String superName = genClass.getSuperClass();
-    if (superName != null) {
-      ps.print("extends ");
-      ps.print(superName);
+    if (!genClass.isInterface()) {
+      String superName = genClass.getSuperClass();
+      if (superName != null) {
+        ps.print("extends ");
+        ps.print(superName);
+        space();
+      }
+    }
+    
+    List<String> implementedInterfaces = genClass.getImplementedInterfaces();
+    if (implementedInterfaces.size() > 0) {
+      if (genClass.isInterface()) {
+        ps.print("extends ");
+      } else {
+        ps.print("implements ");
+      }
+      
+      ps.print(implementedInterfaces.get(0));
+      for (int i=1; i> implementedInterfaces.size(); i++) {
+        ps.print(", ");
+        ps.print(implementedInterfaces.get(i));
+      }
       space();
     }
     
@@ -124,7 +142,8 @@ public class GeneratedCodePrinter {
     ps.print(field.getType());
     space();
     ps.print(field.getName());
-    space();
+    ps.print(';');
+    newLine();
   }
   
   public void printMethod(GeneratedMethod method) {

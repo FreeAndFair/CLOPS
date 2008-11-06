@@ -15,9 +15,6 @@ import java.util.Collection;
 public class CodeGenerator {
 
 
-  //Input: OptionDescriptions
-  //       Directory to output to
-  //Ouput: Some .java files
   public static void createCode(String formatString, 
       Collection<OptionDescription> opDescriptions, 
       Collection<OptionGroupDescription> opGroupDescriptions, 
@@ -26,39 +23,20 @@ public class CodeGenerator {
       String outputPackage) {
 
     //Specific parser
-    GeneratedClassOrInterface specificParser = new GeneratedClassOrInterface("Parser", false, outputPackage, Visibility.Public);
-    addNecessaryImports(specificParser);
-    specificParser.setSuperClass("ie.ucd.clops.runtime.parser.AbstractSpecificCLParser");
-    specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
-    
-    //Create the method that will initialise the OptionStore
-    createOptionInitialisationCode(specificParser, opDescriptions, opGroupDescriptions);
-    
-    //Create the method that will initialise the override rules
-    createOverrideRuleInitialisationCode(specificParser, overrideRuleDescriptions);
-
-    GeneratedMethod createFormat = new GeneratedMethod("getFormatString", "String", Visibility.Public);
-    createFormat.addStatement("return \"" + formatString + "\"");
-    specificParser.addMethod(createFormat);
+    GeneratedClassOrInterface specificParser = createSpecificParser(formatString, opDescriptions, opGroupDescriptions, overrideRuleDescriptions, outputPackage);
     
     //OptionsInterface
-    GeneratedClassOrInterface optionsInterface = new GeneratedClassOrInterface("OptionsInterface", true, outputPackage, Visibility.Public);
-    for (OptionDescription od : opDescriptions) {
-      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
-      isSetMethod.setAbstract(true);
-      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
-      getValueMethod.setAbstract(true);
-      optionsInterface.addMethod(isSetMethod);
-      optionsInterface.addMethod(getValueMethod);
-    }
+    GeneratedClassOrInterface optionsInterface = createOptionsInterface(opDescriptions, outputPackage);
+    
+    //SpecifiOptionsStore
+    GeneratedClassOrInterface specificOptionStore = createSpecificOptionStore(opDescriptions, opGroupDescriptions, outputPackage);
     
     try {
-      writeGeneratedClasses(outputDir, specificParser, optionsInterface);
+      writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore);
     } catch (FileNotFoundException fnfe) {
       System.out.println("Error creating file. " + fnfe);
     }
     
-    //new GeneratedCodePrinter(System.out).printClass(specificParser);
   }
   
   private static void addNecessaryImports(GeneratedClassOrInterface genClass) {
@@ -87,38 +65,14 @@ public class CodeGenerator {
     }
   }
   
-  private static void createOptionInitialisationCode(GeneratedClassOrInterface specificParser, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions) {
+  private static GeneratedMethod createOptionInitialisationMethod(GeneratedClassOrInterface specificParser, Collection<OptionDescription> opDescriptions, Collection<OptionGroupDescription> opGroupDescriptions) {
   
     GeneratedMethod createOps = new GeneratedMethod("createOptions", "OptionStore", Visibility.Public);
-    specificParser.addMethod(createOps);
+    //specificParser.addMethod(createOps);
     
-    //Create the OptionStore method
-    createOps.addStatement("OptionStore opStore = new OptionStore()");
-    //Create and add each Option
-    for (OptionDescription opDesc : opDescriptions) {
-      //TODO need a code generator factory in line with the option factory
-      createOps.addStatement("Option " + opDesc.getIdentifier() + " = new BooleanOption(\"" + opDesc.getIdentifier() + "\")");
-      for (String alias : opDesc.getAliases()) {
-        createOps.addStatement(opDesc.getIdentifier() + ".addAlias(\"" + alias + "\")");
-      }
-      createOps.addStatement("opStore.addOption(" + opDesc.getIdentifier() + ")");
-    }
+    createOps.addStatement("return new SpecificOptionStore()");
     
-    //Create and add each OptionGroup
-    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
-      createOps.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
-      createOps.addStatement("opStore.addOptionGroup(" + opGroupDesc.getIdentifier() + ")");
-    }
-    
-    //Loop again, this time adding the children
-    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
-      for (String child : opGroupDesc.getChildren()) {
-        createOps.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + ")");
-      }
-    }
-
-    //Finally, return the OptionStore
-    createOps.addStatement("return opStore");
+    return createOps;
   }
   
   private static void createOverrideRuleInitialisationCode(GeneratedClassOrInterface specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
@@ -137,6 +91,101 @@ public class CodeGenerator {
     }
     
     createOverrideRules.addStatement("return flyStore");
+  }
+  
+  private static GeneratedClassOrInterface createOptionsInterface(Collection<OptionDescription> opDescriptions, String outputPackage) {
+    GeneratedClassOrInterface optionsInterface = new GeneratedClassOrInterface("OptionsInterface", true, outputPackage, Visibility.Public);
+    for (OptionDescription od : opDescriptions) {
+      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
+      isSetMethod.setAbstract(true);
+      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
+      getValueMethod.setAbstract(true);
+      optionsInterface.addMethod(isSetMethod);
+      optionsInterface.addMethod(getValueMethod);
+    }
+    return optionsInterface;
+  }
+
+  private static GeneratedClassOrInterface createSpecificParser(
+      String formatString,
+      Collection<OptionDescription> opDescriptions, 
+      Collection<OptionGroupDescription> opGroupDescriptions,
+      Collection<FlyRuleDescription> overrideRuleDescriptions,
+      String outputPackage) {
+    GeneratedClassOrInterface specificParser = new GeneratedClassOrInterface("Parser", false, outputPackage, Visibility.Public);
+    addNecessaryImports(specificParser);
+    specificParser.setSuperClass("ie.ucd.clops.runtime.parser.AbstractSpecificCLParser");
+    specificParser.addMethod(new GeneratedConstructor("Parser", Visibility.Public));
+    
+    //Create the method that will initialise the OptionStore
+    specificParser.addMethod(createOptionInitialisationMethod(specificParser, opDescriptions, opGroupDescriptions));
+    
+    //Create the method that will initialise the override rules
+    createOverrideRuleInitialisationCode(specificParser, overrideRuleDescriptions);
+
+    GeneratedMethod createFormat = new GeneratedMethod("getFormatString", "String", Visibility.Public);
+    createFormat.addStatement("return \"" + formatString + "\"");
+    specificParser.addMethod(createFormat);
+    return specificParser;
+  }
+  
+  private static GeneratedClassOrInterface createSpecificOptionStore(
+      Collection<OptionDescription> opDescriptions, 
+      Collection<OptionGroupDescription> opGroupDescriptions,
+      String outputPackage) {
+    final String className = "SpecificOptionStore";
+    
+    GeneratedClassOrInterface specificOptionStore = new GeneratedClassOrInterface(className, false, outputPackage, Visibility.Public);
+    specificOptionStore.setSuperClass("ie.ucd.clops.runtime.options.OptionStore");
+    specificOptionStore.addImplementedInterface("OptionsInterface");
+    final String pack = "ie.ucd.clops.runtime.options";
+    specificOptionStore.addImport(pack + ".OptionGroup");
+    
+    for (OptionDescription opDesc : opDescriptions) {
+      GeneratedField field = new GeneratedField(opDesc.getIdentifier(), opDesc.getType().getOptionTypeClass(), Visibility.Private);
+      field.addModifier("final");
+      specificOptionStore.addField(field);
+    }
+    
+    GeneratedConstructor constructor = new GeneratedConstructor(className, Visibility.Public);
+    
+    //Create and add each Option
+    for (OptionDescription opDesc : opDescriptions) {
+      //TODO need a code generator factory in line with the option factory
+      constructor.addStatement(opDesc.getIdentifier() + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\")"); 
+
+      for (String alias : opDesc.getAliases()) {
+        constructor.addStatement(opDesc.getIdentifier() + ".addAlias(\"" + alias + "\")");
+      }
+      constructor.addStatement("addOption(" + opDesc.getIdentifier() + ")");
+    }
+    
+    //Create and add each OptionGroup
+    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
+      constructor.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
+      constructor.addStatement("addOptionGroup(" + opGroupDesc.getIdentifier() + ")");
+    }
+    
+    //Loop again, this time adding the children
+    for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
+      for (String child : opGroupDesc.getChildren()) {
+        constructor.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + ")");
+      }
+    }
+
+    specificOptionStore.addMethod(constructor);
+    
+    
+    for (OptionDescription od : opDescriptions) {
+      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
+      isSetMethod.addStatement("return " + od.getIdentifier() + ".hasValue()");
+      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
+      getValueMethod.addStatement("return " + od.getIdentifier() + '.' + od.getType().getOptionValueGetterMethodName() + "()");
+      specificOptionStore.addMethod(isSetMethod);
+      specificOptionStore.addMethod(getValueMethod);
+    }
+    
+    return specificOptionStore;
   }
   
 }

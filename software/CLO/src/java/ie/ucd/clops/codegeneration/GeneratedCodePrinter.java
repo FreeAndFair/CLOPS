@@ -158,6 +158,16 @@ public class GeneratedCodePrinter {
     ps.print('(');
     printArguments(method.getArgs());
     ps.print(')');
+
+    List<String> exceptions = method.getExceptions();
+    if (exceptions.size() > 0) {
+      ps.print(" throws ");
+      ps.print(exceptions.get(0));
+      for (int i=1; i < exceptions.size(); i++) {
+        ps.print(", ");
+        ps.print(exceptions.get(i));
+      }
+    }
     
     if (method.isAbstract()) {
       ps.print(';');

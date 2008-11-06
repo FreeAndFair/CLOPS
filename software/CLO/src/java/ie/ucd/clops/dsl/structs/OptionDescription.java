@@ -2,7 +2,7 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
 
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -60,5 +60,5 @@ public interface OptionDescription {
    * Get the properties associated with this option.
    * @return the properties associated with this option.
    */
-  Properties getProperties();
+  Map<String,String> getProperties();
 }

@@ -106,6 +106,7 @@ public class GenericCLParser {
         if (pr.errorDuringProcessing()) {
           //output error
           System.out.println(pr.getErrorMessage());
+          return false;
         } else {
           i += pr.getNumberOfArgsConsumed();
           //Apply override rule

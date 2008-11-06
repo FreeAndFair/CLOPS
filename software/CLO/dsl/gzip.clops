@@ -28,7 +28,7 @@ ARGS::
 	recursive:{"-r","--recursive"}
 	rsyncable:{"--rsyncable"}
 	test:{"-t","--test"}
-	verbose:{"-v","--verbose"}
+	verbose:{"-v","--verbose"}:{counted-boolean}:[countmax="3",warnonexceedingmax]
 	version:{"-V","--version"}
 	compressionlevel1:{"-1","--fast"}
 	compressionlevel2:{"-2"}
@@ -43,7 +43,8 @@ ARGS::
 
 	// Virtual arguments
 	compressionlevel:{}:{int}:[default="6",maxvalue="9",minvalue="1"]
-	verbose_cnt:{}:{int}
+	
+	//verbose_cnt:{}:{int} - using countedboolean instead
 
 FORMAT::
 
@@ -90,7 +91,7 @@ FLY::
 
 	// Verbose increases verbosity
 	// XXX don't know the right syntax
-	verbose -> verbose_cnt++;
+	//verbose -> verbose_cnt++;
 
 OVERRIDES::
 	// Default compression level is 6

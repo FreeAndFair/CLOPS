@@ -18,7 +18,9 @@ public class DefaultOptionTypeFactory implements OptionTypeFactory {
     } else if (optionType.equalsIgnoreCase("int") || optionType.equalsIgnoreCase("integer")) {
       return OptionType.INTEGER;
     } else if (optionType.equalsIgnoreCase("file")) {
-      return OptionType.FILE;
+      return OptionType.FILE; 
+    } else if (optionType.equalsIgnoreCase("counted-boolean")) {
+      return OptionType.COUNTED_BOOLEAN;
 //    } else if (optionType.equalsIgnoreCase("float")) {
 //      return OptionType.FLOAT;
     } else {

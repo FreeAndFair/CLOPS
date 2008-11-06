@@ -11,13 +11,16 @@ import java.util.Set;
  */
 public class BooleanOption extends BasicOption {
   private Boolean value;
-
+  private boolean allowArg;
+  
   public BooleanOption(String identifier, final Set<String> aliases) {
     super(identifier, aliases);
+    this.allowArg = true;
   }
 
   public BooleanOption(String identifier) {
     super(identifier);
+    this.allowArg = true;
   }
 
   /* (non-Javadoc)
@@ -40,18 +43,28 @@ public class BooleanOption extends BasicOption {
     assert this.getMatchingOption(currentArg) == this;
     String alias = getMatchingAlias(currentArg);
     //If we allow -arg=VALUE
-    if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
-      String suffix = currentArg.substring(alias.length() + 1);
-      try {
-        setFromString(suffix);
+    if (allowArg) {
+      if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
+        String suffix = currentArg.substring(alias.length() + 1);
+        try {
+          setFromString(suffix);
+          return ProcessingResult.successfulProcess(1);
+        } catch (InvalidOptionValueException iove) {
+          return ProcessingResult.erroneousProcess(iove.getMessage());
+        }
+      } else {
+        //It's true...
+        try { set(Boolean.TRUE); } catch (InvalidOptionValueException iove) { assert false; }
         return ProcessingResult.successfulProcess(1);
-      } catch (InvalidOptionValueException iove) {
-        return ProcessingResult.erroneousProcess(iove.getMessage());
       }
     } else {
-      //It's true...
-      this.value = Boolean.TRUE;
-      return ProcessingResult.successfulProcess(1);
+      if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
+        return ProcessingResult.erroneousProcess("Option " + alias + " does not allow an argument.");
+      } else {
+        //It's true...
+        try { set(Boolean.TRUE); } catch (InvalidOptionValueException iove) { assert false; }
+        return ProcessingResult.successfulProcess(1);
+      }
     }
   }
 
@@ -95,6 +108,35 @@ public class BooleanOption extends BasicOption {
 
   public boolean getBooleanValue() {
     return value;
+  }
+
+  @Override
+  public boolean acceptsPropterty(String propertyName) {
+    if (propertyName.equalsIgnoreCase("allowarg")) {
+      return true;
+    } else {
+      return super.acceptsPropterty(propertyName);
+    }
+  }
+
+  @Override
+  public void setProperty(String propertyName, String propertyValue)
+      throws InvalidOptionPropertyValueException {
+    if (propertyName.equalsIgnoreCase("allowarg")) {
+      if (validBooleanString(propertyValue)) {
+        allowArg = Boolean.parseBoolean(propertyValue);
+      }
+    } else {
+      super.setProperty(propertyName, propertyValue);
+    }
+  }
+  
+  private boolean validBooleanString(String s) {
+    return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false");
+  } 
+  
+  protected void setAllowArg(boolean allowArg) {
+    this.allowArg = allowArg;
   }
 
 }

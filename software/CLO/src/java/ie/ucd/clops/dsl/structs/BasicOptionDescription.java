@@ -2,8 +2,9 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,12 +15,12 @@ public class BasicOptionDescription implements OptionDescription {
 
   private final Set<String> aliases;
   private String identifier;
-  private final Properties properties;
+  private final Map<String,String> properties;
   private OptionType type;
 
   public BasicOptionDescription() {
     this.aliases = new HashSet<String>();
-    this.properties = new Properties();
+    this.properties = new HashMap<String,String>();
   }
 
   /* (non-Javadoc)
@@ -54,13 +55,13 @@ public class BasicOptionDescription implements OptionDescription {
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setProperty(java.lang.String, java.lang.String)
    */
   public void setProperty(String key, String value) {
-    properties.setProperty(key, value);
+    properties.put(key, value);
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */
-  public Properties getProperties() {
+  public Map<String,String> getProperties() {
     return properties;
   }
 

@@ -75,10 +75,18 @@ arg_definition
                        { OptionType optionType = getOptionTypeFactory().getDefaultOptionType(); option.setType(optionType); }
                    ) 
                    ( ':' '['
-                     pn1=property_name '=' '"' pv1=property_value '"'
-                     { option.setProperty($pn1.text, stripStringMarks($pv1.text)); }
-                     ( pn=property_name '=' '"' pv=property_value '"'
-                       { option.setProperty($pn.text, stripStringMarks($pv.text)); } 
+                     pn1=property_name  
+                     ( '=' pv1=property_value
+                       { option.setProperty($pn1.text, stripStringMarks($pv1.text)); }
+                      |
+                       { option.setProperty($pn1.text, "true"); }
+                     )
+                     ( ',' pn=property_name 
+                       ( '=' pv=property_value
+                         { option.setProperty($pn.text, stripStringMarks($pv.text)); }
+                        |
+                         { option.setProperty($pn.text, "true"); }
+                       ) 
                      )*
                      ']' 
                    )?

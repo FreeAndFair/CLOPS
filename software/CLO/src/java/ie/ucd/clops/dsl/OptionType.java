@@ -62,6 +62,7 @@ public class OptionType {
   }
 
   public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption", "boolean", "getBooleanValue");
+  public static final OptionType COUNTED_BOOLEAN = new OptionType("counted-boolean", "ie.ucd.clops.runtime.options.CountedBooleanOption", "int", "getCount");
   public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String", "getStringValue");
   public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int", "getIntegerValue");
   public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "File", "getFileValue");

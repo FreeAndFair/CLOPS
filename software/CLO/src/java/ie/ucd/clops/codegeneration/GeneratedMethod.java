@@ -7,6 +7,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
 
   private final List<GeneratedArgument> args;
   private final List<GeneratedStatement> statements;
+  private final List<String> exceptions;
   private boolean isAbstract;
   private final String returnType;
   
@@ -15,6 +16,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     this.returnType = returnType;
     this.args = new LinkedList<GeneratedArgument>();
     this.statements = new LinkedList<GeneratedStatement>();
+    this.exceptions = new LinkedList<String>();
     isAbstract = false;
   }
 
@@ -23,6 +25,7 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     this.returnType = returnType;
     this.args = new LinkedList<GeneratedArgument>();
     this.statements = new LinkedList<GeneratedStatement>();
+    this.exceptions = new LinkedList<String>();
     isAbstract = false;
   }
 
@@ -58,4 +61,12 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     this.isAbstract = isAbstract;
   }
 
+  public void addException(String exceptionName) {
+    exceptions.add(exceptionName);
+  }
+  
+  public List<String> getExceptions() {
+    return exceptions;
+  }
+  
 }

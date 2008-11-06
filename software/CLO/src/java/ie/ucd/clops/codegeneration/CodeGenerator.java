@@ -2,15 +2,16 @@ package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
+import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
-import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Map.Entry;
 
 public class CodeGenerator {
 
@@ -69,6 +70,7 @@ public class CodeGenerator {
   
     GeneratedMethod createOps = new GeneratedMethod("createOptions", "OptionStore", Visibility.Public);
     //specificParser.addMethod(createOps);
+    createOps.addException("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
     
     createOps.addStatement("return new SpecificOptionStore()");
     
@@ -148,6 +150,7 @@ public class CodeGenerator {
     }
     
     GeneratedConstructor constructor = new GeneratedConstructor(className, Visibility.Public);
+    constructor.addException("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
     
     //Create and add each Option
     for (OptionDescription opDesc : opDescriptions) {
@@ -156,6 +159,9 @@ public class CodeGenerator {
 
       for (String alias : opDesc.getAliases()) {
         constructor.addStatement(opDesc.getIdentifier() + ".addAlias(\"" + alias + "\")");
+      }
+      for (Entry<String,String> entry : opDesc.getProperties().entrySet()) {
+        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
       }
       constructor.addStatement("addOption(" + opDesc.getIdentifier() + ")");
     }

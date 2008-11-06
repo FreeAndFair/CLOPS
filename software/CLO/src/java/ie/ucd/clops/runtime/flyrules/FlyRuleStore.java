@@ -1,7 +1,9 @@
 package ie.ucd.clops.runtime.flyrules;
 
+import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionAssignment;
+import ie.ucd.clops.runtime.options.OptionStore;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +39,17 @@ public class FlyRuleStore {
 
   public Collection<OptionAssignment> getAssignmentsForOption(Option option) {
     return getAssignmentsForOption(option.getIdentifier());
+  }
+  
+  public void applyFlyRules(Option matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+    Collection<OptionAssignment> assignments = getAssignmentsForOption(matchedOption);
+    if (assignments != null) {
+      System.out.println("Assignments for " + matchedOption);
+      for (OptionAssignment assignment : assignments) {
+        Option optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
+        optionToSet.setFromString(assignment.getOptionValue());
+      }          
+    }
   }
 
   @Override

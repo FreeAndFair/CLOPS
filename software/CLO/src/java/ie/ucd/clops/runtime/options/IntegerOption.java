@@ -1,7 +1,5 @@
 package ie.ucd.clops.runtime.options;
 
-import ie.ucd.clops.runtime.parser.ProcessingResult;
-
 import java.util.Set;
 
 /**

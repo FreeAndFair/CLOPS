@@ -8,7 +8,6 @@ import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
-import ie.ucd.clops.runtime.options.OptionAssignment;
 import ie.ucd.clops.runtime.options.OptionStore;
 
 import java.util.Collection;
@@ -109,18 +108,12 @@ public class GenericCLParser {
           return false;
         } else {
           i += pr.getNumberOfArgsConsumed();
-          //Apply override rule
-          Collection<OptionAssignment> assignments = flyStore.getAssignmentsForOption(matchedOption);
-          if (assignments != null) {
-            System.out.println("Assignments for " + matchedOption);
-            for (OptionAssignment assignment : assignments) {
-              Option optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
-              try {
-                optionToSet.setFromString(assignment.getOptionValue());
-              } catch (InvalidOptionValueException iove) {
-                System.out.println(iove);
-              }
-            }          
+          try {
+            flyStore.applyFlyRules(matchedOption, optionStore);
+          } catch (InvalidOptionValueException iove) {
+            //Shouldn't happen?
+            System.out.println("Invalid option value set from fly rule: " + iove);
+            return false;
           }
         }
       }

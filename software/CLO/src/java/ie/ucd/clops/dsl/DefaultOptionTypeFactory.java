@@ -21,6 +21,8 @@ public class DefaultOptionTypeFactory implements OptionTypeFactory {
       return OptionType.FILE; 
     } else if (optionType.equalsIgnoreCase("counted-boolean")) {
       return OptionType.COUNTED_BOOLEAN;
+    } else if (optionType.equalsIgnoreCase("regexp-string")) {
+      return OptionType.REG_EXP_STRING;
 //    } else if (optionType.equalsIgnoreCase("float")) {
 //      return OptionType.FLOAT;
     } else {

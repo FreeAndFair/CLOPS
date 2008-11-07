@@ -53,7 +53,7 @@ public abstract class BasicOption implements Option {
     return null;
   }
   
-  public boolean acceptsPropterty(String propertyName) {
+  public boolean acceptsProperty(String propertyName) {
     if (propertyName.equals("default")) {
       return true;
     } else {

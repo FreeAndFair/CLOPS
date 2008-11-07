@@ -92,12 +92,12 @@ public class FileOption extends OneArgumentOption {
 	}
 
   @Override
-  public boolean acceptsPropterty(String propertyName) {
+  public boolean acceptsProperty(String propertyName) {
     if (   propertyName.equalsIgnoreCase("canexist") || propertyName.equalsIgnoreCase("mustexist") 
         || propertyName.equalsIgnoreCase("canBeDir") || propertyName.equalsIgnoreCase("mustBeDir") ) {
       return true;
     } else {
-      return super.acceptsPropterty(propertyName);
+      return super.acceptsProperty(propertyName);
     }
   }
 

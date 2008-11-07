@@ -51,12 +51,12 @@ public class CountedBooleanOption extends BooleanOption {
   }
 
   @Override
-  public boolean acceptsPropterty(String propertyName) {
+  public boolean acceptsProperty(String propertyName) {
     if (   propertyName.equalsIgnoreCase("countstart") || propertyName.equalsIgnoreCase("countmax")
         || propertyName.equalsIgnoreCase("warnonexceedingmax") || propertyName.equalsIgnoreCase("erroronexceedingmax") ) {
       return true;
     } else {
-      return super.acceptsPropterty(propertyName);
+      return super.acceptsProperty(propertyName);
     }
   }
 

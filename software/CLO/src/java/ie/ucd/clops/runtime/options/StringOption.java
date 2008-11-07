@@ -54,8 +54,8 @@ public class StringOption extends OneArgumentOption {
 	}
 
   @Override
-  public boolean acceptsPropterty(String propertyName) {
-    return super.acceptsPropterty(propertyName);
+  public boolean acceptsProperty(String propertyName) {
+    return super.acceptsProperty(propertyName);
   }
 
   @Override

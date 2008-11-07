@@ -111,11 +111,11 @@ public class BooleanOption extends BasicOption {
   }
 
   @Override
-  public boolean acceptsPropterty(String propertyName) {
+  public boolean acceptsProperty(String propertyName) {
     if (propertyName.equalsIgnoreCase("allowarg")) {
       return true;
     } else {
-      return super.acceptsPropterty(propertyName);
+      return super.acceptsProperty(propertyName);
     }
   }
 

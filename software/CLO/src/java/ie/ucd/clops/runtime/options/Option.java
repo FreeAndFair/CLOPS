@@ -65,5 +65,5 @@ public interface Option extends IMatchable {
   
   void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException;
   
-  boolean acceptsPropterty(String propertyName);
+  boolean acceptsProperty(String propertyName);
 }

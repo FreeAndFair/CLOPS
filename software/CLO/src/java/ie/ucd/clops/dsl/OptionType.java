@@ -66,6 +66,7 @@ public class OptionType {
   public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String", "getStringValue");
   public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int", "getIntegerValue");
   public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "File", "getFileValue");
+  public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String", "getStringValue");
   //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float", "getFloatValue");
   
 }

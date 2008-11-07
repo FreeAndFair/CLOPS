@@ -76,11 +76,11 @@ public class IntegerOption extends OneArgumentOption {
 	}
 
   @Override
-  public boolean acceptsPropterty(String propertyName) {
+  public boolean acceptsProperty(String propertyName) {
     if (propertyName.equalsIgnoreCase("maxvalue") || propertyName.equalsIgnoreCase("minvalue")) {
       return true;
     } else {
-      return super.acceptsPropterty(propertyName);
+      return super.acceptsProperty(propertyName);
     }
   }
 

@@ -161,7 +161,7 @@
 
 
   <target name="junit-tests" depends="compile" description="run junit tests">
-    <junit printsummary="yes" showoutput="yes">
+    <junit printsummary="yes" showoutput="yes" haltonfailure="yes">
       <classpath refid="compile.path" />
       <formatter type="plain"/>
 

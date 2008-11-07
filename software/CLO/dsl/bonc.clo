@@ -28,7 +28,7 @@ debug:{"-d","--debug"}
 //readstdin:{"-"}
 
 gen_class_dic:{}
-no_gen_clas_dic:{}
+no_gen_class_dic:{}
 
 graph:{"-g","--graph"}
 
@@ -50,10 +50,25 @@ FORMAT::
 
 WHERE::
 
+option :     print 
+          OR print_output 
+          OR pretty_print 
+          OR time 
+          OR informal 
+          OR formal 
+          OR check_formal 
+          OR check_consistency
+          OR no_check_consistency
+          OR debug
+          OR gen_class_dic
+          OR no_gen_class_dic
+          OR graph
+       ;
+
 FLY::
 
 //TODO, all rhs should be text (due to required parsing, etc.)
-pretty_print -> print:="txt";
+//pretty_print -> print:="txt";
 
 OVERRIDES::
 

@@ -1,0 +1,60 @@
+
+ARGS::
+
+typecheck:{"-tc","--typecheck"}:[default="true"]
+no_typecheck:{"-ntc","--no-typecheck"}:[default="false"]
+
+//TODO - must prevent identifier names containing dashes!
+
+//Print would be better as a StringEnum
+print:{"-p","--print"}:{string}
+print_output:{"-po","--print-output"}:{file}:[canbedir="false"]
+pretty_print:{"-pp","--pretty-print"}
+
+help:{"-h","--help"}
+hidden_help:{"-hh","--hidden-help"}
+
+time:{"-t","--time"}
+informal:{"-i","--informal"}
+formal:{"-f","--formal"}
+check_informal:{}
+check_formal:{}
+check_consistency:{}
+no_check_consistency:{}
+
+debug:{"-d","--debug"}
+
+//Currently can't have dash as an alias. Fix!
+//readstdin:{"-"}
+
+gen_class_dic:{}
+no_gen_clas_dic:{}
+
+graph:{"-g","--graph"}
+
+//Old CLO library
+//print_man
+//print_readme
+//print_bash_completion
+
+version:{"-v","--version"}
+
+
+FORMAT::
+
+  ( option* ) 
+| ( version )
+| ( help )
+| ( hidden_help ) ;
+
+
+WHERE::
+
+FLY::
+
+//TODO, all rhs should be text (due to required parsing, etc.)
+pretty_print -> print:="txt";
+
+OVERRIDES::
+
+VALIDITY::

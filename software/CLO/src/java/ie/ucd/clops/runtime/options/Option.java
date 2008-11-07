@@ -25,26 +25,26 @@ public interface Option extends IMatchable {
   
   /**
    * Does this Option have a value?
-   * @return whether or not the option has a value set.
+   * @return whether or not the option has a value set
    */
   boolean hasValue();
   
   /**
    * Get the value associated with this Option.
-   * hasValue() <=> getValue()!=null.
+   * {@code hasValue() <=> getValue()!=null}.
    * @return the value associated with this Option.
    */
   Object getValue();
   
   /**
    * Unset this Option.
-   * after this call, hasValue()==false
+   * after this call, {@code !hasValue()}
    */
   void unset();
   
   /**
    * Sets the value of this Option.
-   * after this call, hasValue()==true
+   * after this call, {@code hasValue()}
    * 
    * TODO - should this method throw an exception or return something when 
    * an invalid value is provided?
@@ -60,10 +60,16 @@ public interface Option extends IMatchable {
   void setFromString(String value) throws InvalidOptionValueException;
   
   void addAlias(String alias);
+
+   /** Returns a set of aliases on which this option matches. */
+   /*@non_null*/Set<String> getAliases();
   
-  Set<String> getAliases();
+   /** Sets the value of a property. 
+    *  If {@code !acceptsProperty(propertyName)} then {@code InvalidOptionPropertyValueException} is thrown.
+    * {@code InvalidOptionPropertyValueException} is also thrown when the value does not match the property type.
+    */
+  void setProperty(/*@non_null*/String propertyName, String propertyValue) throws InvalidOptionPropertyValueException;
   
-  void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException;
-  
-  boolean acceptsProperty(String propertyName);
+   /** Determines whether this option supports the given property. */
+   boolean acceptsProperty(/*@non_null*/String propertyName);
 }

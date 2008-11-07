@@ -82,7 +82,7 @@ public class GenericCLParser {
           matchedOption = newMatchedOption;
           matches.add(transition);
           //automaton.nextStep(transition);
-          break;
+          //break;
         }
       }
 
@@ -97,6 +97,7 @@ public class GenericCLParser {
         //We should have at least one transition
         assert matches.size() > 0;
         //Update automaton
+        System.out.println("Matches: " + matches);
         automaton.nextStep(matches);
         
         System.out.println("Matched option: " + matchedOption);

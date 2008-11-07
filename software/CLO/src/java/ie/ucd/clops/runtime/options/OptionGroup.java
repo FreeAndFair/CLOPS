@@ -36,7 +36,7 @@ public class OptionGroup implements IMatchable {
 	}
 
 	/**
-	 * Determines whether the given command line argumnet pertains to one
+	 * Determines whether the given command line argument pertains to one
 	 * of contained options or option groups.
 	 */
 	public Option getMatchingOption(/*@non_null*/String arg) {

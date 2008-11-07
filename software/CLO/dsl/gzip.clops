@@ -89,9 +89,12 @@ FLY::
 	quiet -> verbose_cnt:=0;
 	verbose -> quiet:=false;
 
+        // Another possibility, using lists.
+        // quiet -> verbose := tail(verbose);
+
 	// Verbose increases verbosity
 	// XXX don't know the right syntax
-	//verbose -> verbose_cnt++;
+	//verbose -> verbose_cnt := verbose_cnt+1;
 
 OVERRIDES::
 	// Default compression level is 6

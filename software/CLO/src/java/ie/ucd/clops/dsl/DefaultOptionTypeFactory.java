@@ -2,7 +2,7 @@ package ie.ucd.clops.dsl;
 
 
 /**
- * @author fintan
+ * @author Fintan
  *
  */
 public class DefaultOptionTypeFactory implements OptionTypeFactory {
@@ -23,6 +23,8 @@ public class DefaultOptionTypeFactory implements OptionTypeFactory {
       return OptionType.COUNTED_BOOLEAN;
     } else if (optionType.equalsIgnoreCase("regexp-string")) {
       return OptionType.REG_EXP_STRING;
+    } else if (optionType.equalsIgnoreCase("string-enum")) {
+      return OptionType.STRING_ENUM;
 //    } else if (optionType.equalsIgnoreCase("float")) {
 //      return OptionType.FLOAT;
     } else {

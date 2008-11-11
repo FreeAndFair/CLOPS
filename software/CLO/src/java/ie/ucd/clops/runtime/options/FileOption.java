@@ -104,7 +104,7 @@ public class FileOption extends OneArgumentOption {
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
     if (propertyName.equalsIgnoreCase("canexist")) {
-      if (validBooleanString(propertyValue)) {
+      if (BooleanOption.validBooleanString(propertyValue)) {
         canExist = Boolean.parseBoolean(propertyValue);
         if (!canExist) {
           mustExist = false;
@@ -113,7 +113,7 @@ public class FileOption extends OneArgumentOption {
         throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
       }
     } else if (propertyName.equalsIgnoreCase("mustexist")) {
-      if (validBooleanString(propertyValue)) {
+      if (BooleanOption.validBooleanString(propertyValue)) {
         mustExist = Boolean.parseBoolean(propertyValue);
         if (mustExist) {
           canExist = true;
@@ -122,7 +122,7 @@ public class FileOption extends OneArgumentOption {
         throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
       }      
     } else if (propertyName.equalsIgnoreCase("canbedir")) {
-      if (validBooleanString(propertyValue)) {
+      if (BooleanOption.validBooleanString(propertyValue)) {
         canBeDir = Boolean.parseBoolean(propertyValue);
         if (canBeDir) {
           canExist = true;
@@ -133,7 +133,7 @@ public class FileOption extends OneArgumentOption {
         throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
       }      
     } else if (propertyName.equalsIgnoreCase("mustbedir")) {
-      if (validBooleanString(propertyValue)) {
+      if (BooleanOption.validBooleanString(propertyValue)) {
         mustBeDir = Boolean.parseBoolean(propertyValue);
         if (mustBeDir) {
           canBeDir = true;
@@ -146,10 +146,6 @@ public class FileOption extends OneArgumentOption {
     } else {
       super.setProperty(propertyName, propertyValue);
     }
-  }
-  
-  private boolean validBooleanString(String s) {
-    return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false");
   }
 
   @Override

@@ -92,10 +92,6 @@ public class CountedBooleanOption extends BooleanOption {
       super.setProperty(propertyName, propertyValue);
     }
   }
-
-  private boolean validBooleanString(String s) {
-    return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false");
-  }
   
   public int getCount() {
     return count;

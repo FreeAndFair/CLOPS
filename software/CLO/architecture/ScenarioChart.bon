@@ -15,4 +15,9 @@ scenario
   "GENERATE_API"
 description
   "Generate the API for the specific parser"
+scenario
+  "DSL_PATTERN_CHECKING"
+description
+  "Check that the resular expression used in the DSL is unambiguous\
+  \ with respect to possibel command line options"
 end

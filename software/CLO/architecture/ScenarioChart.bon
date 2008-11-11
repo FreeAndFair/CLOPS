@@ -18,6 +18,6 @@ description
 scenario
   "DSL_PATTERN_CHECKING"
 description
-  "Check that the resular expression used in the DSL is unambiguous\
-  \ with respect to possibel command line options"
+  "Check that the regular expression used in the DSL is unambiguous\
+  \ with respect to possible command line options"
 end

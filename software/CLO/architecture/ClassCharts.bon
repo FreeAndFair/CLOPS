@@ -1,6 +1,26 @@
 --
 -- COMMANDO - Generalized parsing of command line options
 --
+-- Copyright (c) 2008 Dermot Cochran
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+--
+-- The above copyright notice and this permission notice shall be included in
+-- all copies or substantial portions of the Software.
+--
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+-- THE SOFTWARE.
+--
 
 class_chart AST
 indexing
@@ -222,4 +242,35 @@ indexing
   created: "2008-10-32-dc"
 explanation
   ""
+end
+
+class_chart PATTERN
+indexing
+  created: "2008-11-11-dc"
+explanation
+  "An instance of a regular expression against which the command line can be matched.  If the command line model is sound and complete then\
+  \ there will be at most one match"
+end
+
+class_chart MANUAL_PAGE
+indexing
+  created: "2008-11-11-dc"
+explanation
+  "Generated documentation for a command line tool which describes the format and behavioir of ecah option"
+end
+
+class_chart VALUE
+indexing
+  created: "2008-11-11-dc"
+explanation
+  "The specific value assigned to a command line option or to one of its arguments"
+end
+
+class_chart COMMAND_LINE_PARSER
+end
+
+class_chart SPECIFIC_PARSER
+end
+
+class_chart GENERIC_PARSER
 end

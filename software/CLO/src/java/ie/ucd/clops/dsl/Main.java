@@ -97,6 +97,9 @@ public class Main {
     } 
   }
   
+  /** Instantiate the {@code OptionTypeFactory} with a given class. 
+   * @param factoryName a name of the class that is to be used as a {@code OptionTypeFactory} 
+   */
   private static void setOptionTypeFactory(String factoryName) {
     try {
       Class<?> c = Class.forName(factoryName);

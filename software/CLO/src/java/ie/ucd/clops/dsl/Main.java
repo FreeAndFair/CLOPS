@@ -29,6 +29,10 @@ import org.antlr.runtime.RecognitionException;
  */
 public class Main {
 
+  /** The main method of this project, runs the generator 
+   * @param args the arguments of the whole program are handled by the CLODSLParser, which 
+   *    is generated from the file clo-dsl.clo. See also the target update-dslcli in the build file.
+   */
   public static void main(String[] args) {
     try {
       CLODSLParser parser = new CLODSLParser();

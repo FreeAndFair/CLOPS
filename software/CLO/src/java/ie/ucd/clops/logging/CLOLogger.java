@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
 /**
+ * Convenience class for working with a common logger.
  * 
  * @author Fintan
- *
  */
 public class CLOLogger {
 

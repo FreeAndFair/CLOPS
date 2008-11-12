@@ -11,6 +11,10 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 
 /**
+ * Superclass to the antlr generated parser for DSLs.
+ * Modifies some of the recovery/error-reporting behaviour,
+ * as well as storing some specific information to parsing DSLS.
+ * 
  * @author Fintan
  */
 public abstract class AbstractParser extends Parser {

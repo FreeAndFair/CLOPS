@@ -1,12 +1,11 @@
 package ie.ucd.clops.runtime.options;
 
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A class for storing options, implementing a retrival function from Strings to options. 
+ * A class for storing options, implementing a retrieval function from Strings to options. 
  *
  * @author Mikolas Janota
  * @author Fintan

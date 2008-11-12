@@ -15,6 +15,7 @@ options {
   import ie.ucd.clops.dsl.structs.AssignmentDescription;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.OptionType;
+  import ie.ucd.clops.dsl.UnknownOptionTypeException;
   import ie.ucd.clops.dsl.parser.DSLParseException;
 }
 
@@ -85,7 +86,9 @@ arg_definition
                    '}'
                    (
                    ( ':' '{' t=NAME '}'
-                       { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType); }
+                       { try { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType);
+                             } catch(UnknownOptionTypeException e) { throw new DSLParseException(e.getMessage()); } 
+                       }
                    )
                    |
                        { OptionType optionType = getOptionTypeFactory().getDefaultOptionType(); option.setType(optionType); }

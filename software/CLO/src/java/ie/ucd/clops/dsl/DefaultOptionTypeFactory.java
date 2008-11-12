@@ -1,6 +1,5 @@
 package ie.ucd.clops.dsl;
 
-import ie.ucd.clops.dsl.parser.DSLParseException;
 
 
 /**
@@ -12,7 +11,7 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.OptionTypeFactory#getOptionType(java.lang.String)
    */
-  public OptionType getOptionType(String optionType) throws DSLParseException {
+  public OptionType getOptionType(String optionType) throws UnknownOptionTypeException {
     if (optionType.equalsIgnoreCase("bool") || optionType.equalsIgnoreCase("boolean")) {
       return OptionType.BOOLEAN;
     } else if (optionType.equalsIgnoreCase("string")) {
@@ -30,7 +29,7 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
 //    } else if (optionType.equalsIgnoreCase("float")) {
 //      return OptionType.FLOAT;
     } else {
-      throw new DSLParseException("Unknown option type: " + optionType);
+      throw new UnknownOptionTypeException("Unknown option type: " + optionType);
     }
   }
 

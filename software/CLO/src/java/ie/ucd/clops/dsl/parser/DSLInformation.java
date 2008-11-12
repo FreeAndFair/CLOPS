@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
+ * Simple AST-like datastructure for storing the information gathered
+ * from parsing a DSL file.
  * 
  * @author Fintan
  *

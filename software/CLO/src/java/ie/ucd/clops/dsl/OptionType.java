@@ -1,6 +1,10 @@
 package ie.ucd.clops.dsl;
 
 /**
+ * Represents information regarding a specific Option.
+ * Contains information about the class representing the Option,
+ * as well as the type of the value of the Option, and the method
+ * used to extract the value. This is used by the code generator.
  *
  * @author Fintan
  *

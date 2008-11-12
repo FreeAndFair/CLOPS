@@ -29,9 +29,10 @@ import org.antlr.runtime.RecognitionException;
  */
 public class Main {
 
-  /** The main method of this project, runs the generator 
-   * @param args the arguments of the whole program are handled by the CLODSLParser, which 
-   *    is generated from the file clo-dsl.clo. See also the target update-dslcli in the build file.
+  /** The main method of this project, runs the dsl parser, followed by the code generator.
+   *  The arguments are parser according to the CLODSLParser, which is generated from the file clo-dsl.clo.
+   *  See also the target update-dslcli in the build file.
+   *  @param the arguments to the program.
    */
   public static void main(String[] args) {
     try {
@@ -50,6 +51,11 @@ public class Main {
     }
   }
   
+  /**
+   * Run the dsl parser and code generator. The options supplied will in particular indicate
+   * the input file to be used and the output location for the generated code.
+   * @param options the parsed options to use for running the program.
+   */
   public static void execute(CLODSLOptionsInterface options) {
     
     //No need to check if each of these are set, as this is enforced by the parser, validity checker, etc.
@@ -101,8 +107,10 @@ public class Main {
     } 
   }
   
-  /** Instantiate the {@code OptionTypeFactory} with a given class. 
-   * @param factoryName a name of the class that is to be used as a {@code OptionTypeFactory} 
+  /** 
+   * Instantiate the {@code OptionTypeFactory} with a given class. The provided class must be present on the 
+   * classpath.
+   * @param factoryName the fully qualified name of the class that is to be used as a {@code OptionTypeFactory} 
    */
   private static void setOptionTypeFactory(String factoryName) {
     try {

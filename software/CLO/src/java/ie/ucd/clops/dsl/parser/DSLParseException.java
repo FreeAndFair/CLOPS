@@ -3,8 +3,8 @@ package ie.ucd.clops.dsl.parser;
 import org.antlr.runtime.RecognitionException;
 
 /**
- * 
- * @author fintan
+ * An Exception that occurs during parsing of the DSL.
+ * @author Fintan
  *
  */
 public class DSLParseException extends RecognitionException {

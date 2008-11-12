@@ -239,17 +239,22 @@ end
 
 class_chart VIRTUAL_OPTION
 indexing
-  created: "2008-10-32-dc"
+  created: "2008-10-31-dc";
+  revised: "2008-11-12-dc"
 explanation
-  ""
+  "Hidden oprton which is implied by the values of one or more visible options"
 end
 
 class_chart PATTERN
 indexing
-  created: "2008-11-11-dc"
+  created: "2008-11-11-dc";
+  revised: "2008-11-12-dc";
+  in_cluster: "SCHEMA"
 explanation
   "An instance of a regular expression against which the command line can be matched.  If the command line model is sound and complete then\
   \ there will be at most one match"
+constraint
+  "There is no overlap between two patterns in the same model i.e. each command option will match zero or one patterns"
 end
 
 class_chart MANUAL_PAGE
@@ -273,4 +278,55 @@ class_chart SPECIFIC_PARSER
 end
 
 class_chart GENERIC_PARSER
+end
+
+class_chart EXPRESSION
+indexing
+  created: "2008-11-12-dc"
+explanation
+  "Set of option value pairs"
+inherit
+  OPTION_VALUE_PAIR_SET
+query
+  "Which option value pairs do I contain?"
+command
+  "Add an option value pair"
+constraint
+  "Values must be compatible with the type and range of the option"
+end
+
+class_chart ASSIGNMENT_EXPRESSION
+indexing
+  created: "2008-11-12-dc"
+explanation
+  "Single assignment of a new value to an option"
+inherit
+  OPTION_VALUE_PAIR
+query
+  "Which option is to be set?",
+  "Which value is to be set?"
+command
+  "Assign value to option"
+end
+
+class_chart OPTION_VALUE_PAIR
+indexing
+  created: "2008-11-12-dc";
+  alias: "pair of OPTION and VALUE"
+explanation
+  "The relationship between options and values"
+query
+  "What is my value?",
+  "Which option do I refer to?"
+command
+  "Set my value?",
+  "Choose an option"
+end
+
+class_chart OPTION_VALUE_PAIR_SET
+indexing
+  created: "2008-11-12-dc";
+  alias: "set of OPTION_VALUE_PAIR"
+explanation
+  "The set of relationships between options and values"
 end

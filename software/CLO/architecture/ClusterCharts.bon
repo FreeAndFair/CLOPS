@@ -34,6 +34,10 @@ class RULE description "Expression in which the LHS is set of options values and
 class EXCLUSION_SET description "Subset of command line options which cannot be used together"
 class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
 class OVERRIDE_RULE description "The interdependent relationship between two different command line options"
+class EXPRESSION description "Set of option value pairs"
+class ASSIGNMENT_EXPRESSION description "Single assignment of a new value to an option"
+class OPTION_VALUE_PAIR description "Relationship between values and options"
+class OPTION_VALUE_PAIR_SET description "Set of relationships between values and options"
 end
 
 cluster_chart DOCUMENTATION

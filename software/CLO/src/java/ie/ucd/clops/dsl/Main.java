@@ -32,7 +32,7 @@ public class Main {
   /** The main method of this project, runs the dsl parser, followed by the code generator.
    *  The arguments are parser according to the CLODSLParser, which is generated from the file clo-dsl.clo.
    *  See also the target update-dslcli in the build file.
-   *  @param the arguments to the program.
+   *  @param args the arguments to the program.
    */
   public static void main(String[] args) {
     try {

@@ -14,12 +14,8 @@ options {
   import ie.ucd.clops.dsl.structs.FlyRuleDescription;
   import ie.ucd.clops.dsl.structs.AssignmentDescription;
   import ie.ucd.clops.dsl.OptionTypeFactory;
-  import ie.ucd.clops.dsl.DSLParseException;
-  
-  import ie.ucd.clops.dsl.DSLParseException;
-  
   import ie.ucd.clops.dsl.OptionType;
-    
+  import ie.ucd.clops.dsl.parser.DSLParseException;
 }
 
 @lexer::header {
@@ -39,13 +35,33 @@ options {
 prog  :  clo_specification EOF         
       ;
 
-clo_specification  :  args_section
+clo_specification  :  name_section
+                      (package_section)?
+                      args_section
                       args_format_section
                       where_section
                       fly_section
                       overrides_section
                       validity_section
                    ;
+
+/**********************************************/
+
+name_section  :  'NAME::'
+                 NAME
+                 { getDslInformation().setParserName($NAME.text); }
+              ;
+
+/**********************************************/
+
+package_section  :  'PACKAGE::'
+                    package_name
+                    { getDslInformation().setPackageName($package_name.text); }
+              ;
+              
+package_name  :  NAME ('.' NAME)*
+              ;
+
 
 /**********************************************/
 
@@ -91,7 +107,7 @@ arg_definition
                      ']' 
                    )?
                      
-                   { addOptionDescription(option); }
+                   { getDslInformation().addOptionDescription(option); }
                 ;
                 catch [DSLParseException e] {
                   setCustomErrorMessage(e.toString());
@@ -117,7 +133,7 @@ property_value  :  string_constant
 /**********************************************/
 
 args_format_section  :  'FORMAT::' format_clause  
-                        { setFormatString($format_clause.text); }
+                        { getDslInformation().setFormatString($format_clause.text); }
                         ';'
                      ;
 
@@ -148,7 +164,7 @@ where_clause  :  group=NAME
                  ':' child1=NAME
                  { opGroup.addChild($child1.text); }  
                  ('OR' child=NAME { opGroup.addChild($child.text); } )* 
-                 { addOptionGroupDescription(opGroup); }
+                 { getDslInformation().addOptionGroupDescription(opGroup); }
                  ';'
               ;
 
@@ -165,7 +181,7 @@ fly_rule  :  t=NAME
               n=NAME ':=' v=constant
               { or.addAssignment(new AssignmentDescription($n.text, $v.text)); }
              )* ';'
-             { addFlyRuleDescription(or); }
+             { getDslInformation().addFlyRuleDescription(or); }
           ;
 
 /**********************************************/

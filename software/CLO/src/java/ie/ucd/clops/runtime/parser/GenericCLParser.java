@@ -1,5 +1,6 @@
 package ie.ucd.clops.runtime.parser;
 
+import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * Class parsing the command-line.
@@ -30,7 +32,7 @@ public class GenericCLParser {
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {
 
-    System.out.println(flyStore.toString());
+    CLOLogger.getLogger().log(Level.FINE, flyStore.toString());
     
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
@@ -39,13 +41,12 @@ public class GenericCLParser {
       tokens = new Tokenizer().tokenize(formatString, optionStore);
     }
     catch (Tokenizer.UnknownOptionException e) {
-        //TODO: logger?
-        System.err.println( "Error: Unkown option name \"" +e.opt_name +"\".");
+      CLOLogger.getLogger().log(Level.SEVERE, "Error: Unkown option name \"" +e.opt_name +"\".");
         throw e;
     }
     catch (Tokenizer.IllegalCharacterException e) {
         //TODO: logger?
-        System.err.println( "Error: Illegal character \"" +formatString.charAt( e.index)
+      CLOLogger.getLogger().log(Level.SEVERE, "Error: Illegal character \"" +formatString.charAt( e.index)
                             +"\" at position " +e.index +".");
         throw e;
     }
@@ -55,7 +56,7 @@ public class GenericCLParser {
     }
     catch (AutomatonException e) {
       // TODO: Exception refinement
-      System.err.println( "Error: Automaton exception.");
+      CLOLogger.getLogger().log(Level.SEVERE, "Error: Automaton exception.");
       System.exit( 1);
     }
 
@@ -63,10 +64,9 @@ public class GenericCLParser {
     for (int i=0; i < args.length; ) {
       //Get available next options
       Collection<IMatchable> possibleTransitions = automaton.availableTransitionsUnique();
-      System.out.println("Transitions: " + possibleTransitions);
-      System.out.print("Set options: ");
-      optionStore.printSetOptions(System.out);
-      System.out.println();
+      CLOLogger.getLogger().log(Level.FINE, "Transitions: " + possibleTransitions);
+      CLOLogger.getLogger().log(Level.FINE, "Set options: ");
+      CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
       
       //Matched option
       Option matchedOption = null;
@@ -78,11 +78,9 @@ public class GenericCLParser {
         if (newMatchedOption != null) {
           //We cannot match on two different Options
           assert matchedOption == null || matchedOption == newMatchedOption;
-          //System.out.println("Matched: " + newMatchedOption);
+
           matchedOption = newMatchedOption;
           matches.add(transition);
-          //automaton.nextStep(transition);
-          //break;
         }
       }
 
@@ -90,22 +88,22 @@ public class GenericCLParser {
       if (matchedOption == null) {
         //Check if we can have a program argument here...
         //if not, report error 
-        System.out.println("illegal option: " + args[i]); // debugging
+        CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + args[i]); // debugging
         i++;
         return false;
       } else {
         //We should have at least one transition
         assert matches.size() > 0;
         //Update automaton
-        System.out.println("Matches: " + matches);
+        CLOLogger.getLogger().log(Level.FINE, "Matches: " + matches);
         automaton.nextStep(matches);
         
-        System.out.println("Matched option: " + matchedOption);
+        CLOLogger.getLogger().log(Level.FINE, "Matched option: " + matchedOption);
         
         ProcessingResult pr = matchedOption.process(args, i);
         if (pr.errorDuringProcessing()) {
           //output error
-          System.out.println(pr.getErrorMessage());
+          CLOLogger.getLogger().log(Level.SEVERE, pr.getErrorMessage());
           return false;
         } else {
           i += pr.getNumberOfArgsConsumed();
@@ -113,7 +111,7 @@ public class GenericCLParser {
             flyStore.applyFlyRules(matchedOption, optionStore);
           } catch (InvalidOptionValueException iove) {
             //Shouldn't happen?
-            System.out.println("Invalid option value set from fly rule: " + iove);
+            CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from fly rule: " + iove);
             return false;
           }
         }
@@ -121,10 +119,11 @@ public class GenericCLParser {
 
     }
 
-    System.out.println("finished parsing"); // debugging
-    System.out.println("Final Option values: ");
-    optionStore.printSetOptions(System.out);
-    return true;
+    CLOLogger.getLogger().log(Level.FINE, "finished parsing");
+    CLOLogger.getLogger().log(Level.FINE, "Final Option values: ");
+    CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
+    CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
+    return automaton.isAccepting();
 
   }
 

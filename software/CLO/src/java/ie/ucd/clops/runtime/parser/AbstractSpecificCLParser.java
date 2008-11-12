@@ -1,27 +1,40 @@
 package ie.ucd.clops.runtime.parser;
 
+import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException;
+import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
 import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.options.OptionStore;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.logging.Level;
 
 public abstract class AbstractSpecificCLParser {
 
-  public abstract OptionStore createOptions() throws InvalidOptionPropertyValueException;
+
+  
+  public AbstractSpecificCLParser() throws InvalidOptionPropertyValueException {
+    
+  }
   
   public abstract String getFormatString();
   
-  public abstract FlyRuleStore createFlyRules();
+  public abstract OptionStore getOptionStore();
+
+  public abstract FlyRuleStore getFlyRuleStore();
+
+  public boolean parse(String[] args) {
+    return parse(new GenericCLParser(), args);
+  }
   
-  public boolean parse(String[] args) throws Exception {
-    System.out.println("Received args: " + new ArrayList<String>(Arrays.asList(args)));
-    GenericCLParser parser = new GenericCLParser();
+  public boolean parse(GenericCLParser parser, String[] args) {
     try {
-      return parser.parse(getFormatString(), createOptions(), createFlyRules(), args);
-    } catch (InvalidOptionPropertyValueException iopve) {
-      System.out.println("Error initialising Option properties. " + iopve);
+      return parser.parse(getFormatString(), getOptionStore(), getFlyRuleStore(), args);
+    } catch (IllegalCharacterException e) {
+      CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
+      return false;
+    } catch (UnknownOptionException e) { 
+      CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
       return false;
     }
   }

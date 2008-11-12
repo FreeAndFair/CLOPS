@@ -1,5 +1,6 @@
 package ie.ucd.clops.runtime.flyrules;
 
+import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionAssignment;
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * 
@@ -30,7 +32,7 @@ public class FlyRuleStore {
       optionIdentifierToAssignmentMap.put(optionIdentifier, existingAssignments);
     }
     existingAssignments.add(assignment);
-    System.out.println("Added assignment " + assignment + " for " + optionIdentifier);
+    CLOLogger.getLogger().log(Level.FINE, "Added assignment " + assignment + " for " + optionIdentifier);
   }
 
   public Collection<OptionAssignment> getAssignmentsForOption(String optionIdentifier) {
@@ -44,7 +46,7 @@ public class FlyRuleStore {
   public void applyFlyRules(Option matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
     Collection<OptionAssignment> assignments = getAssignmentsForOption(matchedOption);
     if (assignments != null) {
-      System.out.println("Assignments for " + matchedOption);
+      CLOLogger.getLogger().log(Level.FINE, "Assignments for " + matchedOption);
       for (OptionAssignment assignment : assignments) {
         Option optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
         optionToSet.setFromString(assignment.getOptionValue());

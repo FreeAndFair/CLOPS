@@ -2,12 +2,6 @@ package ie.ucd.clops.dsl.parser;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionTypeFactory;
-import ie.ucd.clops.dsl.structs.FlyRuleDescription;
-import ie.ucd.clops.dsl.structs.OptionDescription;
-import ie.ucd.clops.dsl.structs.OptionGroupDescription;
-
-import java.util.Collection;
-import java.util.LinkedList;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
@@ -25,18 +19,13 @@ public abstract class AbstractParser extends Parser {
   private OptionTypeFactory optionTypeFactory;
   private String customErrorMessage;
   
-  private final Collection<OptionDescription> optionDescriptions;
-  private final Collection<OptionGroupDescription> optionGroupDescriptions;
-  private final Collection<FlyRuleDescription> flyRuleDescriptions;
-  private String formatString;
+  private DSLInformation dslInformation;
   
   public AbstractParser(TokenStream ts) {
     super(ts);
     validParse = true;
     optionTypeFactory = new DefaultOptionTypeFactory();
-    optionDescriptions = new LinkedList<OptionDescription>();
-    optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
-    flyRuleDescriptions = new LinkedList<FlyRuleDescription>();
+    dslInformation = new DSLInformation();
   }
 
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
@@ -107,43 +96,9 @@ public abstract class AbstractParser extends Parser {
   public void setCustomErrorMessage(String customErrorMessage) {
     this.customErrorMessage = customErrorMessage;
   }
-  
-  public void addOptionDescription(OptionDescription opDesc) {
-    optionDescriptions.add(opDesc);
-  }
 
-  /**
-   * @return the optionDescriptions
-   */
-  public Collection<OptionDescription> getOptionDescriptions() {
-    return optionDescriptions;
-  }
-
-  public void addOptionGroupDescription(OptionGroupDescription opGroupDesc) {
-    optionGroupDescriptions.add(opGroupDesc);
-  }
-  
-  public void addFlyRuleDescription(FlyRuleDescription flyRule) {
-    flyRuleDescriptions.add(flyRule);
-  }
-  
-  /**
-   * @return the optionGroupDescriptions
-   */
-  public Collection<OptionGroupDescription> getOptionGroupDescriptions() {
-    return optionGroupDescriptions;
-  }
-
-  public Collection<FlyRuleDescription> getOverrideRuleDescriptions() {
-    return flyRuleDescriptions;
-  }
-
-  public String getFormatString() {
-    return formatString;
-  }
-
-  public void setFormatString(String formatString) {
-    this.formatString = formatString;
+  public DSLInformation getDslInformation() {
+    return dslInformation;
   }
 
   protected static String stripStringMarks(String s) {

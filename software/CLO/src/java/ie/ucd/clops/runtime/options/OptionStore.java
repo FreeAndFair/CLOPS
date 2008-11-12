@@ -90,13 +90,16 @@ public class OptionStore implements IMatchString  {
      return aliasOptionMap.get(alias);
    }
     
-   public void printSetOptions(PrintStream ps) {
+   @Override
+   public String toString() {
+     StringBuilder sb = new StringBuilder();
      for (Option op : options) {
        if (op.hasValue()) {
-         ps.print(op.toString());
-         ps.print(", ");
+         sb.append(op.toString());
+         sb.append(", ");
        }
      }
+     return sb.toString();
    }
 }
 

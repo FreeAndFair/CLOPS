@@ -62,13 +62,13 @@ public class GeneratedCodePrinter {
 
   public void printClass(GeneratedClassOrInterface genClass) {
     startLine();
-
-    for (String im : genClass.getImports()) {
-      printImport(im);
-    }
     
     printPackage(genClass.getPackageName());
     
+    for (String im : genClass.getImports()) {
+      printImport(im);
+    }
+        
     if (genClass.getImports().size() > 0) {
       newLine();
     }
@@ -133,6 +133,8 @@ public class GeneratedCodePrinter {
       ps.print("package ");
       ps.print(packageName);
       ps.print(';');
+      newLine();
+      newLine();
     }
   }
   

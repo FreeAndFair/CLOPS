@@ -83,12 +83,12 @@ public class Tokenizer {
          case '?': tokens.add( Tokenizer.QUESTION); break;
          default:
             // The first character must be letter or number
-            if (!isIDChar( format.charAt(index)))
+            if (!Character.isLetterOrDigit( format.charAt(index)))
                throw new IllegalCharacterException( index);
 					
             // Get the parameter
             int i = index+1;
-            while (i < format_len && Character.isLetterOrDigit( format.charAt( i)))
+            while (i < format_len && isIDChar( format.charAt( i)))
                i++;
             String param = format.substring( index, i);
             index = i-1;

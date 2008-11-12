@@ -1,0 +1,36 @@
+
+NAME::
+ CLODSL
+
+PACKAGE::
+ ie.ucd.clops.dsl.generatedinterface
+
+ARGS::
+
+input:{"-i","--input"}:{file}:[mustExist,canbedir="false"]
+output:{"-o","--output"}:{file}:[mustExist,mustbedir]
+output_package:{"-p","--package"}:{string}
+
+//option_factory should probably be a regular expression (for qualified java class names).
+option_factory:{"-of","--option-factory"}:{string}
+
+FORMAT::
+
+//Currently enforcing presence of these options through this format.
+//When we have validity up and running this will not be necessary
+  ( input output optional_args*)
+| ( output input optional_args*)
+;
+
+WHERE::
+
+optional_args: output_package OR option_factory ;
+
+FLY::
+
+
+OVERRIDES::
+
+VALIDITY::
+
+//input != ? && output != ?

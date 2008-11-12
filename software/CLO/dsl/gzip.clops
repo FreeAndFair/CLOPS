@@ -13,6 +13,10 @@ Interesting issues:
 
 */
 
+NAME::
+ Gzip
+
+
 ARGS::
 
 	ascii:{"-a","--ascii"}

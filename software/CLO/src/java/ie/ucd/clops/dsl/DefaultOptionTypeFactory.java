@@ -1,11 +1,13 @@
 package ie.ucd.clops.dsl;
 
+import ie.ucd.clops.dsl.parser.DSLParseException;
+
 
 /**
  * @author Fintan
  *
  */
-public class DefaultOptionTypeFactory implements OptionTypeFactory {
+public class DefaultOptionTypeFactory extends OptionTypeFactory {
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.OptionTypeFactory#getOptionType(java.lang.String)

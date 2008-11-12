@@ -4,6 +4,7 @@
   <property name="src" location="src"/>
   <property name="java-src" location="${src}/java"/>
   <property name="test-src" location="${src}/test"/>
+  <property name="dsl-src" location="dsl"/>
   <property name="src-antlr" value="${java-src}/ie/ucd/clops/dsl/parser"/>
   <property name="build" location="bin"/>
   <property name="docs" location="doc"/>
@@ -17,6 +18,9 @@
   <property name="antlr-src" value="CLO"/>
   <property name="runtime-jar-name" value="CLO"/>
   <property name="test-file" value="dsl-test.txt"/>
+  <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
+  <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
+  <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
 
   <path id="base.path">
     <filelist dir="${lib}">
@@ -119,6 +123,24 @@
     </javadoc>
   </target>
 	
+  <target name="update-dslcli" depends="dist">
+    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
+      <assertions>
+        <enable/>
+      </assertions>
+      <classpath refid="test.path"/>
+      <arg value="-i"/>
+      <arg value="${dsl-interface-file}"/>
+      <arg value="-o"/>
+      <arg value="${src-dsl-interface}"/>
+      <arg value="-p"/>
+      <arg value="${src-dsl-interface-package}"/>
+      <arg value="-of"/>
+      <arg value="ie.ucd.clops.dsl.DefaultOptionTypeFactory"/>
+    </java>
+    <antcall target="dist"/>
+  </target>
+  
   <target name="dist" depends="compile" description="Generate the distribution">
     <mkdir dir="${dist}/lib"/>
 
@@ -136,12 +158,14 @@
   	<echo message="Using ${test-file}"/>
     <delete dir="${temp-test}"/>
     <mkdir dir="${temp-test}"/>
-    <java fork="yes" classname="ie.ucd.clops.dsl.parser.ParserTest">
+    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
       <assertions>
         <enable/>
       </assertions>
       <classpath refid="test.path"/>
+      <arg value="-i"/>
       <arg value="${test-file}"/>
+      <arg value="-o"/>
       <arg value="${temp-test}"/>
     </java>
     <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">

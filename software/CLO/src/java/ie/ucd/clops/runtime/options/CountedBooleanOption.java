@@ -1,6 +1,9 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.logging.CLOLogger;
+
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * 
@@ -42,7 +45,7 @@ public class CountedBooleanOption extends BooleanOption {
           if (errorOnExceedingMax) {
             throw new InvalidOptionValueException("Too many usages of option " + this.getIdentifier());
           } else if (warnOnExceedingMax) {
-            System.out.println("Warning, used " + this.getIdentifier() + " too many times.");
+            CLOLogger.getLogger().log(Level.WARNING, "Warning, used " + this.getIdentifier() + " too many times.");
           }
         }
       }

@@ -6,19 +6,31 @@ package ie.ucd.clops.dsl;
  * as well as the type of the value of the Option, and the method
  * used to extract the value. This is used by the code generator.
  *
+ * A class representing a type of an option. 
+ * To extend the DSL by a new option type, one provides an instance of this class.
+ * The {@code OptionTypeFactory} is used to access these instances during the processing of the DSL.
+ *
  * @author Fintan
  *
  */
 public class OptionType {
 
-  private static int count = 0;
+  private static int count = 0; // counter used for unique identifiers of options types
   
-  private int type;
+  private final int type; // a unique identifier of this type
   private String typeDescriptionString;
   private String optionTypeClass;
   private String optionValueTypeClass;
   private String optionValueGetterMethodName;
-  
+
+  /** 
+   * Initialize a new {@code OptionType}.
+   *
+   * @param typeDescriptionString  a textual description of the type
+   * @param optionTypeClass a java class representing this option during option processing
+   * @param optionValueTypeClass a java class representing the value of this option type
+   * @param optionValueGetterMethodName a name of the getter that will be generated for options of this type
+   */  
   public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass, String optionValueGetterMethodName) {
     this.type = count++;
     this.typeDescriptionString = typeDescriptionString;

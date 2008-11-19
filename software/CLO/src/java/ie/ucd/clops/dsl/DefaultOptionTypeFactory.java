@@ -3,6 +3,9 @@ package ie.ucd.clops.dsl;
 
 
 /**
+ * A default version of the  factory for option types ({@link ie.ucd.clops.dsl.OptionType}) that is used
+ * during the processing of the DSL. One should extend this class to provide for new option types.
+ *
  * @author Fintan
  *
  */

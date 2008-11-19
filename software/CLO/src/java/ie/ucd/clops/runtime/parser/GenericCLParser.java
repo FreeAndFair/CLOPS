@@ -28,6 +28,14 @@ public class GenericCLParser {
 
   public GenericCLParser() {}
 
+  /**
+   * Parse the given commandline.
+   * @param formatString the format regular expression in a string form
+   * @param flyStore collection of fly rules that should be used during parsing
+   * @param optionStore collection of options that will be matched against the input
+   * @param args the commandline as given to the main method
+   * @return {@code true} iff the commmandline has been successfully parsed
+   */
   public boolean parse(String formatString, OptionStore optionStore, FlyRuleStore flyStore, String[] args)
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {

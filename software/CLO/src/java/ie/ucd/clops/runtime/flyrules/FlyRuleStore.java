@@ -39,16 +39,16 @@ public class FlyRuleStore {
     return optionIdentifierToAssignmentMap.get(optionIdentifier);
   }
 
-  public Collection<OptionAssignment> getAssignmentsForOption(Option option) {
+  public Collection<OptionAssignment> getAssignmentsForOption(Option<?> option) {
     return getAssignmentsForOption(option.getIdentifier());
   }
   
-  public void applyFlyRules(Option matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+  public void applyFlyRules(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
     Collection<OptionAssignment> assignments = getAssignmentsForOption(matchedOption);
     if (assignments != null) {
       CLOLogger.getLogger().log(Level.FINE, "Assignments for " + matchedOption);
       for (OptionAssignment assignment : assignments) {
-        Option optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
+        Option<?> optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
         optionToSet.setFromString(assignment.getOptionValue());
       }          
     }

@@ -11,22 +11,22 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     input = new ie.ucd.clops.runtime.options.FileOption("input");
     input.addAlias("-i");
     input.addAlias("--input");
-    input.setProperty("mustExist","true");
     input.setProperty("canbedir","false");
+    input.setProperty("mustExist","true");
     addOption(input);
     output = new ie.ucd.clops.runtime.options.FileOption("output");
-    output.addAlias("--output");
     output.addAlias("-o");
-    output.setProperty("mustExist","true");
+    output.addAlias("--output");
     output.setProperty("mustbedir","true");
+    output.setProperty("mustExist","true");
     addOption(output);
     output_package = new ie.ucd.clops.runtime.options.StringOption("output_package");
-    output_package.addAlias("-p");
     output_package.addAlias("--package");
+    output_package.addAlias("-p");
     addOption(output_package);
     option_factory = new ie.ucd.clops.runtime.options.StringOption("option_factory");
-    option_factory.addAlias("--option-factory");
     option_factory.addAlias("-of");
+    option_factory.addAlias("--option-factory");
     addOption(option_factory);
     OptionGroup optional_args = new OptionGroup("optional_args");
     addOptionGroup(optional_args);
@@ -39,7 +39,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     
   }
   public java.io.File getinput() {
-    return input.getFileValue();
+    return input.getValue();
     
   }
   public boolean isoutputSet() {
@@ -47,7 +47,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     
   }
   public java.io.File getoutput() {
-    return output.getFileValue();
+    return output.getValue();
     
   }
   public boolean isoutput_packageSet() {
@@ -55,7 +55,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     
   }
   public String getoutput_package() {
-    return output_package.getStringValue();
+    return output_package.getValue();
     
   }
   public boolean isoption_factorySet() {
@@ -63,7 +63,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     
   }
   public String getoption_factory() {
-    return option_factory.getStringValue();
+    return option_factory.getValue();
     
   }
   

@@ -65,7 +65,7 @@ public class GenericCLParser {
     catch (AutomatonException e) {
       // TODO: Exception refinement
       CLOLogger.getLogger().log(Level.SEVERE, "Error: Automaton exception.");
-      System.exit( 1);
+      return false;
     }
 
     //Main loop
@@ -97,7 +97,7 @@ public class GenericCLParser {
         //Check if we can have a program argument here...
         //if not, report error 
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + args[i]); // debugging
-        i++;
+        //i++;
         return false;
       } else {
         //We should have at least one transition

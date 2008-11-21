@@ -21,7 +21,6 @@ public class OptionType {
   private String typeDescriptionString;
   private String optionTypeClass;
   private String optionValueTypeClass;
-  private String optionValueGetterMethodName;
 
   /** 
    * Initialize a new {@code OptionType}.
@@ -31,12 +30,11 @@ public class OptionType {
    * @param optionValueTypeClass a java class representing the value of this option type
    * @param optionValueGetterMethodName a name of the getter that will be generated for options of this type
    */  
-  public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass, String optionValueGetterMethodName) {
+  public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass) {
     this.type = count++;
     this.typeDescriptionString = typeDescriptionString;
     this.optionTypeClass = optionTypeClass;
     this.optionValueTypeClass = optionValueTypeClass;
-    this.optionValueGetterMethodName = optionValueGetterMethodName;
   }
   
   public int getType() {
@@ -59,10 +57,6 @@ public class OptionType {
     return optionValueTypeClass;
   }
 
-  public String getOptionValueGetterMethodName() {
-    return optionValueGetterMethodName;
-  }
-
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof OptionType) {
@@ -77,13 +71,13 @@ public class OptionType {
     return getType(); 
   }
 
-  public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption", "boolean", "getBooleanValue");
-  public static final OptionType COUNTED_BOOLEAN = new OptionType("counted-boolean", "ie.ucd.clops.runtime.options.CountedBooleanOption", "int", "getCount");
-  public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String", "getStringValue");
-  public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int", "getIntegerValue");
-  public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "java.io.File", "getFileValue");
-  public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String", "getStringValue");
-  public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String", "getStringValue");  
-  //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float", "getFloatValue");
+  public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption", "boolean");
+  public static final OptionType COUNTED_BOOLEAN = new OptionType("counted-boolean", "ie.ucd.clops.runtime.options.CountedBooleanOption", "int");
+  public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String");
+  public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int");
+  public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "java.io.File");
+  public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String");
+  public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String");  
+  //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float");
   
 }

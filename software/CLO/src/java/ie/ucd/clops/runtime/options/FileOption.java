@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * @author Fintan
  */
-public class FileOption extends OneArgumentOption {
+public class FileOption extends OneArgumentOption<File> {
 	
   private File value;
   
@@ -34,7 +34,7 @@ public class FileOption extends OneArgumentOption {
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#getValue()
 	 */
-	public Object getValue() { return value; }
+	public File getValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#hasValue()

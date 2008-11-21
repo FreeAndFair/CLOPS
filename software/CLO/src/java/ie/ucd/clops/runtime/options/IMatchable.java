@@ -9,6 +9,6 @@ public interface IMatchable {
   
   String getIdentifier();
   
-  Option getMatchingOption(String argument);
+  Option<?> getMatchingOption(String argument);
   
 }

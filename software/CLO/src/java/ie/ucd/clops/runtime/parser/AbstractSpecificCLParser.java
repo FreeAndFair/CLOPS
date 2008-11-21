@@ -13,8 +13,6 @@ import java.util.logging.Level;
  * This class is used as a base class for the automatically generated parser.
  */
 public abstract class AbstractSpecificCLParser {
-
-
   
   public AbstractSpecificCLParser() throws InvalidOptionPropertyValueException {
     

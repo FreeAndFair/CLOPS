@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public abstract class OneArgumentOption extends BasicOption {
+public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   public OneArgumentOption(String identifier, Set<String> aliases) {
     super(identifier, aliases);

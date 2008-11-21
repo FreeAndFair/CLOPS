@@ -10,7 +10,7 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public abstract class BasicOption implements Option {
+public abstract class BasicOption<T> implements Option<T> {
 
   private final Set<String> aliases;
   private final String identifier;
@@ -39,7 +39,7 @@ public abstract class BasicOption implements Option {
     return identifier;
   }
 
-  public Option getMatchingOption(String argument) {
+  public Option<?> getMatchingOption(String argument) {
     String matchedAlias = getMatchingAlias(argument);
     return matchedAlias == null ? null : this;
   }  
@@ -75,7 +75,7 @@ public abstract class BasicOption implements Option {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof BasicOption) {
-      this.getIdentifier().equals(((BasicOption)obj).getIdentifier());
+      this.getIdentifier().equals(((BasicOption<?>)obj).getIdentifier());
     } else {
       return false;
     }

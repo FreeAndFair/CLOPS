@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public class BooleanOption extends BasicOption {
+public class BooleanOption extends BasicOption<Boolean> {
   private Boolean value;
   private boolean allowArg;
   
@@ -26,7 +26,7 @@ public class BooleanOption extends BasicOption {
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#getValue()
    */
-  public Object getValue() { return value; }
+  public Boolean getValue() { return value; }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#hasValue()

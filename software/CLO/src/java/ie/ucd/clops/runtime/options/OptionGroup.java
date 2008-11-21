@@ -39,9 +39,9 @@ public class OptionGroup implements IMatchable {
 	 * Determines whether the given command line argument pertains to one
 	 * of contained options or option groups.
 	 */
-	public Option getMatchingOption(/*@non_null*/String arg) {
+	public Option<?> getMatchingOption(/*@non_null*/String arg) {
 		for (IMatchable option:options) {
-		  Option o = option.getMatchingOption(arg);
+		  Option<?> o = option.getMatchingOption(arg);
 		  if (o != null) {
 		    return o;
 		  }

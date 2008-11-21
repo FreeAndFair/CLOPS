@@ -12,25 +12,25 @@ import java.util.Set;
  */
 public class OptionStore implements IMatchString  {
   
-   private final HashMap<String, Option> identifierOptionMap;
-   private final HashMap<String, Option> aliasOptionMap;
+   private final HashMap<String, Option<?>> identifierOptionMap;
+   private final HashMap<String, Option<?>> aliasOptionMap;
    private final HashMap<String, IMatchable> identifierMatchableMap;
-   private final HashSet<Option> options;
+   private final HashSet<Option<?>> options;
 
    /**
     * Create a new OptionStore. 
     */
    public OptionStore() {
-     identifierOptionMap = new HashMap<String, Option>();
-     aliasOptionMap = new HashMap<String, Option>();
+     identifierOptionMap = new HashMap<String, Option<?>>();
+     aliasOptionMap = new HashMap<String, Option<?>>();
      identifierMatchableMap = new HashMap<String, IMatchable>();
-     options = new HashSet<Option>();
+     options = new HashSet<Option<?>>();
    }
    
    /**
     * Add an option to this store.
     */
-   public void addOption(/*@non_null*/Option o) {
+   public void addOption(/*@non_null*/Option<?> o) {
       assert !options.contains(o);
       options.add(o);
       
@@ -58,7 +58,7 @@ public class OptionStore implements IMatchString  {
    /**
     * Obtain the set of options in this store.
     */
-   public Set<Option> getOptions() {
+   public Set<Option<?>> getOptions() {
       return options;
    }
 
@@ -75,7 +75,7 @@ public class OptionStore implements IMatchString  {
     * @param identifier the identifier to the Option to get.
     * @return the Option with this identifier, or null.
     */
-   public Option getOptionByIdentifier(String identifier) {
+   public Option<?> getOptionByIdentifier(String identifier) {
      return identifierOptionMap.get(identifier);
    }
    
@@ -85,14 +85,14 @@ public class OptionStore implements IMatchString  {
     * @param alias the alias to the Option to get.
     * @return the Option with this alias, or null.
     */
-   public Option getOptionByAlias(String alias) {
+   public Option<?> getOptionByAlias(String alias) {
      return aliasOptionMap.get(alias);
    }
     
    @Override
    public String toString() {
      StringBuilder sb = new StringBuilder();
-     for (Option op : options) {
+     for (Option<?> op : options) {
        if (op.hasValue()) {
          sb.append(op.toString());
          sb.append(", ");

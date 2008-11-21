@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public interface Option extends IMatchable {
+public interface Option<T> extends IMatchable {
   
   /**
    * Match this option against the arguments starting at the given offset.
@@ -37,7 +37,7 @@ public interface Option extends IMatchable {
    * {@code hasValue() <=> getValue()!=null}.
    * @return the value associated with this Option.
    */
-   /*@pure*/Object getValue();
+   /*@pure*/T getValue();
   
   /**
    * Unset this Option.

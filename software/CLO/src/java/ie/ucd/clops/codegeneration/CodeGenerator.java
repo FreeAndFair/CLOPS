@@ -210,7 +210,7 @@ public class CodeGenerator {
       GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
       isSetMethod.addStatement("return " + od.getIdentifier() + ".hasValue()");
       GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
-      getValueMethod.addStatement("return " + od.getIdentifier() + '.' + od.getType().getOptionValueGetterMethodName() + "()");
+      getValueMethod.addStatement("return " + od.getIdentifier() + ".getValue()");
       specificOptionStore.addMethod(isSetMethod);
       specificOptionStore.addMethod(getValueMethod);
     }

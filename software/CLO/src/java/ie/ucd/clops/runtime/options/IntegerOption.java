@@ -7,7 +7,7 @@ import java.util.Set;
  * @author Mikolas Janota
  * @author Fintan
  */
-public class IntegerOption extends OneArgumentOption {
+public class IntegerOption extends OneArgumentOption<Integer> {
 	
   private Integer value;
   
@@ -31,7 +31,7 @@ public class IntegerOption extends OneArgumentOption {
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#getValue()
 	 */
-	public Object getValue() { return value; }
+	public Integer getValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#hasValue()

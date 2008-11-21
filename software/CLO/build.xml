@@ -135,8 +135,6 @@
       <arg value="${src-dsl-interface}"/>
       <arg value="-p"/>
       <arg value="${src-dsl-interface-package}"/>
-      <arg value="-of"/>
-      <arg value="ie.ucd.clops.dsl.DefaultOptionTypeFactory"/>
     </java>
     <antcall target="dist"/>
   </target>

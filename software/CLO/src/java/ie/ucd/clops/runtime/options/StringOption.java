@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * @author Fintan
  */
-public class StringOption extends OneArgumentOption {
+public class StringOption extends OneArgumentOption<String> {
 	
   private String value;
 
@@ -20,7 +20,7 @@ public class StringOption extends OneArgumentOption {
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#getValue()
 	 */
-	public Object getValue() { return value; }
+	public String getValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#hasValue()

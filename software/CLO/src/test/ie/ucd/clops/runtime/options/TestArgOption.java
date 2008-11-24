@@ -1,7 +1,6 @@
 package ie.ucd.clops.runtime.options;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 
 /**
@@ -16,8 +15,8 @@ public class TestArgOption {
     }
 
     @Test public void testGetMatchingOption() {
-        //Assert.assertEquals(o1, o1.getMatchingOption("-v"));
-        //Assert.assertFalse(o1 == o1.getMatchingOption("-"));
+        Assert.assertEquals(o1, o1.getMatchingOption("-v"));
+        Assert.assertNotSame(o1, o1.getMatchingOption("-"));
     }  
 
 }

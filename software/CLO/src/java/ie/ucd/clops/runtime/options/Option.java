@@ -64,8 +64,8 @@ public interface Option<T> extends IMatchable {
   
   void addAlias(String alias);
 
-   /** Returns a set of aliases on which this option matches. */
-   /*@non_null*/Set<String> getAliases();
+  /** Returns a set of aliases on which this option matches. */
+  /*@non_null*/Set<String> getAliases();
   
    /** Sets the value of a property. 
     *  If {@code !acceptsProperty(propertyName)} then {@code InvalidOptionPropertyValueException} is thrown.

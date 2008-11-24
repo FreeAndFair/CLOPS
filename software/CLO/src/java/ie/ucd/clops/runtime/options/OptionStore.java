@@ -10,7 +10,8 @@ import java.util.Set;
  * @author Mikolas Janota
  * @author Fintan
  */
-public class OptionStore implements IMatchString  {
+public class OptionStore extends MatchableCollection 
+    implements IMatchString  {
   
    private final HashMap<String, Option<?>> identifierOptionMap;
    private final HashMap<String, Option<?>> aliasOptionMap;
@@ -27,16 +28,20 @@ public class OptionStore implements IMatchString  {
      options = new HashSet<Option<?>>();
    }
    
+
+   protected void addMatchable(IMatchable m) {
+      assert !identifierMatchableMap.containsKey(m.getIdentifier());
+      identifierMatchableMap.put(m.getIdentifier(), m);
+      add(m);
+   }
+
    /**
     * Add an option to this store.
     */
    public void addOption(/*@non_null*/Option<?> o) {
       assert !options.contains(o);
       options.add(o);
-      
-      assert !identifierMatchableMap.containsKey(o.getIdentifier());
-      identifierMatchableMap.put(o.getIdentifier(), o);
-      
+           
       assert !identifierOptionMap.containsKey(o.getIdentifier());
       identifierOptionMap.put(o.getIdentifier(), o);
       
@@ -44,15 +49,15 @@ public class OptionStore implements IMatchString  {
          assert !aliasOptionMap.containsKey(alias); // TODO: should be reported
          aliasOptionMap.put(alias, o);
       }
+
+      addMatchable(o);
    }
    
    /**
-    * Add an option group to this option store
-    * @param og
+    * Add an option group to this option store.
     */
    public void addOptionGroup(/*@non_null*/OptionGroup og) {
-     assert !identifierMatchableMap.containsKey(og.getIdentifier());
-     identifierMatchableMap.put(og.getIdentifier(), og);
+       add(og);
    }
 
    /**

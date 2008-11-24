@@ -57,7 +57,7 @@ public class OptionStore extends MatchableCollection
     * Add an option group to this option store.
     */
    public void addOptionGroup(/*@non_null*/OptionGroup og) {
-       add(og);
+       addMatchable(og);
    }
 
    /**

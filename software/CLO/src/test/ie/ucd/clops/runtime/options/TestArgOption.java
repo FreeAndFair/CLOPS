@@ -1,6 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 
 /**

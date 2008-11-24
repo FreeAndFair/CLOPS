@@ -28,7 +28,6 @@ public class OptionType {
    * @param typeDescriptionString  a textual description of the type
    * @param optionTypeClass a java class representing this option during option processing
    * @param optionValueTypeClass a java class representing the value of this option type
-   * @param optionValueGetterMethodName a name of the getter that will be generated for options of this type
    */  
   public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass) {
     this.type = count++;

@@ -35,7 +35,7 @@ public class MatchableCollection {
      * if more than one {@code Option} matched.
      * @return an option associated with the given {@code s}, 
      *  the option had to be added via 
-     *  {@link ie.ucd.clops.runtime.options.MatchString#add}
+     *  {@link ie.ucd.clops.runtime.options.MatchableCollection#add}
      */
     public Option<?> getMatchingOption(String s) {
         ArrayList<Option<?>> matched = new ArrayList<Option<?>>(1);

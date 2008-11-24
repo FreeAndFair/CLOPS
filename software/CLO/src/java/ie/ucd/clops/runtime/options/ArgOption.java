@@ -19,7 +19,7 @@ public class ArgOption implements Option<String> {
 
     /** 
      * Construct a new {@code ArgOption}.
-     * @param regexStr a regular expression {@link java.util.regex}
+     * @param regexStr a regular expression {@link java.util.regex.Pattern}
      */
     public ArgOption(String identifier, String regexStr) {
         this.identifier = identifier;

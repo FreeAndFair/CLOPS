@@ -42,7 +42,6 @@ public class TestGenericCLParser {
         flyStore = new FlyRuleStore();
 
         gp = new GenericCLParser();
-        System.out.println("TestGenericCLParser was initialized");
     }
 
     @Test public void testArg() 

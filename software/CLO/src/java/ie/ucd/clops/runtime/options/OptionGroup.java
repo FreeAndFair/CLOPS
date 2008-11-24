@@ -2,55 +2,46 @@ package ie.ucd.clops.runtime.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * 
  * @author Fintan
  * @author Viliam Hollub
+ * @author Mikolas Janota
  * 
  * A group of Options. Each OptionGroup is structurally a collection of Options
  * and OptionGroups.
  *
  */
-public class OptionGroup implements IMatchable {
+public class OptionGroup extends MatchableCollection implements IMatchable {
+    private String identifier;
 
-	Collection<IMatchable> options;
-	
-	private String identifier;
+    //TODO: ensure uniqnuess in a nicer way
+    private static Set<String> groupIds = new HashSet<String>();// debugging
 
-	/**
-	 * Create an OptionGroup with the provided identifier.
-	 * @param identifier the identifier for this OptionGroup.
-	 */
-	public OptionGroup(String identifier) {
-		options = new ArrayList<IMatchable>();
-		this.identifier = identifier;
-	}
+    /**
+     * Create an {@code OptionGroup} with the provided identifier.
+     * @param identifier a unique identifier for this {@code OptionGroup}.
+     */
+    public OptionGroup(String identifier) {
+        assert !groupIds.contains(identifier);
+        groupIds.add(identifier); // debugging
+        this.identifier = identifier;
+    }
 
-	/**
-	 * Add an Option or OptionGroup to this OptionGroup.
-	 * @param option the Option or OptionGroup to add.
-	 */
-	public void addOptionOrGroup( IMatchable option) {
-		options.add( option);
-	}
+    /**
+     * Add an {@code IMatchable} object to this group.
+     * @param option the Option or OptionGroup to add.
+     */
+    public void addOptionOrGroup( IMatchable option) {
+        add(option);
+    }
 
-	/**
-	 * Determines whether the given command line argument pertains to one
-	 * of contained options or option groups.
-	 */
-	public Option<?> getMatchingOption(/*@non_null*/String arg) {
-		for (IMatchable option:options) {
-		  Option<?> o = option.getMatchingOption(arg);
-		  if (o != null) {
-		    return o;
-		  }
-		}
-		return null;
-	}
 
-  public String getIdentifier() {
-    return identifier;
+  /*@pure*/public String getIdentifier() {
+      return identifier;
   }
 
   @Override
@@ -60,16 +51,20 @@ public class OptionGroup implements IMatchable {
   
   @Override
   public boolean equals(Object obj) {
+    boolean retv;
     if (obj instanceof OptionGroup) {
-      this.getIdentifier().equals(((OptionGroup)obj).getIdentifier());
+      OptionGroup oog = (OptionGroup)obj;
+      retv = this.getIdentifier().equals(oog.getIdentifier());
+      assert !retv || super.equals(oog); 
     } else {
-      return false;
+      retv = false;
     }
-    return super.equals(obj);
+
+    return retv;
   }
 
   @Override
-  public int hashCode() {
+  /*@pure*/public int hashCode() {
     return getIdentifier().hashCode();
   }
 	

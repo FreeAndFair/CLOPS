@@ -8,11 +8,12 @@ import java.util.HashSet;
 /**
  * 
  * @author Fintan
- * @author Viliam Hollub
+ * @author Viliam Holub
  * @author Mikolas Janota
  * 
- * A group of Options. Each OptionGroup is structurally a collection of Options
- * and OptionGroups.
+ * A class representing an option group. 
+ * Each option group is structurally a collection of {@code Option}s
+ * or another option groups.
  *
  */
 public class OptionGroup extends MatchableCollection implements IMatchable {

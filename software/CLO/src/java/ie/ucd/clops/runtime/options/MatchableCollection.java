@@ -24,7 +24,7 @@ public class MatchableCollection {
     /**
      * Add a {@code IMatchable} object. An object must be added at most once.
      */
-    public void add(IMatchable m) {
+    protected void add(IMatchable m) {
         assert !ms.contains(m);
         ms.add(m);
     }

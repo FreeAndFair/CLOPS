@@ -26,7 +26,9 @@ public class OptionType {
    * Initialize a new {@code OptionType}.
    *
    * @param typeDescriptionString  a textual description of the type
-   * @param optionTypeClass a java class representing this option during option processing
+   * @param optionTypeClass a java class representing this option during option processing,
+   *                     the class must implement the interface
+   *                     {@link ie.ucd.clops.runtime.options.Option} instanciated with {@code optionValueTypeClass}
    * @param optionValueTypeClass a java class representing the value of this option type
    */  
   public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass) {

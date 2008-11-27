@@ -1,5 +1,7 @@
 package ie.ucd.clops.dsl;
 
+import java.util.List;
+
 /**
  * Represents information regarding a specific Option.
  * Contains information about the class representing the Option,
@@ -80,5 +82,20 @@ public class OptionType {
   public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String");
   public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String");  
   //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float");
+  
+  public static String unifyRegexps(List<String> regexps) {
+    if (regexps.size() == 0) {
+      return "";
+    } else {
+      
+      StringBuilder sb = new StringBuilder();
+      for (String s : regexps) {
+        sb.append("|(?:");
+        sb.append(s);
+        sb.append(")");
+      }
+      return sb.toString().substring(1);
+    }
+  }
   
 }

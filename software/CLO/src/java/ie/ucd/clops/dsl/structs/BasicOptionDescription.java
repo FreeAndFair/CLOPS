@@ -3,9 +3,9 @@ package ie.ucd.clops.dsl.structs;
 import ie.ucd.clops.dsl.OptionType;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Fintan
@@ -13,13 +13,13 @@ import java.util.Set;
  */
 public class BasicOptionDescription implements OptionDescription {
 
-  private final Set<String> aliases;
+  private final List<String> aliases;
   private String identifier;
   private final Map<String,String> properties;
   private OptionType type;
 
   public BasicOptionDescription() {
-    this.aliases = new HashSet<String>();
+    this.aliases = new LinkedList<String>();
     this.properties = new HashMap<String,String>();
   }
 
@@ -40,14 +40,14 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#addAlias(java.lang.String)
    */
-  public void addAlias(final String alias) {
+  public void addPrefixRegexp(final String alias) {
     aliases.add(alias);
   }
   
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getAliases()
    */
-  public Set<String> getAliases() {
+  public List<String> getPrefixRegexps() {
     return aliases;
   }
 

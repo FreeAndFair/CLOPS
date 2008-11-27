@@ -1,6 +1,5 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.Set;
 
 /**
  * @author Viliam Holub
@@ -16,14 +15,8 @@ public class IntegerOption extends OneArgumentOption<Integer> {
   private int maxValue;
   private int minValue;
 
-	public IntegerOption(String identifier, final Set<String> aliases) {
-		super(identifier, aliases);
-		this.hasMaxValue = false;
-		this.hasMinValue = false;
-	}
-
-	public IntegerOption(String identifier) {
-		super(identifier);
+	public IntegerOption(String identifier, String prefix) {
+		super(identifier, prefix);
 		this.hasMaxValue = false;
 		this.hasMinValue = false;
 	}
@@ -43,9 +36,8 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
 	 */
-	public void set(Object value) throws InvalidOptionValueException {
-		if (value instanceof Integer) {
-		  Integer val = (Integer)value;
+	public void set(Integer value) throws InvalidOptionValueException {
+		  Integer val = value;
 		  if (hasMaxValue && val > maxValue) {
 		    throw new InvalidOptionValueException(value + " is bigger than the maximum value, " + maxValue + ".");
 		  } else if (hasMinValue && val < minValue) {
@@ -53,9 +45,6 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 		  } else {
 		    this.value = val;
 		  }
-		} else {
-			throw new InvalidOptionValueException(value + " is not an Integer.");
-		}
 	}
 
 	public void setFromString(String valueString) throws InvalidOptionValueException {

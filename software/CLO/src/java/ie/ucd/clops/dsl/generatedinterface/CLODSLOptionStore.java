@@ -8,25 +8,17 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   private final ie.ucd.clops.runtime.options.StringOption output_package;
   private final ie.ucd.clops.runtime.options.StringOption option_factory;
   public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
-    input = new ie.ucd.clops.runtime.options.FileOption("input");
-    input.addAlias("-i");
-    input.addAlias("--input");
+    input = new ie.ucd.clops.runtime.options.FileOption("input", "(?:-i)|(?:--input)");
     input.setProperty("canbedir","false");
     input.setProperty("mustExist","true");
     addOption(input);
-    output = new ie.ucd.clops.runtime.options.FileOption("output");
-    output.addAlias("-o");
-    output.addAlias("--output");
+    output = new ie.ucd.clops.runtime.options.FileOption("output", "(?:-o)|(?:--output)");
     output.setProperty("mustbedir","true");
     output.setProperty("mustExist","true");
     addOption(output);
-    output_package = new ie.ucd.clops.runtime.options.StringOption("output_package");
-    output_package.addAlias("--package");
-    output_package.addAlias("-p");
+    output_package = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
     addOption(output_package);
-    option_factory = new ie.ucd.clops.runtime.options.StringOption("option_factory");
-    option_factory.addAlias("-of");
-    option_factory.addAlias("--option-factory");
+    option_factory = new ie.ucd.clops.runtime.options.StringOption("option_factory", "(?:-of)|(?:--option-factory)");
     addOption(option_factory);
     OptionGroup optional_args = new OptionGroup("optional_args");
     addOptionGroup(optional_args);
@@ -40,7 +32,6 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   }
   public java.io.File getinput() {
     return input.getValue();
-    
   }
   public boolean isoutputSet() {
     return output.hasValue();

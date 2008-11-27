@@ -6,13 +6,15 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
-import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.OptionStore;
 
-
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 
@@ -59,12 +61,12 @@ public class AutomatonTest {
 		return result;
 	}
 
-	public static String stringOptions( Option[] options) {
-		String result = "";
-		for (Option o:options)
-			result += o.getAliases().iterator().next() +" ";
-		return result;
-	}
+//	public static String stringOptions( Option[] options) {
+//		String result = "";
+//		for (Option o:options)
+//			result += o.getAliases().iterator().next() +" ";
+//		return result;
+//	}
 
 	public static String stage;
 
@@ -133,7 +135,7 @@ public class AutomatonTest {
 					+result +"'");
 			System.out.println( "\tFormat: " +ti.format);
 			System.out.println( "\tTokens: " +stringTokens( tokens));
-			System.out.println( "\tFollow: " +stringOptions( ti.follow));
+			//System.out.println( "\tFollow: " +stringOptions( ti.follow));
 			test_no_fail++;
 		}
 	}
@@ -141,10 +143,10 @@ public class AutomatonTest {
 	public static void main(String[] args) throws Exception {
 
 		OptionStore os = new OptionStore();
-		Option bo1 = new BooleanOption("bo1", singleton("bo1"));
-		Option bo2 = new BooleanOption("bo2", singleton("bo2"));
-		Option bo3 = new BooleanOption("bo3", singleton("bo3"));
-		Option bo4 = new BooleanOption("bo4", singleton("bo4"));
+		Option bo1 = new BooleanOption("bo1", "bo1");
+		Option bo2 = new BooleanOption("bo2", "bo2");
+		Option bo3 = new BooleanOption("bo3", "bo3");
+		Option bo4 = new BooleanOption("bo4", "bo4");
 
 		os.addOption( bo1);
 		os.addOption( bo2);

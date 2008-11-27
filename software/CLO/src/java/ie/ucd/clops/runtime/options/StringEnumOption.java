@@ -13,14 +13,8 @@ public class StringEnumOption extends StringOption {
   private final Set<String> choices;
   private boolean caseSensitive;
   
-  public StringEnumOption(String identifier, Set<String> aliases) {
-    super(identifier, aliases);
-    choices = new HashSet<String>();
-    caseSensitive = false;
-  }
-
-  public StringEnumOption(String identifier) {
-    super(identifier);
+  public StringEnumOption(String identifier, String prefix) {
+    super(identifier, prefix);
     choices = new HashSet<String>();
     caseSensitive = false;
   }
@@ -30,19 +24,15 @@ public class StringEnumOption extends StringOption {
   }
 
   @Override
-  public void set(Object value) throws InvalidOptionValueException {
-    if (value instanceof String) {
-      for (String choice : choices) {
-        String val = (String)value;
-        if ((caseSensitive && choice.equals(value)) || choice.equalsIgnoreCase(val)) {
-          super.set(value);
-          return;
-        }
+  public void set(String value) throws InvalidOptionValueException {
+    for (String choice : choices) {
+      String val = (String)value;
+      if ((caseSensitive && choice.equals(value)) || choice.equalsIgnoreCase(val)) {
+        super.set(value);
+        return;
       }
-      throw new InvalidOptionValueException(value + " is not an allowed choice.");
-    } else {
-      throw new InvalidOptionValueException(value + " is not a String.");
     }
+    throw new InvalidOptionValueException(value + " is not an allowed choice.");
   }
 
   @Override

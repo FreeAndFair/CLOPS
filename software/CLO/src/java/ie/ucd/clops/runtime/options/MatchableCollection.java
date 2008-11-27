@@ -1,6 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A class maintaining a collecgtion of {@code IMatchable} objects and
@@ -31,16 +32,15 @@ public class MatchableCollection {
 
     /**
      * Obtain an {@code Option} associated with the given {@code String}.
-     * If {@code assertForDuplicates} then asertion is triggered 
-     * if more than one {@code Option} matched.
-     * @return an option associated with the given {@code s}, 
+     * If {@code assertForDuplicates} then assertion is triggered 
+     * if more than one {@code Option} matched. 
      *  the option had to be added via 
      *  {@link ie.ucd.clops.runtime.options.MatchableCollection#add}
      */
-    public Option<?> getMatchingOption(String s) {
+    public Option<?> getMatchingOption(String argString, int index) {
         ArrayList<Option<?>> matched = new ArrayList<Option<?>>(1);
         for (IMatchable m : ms) {
-            Option<?> foundM = m.getMatchingOption(s);
+            Option<?> foundM = m.getMatchingOption(argString, index);
             if (foundM != null) matched.add(foundM);
         }
         if (matched.isEmpty()) return null;

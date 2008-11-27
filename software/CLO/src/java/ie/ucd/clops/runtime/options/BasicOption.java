@@ -3,8 +3,9 @@
  */
 package ie.ucd.clops.runtime.options;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Fintan
@@ -12,26 +13,29 @@ import java.util.Set;
  */
 public abstract class BasicOption<T> implements Option<T> {
 
-  private final Set<String> aliases;
   private final String identifier;
+
+  private boolean sanitizePrefix;
+  private boolean dirty;
   
-  public BasicOption(String identifier, final Set<String> aliases) {
+  private String prefix;
+  private String suffix;
+  private Pattern pattern;
+  
+  protected MatchResult match;
+  
+  private String lastArgumentString;
+  private Matcher matcher;
+
+  public BasicOption(String identifier, String prefixRegexp) {
     this.identifier = identifier;
-    this.aliases = aliases;
+    sanitizePrefix = true;
+    dirty = true;
+    
+    this.prefix = prefixRegexp;
+    this.suffix = SEP_STRING;
   }
-  
-  public BasicOption(String identifier) {
-    this(identifier, new HashSet<String>());
-  }
-  
-  public Set<String> getAliases() {
-    return aliases;
-  }
-  
-  public void addAlias(String alias) {
-    aliases.add(alias);
-  }
-  
+
   /* (non-Javadoc)
    * @see ie.ucd.clops.runtime.options.IMatchable#getIdentifier()
    */
@@ -39,26 +43,56 @@ public abstract class BasicOption<T> implements Option<T> {
     return identifier;
   }
 
-  public Option<?> getMatchingOption(String argument) {
-    String matchedAlias = getMatchingAlias(argument);
-    return matchedAlias == null ? null : this;
-  }  
-  
-  protected String getMatchingAlias(String argument) {
-    for (String alias : getAliases()) {
-      if (argument.startsWith(alias) && (argument.length() == alias.length() || argument.charAt(alias.length()) =='=' ) ) {
-        return alias;
-      }
-    }
-    return null;
+  public boolean hasValue() {
+    return getValue() != null;
   }
   
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equals("default")) {
-      return true;
-    } else {
-      return false;
+  public int getMatchLength() { 
+    return match.end() - match.start();
+  }
+
+  public void setMatchingPrefix(String regexp) {
+    prefix = regexp;
+    dirty = true;
+  }
+  
+  private static String sanitizePrefix(String regexp) {
+    return '(' + regexp.replaceAll("(^|([^\\\\]))\\(([^\\?])", "$1(?:$3") + ')';
+  }
+
+  public Option<?> getMatchingOption(String argumentString, int index) {
+    if (dirty) {
+      updatePattern();
     }
+    
+    if (argumentString != lastArgumentString) {
+      matcher = pattern.matcher(argumentString);
+      lastArgumentString = argumentString;
+    } 
+    matcher.region(index, argumentString.length());
+    boolean matched = matcher.lookingAt();
+    if (matched) {
+      match = matcher.toMatchResult();
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  protected void setMatchingSuffix(String regexp) {
+    suffix = regexp;
+    dirty = true;
+  }
+  
+  private void updatePattern() {
+    String p = sanitizePrefix ? sanitizePrefix(prefix) : prefix;
+    pattern = Pattern.compile(p + suffix);
+    dirty = false;
+  }
+
+  public boolean acceptsProperty(String propertyName) {
+    return propertyName.equalsIgnoreCase("default") || propertyName.equalsIgnoreCase("sanitizeprefix") ||
+           propertyName.equalsIgnoreCase("suffixregexp");
   }
 
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
@@ -68,6 +102,14 @@ public abstract class BasicOption<T> implements Option<T> {
       } catch (InvalidOptionValueException iove) {
         throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage());
       }
+    } else if (propertyName.equalsIgnoreCase("sanitizeprefix")) {
+      if (BooleanOption.validBooleanString(propertyName)) {
+        sanitizePrefix = Boolean.parseBoolean(propertyValue);
+      } else {
+        throw new InvalidOptionPropertyValueException("Invalid boolean value: " + propertyValue);
+      }
+    } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
+      setMatchingSuffix(propertyValue);
     }
     //Else ignore
   }
@@ -86,9 +128,9 @@ public abstract class BasicOption<T> implements Option<T> {
   public int hashCode() {
     return getIdentifier().hashCode();
   }
-  
+
   protected abstract String getTypeString();
-  
+
   @Override
   public String toString() {
     String r = getTypeString() + " Option: \"" + getIdentifier() + "\"";

@@ -2,8 +2,6 @@ package ie.ucd.clops.runtime.options;
 
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
-import java.util.Set;
-
 /**
  * @author Mikolas Janota
  * @author Fintan
@@ -12,15 +10,15 @@ import java.util.Set;
 public class BooleanOption extends BasicOption<Boolean> {
   private Boolean value;
   private boolean allowArg;
-  
-  public BooleanOption(String identifier, final Set<String> aliases) {
-    super(identifier, aliases);
-    this.allowArg = true;
-  }
 
-  public BooleanOption(String identifier) {
-    super(identifier);
+  //private static final String NO_ARG_SUFFIX = SEP_STRING;
+  private static final String SUFFIX = "(=([^" + SEP + "]*))?" + SEP;
+  
+  
+  public BooleanOption(String identifier, String prefix) {
+    super(identifier, prefix);
     this.allowArg = true;
+    setMatchingSuffix(SUFFIX);
   }
 
   /* (non-Javadoc)
@@ -36,34 +34,27 @@ public class BooleanOption extends BasicOption<Boolean> {
   }
 
   /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String[], int)
+   * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String, int)
    */
-  public ProcessingResult process(String[] args, int offset) {
-    String currentArg = args[offset];
-    assert this.getMatchingOption(currentArg) == this;
-    String alias = getMatchingAlias(currentArg);
-    //If we allow -arg=VALUE
-    if (allowArg) {
-      if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
-        String suffix = currentArg.substring(alias.length() + 1);
+  public ProcessingResult process() {
+    String arg = match.group(3);
+    if (arg == null) {
+      try {
+        set(true);
+      } catch (InvalidOptionValueException e) {
+        assert false;
+      }
+      return ProcessingResult.successfulProcess();
+    } else {
+      if (allowArg) {
         try {
-          setFromString(suffix);
-          return ProcessingResult.successfulProcess(1);
+          setFromString(arg);
+          return ProcessingResult.successfulProcess();
         } catch (InvalidOptionValueException iove) {
           return ProcessingResult.erroneousProcess(iove.getMessage());
         }
       } else {
-        //It's true...
-        try { set(Boolean.TRUE); } catch (InvalidOptionValueException iove) { assert false; }
-        return ProcessingResult.successfulProcess(1);
-      }
-    } else {
-      if (currentArg.length() > alias.length() && currentArg.charAt(alias.length()) == '=') {
-        return ProcessingResult.erroneousProcess("Option " + alias + " does not allow an argument.");
-      } else {
-        //It's true...
-        try { set(Boolean.TRUE); } catch (InvalidOptionValueException iove) { assert false; }
-        return ProcessingResult.successfulProcess(1);
+        return ProcessingResult.erroneousProcess("Option " + match.group(1) + " does not allow an argument.");
       }
     }
   }
@@ -75,12 +66,8 @@ public class BooleanOption extends BasicOption<Boolean> {
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
    */
-  public void set(Object value) throws InvalidOptionValueException {
-    if (value instanceof Boolean) {
-      this.value = (Boolean)value;
-    } else {
-      throw new InvalidOptionValueException(value + " is not a Boolean.");
-    }
+  public void set(Boolean value) throws InvalidOptionValueException {
+    this.value = value;
   }
 
   public void setFromString(String valueString) throws InvalidOptionValueException {

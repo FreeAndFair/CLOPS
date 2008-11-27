@@ -1,7 +1,6 @@
 package ie.ucd.clops.runtime.options;
 
 import java.io.File;
-import java.util.Set;
 
 /**
  * @author Fintan
@@ -15,16 +14,8 @@ public class FileOption extends OneArgumentOption<File> {
   private boolean canBeDir;
   private boolean mustBeDir;
 
-	public FileOption(String identifier, final Set<String> aliases) {
-		super(identifier, aliases);
-		canExist = true;
-	  mustExist = false;
-	  canBeDir = true;
-	  mustBeDir = false;
-	}
-
-	public FileOption(String identifier) {
-		super(identifier);
+	public FileOption(String identifier, String prefix) {
+		super(identifier, prefix);
 		canExist = true;
     mustExist = false;
     canBeDir = true;
@@ -46,36 +37,32 @@ public class FileOption extends OneArgumentOption<File> {
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
 	 */
-	public void set(Object value) throws InvalidOptionValueException {
-		if (value instanceof File) {
-		  File file = (File)value;
-		  
-		  //Check existence properties
-		  if (file.exists()) {
-		    if (!canExist) {
-		      throw new InvalidOptionValueException("File cannot exist: " + file.getPath());
-		    }
-		  } else {
-		    if (mustExist) {
-		      throw new InvalidOptionValueException("File must exist: " + file.getPath());
-		    }
-		  }
-		  
-		  //Check directory properties
-		  if (file.isDirectory()) {
-		    if (!canBeDir) {
-		      throw new InvalidOptionValueException("File cannot be a directory: " + file.getPath());
-		    }
-		  } else {
-		    if (mustBeDir) {
-		      throw new InvalidOptionValueException("File must be a directory: " + file.getPath());
-		    }
-		  }
-		  
-		  this.value = file;
-		} else {
-			throw new InvalidOptionValueException(value + " is not a File.");
-		}
+	public void set(File value) throws InvalidOptionValueException {
+	  File file = value;
+
+	  //Check existence properties
+	  if (file.exists()) {
+	    if (!canExist) {
+	      throw new InvalidOptionValueException("File cannot exist: " + file.getPath());
+	    }
+	  } else {
+	    if (mustExist) {
+	      throw new InvalidOptionValueException("File must exist: " + file.getPath());
+	    }
+	  }
+
+	  //Check directory properties
+	  if (file.isDirectory()) {
+	    if (!canBeDir) {
+	      throw new InvalidOptionValueException("File cannot be a directory: " + file.getPath());
+	    }
+	  } else {
+	    if (mustBeDir) {
+	      throw new InvalidOptionValueException("File must be a directory: " + file.getPath());
+	    }
+	  }
+
+	  this.value = file;
 	}
 
 	public void setFromString(String valueString) throws InvalidOptionValueException {

@@ -1,6 +1,7 @@
 package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
+import ie.ucd.clops.dsl.OptionType;
 import ie.ucd.clops.dsl.parser.DSLInformation;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
 import ie.ucd.clops.dsl.structs.FlyRuleDescription;
@@ -179,11 +180,8 @@ public class CodeGenerator {
     
     //Create and add each Option
     for (OptionDescription opDesc : opDescriptions) {
-      constructor.addStatement(opDesc.getIdentifier() + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\")"); 
+      constructor.addStatement(opDesc.getIdentifier() + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\", \"" + OptionType.unifyRegexps(opDesc.getPrefixRegexps()) + "\")"); 
 
-      for (String alias : opDesc.getAliases()) {
-        constructor.addStatement(opDesc.getIdentifier() + ".addAlias(\"" + alias + "\")");
-      }
       for (Entry<String,String> entry : opDesc.getProperties().entrySet()) {
         constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
       }

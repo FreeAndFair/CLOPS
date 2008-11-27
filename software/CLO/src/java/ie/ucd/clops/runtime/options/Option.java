@@ -2,8 +2,6 @@ package ie.ucd.clops.runtime.options;
 
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
-import java.util.Set;
-
 /**
  * This interface describes information about the option needed during option parsing.
  *
@@ -24,7 +22,7 @@ public interface Option<T> extends IMatchable {
    * @return a {@code ProcessingResult} indicating the result of this processing
    */
    //@ requires 0 <= offset && offset < args.length;
-   ProcessingResult process(/*@non_null*/String[] args, int offset);
+   ProcessingResult process();
   
   /**
    * Does this Option have a value?
@@ -54,18 +52,13 @@ public interface Option<T> extends IMatchable {
    * 
    * @param value
    */
-  void set(Object value) throws InvalidOptionValueException;
+  void set(T value) throws InvalidOptionValueException;
 
   /**
    * Sets the value of this Option from a string representation.
    * @param value a string representation of the value to set
    */
   void setFromString(String value) throws InvalidOptionValueException;
-  
-  void addAlias(String alias);
-
-  /** Returns a set of aliases on which this option matches. */
-  /*@non_null*/Set<String> getAliases();
   
    /** Sets the value of a property. 
     *  If {@code !acceptsProperty(propertyName)} then {@code InvalidOptionPropertyValueException} is thrown.
@@ -75,4 +68,9 @@ public interface Option<T> extends IMatchable {
   
    /** Determines whether this option supports the given property. */
    /*@pure*/boolean acceptsProperty(/*@non_null*/String propertyName);
+   
+   void setMatchingPrefix(String regexp);
+   
+   int getMatchLength();
+   
 }

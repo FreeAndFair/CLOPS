@@ -11,6 +11,8 @@ import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 
+import static ie.ucd.clops.runtime.options.IMatchable.SEP;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -68,8 +70,16 @@ public class GenericCLParser {
       return false;
     }
 
+    //Convert args to single string
+    StringBuilder sb = new StringBuilder();
+    for (String arg : args) {
+      sb.append(arg);
+      sb.append(SEP);
+    }
+    String argumentString = sb.toString();
+    
     //Main loop
-    for (int i=0; i < args.length; ) {
+    for (int i=0; i < argumentString.length(); ) {
       //Get available next options
       Collection<IMatchable> possibleTransitions = automaton.availableTransitionsUnique();
       CLOLogger.getLogger().log(Level.FINE, "Transitions: " + possibleTransitions);
@@ -77,12 +87,12 @@ public class GenericCLParser {
       CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
       
       //Matched option
-      Option matchedOption = null;
+      Option<?> matchedOption = null;
       Set<IMatchable> matches = new HashSet<IMatchable>();
       
       //Try and find a match
       for (IMatchable transition : possibleTransitions) {
-        Option newMatchedOption = transition.getMatchingOption(args[i]);
+        Option<?> newMatchedOption = transition.getMatchingOption(argumentString, i);
         if (newMatchedOption != null) {
           //We cannot match on two different Options
           assert matchedOption == null || matchedOption == newMatchedOption;
@@ -97,7 +107,6 @@ public class GenericCLParser {
         //Check if we can have a program argument here...
         //if not, report error 
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + args[i]); // debugging
-        //i++;
         return false;
       } else {
         //We should have at least one transition
@@ -108,13 +117,13 @@ public class GenericCLParser {
         
         CLOLogger.getLogger().log(Level.FINE, "Matched option: " + matchedOption);
         
-        ProcessingResult pr = matchedOption.process(args, i);
+        ProcessingResult pr = matchedOption.process();
         if (pr.errorDuringProcessing()) {
           //output error
           CLOLogger.getLogger().log(Level.SEVERE, pr.getErrorMessage());
           return false;
         } else {
-          i += pr.getNumberOfArgsConsumed();
+          i += matchedOption.getMatchLength();
           try {
             flyStore.applyFlyRules(matchedOption, optionStore);
           } catch (InvalidOptionValueException iove) {

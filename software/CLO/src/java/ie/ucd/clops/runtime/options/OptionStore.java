@@ -14,7 +14,6 @@ public class OptionStore extends MatchableCollection
 implements IMatchString  {
 
   private final HashMap<String, Option<?>> identifierOptionMap;
-  private final HashMap<String, Option<?>> aliasOptionMap;
   private final HashMap<String, IMatchable> identifierMatchableMap;
   private final HashSet<Option<?>> options;
 
@@ -23,7 +22,6 @@ implements IMatchString  {
    */
   public OptionStore() {
     identifierOptionMap = new HashMap<String, Option<?>>();
-    aliasOptionMap = new HashMap<String, Option<?>>();
     identifierMatchableMap = new HashMap<String, IMatchable>();
     options = new HashSet<Option<?>>();
   }
@@ -44,11 +42,6 @@ implements IMatchString  {
 
     assert !identifierOptionMap.containsKey(o.getIdentifier());
     identifierOptionMap.put(o.getIdentifier(), o);
-
-    for (String alias : o.getAliases()) {
-      assert !aliasOptionMap.containsKey(alias); // TODO: should be reported
-      aliasOptionMap.put(alias, o);
-    }
 
     addMatchable(o);
   }
@@ -82,16 +75,6 @@ implements IMatchString  {
    */
   public Option<?> getOptionByIdentifier(String identifier) {
     return identifierOptionMap.get(identifier);
-  }
-
-  /**
-   * Get the Option that has the provided alias, if one is present
-   * (null otherwise).
-   * @param alias the alias to the Option to get.
-   * @return the Option with this alias, or null.
-   */
-  public Option<?> getOptionByAlias(String alias) {
-    return aliasOptionMap.get(alias);
   }
 
   @Override

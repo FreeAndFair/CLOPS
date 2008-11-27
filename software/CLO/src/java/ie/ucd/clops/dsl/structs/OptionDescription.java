@@ -2,8 +2,8 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -38,16 +38,16 @@ public interface OptionDescription {
   OptionType getType();
 
   /**
-   * Get the aliases associated with this option.
-   * @return the Set of aliases.
+   * Get the regular expressions for the prefix of this option.
+   * @return the Set of prefixes.
    */
-  Set<String> getAliases();
+  List<String> getPrefixRegexps();
 
   /**
-   * Add an alias for this option.
-   * @param alias the alias to add for this option.
+   * Add a prefix regular expression for this option.
+   * @param regexp the regular expression to add for this option.
    */
-  void addAlias(final String alias);
+  void addPrefixRegexp(final String regexp);
   
   /**
    * Set a property key,value pair for this option.

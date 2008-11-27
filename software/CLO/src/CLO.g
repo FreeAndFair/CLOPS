@@ -77,10 +77,10 @@ arg_definition
                    { option.setId($id.text); } 
                    '{'
                    ( 
-                     '"' a1=arg_alias '"' 
-                     { option.addAlias($a1.text); }
-                     (',' '"' a=arg_alias '"'
-                      { option.addAlias($a.text); }
+                     a1=arg_regexp 
+                     { option.addPrefixRegexp(stripStringMarks($a1.text)); }
+                     (',' a=arg_regexp
+                      { option.addPrefixRegexp(stripStringMarks($a.text)); }
                      )* 
                    )?
                    '}'
@@ -124,8 +124,8 @@ arg_definition
 arg_name  :  NAME
           ;
 
-arg_alias  :  possible_dash_started_alias
-           ;
+arg_regexp  :  string_constant
+            ;
            
 property_name  :  NAME
                ;

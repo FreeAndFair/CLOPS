@@ -12,11 +12,13 @@ import java.util.logging.StreamHandler;
  */
 public class CLOLogger {
 
+  public static final Level DEFAULT_LEVEL = Level.INFO;
+  
   private final static Logger logger;
   
   static {
     logger = Logger.getLogger("ie.ucd.clops");
-    logger.setLevel(Level.INFO);
+    logger.setLevel(DEFAULT_LEVEL);
     //TODO - proper configuration of this
     logger.addHandler(new StreamHandler(System.out, new EndUserFormatter()));
     logger.setUseParentHandlers(false);

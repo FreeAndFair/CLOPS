@@ -7,8 +7,11 @@ package ie.ucd.clops.runtime.options;
  */
 public interface IMatchable {
   
+  public static final char SEP = '\0';
+  public static final String SEP_STRING = SEP + "";
+  
   String getIdentifier();
   
-  Option<?> getMatchingOption(String argument);
+  Option<?> getMatchingOption(String argumentString, int index);
   
 }

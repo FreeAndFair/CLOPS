@@ -5,9 +5,6 @@ import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.OptionStore;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,17 +21,10 @@ public class TestGenericCLParser {
     private BooleanOption bo2;
     private GenericCLParser gp;
 
-
-    private static Set<String> singleton(String s) {
-        Set<String> retv = new HashSet<String>(1);
-        retv.add(s);
-        return retv;
-    }
-
     @Before public void setUp() {
         os = new OptionStore();
-        bo1 = new BooleanOption("bo1", singleton("-bo"));
-        bo2 = new BooleanOption("bo2", singleton("-boo"));
+        bo1 = new BooleanOption("bo1", "-bo");
+        bo2 = new BooleanOption("bo2", "-boo");
 
         os.addOption(bo1);
         os.addOption(bo2);

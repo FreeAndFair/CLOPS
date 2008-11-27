@@ -17,8 +17,6 @@ public interface Option<T> extends IMatchable {
    * If there was an error, an error message is contained in the ProcessingResult.
    * If the processing was successful, the {@code ProcessingResult} indicates how many arguments
    * were consumed.
-   * @param args
-   * @param offset
    * @return a {@code ProcessingResult} indicating the result of this processing
    */
    //@ requires 0 <= offset && offset < args.length;

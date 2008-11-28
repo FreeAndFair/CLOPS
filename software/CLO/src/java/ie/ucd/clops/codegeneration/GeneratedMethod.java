@@ -41,6 +41,10 @@ public class GeneratedMethod extends GeneratedCodeUnit {
     statements.add(new GeneratedStatement(statementText));
   }
   
+  public void addStatement(String statementText, boolean needsSemi) {
+    statements.add(new GeneratedStatement(statementText, needsSemi));
+  }
+  
   public List<GeneratedArgument> getArgs() {
     return args;
   }

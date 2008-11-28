@@ -109,7 +109,13 @@ public class CountedBooleanOption extends BasicOption<Integer> {
   }
 
   public void setFromString(String value) throws InvalidOptionValueException {
-    assert false;
+    if (value == null)
+      throw new InvalidOptionValueException("Empty integer value.");
+    try {
+      set(new Integer(value));
+    } catch (NumberFormatException e) {
+      throw new InvalidOptionValueException(value + " is not an integer number.");
+    }
   }
 
   public void unset() {

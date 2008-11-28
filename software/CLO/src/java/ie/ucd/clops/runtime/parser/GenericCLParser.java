@@ -106,7 +106,7 @@ public class GenericCLParser {
       if (matchedOption == null) {
         //Check if we can have a program argument here...
         //if not, report error 
-        CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + args[i]); // debugging
+        CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + matchedOption); // debugging
         return false;
       } else {
         //We should have at least one transition
@@ -125,7 +125,9 @@ public class GenericCLParser {
         } else {
           i += matchedOption.getMatchLength();
           try {
+            CLOLogger.getLogger().log(Level.FINE, "Applying fly rules");
             flyStore.applyFlyRules(matchedOption, optionStore);
+            CLOLogger.getLogger().log(Level.FINE, "Done applying fly rules");
           } catch (InvalidOptionValueException iove) {
             //Shouldn't happen?
             CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from fly rule: " + iove);

@@ -20,8 +20,10 @@ public class CLOLogger {
     logger = Logger.getLogger("ie.ucd.clops");
     logger.setLevel(DEFAULT_LEVEL);
     //TODO - proper configuration of this
-    logger.addHandler(new StreamHandler(System.out, new EndUserFormatter()));
     logger.setUseParentHandlers(false);
+    Handler defaultHandler = new StreamHandler(System.out, new EndUserFormatter());
+    defaultHandler.setLevel(DEFAULT_LEVEL);
+    logger.addHandler(defaultHandler);
   }
     
   public static Logger getLogger() {
@@ -30,6 +32,9 @@ public class CLOLogger {
   
   public static void setLogLevel(Level newLevel) {
     logger.setLevel(newLevel);
+    for (Handler handler : logger.getHandlers()) {
+      handler.setLevel(newLevel);
+    }
   }
   
   public static void removeAllHandlers() {

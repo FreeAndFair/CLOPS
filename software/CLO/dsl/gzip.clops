@@ -34,25 +34,15 @@ ARGS::
 	test:{"-t","--test"}
 	verbose:{"-v","--verbose"}:{counted-boolean}:[countmax="3",warnonexceedingmax]
 	version:{"-V","--version"}
-	compressionlevel1:{"-1","--fast"}
-	compressionlevel2:{"-2"}
-	compressionlevel3:{"-3"}
-	compressionlevel4:{"-4"}
-	compressionlevel5:{"-5"}
-	compressionlevel6:{"-6"}
-	compressionlevel7:{"-7"}
-	compressionlevel8:{"-8"}
-	compressionlevel9:{"-9","--best"}
-	suffix:{"-S","--suffix"}:{string}
-
-	// Virtual arguments
-	compressionlevel:{}:{int}:[default="6",maxvalue="9",minvalue="1"]
+	compressionlevel:{""}:{int}:[suffixregexp="-([1-9])",maxvalue="9",minvalue="1",default="6"]
+	compressionlevelbest:{"--best"}
+	compressionlevelfast:{"--fast"}
 	
-	//verbose_cnt:{}:{int} - using countedboolean instead
+	suffix:{"-S","--suffix"}:{string}
 
 FORMAT::
 
-	option* suffixx?;
+	option* suffix?;
 
 WHERE::
 
@@ -60,26 +50,14 @@ WHERE::
 		ascii OR stdout OR decomporess OR force OR help OR
 		list OR license OR noname OR name OR quiet OR recursive
 		OR rsyncable OR test OR verbose OR version OR
-		compressionlevel1 OR compressionlevel2 OR
-		compressionlevel3 OR compressionlevel4 OR
-		compressionlevel5 OR compressionlevel6 OR
-		compressionlevel7 OR compressionlevel8 OR
-		compressionlevel9;
-
-	suffixx: suffix;
+		compressionlevel OR compressionlevelbest OR
+		compressionlevelfast;
 
 FLY::
 	// Compression level aliases
-	compressionlevel1 -> compressionlevel:=1;
-	compressionlevel2 -> compressionlevel:=2;
-	compressionlevel3 -> compressionlevel:=3;
-	compressionlevel4 -> compressionlevel:=4;
-	compressionlevel5 -> compressionlevel:=5;
-	compressionlevel6 -> compressionlevel:=6;
-	compressionlevel7 -> compressionlevel:=7;
-	compressionlevel8 -> compressionlevel:=8;
-	compressionlevel9 -> compressionlevel:=9;
-
+	compressionlevelbest -> compressionlevel:=9, compressionlevelfast:=false;
+	compressionlevelfast -> compressionlevel:=1, compressionlevelbest:=false;
+	
 	// List forces decompress and stdout
 	list -> decompress:=true;
 	list -> stdout:=true;
@@ -89,16 +67,8 @@ FLY::
 	test -> stdout:=true;
 
 	// Quiet and verbose are reversed
-	quiet -> verbose:=false;
-	quiet -> verbose_cnt:=0;
+	quiet -> verbose:=0;
 	verbose -> quiet:=false;
-
-        // Another possibility, using lists.
-        // quiet -> verbose := tail(verbose);
-
-	// Verbose increases verbosity
-	// XXX don't know the right syntax
-	//verbose -> verbose_cnt := verbose_cnt+1;
 
 OVERRIDES::
 	// Default compression level is 6

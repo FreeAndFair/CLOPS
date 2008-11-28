@@ -6,6 +6,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   private final ie.ucd.clops.runtime.options.FileOption input;
   private final ie.ucd.clops.runtime.options.FileOption output;
   private final ie.ucd.clops.runtime.options.StringOption output_package;
+  private final ie.ucd.clops.runtime.options.BooleanOption gen_test;
   private final ie.ucd.clops.runtime.options.StringOption option_factory;
   public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
     input = new ie.ucd.clops.runtime.options.FileOption("input", "(?:-i)|(?:--input)");
@@ -17,11 +18,15 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     output.setProperty("mustExist","true");
     addOption(output);
     output_package = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
+    output_package.setProperty("stripquotesifpresent","true");
     addOption(output_package);
+    gen_test = new ie.ucd.clops.runtime.options.BooleanOption("gen_test", "(?:-t)|(?:--test)");
+    addOption(gen_test);
     option_factory = new ie.ucd.clops.runtime.options.StringOption("option_factory", "(?:-of)|(?:--option-factory)");
     addOption(option_factory);
     OptionGroup optional_args = new OptionGroup("optional_args");
     addOptionGroup(optional_args);
+    optional_args.addOptionOrGroup(gen_test);
     optional_args.addOptionOrGroup(option_factory);
     optional_args.addOptionOrGroup(output_package);
     
@@ -32,6 +37,7 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   }
   public java.io.File getinput() {
     return input.getValue();
+    
   }
   public boolean isoutputSet() {
     return output.hasValue();
@@ -47,6 +53,14 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   }
   public String getoutput_package() {
     return output_package.getValue();
+    
+  }
+  public boolean isgen_testSet() {
+    return gen_test.hasValue();
+    
+  }
+  public boolean getgen_test() {
+    return gen_test.getValue();
     
   }
   public boolean isoption_factorySet() {

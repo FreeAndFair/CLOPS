@@ -7,9 +7,11 @@ package ie.ucd.clops.runtime.options;
 public class StringOption extends OneArgumentOption<String> {
 	
   private String value;
+  private boolean stripquotes;
 
 	public StringOption(String identifier, String prefix) {
 		super(identifier, prefix);
+		this.stripquotes = false;
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +30,21 @@ public class StringOption extends OneArgumentOption<String> {
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
 	 */
 	public void set(String value) throws InvalidOptionValueException {
-		this.value = value;
+	  if (stripquotes) {
+	    this.value = stripQuotesIfNecessary(value);
+	  } else {
+	    this.value = value;
+	  }
+	}
+	
+	private String stripQuotesIfNecessary(String value) {
+	  if (value.length() >=2 && 
+        value.charAt(0) == '"' && 
+        value.charAt(value.length()-1) == '"') {
+      return value.substring(1, value.length()-1);
+	  } else {
+	    return value;
+	  }
 	}
 
 	public void setFromString(String valueString) throws InvalidOptionValueException {
@@ -52,5 +68,26 @@ public class StringOption extends OneArgumentOption<String> {
 	public String getStringValue() {
 	  return value;
 	}
+
+  @Override
+  public boolean acceptsProperty(String propertyName) {
+    return propertyName.equalsIgnoreCase("stripquotesifpresent") || super.acceptsProperty(propertyName);
+  }
+
+  @Override
+  public void setProperty(String propertyName, String propertyValue)
+      throws InvalidOptionPropertyValueException {
+    if (propertyName.equalsIgnoreCase("stripquotesifpresent")) {
+      if (BooleanOption.validBooleanString(propertyValue)) {
+        stripquotes = Boolean.parseBoolean(propertyValue);
+      } else {
+        throw new InvalidOptionPropertyValueException("Invalid stripquotesifpresent, must be a boolean: " + propertyValue);
+      }
+    } else {
+      super.setProperty(propertyName, propertyValue);
+    }
+  }
+	
+	
 	
 }

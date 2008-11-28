@@ -206,7 +206,9 @@ public class GeneratedCodePrinter {
   
   public void printStatement(GeneratedStatement statement) {
     ps.print(statement.getContent());
-    ps.print(';');
+    if (statement.needsSemi()) {
+      ps.print(';');
+    }
     newLine();
   }
   

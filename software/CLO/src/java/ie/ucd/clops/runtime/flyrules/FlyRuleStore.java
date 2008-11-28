@@ -48,6 +48,7 @@ public class FlyRuleStore {
     if (assignments != null) {
       CLOLogger.getLogger().log(Level.FINE, "Assignments for " + matchedOption);
       for (OptionAssignment assignment : assignments) {
+        CLOLogger.getLogger().log(Level.FINE, "Assignment: " + assignment);
         Option<?> optionToSet = optionStore.getOptionByIdentifier(assignment.getOptionIdentifier());
         optionToSet.setFromString(assignment.getOptionValue());
       }          

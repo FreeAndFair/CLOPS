@@ -7,6 +7,8 @@ public interface CLODSLOptionsInterface {
   public java.io.File getoutput();
   public boolean isoutput_packageSet();
   public String getoutput_package();
+  public boolean isgen_testSet();
+  public boolean getgen_test();
   public boolean isoption_factorySet();
   public String getoption_factory();
   

@@ -83,7 +83,8 @@ public class Main {
         if (options.isoutput_packageSet()) {
           parser.getDslInformation().setPackageName(options.getoutput_package());
         }
-        CodeGenerator.createCode(parser.getDslInformation(), outputDir);
+        boolean genTest = options.isgen_testSet() && options.getgen_test();
+        CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
         
         CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
         

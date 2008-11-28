@@ -165,6 +165,8 @@
       <arg value="${test-file}"/>
       <arg value="-o"/>
       <arg value="${temp-test}"/>
+    	<arg value='-p=""'/>
+    	<arg value="-t"/>
     </java>
     <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
       <compilerarg value="-Xlint:all"/>

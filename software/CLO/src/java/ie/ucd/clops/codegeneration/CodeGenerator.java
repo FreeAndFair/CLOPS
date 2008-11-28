@@ -2,12 +2,15 @@ package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
+import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
 import ie.ucd.clops.dsl.parser.DSLInformation;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
 import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,8 +23,7 @@ import java.util.logging.Level;
 public class CodeGenerator {
 
 
-  public static void createCode(DSLInformation dslInfo,
-      File outputDir) {
+  public static void createCode(DSLInformation dslInfo, File outputDir, boolean genTest) {
 
     String parserName = dslInfo.getParserName();
     String formatString = dslInfo.getFormatString();
@@ -39,7 +41,12 @@ public class CodeGenerator {
     GeneratedClassOrInterface specificOptionStore = createSpecificOptionStore(parserName, opDescriptions, opGroupDescriptions, dslInfo.getPackageName());
     
     try {
-      writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore);
+      if (!genTest) {
+        writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore);
+      } else {
+        GeneratedClassOrInterface tester = createTester(parserName, dslInfo.getPackageName());
+        writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore, tester);
+      }
     } catch (FileNotFoundException fnfe) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error creating file. " + fnfe);
     }
@@ -214,6 +221,37 @@ public class CodeGenerator {
     }
     
     return specificOptionStore;
+  }
+  
+  private static GeneratedClassOrInterface createTester(String parserName, String outputPackage) {
+    GeneratedClassOrInterface tester = new GeneratedClassOrInterface("Main", false, outputPackage, Visibility.Public);
+    tester.addImport("java.util.logging.Level");
+    tester.addImport("ie.ucd.clops.logging.CLOLogger");
+    tester.addImport("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
+    
+    GeneratedMethod main = new GeneratedMethod("main", "void", Visibility.Public);
+    main.addModifier("static");
+    main.addArg(new GeneratedArgument("args", "String[]"));
+    main.addStatement("CLOLogger.setLogLevel(Level.FINE)");
+    
+    
+    main.addStatement("try {", false);
+    main.addStatement("  " + parserName + "Parser parser = new " + parserName + "Parser()");
+    main.addStatement("  boolean success = parser.parse(args)");
+    
+    main.addStatement("  if (success) {", false);
+    main.addStatement("    CLOLogger.getLogger().log(Level.INFO, \"Successful parse.\")");
+    main.addStatement("  } else {", false);
+    main.addStatement("    CLOLogger.getLogger().log(Level.INFO, \"Parse did not succeed.\")");
+    main.addStatement("  }", false);
+    
+    main.addStatement("} catch (InvalidOptionPropertyValueException e) {", false);
+    main.addStatement("  CLOLogger.getLogger().log(Level.SEVERE, \"Error setting initial property values for options.\")");
+    main.addStatement("}", false);
+    
+    tester.addMethod(main);
+    
+    return tester;
   }
  
   private static GeneratedMethod createGetter(GeneratedField field) {

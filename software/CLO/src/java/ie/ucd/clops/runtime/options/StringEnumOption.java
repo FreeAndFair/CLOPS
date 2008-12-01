@@ -26,8 +26,7 @@ public class StringEnumOption extends StringOption {
   @Override
   public void set(String value) throws InvalidOptionValueException {
     for (String choice : choices) {
-      String val = (String)value;
-      if ((caseSensitive && choice.equals(value)) || choice.equalsIgnoreCase(val)) {
+      if ((caseSensitive && choice.equals(value)) || choice.equalsIgnoreCase(value)) {
         super.set(value);
         return;
       }

@@ -1,12 +1,5 @@
 package ie.ucd.clops.dsl.generatedinterface;
 
-import ie.ucd.clops.runtime.options.Option;
-import ie.ucd.clops.runtime.options.OptionGroup;
-import ie.ucd.clops.runtime.options.OptionStore;
-import ie.ucd.clops.runtime.options.BooleanOption;
-import ie.ucd.clops.runtime.options.OptionAssignment;
-import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
-
 public class CLODSLParser extends ie.ucd.clops.runtime.parser.AbstractSpecificCLParser {
   final ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore optionStore;
   ie.ucd.clops.runtime.flyrules.FlyRuleStore flyRuleStore;
@@ -27,8 +20,8 @@ public class CLODSLParser extends ie.ucd.clops.runtime.parser.AbstractSpecificCL
     return new CLODSLOptionStore();
     
   }
-  private FlyRuleStore createFlyRuleStore() {
-    FlyRuleStore flyStore = new FlyRuleStore();
+  private ie.ucd.clops.runtime.flyrules.FlyRuleStore createFlyRuleStore() {
+    ie.ucd.clops.runtime.flyrules.FlyRuleStore flyStore = new ie.ucd.clops.runtime.flyrules.FlyRuleStore();
     return flyStore;
     
   }

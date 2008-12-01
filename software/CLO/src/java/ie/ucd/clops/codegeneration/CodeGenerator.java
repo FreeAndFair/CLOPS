@@ -2,15 +2,12 @@ package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.OptionType;
-import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
-import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
 import ie.ucd.clops.dsl.parser.DSLInformation;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
 import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,17 +50,6 @@ public class CodeGenerator {
     
   }
   
-  private static void addNecessaryImports(GeneratedClassOrInterface genClass) {
-    final String pack = "ie.ucd.clops.runtime.options";
-    genClass.addImport(pack + ".Option");
-    genClass.addImport(pack + ".OptionGroup");
-    genClass.addImport(pack + ".OptionStore");
-    genClass.addImport(pack + ".BooleanOption");
-    genClass.addImport(pack + ".OptionAssignment");
-    final String pack2 = "ie.ucd.clops.runtime.flyrules";
-    genClass.addImport(pack2 + ".FlyRuleStore");
-  }
-  
   private static void writeGeneratedClasses(File outputDir, GeneratedClassOrInterface... classes) throws FileNotFoundException {
     for (GeneratedClassOrInterface genClass : classes) {
       writeGeneratedClass(outputDir, genClass);
@@ -97,10 +83,10 @@ public class CodeGenerator {
   
   private static void createFlyRuleInitialisationCode(GeneratedClassOrInterface specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
     
-    GeneratedMethod createOverrideRules = new GeneratedMethod("createFlyRuleStore", "FlyRuleStore", Visibility.Private);
+    GeneratedMethod createOverrideRules = new GeneratedMethod("createFlyRuleStore", "ie.ucd.clops.runtime.flyrules.FlyRuleStore", Visibility.Private);
     specificParser.addMethod(createOverrideRules);
     
-    createOverrideRules.addStatement("FlyRuleStore flyStore = new FlyRuleStore()");
+    createOverrideRules.addStatement("ie.ucd.clops.runtime.flyrules.FlyRuleStore flyStore = new ie.ucd.clops.runtime.flyrules.FlyRuleStore()");
     
     for (FlyRuleDescription orDescription : overrideRuleDescriptions) {
       String opId = orDescription.getTriggeringOptionIdentifier();
@@ -133,7 +119,6 @@ public class CodeGenerator {
       Collection<FlyRuleDescription> overrideRuleDescriptions,
       String outputPackage) {
     GeneratedClassOrInterface specificParser = new GeneratedClassOrInterface(parserName + "Parser", false, outputPackage, Visibility.Public);
-    addNecessaryImports(specificParser);
 
     GeneratedField optionStore = new GeneratedField("optionStore", getQualifiedClassName(parserName + "OptionStore", outputPackage));
     optionStore.addModifier("final");

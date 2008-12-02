@@ -124,13 +124,13 @@ arg_definition
 arg_name  :  NAME
           ;
 
-arg_regexp  :  string_constant
+arg_regexp  :  STRING_CONSTANT
             ;
            
 property_name  :  NAME
                ;
                
-property_value  :  string_constant
+property_value  :  STRING_CONSTANT
                 ;
 
 /**********************************************/
@@ -208,7 +208,7 @@ validity_rule  :  NAME comparison_op constant ('OR' NAME comparison_op constant)
 
 constant  :    boolean_constant
              | integer_constant  
-             | string_constant
+             | STRING_CONSTANT
              | unspecified_constant
           ;
 
@@ -217,9 +217,6 @@ boolean_constant  :  'true' | 'false'
 
 integer_constant  :  INTEGER
                   ;
-
-string_constant  :  '"' .* '"'
-                 ;
 
 unspecified_constant  :  '?'
                       ;
@@ -246,6 +243,9 @@ comparison_op  :    '='
  ###   Lexer...                             ###
  ##############################################
  **********************************************/ 
+
+STRING_CONSTANT  :  '"' .* '"'
+                 ;
 
 MULTI_LINE_COMMENT  :  '/*' .* '*/' { $channel=HIDDEN; }
                     ;

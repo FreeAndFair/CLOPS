@@ -34,7 +34,7 @@ ARGS::
 	test:{"-t","--test"}
 	verbose:{"-v","--verbose"}:{counted-boolean}:[countmax="3",warnonexceedingmax]
 	version:{"-V","--version"}
-	compressionlevel:{""}:{int}:[suffixregexp="-([1-9])",maxvalue="9",minvalue="1",default="6"]
+	compressionlevel:{"-"}:{int}:[suffixregexp="([1-9])\\00",maxvalue="9",minvalue="1",default="6"]
 	compressionlevelbest:{"--best"}
 	compressionlevelfast:{"--fast"}
 	

@@ -13,6 +13,7 @@ import ie.ucd.clops.runtime.options.OptionStore;
 
 import static ie.ucd.clops.runtime.options.IMatchable.SEP;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,9 @@ public class GenericCLParser {
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {
 
+    CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
+    CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
+    
     CLOLogger.getLogger().log(Level.FINE, flyStore.toString());
     
     //Set up automaton

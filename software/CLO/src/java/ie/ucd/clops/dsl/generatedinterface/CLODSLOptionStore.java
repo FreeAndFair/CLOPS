@@ -10,12 +10,12 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   private final ie.ucd.clops.runtime.options.StringOption option_factory;
   public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
     input = new ie.ucd.clops.runtime.options.FileOption("input", "(?:-i)|(?:--input)");
-    input.setProperty("mustExist","true");
     input.setProperty("canbedir","false");
+    input.setProperty("mustExist","true");
     addOption(input);
     output = new ie.ucd.clops.runtime.options.FileOption("output", "(?:-o)|(?:--output)");
-    output.setProperty("mustExist","true");
     output.setProperty("mustbedir","true");
+    output.setProperty("mustExist","true");
     addOption(output);
     output_package = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
     output_package.setProperty("stripquotesifpresent","true");

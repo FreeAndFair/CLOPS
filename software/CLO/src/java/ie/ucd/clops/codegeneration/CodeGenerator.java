@@ -72,12 +72,9 @@ public class CodeGenerator {
       Collection<OptionDescription> opDescriptions, 
       Collection<OptionGroupDescription> opGroupDescriptions) {
   
-  GeneratedMethod createOps = new GeneratedMethod("createOptionStore", getQualifiedClassName(parserName + "OptionStore", packageName), Visibility.Private);
-    //specificParser.addMethod(createOps);
+    GeneratedMethod createOps = new GeneratedMethod("createOptionStore", getQualifiedClassName(parserName + "OptionStore", packageName), Visibility.Private);
     createOps.addException("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
-    
     createOps.addStatement("return new " + parserName + "OptionStore()");
-    
     return createOps;
   }
   
@@ -91,7 +88,7 @@ public class CodeGenerator {
     for (FlyRuleDescription orDescription : overrideRuleDescriptions) {
       String opId = orDescription.getTriggeringOptionIdentifier();
       for (AssignmentDescription desc : orDescription.getAssignments()) {
-        createOverrideRules.addStatement("flyStore.addAssignmentForOption(\"" + opId + "\", new OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
+        createOverrideRules.addStatement("flyStore.addAssignmentForOption(\"" + opId + "\", new ie.ucd.clops.runtime.options.OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
       }
     }
     

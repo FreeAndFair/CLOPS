@@ -1,8 +1,5 @@
-package ie.ucd.clops.dsl.parser;
+package ie.ucd.clops.dsl.structs;
 
-import ie.ucd.clops.dsl.structs.FlyRuleDescription;
-import ie.ucd.clops.dsl.structs.OptionDescription;
-import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 
 import java.util.Collection;
 import java.util.LinkedList;

@@ -2,8 +2,8 @@ package ie.ucd.clops.codegeneration;
 
 import ie.ucd.clops.codegeneration.GeneratedCodeUnit.Visibility;
 import ie.ucd.clops.dsl.OptionType;
-import ie.ucd.clops.dsl.parser.DSLInformation;
 import ie.ucd.clops.dsl.structs.AssignmentDescription;
+import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;

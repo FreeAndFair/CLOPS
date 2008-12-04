@@ -2,6 +2,7 @@ package ie.ucd.clops.dsl.parser;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionTypeFactory;
+import ie.ucd.clops.dsl.structs.DSLInformation;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;

@@ -72,12 +72,14 @@ cluster_chart ERRORS
 indexing
   author: "Dermot Cochran";
   created: "2008-10-16-dc";
-  revised: "2008-10-16-dc"
+  revised: "2008-12-03-dc"
 explanation
   "Inconsistencies arising from dependencies between differnt command line options"
 class ERROR_HANDLER description "Subcomponent which handles and reports errors"
 class ERROR_MESSAGE description "Detailed description of a specific inconsistency or problem"
 class JAVA_EXCEPTION description "Mechanism by which errors are sent to the client code"
+class LOGGING description "Manage display and presentation of all error and log messages"
+class MESSAGING description "Manage string constants, literals, localisation and internationalisation"
 end
 
 cluster_chart API_GENERATION

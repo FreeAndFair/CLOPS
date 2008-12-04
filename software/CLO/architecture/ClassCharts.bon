@@ -330,3 +330,20 @@ indexing
 explanation
   "The set of relationships between options and values"
 end
+
+class_chart LOGGING
+indexing
+   created: "2008-12-04-dc";
+   in_cluster: "ERRORS"
+explanation
+  "Filter all error messages sent to command line and allow redirection to a log file or GUI"
+end
+
+class_chart MESSAGING
+indexing
+  created: "2008-12-04-dc";
+  in_cluster: "ERRORS"
+explanation
+  "Supply all string literals and constants used in error messages and exceptions. \
+  Allow extensions which support internationalisation and localisation."
+end

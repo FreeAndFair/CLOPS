@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 /**
  * 
+ * AST-like information about an option group as specified in the CLOPS DSL.
  * @author Fintan
  *
  */

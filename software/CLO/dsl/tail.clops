@@ -1,0 +1,65 @@
+/*
+
+DSL for the tail program
+
+Interesting issues:
+* -, -n, --lines: there is no way how to express that there is optional = after --lines
+--follow has optional parameter which is one of name and descriptor FIXME
+-# where # is a number is equal to -n # FIXME
+-n allows to type "+" at the beginning which changes the behavior FIXME
+--sleep-interval has a float as a parameter FIXME
+
+*/
+
+NAME::
+	tail
+
+ARGS::
+
+	retry:{"--retry"}
+	bytes:{"-n","-c","--bytes"}:{int}
+	follow:{"-f","--follow"}
+	Follow:{"-F"}
+	lines:{"-","-n","--lines"}:{int}:[suffixregexp="([1-9]+)\\00",minvalue="0",default="10"]
+	max_unchanged_stats:{"--max-unchanged-stats"}:{int}
+	pid:{"--pid"}:{int}:[minvalue="0",maxvalue="65535"]
+	quiet:{"-q","--quiet","--silent"}
+	sleep:{"-s","--sleep-interval"}:{float}
+	verbose:{"-v","--verbose"}
+	help:{"--help"}
+	version:{"--version"}
+	header_mode:{}:{string}
+
+
+FORMAT::
+
+	option*;
+
+WHERE::
+
+	option:
+		retry OR 
+		bytes OR 
+		follow OR 
+		Follow OR 
+		lines OR 
+		max_unchanged_stats OR 
+		pid OR 
+		quiet OR 
+		sleep OR 
+		verbose OR 
+		help OR 
+		version;
+
+FLY::
+
+	Follow -> follow:="name";
+	Follow -> retry:=true;
+	verbose -> header_mode:="always";
+	quiet -> header_mode:="never";
+
+OVERRIDES::
+	header_mode=? -> header_mode:="multiple_files";
+
+VALIDITY::
+

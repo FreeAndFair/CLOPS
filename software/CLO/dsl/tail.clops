@@ -28,7 +28,7 @@ ARGS::
 	verbose:{"-v","--verbose"}
 	help:{"--help"}
 	version:{"--version"}
-	header_mode:{}:{string}
+	header_mode:{}:{string}:[default="multiple_files"]
 
 
 FORMAT::
@@ -59,7 +59,6 @@ FLY::
 	quiet -> header_mode:="never";
 
 OVERRIDES::
-	header_mode=? -> header_mode:="multiple_files";
 
 VALIDITY::
 

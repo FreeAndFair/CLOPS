@@ -21,6 +21,8 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
       return OptionType.STRING;
     } else if (optionType.equalsIgnoreCase("int") || optionType.equalsIgnoreCase("integer")) {
       return OptionType.INTEGER;
+    } else if (optionType.equalsIgnoreCase("float")) {
+      return OptionType.FLOAT;
     } else if (optionType.equalsIgnoreCase("file")) {
       return OptionType.FILE; 
     } else if (optionType.equalsIgnoreCase("counted-boolean")) {
@@ -29,8 +31,6 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
       return OptionType.REG_EXP_STRING;
     } else if (optionType.equalsIgnoreCase("string-enum")) {
       return OptionType.STRING_ENUM;
-//    } else if (optionType.equalsIgnoreCase("float")) {
-//      return OptionType.FLOAT;
     } else {
       throw new UnknownOptionTypeException("Unknown option type: " + optionType);
     }

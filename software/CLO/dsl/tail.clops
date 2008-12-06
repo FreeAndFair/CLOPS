@@ -28,7 +28,8 @@ ARGS::
 	verbose:{"-v","--verbose"}
 	help:{"--help"}
 	version:{"--version"}
-	header_mode:{}:{string}:[default="multiple_files"]
+	header_mode:{}:{string-enum}:[choices="multiple_files,always,never",default="multiple_files"]
+	follow_x:{}:{string-enum}:[choices="nofollow,name,descriptor",default="nofollow"]
 
 
 FORMAT::
@@ -53,7 +54,8 @@ WHERE::
 
 FLY::
 
-	Follow -> follow:="name";
+	follow -> follow_x:="descriptor";
+	Follow -> follow_x:="name";
 	Follow -> retry:=true;
 	verbose -> header_mode:="always";
 	quiet -> header_mode:="never";

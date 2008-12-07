@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class parsing the command-line.
@@ -110,7 +112,8 @@ public class GenericCLParser {
       if (matchedOption == null) {
         //Check if we can have a program argument here...
         //if not, report error 
-        CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + matchedOption); // debugging
+        
+        CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
         return false;
       } else {
         //We should have at least one transition
@@ -150,4 +153,17 @@ public class GenericCLParser {
 
   }
 
+  private static final Pattern unmatcher = Pattern.compile(Option.SEP + "*[^" + Option.SEP_STRING + "]+");
+  private static String suggestUnmatchedOption(String argumentString, int offset) {
+    //String current = argumentString.substring(offset);
+    Matcher matcher = unmatcher.matcher(argumentString);
+    matcher.region(offset, argumentString.length());
+    
+    if (matcher.lookingAt()) {
+      return matcher.group();
+    } else {
+      return "";
+    }
+  }
+  
 }

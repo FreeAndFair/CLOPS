@@ -345,5 +345,5 @@ indexing
   in_cluster: "ERRORS"
 explanation
   "Supply all string literals and constants used in error messages and exceptions. \
-  Allow extensions which support internationalisation and localisation."
+  \ Allow extensions which support internationalisation and localisation."
 end

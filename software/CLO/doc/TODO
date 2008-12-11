@@ -1,0 +1,7 @@
+Allow clops to be run by simply saying "clops".
+
+Make a jar file clops-runtime.jar.
+
+Installation instructions.
+
+Get usage string, not only the format string.

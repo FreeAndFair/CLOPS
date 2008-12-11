@@ -1,0 +1,19 @@
+.title {
+  font-size: xx-large;
+}
+
+body {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+
+tt {
+  font-family: courier, monospace;
+  font-size: normal;
+}
+
+pre {
+  font-family: courier, monospace;
+  font-size: large;
+  padding-left: 1cm;
+  background-color: #eeeeee;
+}

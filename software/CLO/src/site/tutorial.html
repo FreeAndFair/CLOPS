@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style type="text/css">@import url('clops.css');</style>
+  <title>CLOPS tutorial</title>
+</head>
+<body>
+
+<div class="title">CLOPS tutorial</div>
+
+<p>I assume you have already read the <a
+href="install.html">installation instructions</a> for your
+operating system. The following sections show how you could parse
+the command line using CLOPS if you were to write clones of
+various GNU tools. Each section introduces new features by
+example.</p>
+
+<h1><tt>wc</tt></h1>
+
+<p>The <tt>wc</tt> tool computes statistics of the text, such as
+the word count. To see a complete list of options run:</p>
+
+<pre>man wc</pre>
+
+<p>Now create a fresh directory and in it a file <tt>wc.clops</tt>
+that describes the options.</p>
+
+<pre>
+NAME::
+  Wc
+
+ARGS::
+  Bytes: {"-c", "--bytes"}
+  Chars: {"-m", "--chars"}
+  Words: {"-w", "--words"}
+  Lines: {"-l", "--lines"}
+  LineLength: {"-L", "--max-line-length"}
+  Files: {"--files0-from"}: {file}
+  Help: {"--help"}
+  Ver: {"--version"}
+
+FORMAT::
+  Option*;
+
+WHERE::
+  Option:
+    Bytes OR Chars OR Words OR Lines OR LineLength OR
+    Files OR Help OR Ver;
+</pre>
+
+<p>Each argument has a <dfn>name</dfn>, a list of
+<dfn>aliases</dfn>, and optionally a <dfn>type</dfn>. The
+name is used later on in the user code. The aliases are Java
+regular expressions used to lex the command line. A missing type
+defaults to <tt>boolean</tt>. The <dfn>format</dfn> is a regular
+expression used to parse the command line. The CLOPS file may
+contain <tt>/*&nbsp;*/</tt> comments or <tt>//</tt> comments.
+Now generate the parser using the command:</p>
+
+<pre>clops -i wc.clops -o .</pre>
+
+<p>The <tt>-o</tt> option is followed by a directory where
+the files will be generated. You should see three new files
+in the current directory, each containing a class. You
+will use <tt>wcParser</tt> to parse the command line and
+<tt>wcOptionsInterface</tt> to enquire about the result; you
+will not use <tt>wcOptionStore</tt>. The prefix <tt>wc</tt> on
+these classes is the <dfn>name</dfn> you chose in the CLOPS
+file. You can specify that the generated files should start
+with <tt>&quot;package PKG;&quot;</tt> by adding the option
+<tt>&quot;-p PKG&quot;</tt> when running <tt>clops</tt>.</p>
+
+<p>Now it's time to write <tt>Main.java</tt>.</p>
+
+<pre>
+import java.io.File;
+
+public class Main {
+  public static void main(String[] args) throws Exception {
+    WcParser parser = new WcParser();
+    if (!parser.parse(args)) {
+      parser.printUsage(System.out);
+      System.exit(1);
+    }
+    WcOptionsInterface opt = parser.getOptionStore();
+    if (opt.isWordsSet())
+      System.out.println("I should print a word count.");
+    if (opt.isBytesSet())
+      System.out.println("I should print a byte count.");
+    if (opt.isFilesSet()) {
+      File f = opt.getFiles();
+      System.out.print("The file " + f.getAbsolutePath());
+      if (f.exists())
+        System.out.println(" exists.");
+      else
+        System.out.println(" does not exist.");
+    }
+  }
+}
+</pre>
+
+<p>To compile, say:</p>
+
+<pre>javac -cp CLOPSRUNTIME *.java</pre>
+
+<p>On UNIX, replace <tt>CLOPSRUNTIME</tt> by 
+<tt>$CLOPSPATH/clops-runtime.jar</tt>; on windows, replace
+<tt>CLOPSRUNTIME</tt> with <tt>%CLOPSPATH%\clops-runtime.jar</tt>.
+</p>
+
+<p>You can now run your program with:</p>
+
+<pre>java -cp CLOPSRUNTIME Main OPTIONS</pre>
+
+<p>Try to replace <tt>OPTIONS</tt> with various values and see
+what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
+<tt>&quot;--files0-from&nbsp;.&quot;</tt>, and only
+<tt>&quot;--files0-from&quot;</tt>.</p>
+
+<p>Congratulations: You have now finished the first part of the
+tutorial. You saw how you can use CLOPS instead of a hand-written
+parser. But is it worth it? Sure, the code is clearer and it is
+nice to have a separated file that describes the options, but now
+you have to deal in your build system with generated code. The
+next example will show how to easily integrate this with ANT and
+later on you will see that CLOPS is really convenient when you
+have lots of options (like <tt>gcc</tt>) or funky options (like
+<tt>tar</tt>).</p>
+
+
+
+<hr/>
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img
+     src="http://www.w3.org/Icons/valid-xhtml10-blue"
+     alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+</p>
+</body>
+</html>
+<!--
+vim: spell
+-->

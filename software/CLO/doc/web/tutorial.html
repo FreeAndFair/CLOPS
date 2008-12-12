@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style type="text/css">@import url('clops.css');</style>
+  <title>CLOPS tutorial</title>
+</head>
+<body>
+
+<div class="title">CLOPS tutorial</div>
+
+<p>I assume you have already read and followed the <a
+href="install.html">installation instructions</a> for your
+operating system. 
+(TODO: Add overview, after the rest is written.)
+</p>
+
+<h1>Basic usage: implementing <tt>wc</tt></h1>
+
+<p>The <tt>wc</tt> tool computes statistics of a text, such as
+the word count. Take a (short) look at its man page:</p>
+
+<pre>man wc</pre>
+
+<p>Create a fresh directory and in it a file <tt>wc.clops</tt>
+that describes the options.</p>
+
+<pre><!--#include virtual="examples/wc/wc.clops"--></pre>
+
+<p>Generate the parser with:</p>
+
+<pre>clops -i wc.clops -o .</pre>
+
+<p>The <tt>-o</tt> option is followed by a directory where
+the files will be generated. You should see three new files
+in the current directory, each containing a class. You
+will use <tt>WcParser</tt> to parse the command line and
+<tt>WcOptionsInterface</tt> to enquire about the result; you
+will not use <tt>WcOptionStore</tt>. The prefix <tt>Wc</tt> on
+these classes is the <dfn>name</dfn> you chose in the CLOPS
+file. You can specify that the generated files should start
+with <tt>&quot;package PKG;&quot;</tt> by adding the option
+<tt>&quot;-p PKG&quot;</tt> when running <tt>clops</tt>.</p>
+
+<p>Now it's time to write <tt>Main.java</tt>.</p>
+
+<pre><!--#include virtual="examples/wc/Main.java"--></pre>
+
+<p>To compile, say:</p>
+
+<pre>javac -cp CLOPSPATH/clops-runtime.jar *.java</pre>
+
+<p>On UNIX, replace <tt>CLOPSPATH</tt> by <tt>$CLOPSPATH</tt>; on
+windows, replace <tt>CLOPSPATH</tt> by <tt>%CLOPSPATH%</tt>. </p>
+
+<p>You can now run your program with:</p>
+
+<pre>java -cp CLOPSPATH/clops-runtime.jar Main OPTIONS</pre>
+
+<p>Try to replace <tt>OPTIONS</tt> with various values and see
+what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
+<tt>&quot;--files0-from&nbsp;.&quot;</tt>, and only
+<tt>&quot;--files0-from&quot;</tt>.</p>
+
+<p>Congratulations: You have now finished the first part of the
+tutorial. You saw how you can use CLOPS instead of a hand-written
+parser. But is it worth it? Sure, the code is clearer and it
+is nice to have a separated file that describes the options,
+but now you have to tell your build system to generate code
+before compiling. The next section shows you how to do this
+easily if your build system is ANT. Later on you will see that
+CLOPS is really convenient when you have lots of options (like
+<tt>gcc</tt>) or funky options (like <tt>tar</tt>).</p>
+
+
+<h1>Integrating with <tt>ant</tt></h1>
+
+<p>TODO</p>
+
+<h1>The format string: dealing with <tt>--</tt></h1>
+
+<p>(TODO: The format string to deal with this POSIX convention.)</p>
+
+<h1>Advanced aliases</h1>
+
+<p>(TODO: Aliases are RE, bla-bla.)</p>
+
+<h1>Defining your own option types</h1>
+
+<h1>Advanced usage: implementing <tt>tar</tt></h1>
+
+<p>(TODO: Partial <tt>clops</tt> file for <tt>tar</tt> to illustrate
+the main points.)</p>
+
+<hr/>
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img
+     src="http://www.w3.org/Icons/valid-xhtml10-blue"
+     alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+</p>
+</body>
+</html>
+<!--
+vim: spell
+-->

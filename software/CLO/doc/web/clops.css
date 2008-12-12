@@ -1,5 +1,11 @@
 .title {
   font-size: xx-large;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: x-large;
+  font-weight: bold;
 }
 
 body {

@@ -43,6 +43,8 @@ public class Main {
         execute(options);
       } else {
         //Just end?
+        CLOLogger.getLogger().log(
+          Level.SEVERE, "Format:" + parser.getFormatString());
         CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
         return;
       }

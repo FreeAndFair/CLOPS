@@ -4,9 +4,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <style type="text/css">@import url('clops.css');</style>
+  <style type="text/css">@import url('prettify.css');</style>
+  <script type="text/javascript" src="prettify.js"></script>
   <title>CLOPS tutorial</title>
 </head>
-<body>
+<body onload="prettyPrint()">
 
 <div class="title">CLOPS tutorial</div>
 
@@ -16,47 +18,55 @@ operating system.
 (TODO: Add overview, after the rest is written.)
 </p>
 
-<h1>Basic usage: implementing <tt>wc</tt></h1>
+<p>Please note that the examples below are <i>not</i> meant to
+illustrate good style but rather to show many features in not
+much space.</p>
+
+<h1>Basic usage</h1>
+
+<h2>A first example</h2>
 
 <p>The <tt>wc</tt> tool computes statistics of a text, such as
 the word count. Take a (short) look at its man page:</p>
 
 <pre>man wc</pre>
 
-<p>Create a fresh directory and in it a file <tt>wc.clops</tt>
-that describes the options.</p>
+<p>Create a fresh directory. All the commands in this tutorial
+are written under the assumption that the current directory is
+this fresh directory. Create a subdirectory <tt>src</tt> and in
+it create a file <tt>wc.clops</tt> with the content: </p>
 
-<pre><!--#include virtual="examples/wc/wc.clops"--></pre>
+<pre class="prettyprint">
+<!--#include virtual="examples/wc/src/wc.clops"-->
+</pre>
 
-<p>Generate the parser with:</p>
+<p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
+Generate the parser with:</p>
 
-<pre>clops -i wc.clops -o .</pre>
+<pre>clops -i src/wc.clops -o src/generated -p generated</pre>
 
-<p>The <tt>-o</tt> option is followed by a directory where
-the files will be generated. You should see three new files
-in the current directory, each containing a class. You
-will use <tt>WcParser</tt> to parse the command line and
-<tt>WcOptionsInterface</tt> to enquire about the result; you
-will not use <tt>WcOptionStore</tt>. The prefix <tt>Wc</tt> on
-these classes is the <dfn>name</dfn> you chose in the CLOPS
-file. You can specify that the generated files should start
-with <tt>&quot;package PKG;&quot;</tt> by adding the option
-<tt>&quot;-p PKG&quot;</tt> when running <tt>clops</tt>.</p>
+<p>You should see three files in <tt>src/generated</tt>,
+each containing a class. (The option <tt>-p</tt> is followed
+by a package name.) We'll place <tt>Main.java</tt> under
+<tt>src</tt>.</p>
 
-<p>Now it's time to write <tt>Main.java</tt>.</p>
+<pre class="prettyprint">
+<!--#include virtual="examples/wc/src/Main.java"-->
+</pre>
 
-<pre><!--#include virtual="examples/wc/Main.java"--></pre>
+<p>Create a subdirectory <tt>classes</tt>. To compile, say:</p>
 
-<p>To compile, say:</p>
+<pre>
+javac -cp CLOPSPATH/clops-runtime.jar -sourcepath src -d classes src/Main.java src/generated/*
+</pre>
 
-<pre>javac -cp CLOPSPATH/clops-runtime.jar *.java</pre>
-
-<p>On UNIX, replace <tt>CLOPSPATH</tt> by <tt>$CLOPSPATH</tt>; on
-windows, replace <tt>CLOPSPATH</tt> by <tt>%CLOPSPATH%</tt>. </p>
+<p>On UNIX, replace <tt>CLOPSPATH</tt> by <tt>$CLOPSPATH</tt>. On
+Windows, replace <tt>CLOPSPATH</tt> by <tt>%CLOPSPATH%</tt> and
+<tt>/</tt>&nbsp;(slash) by <tt>\</tt>&nbsp;(backslash).</p>
 
 <p>You can now run your program with:</p>
 
-<pre>java -cp CLOPSPATH/clops-runtime.jar Main OPTIONS</pre>
+<pre>java -cp classes:CLOPSPATH/clops-runtime.jar Main OPTIONS</pre>
 
 <p>Try to replace <tt>OPTIONS</tt> with various values and see
 what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
@@ -64,34 +74,41 @@ what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
 <tt>&quot;--files0-from&quot;</tt>.</p>
 
 <p>Congratulations: You have now finished the first part of the
-tutorial. You saw how you can use CLOPS instead of a hand-written
-parser. But is it worth it? Sure, the code is clearer and it
-is nice to have a separated file that describes the options,
-but now you have to tell your build system to generate code
-before compiling. The next section shows you how to do this
-easily if your build system is ANT. Later on you will see that
-CLOPS is really convenient when you have lots of options (like
-<tt>gcc</tt>) or funky options (like <tt>tar</tt>).</p>
+tutorial and you saw how to use CLOPS instead of a hand-written
+parser.</p>
+
+<h2>Integrating with ANT</h2>
+
+<p>The commands in the previous section are a little long but
+hopefully you use a good build system that can handle the dirty
+details for you. In this section you'll see how ANT can help.
+Start by creating a directory <tt>jars</tt>. Populate it with all
+the jar files in CLOPSPATH. Now create <tt>build.xml</tt>:</p>
+
+<pre class="prettyprint">
+<!--#include virtual="examples/wc/build.xml"-->
+</pre>
+
+<p>(TODO: What is there to notice.)</p>
 
 
-<h1>Integrating with <tt>ant</tt></h1>
+<h1>Advanced features</h1>
 
-<p>TODO</p>
-
-<h1>The format string: dealing with <tt>--</tt></h1>
+<h2>The format: dealing with <tt>--</tt></h2>
 
 <p>(TODO: The format string to deal with this POSIX convention.)</p>
 
-<h1>Advanced aliases</h1>
+<h2>Regular expressions as aliases</h2>
 
-<p>(TODO: Aliases are RE, bla-bla.)</p>
+<p>(TODO: Examples like -0... -9.)</p>
 
-<h1>Defining your own option types</h1>
+<h2>Custom options</h2>
 
-<h1>Advanced usage: implementing <tt>tar</tt></h1>
+<h2>A complex example</h2>
 
 <p>(TODO: Partial <tt>clops</tt> file for <tt>tar</tt> to illustrate
 the main points.)</p>
+
 
 <hr/>
 <p>

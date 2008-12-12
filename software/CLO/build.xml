@@ -16,7 +16,8 @@
   <property name="temp-test" location="${test}/temp"/>
   <property name="java-target-version" value="1.5"/>
   <property name="antlr-src" value="CLO"/>
-  <property name="runtime-jar-name" value="CLO"/>
+  <property name="full-jar-name" value="clops"/>
+  <property name="runtime-jar-name" value="clops-runtime"/>
   <property name="test-file" value="dsl-test.txt"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
@@ -147,8 +148,20 @@
     	<fileset dir="${lib}/" includes="antlr-runtime-3.0.1.jar,antlr-2.7.7.jar,stringtemplate.jar"/>
     </copy>
 		
-    <!-- Build runtime jar -->
-    <jar jarfile="${dist}/lib/${runtime-jar-name}.jar" basedir="${build}"/>
+    <jar jarfile="${dist}/lib/${runtime-jar-name}.jar" 
+         basedir="${build}"
+         includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**">
+      <manifest>
+        <attribute name="Class-Path" value="antlr-runtime-3.0.1.jar" />
+      </manifest>
+    </jar>
+
+    <jar jarfile="${dist}/lib/${full-jar-name}.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="ie.ucd.clops.dsl.Main" />
+        <attribute name="Class-Path" value="antlr-runtime-3.0.1.jar" />
+      </manifest>
+    </jar>
 	  	
   </target>
 	

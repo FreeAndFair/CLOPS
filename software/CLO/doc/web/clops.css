@@ -8,6 +8,11 @@ h1 {
   font-weight: bold;
 }
 
+h2 {
+  font-size: large;
+  font-weight: bold;
+}
+
 body {
   font-family: Verdana, Helvetica, sans-serif;
 }

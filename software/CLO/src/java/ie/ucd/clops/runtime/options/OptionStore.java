@@ -2,6 +2,7 @@ package ie.ucd.clops.runtime.options;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -87,6 +88,21 @@ implements IMatchString  {
       }
     }
     return sb.toString();
+  }
+  
+  public String listAsString(String separator) {
+    StringBuilder sb = new StringBuilder();
+    for (Option<?> op : options) {
+      if (op instanceof BasicOption) {
+        BasicOption<?> bop = (BasicOption<?>)op;
+        List<String> aliases = bop.getAliases();
+        for (String alias : aliases) {
+          sb.append(alias);
+          sb.append(separator);
+        }
+      }
+    }
+    return sb.delete(sb.length()-separator.length(), sb.length()).toString();
   }
 }
 

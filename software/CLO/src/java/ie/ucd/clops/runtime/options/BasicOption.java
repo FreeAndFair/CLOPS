@@ -3,6 +3,8 @@
  */
 package ie.ucd.clops.runtime.options;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,11 +133,25 @@ public abstract class BasicOption<T> implements Option<T> {
 
   protected abstract String getTypeString();
 
+  private final static Pattern ALIAS_PATTERN = Pattern.compile("\\(\\?\\:(.+)\\)");
+  //Warning, currently a VERY naive implementation
+  public List<String> getAliases() {
+    String[] parts = prefix.split("\\|");
+    List<String> aliases = new LinkedList<String>();
+    for (String part : parts) {
+      if (part.charAt(0) == '(' && part.charAt(1) == '?') {
+        part = part.substring(3,part.length()-1);
+      }
+      aliases.add(part);
+    }
+    return aliases;
+  }
+  
   @Override
   public String toString() {
     String r = getTypeString() + " Option: \"" + getIdentifier() + "\"";
     r += hasValue() ? "(=" + getValue() + ")" : "(not set)";
     return r;
   }
-
+  
 }

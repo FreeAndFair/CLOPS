@@ -10,12 +10,12 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
   private final ie.ucd.clops.runtime.options.StringOption option_factory;
   public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
     input = new ie.ucd.clops.runtime.options.FileOption("input", "(?:-i)|(?:--input)");
-    input.setProperty("canbedir","false");
     input.setProperty("mustExist","true");
+    input.setProperty("canbedir","false");
     addOption(input);
     output = new ie.ucd.clops.runtime.options.FileOption("output", "(?:-o)|(?:--output)");
-    output.setProperty("mustbedir","true");
     output.setProperty("mustExist","true");
+    output.setProperty("mustbedir","true");
     addOption(output);
     output_package = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
     output_package.setProperty("stripquotesifpresent","true");
@@ -39,12 +39,20 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     return input.getValue();
     
   }
+  public ie.ucd.clops.runtime.options.FileOption getinputOption() {
+    return input;
+    
+  }
   public boolean isoutputSet() {
     return output.hasValue();
     
   }
   public java.io.File getoutput() {
     return output.getValue();
+    
+  }
+  public ie.ucd.clops.runtime.options.FileOption getoutputOption() {
+    return output;
     
   }
   public boolean isoutput_packageSet() {
@@ -55,6 +63,10 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     return output_package.getValue();
     
   }
+  public ie.ucd.clops.runtime.options.StringOption getoutput_packageOption() {
+    return output_package;
+    
+  }
   public boolean isgen_testSet() {
     return gen_test.hasValue();
     
@@ -63,12 +75,20 @@ public class CLODSLOptionStore extends ie.ucd.clops.runtime.options.OptionStore 
     return gen_test.getValue();
     
   }
+  public ie.ucd.clops.runtime.options.BooleanOption getgen_testOption() {
+    return gen_test;
+    
+  }
   public boolean isoption_factorySet() {
     return option_factory.hasValue();
     
   }
   public String getoption_factory() {
     return option_factory.getValue();
+    
+  }
+  public ie.ucd.clops.runtime.options.StringOption getoption_factoryOption() {
+    return option_factory;
     
   }
   

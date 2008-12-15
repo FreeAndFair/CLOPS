@@ -58,7 +58,7 @@ public class Main {
    * the input file to be used and the output location for the generated code.
    * @param options the parsed options to use for running the program.
    */
-  public static void execute(CLODSLOptionsInterface options) {
+  public static boolean execute(CLODSLOptionsInterface options) {
     
     //No need to check if each of these are set, as this is enforced by the parser, validity checker, etc.
     File inputFile = options.getinput();
@@ -89,7 +89,7 @@ public class Main {
         CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
         
         CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
-        
+        return true;
       } else {
         CLOLogger.getLogger().log(Level.SEVERE, "Did not parse successfully.");
         if (parser.getCustomErrorMessage() != null) {
@@ -107,7 +107,8 @@ public class Main {
       if (parser.getCustomErrorMessage() != null) {
         CLOLogger.getLogger().log(Level.SEVERE, parser.getCustomErrorMessage());
       }
-    } 
+    }
+    return false;
   }
   
   /** 

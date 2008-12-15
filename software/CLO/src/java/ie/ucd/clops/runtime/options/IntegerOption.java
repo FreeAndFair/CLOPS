@@ -47,17 +47,18 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 		  }
 	}
 
-	public void setFromString(String valueString) throws InvalidOptionValueException {
-		if (valueString == null)
-			throw new InvalidOptionValueException("Empty integer value.");
-		try {
-			set(new Integer( valueString));
-		} catch (NumberFormatException e) {
-			throw new InvalidOptionValueException(valueString + " is not an integer number.");
-		}		
-	}
+	@Override
+  public Integer convertStringToValue(String valueString) throws InvalidOptionValueException {
+	  if (valueString == null)
+      throw new InvalidOptionValueException("Empty integer value.");
+    try {
+      return new Integer(valueString);
+    } catch (NumberFormatException e) {
+      throw new InvalidOptionValueException(valueString + " is not an integer number.");
+    }
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#unset()
 	 */
 	public void unset() {

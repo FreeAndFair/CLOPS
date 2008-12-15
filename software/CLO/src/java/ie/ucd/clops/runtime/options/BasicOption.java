@@ -81,6 +81,11 @@ public abstract class BasicOption<T> implements Option<T> {
     }
   }
 
+  @Override
+  public void setFromString(String valueString) throws InvalidOptionValueException {
+    set(convertStringToValue(valueString));
+  }
+
   protected void setMatchingSuffix(String regexp) {
     suffix = regexp;
     dirty = true;

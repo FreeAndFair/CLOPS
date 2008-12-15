@@ -58,6 +58,8 @@ public interface Option<T> extends IMatchable {
    */
   void setFromString(String value) throws InvalidOptionValueException;
   
+  T convertStringToValue(String valueString) throws InvalidOptionValueException;
+  
    /** Sets the value of a property. 
     *  If {@code !acceptsProperty(propertyName)} then {@code InvalidOptionPropertyValueException} is thrown.
     * {@code InvalidOptionPropertyValueException} is also thrown when the value does not match the property type.

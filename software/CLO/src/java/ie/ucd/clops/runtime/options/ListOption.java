@@ -36,17 +36,30 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     if (allowMultiple) {
       String[] parts = valueString.split(splittingString);
       for (String part : parts) {
-        T newValue = convertFromStringToValue(part);
+        T newValue = convertFromStringToListValue(part);
         value.add(newValue);
       }
     } else {
-      T newValue = convertFromStringToValue(valueString);
+      T newValue = convertFromStringToListValue(valueString);
       value.add(newValue);
     }
   }
 
-  public abstract T convertFromStringToValue(String valueString) throws InvalidOptionValueException;
+  /**
+   * Convert from a String to a value to be stored in the list.
+   * @param valueString the String to be converted.
+   * @return an object of the appropriate type after conversion.
+   * @throws InvalidOptionValueException if the String provided is invalid.
+   */
+  public abstract T convertFromStringToListValue(String valueString) throws InvalidOptionValueException;
   
+  @Override
+  public final List<T> convertStringToValue(String valueString) {
+    //Should not be used
+    assert false;
+    return null;
+  }
+
   public void unset() {
     this.value = new LinkedList<T>();
   }

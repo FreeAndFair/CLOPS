@@ -47,17 +47,18 @@ public class FloatOption extends OneArgumentOption<Float> {
 		  }
 	}
 
-	public void setFromString(String valueString) throws InvalidOptionValueException {
-		if (valueString == null)
-			throw new InvalidOptionValueException("Empty float value.");
-		try {
-			set(new Float( valueString));
-		} catch (NumberFormatException e) {
-			throw new InvalidOptionValueException(valueString + " is not a proper float number.");
-		}		
-	}
+	@Override
+  public Float convertStringToValue(String valueString) throws InvalidOptionValueException {
+	  if (valueString == null)
+      throw new InvalidOptionValueException("Empty float value.");
+    try {
+      return new Float(valueString);
+    } catch (NumberFormatException e) {
+      throw new InvalidOptionValueException(valueString + " is not a proper float number.");
+    } 
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#unset()
 	 */
 	public void unset() {

@@ -47,13 +47,14 @@ public class StringOption extends OneArgumentOption<String> {
 	  }
 	}
 
-	public void setFromString(String valueString) throws InvalidOptionValueException {
-		if (valueString == null)
-			throw new InvalidOptionValueException("Null String.");
-		set(valueString);		
-	}
+	@Override
+  public String convertStringToValue(String valueString) throws InvalidOptionValueException {
+	  if (valueString == null)
+      throw new InvalidOptionValueException("Null String.");
+	  return valueString;
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#unset()
 	 */
 	public void unset() {

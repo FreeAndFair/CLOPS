@@ -65,13 +65,14 @@ public class FileOption extends OneArgumentOption<File> {
 	  this.value = file;
 	}
 
-	public void setFromString(String valueString) throws InvalidOptionValueException {
-		if (valueString == null)
-			throw new InvalidOptionValueException("Null File string.");
-		set(new File(valueString));
-	}
+	@Override
+  public File convertStringToValue(String valueString) throws InvalidOptionValueException {
+	  if (valueString == null)
+      throw new InvalidOptionValueException("Null File string.");
+    return new File(valueString);
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#unset()
 	 */
 	public void unset() {

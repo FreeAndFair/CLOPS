@@ -70,12 +70,13 @@ public class BooleanOption extends BasicOption<Boolean> {
     this.value = value;
   }
 
-  public void setFromString(String valueString) throws InvalidOptionValueException {
+  @Override
+  public Boolean convertStringToValue(String valueString) throws InvalidOptionValueException {
     if (valueString == null) {
       throw new InvalidOptionValueException("null provided as value.");
     }
     if (validValueString(valueString)) {
-      set(Boolean.valueOf(valueString));
+      return Boolean.valueOf(valueString);
     } else {
       throw new InvalidOptionValueException(valueString + " is not a boolean string.");
     }    

@@ -12,7 +12,7 @@ public class StringListOption extends ListOption<String> {
   }
 
   @Override
-  public String convertFromStringToValue(String valueString)
+  public String convertFromStringToListValue(String valueString)
       throws InvalidOptionValueException {
     return valueString;
   }

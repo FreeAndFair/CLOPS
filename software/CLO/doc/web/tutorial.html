@@ -40,6 +40,8 @@ it create a file <tt>wc.clops</tt> with the content: </p>
 <!--#include virtual="examples/wc/src/wc.clops"-->
 </pre>
 
+<p>(TODO: allow file-names)</p>
+
 <p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
 Generate the parser with:</p>
 
@@ -67,6 +69,13 @@ javac -cp CLOPSPATH/clops-runtime.jar -sourcepath src -d classes src/Main.java s
 Windows, replace <tt>CLOPSPATH</tt> by <tt>%CLOPSPATH%</tt> and
 <tt>/</tt>&nbsp;(slash) by <tt>\</tt>&nbsp;(backslash).</p>
 
+<table class="gotcha">
+<tr><td><img src="attention.png" alt="!"/></td><td>
+Errors during compilation might be caused by
+an incorrect CLOPS file. The code generation phase currently only
+stops on the most obviously wrong CLOPS input.
+</td></tr></table>
+
 <p>You can now run your program with:</p>
 
 <pre>java -cp classes:CLOPSPATH/clops-runtime.jar Main OPTIONS</pre>
@@ -92,12 +101,30 @@ the jar files in CLOPSPATH. Now create <tt>build.xml</tt>:</p>
 <!--#exec cmd="sed 's/</\&amp;lt;/g' examples/wc/build.xml | sed 's/>/\&amp;gt;/g'"-->
 </pre>
 
-<p>(TODO: What is there to notice.)</p>
+<p>There are two differences from a usual ANT file:</p>
 
+<ol>
+<li>Before invoking the compiler using the <tt>javac</tt> task
+  we invoke CLOPS to generate some files.</li>
+<li>The <tt>clops-runtime.jar</tt> is added to the classpath
+  of the generated jar.</li>
+</ol>
+
+<p>You are now ready to use CLOPS. If you run into problems check
+the <a href="faq.html">FAQ</a> and, if that doesn't help, send us
+an email. (TODO: mailing list address.)</p>
 
 <h1>Advanced features</h1>
 
 <h2>The format: dealing with <tt>--</tt></h2>
+
+<p>The <tt>wc</tt> command line implementation above is
+<i>almost</i> OK. One problem is that it doesn't allow the user
+to examine a file whose name is &quot;<tt>-w</tt>&quot; (or any
+other name that conflicts with an option). The usual convention
+to handle such situation is to use a special option (<tt>--</tt>)
+and treat all that follows as being an operand (not an option).
+</p>
 
 <p>(TODO: The format string to deal with this POSIX convention.)</p>
 

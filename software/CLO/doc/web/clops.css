@@ -28,3 +28,10 @@ pre {
   padding-left: 1cm;
   background-color: #eeeeee;
 }
+
+.gotcha {
+  margin-left: 3cm;
+  margin-right: 3cm;
+  font-size: small;
+  background-color: #ffeeee;
+}

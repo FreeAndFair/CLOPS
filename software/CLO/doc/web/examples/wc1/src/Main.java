@@ -14,8 +14,8 @@ public class Main {
       System.out.println("I should print a word count.");
     if (opt.isBytesSet())
       System.out.println("I should print a byte count.");
-    if (opt.isFilesSet()) {
-      File f = opt.getFiles();
+    if (opt.isFiles0Set()) {
+      File f = opt.getFiles0();
       System.out.print("The file " + f.getAbsolutePath());
       if (f.exists())
         System.out.println(" exists.");

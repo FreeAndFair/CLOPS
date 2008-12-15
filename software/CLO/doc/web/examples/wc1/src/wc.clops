@@ -11,7 +11,7 @@ ARGS::
   Help: {"--help"}                  /* the default type is "boolean" */
   Ver: {"--version"}
   DashDash: {"--"}
-  Input: {"TODO"}
+  Input: {""}: {file}: [suffixregexp="([0-9a-zA-Z]+)\\00"]
 
 FORMAT::
   Option* (DashDash Input)?;  // this is a regular expression
@@ -19,4 +19,4 @@ FORMAT::
 WHERE::
   Option:   // shorthand to make the FORMAT easier to read
     Bytes OR Chars OR Words OR Lines OR LineLength OR
-    Files OR Help OR Ver;
+    Files0 OR Help OR Ver OR Input;

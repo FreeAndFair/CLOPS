@@ -54,6 +54,9 @@ by a package name.) We'll place <tt>Main.java</tt> under
 <!--#include virtual="examples/wc/src/Main.java"-->
 </pre>
 
+<p>(TODO: Mention that you can generate a <tt>Main</tt> for testing
+somewhere in the advanced section.)</p>
+
 <p>Create a subdirectory <tt>classes</tt>. To compile, say:</p>
 
 <pre>
@@ -86,7 +89,7 @@ Start by creating a directory <tt>jars</tt>. Populate it with all
 the jar files in CLOPSPATH. Now create <tt>build.xml</tt>:</p>
 
 <pre class="prettyprint">
-<!--#include virtual="examples/wc/build.xml"-->
+<!--#exec cmd="sed 's/</\&amp;lt;/g' examples/wc/build.xml | sed 's/>/\&amp;gt;/g'"-->
 </pre>
 
 <p>(TODO: What is there to notice.)</p>

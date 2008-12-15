@@ -1,9 +1,9 @@
 <project name="Wc" default="compile" basedir=".">
   <target name="compile" description="do everything">
     <java fork="yes" dir="." jar="jars/clops.jar">
-      <arg value="-i"/> <arg value="src/wc.clops"/>
-      <arg value="-o"/> <arg value="src/generated"/>
-      <arg value="-p"/> <arg value="generated"/>
+      <arg value="-i=src/wc.clops"/>
+      <arg value="-o=src/generated"/>
+      <arg value="-p=generated"/>
     </java>
     <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar"/>
     <jar destfile="jars/wc.jar" basedir="classes">
@@ -14,4 +14,3 @@
     </jar>
   </target>
 </project>
-

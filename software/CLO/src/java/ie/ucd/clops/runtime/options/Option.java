@@ -58,6 +58,12 @@ public interface Option<T> extends IMatchable {
    */
   void setFromString(String value) throws InvalidOptionValueException;
   
+  /**
+   * Convert from a String to a value of this option's type.
+   * @param valueString the String to be converted.
+   * @return an object of the appropriate type after conversion.
+   * @throws InvalidOptionValueException if the String provided is invalid.
+   */
   T convertStringToValue(String valueString) throws InvalidOptionValueException;
   
    /** Sets the value of a property. 

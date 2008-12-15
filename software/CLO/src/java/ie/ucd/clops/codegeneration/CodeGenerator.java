@@ -196,10 +196,13 @@ public class CodeGenerator {
     for (OptionDescription od : opDescriptions) {
       GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
       isSetMethod.addStatement("return " + od.getIdentifier() + ".hasValue()");
+      specificOptionStore.addMethod(isSetMethod);
       GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
       getValueMethod.addStatement("return " + od.getIdentifier() + ".getValue()");
-      specificOptionStore.addMethod(isSetMethod);
       specificOptionStore.addMethod(getValueMethod);
+      GeneratedMethod getOptionMethod = new GeneratedMethod("get" + od.getIdentifier() + "Option", od.getType().getOptionTypeClass(), Visibility.Public);
+      getOptionMethod.addStatement("return " + od.getIdentifier());
+      specificOptionStore.addMethod(getOptionMethod);
     }
     
     return specificOptionStore;
@@ -238,6 +241,10 @@ public class CodeGenerator {
  
   private static GeneratedMethod createGetter(GeneratedField field) {
     String methodName = "get" + Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1);
+    return createGetter(field, methodName);
+  }
+  
+  private static GeneratedMethod createGetter(GeneratedField field, String methodName) {
     GeneratedMethod method = new GeneratedMethod(methodName, field.getType(), Visibility.Public);
     method.addStatement("return " + field.getName());
     return method;

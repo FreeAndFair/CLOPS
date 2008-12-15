@@ -63,133 +63,134 @@ ARGS::
      no_group:{"-G", "--no-group"}
         :"like {-l}, but do not list group"
 
-       -h, --human-readable
-              with -l, print sizes in human readable format (e.g., 1K 234M 2G)
+     human_readable: {"-h", "--human-readable"}
+        :"with -l, print sizes in human readable format (e.g., 1K 234M 2G)"
 
-       "--si"   likewise, but use powers of 1000 not 1024
+     human_readable_decimal: {"--si"}
+        :"like {human_readable} but use powers of 1000 not 1024"
 
-       -H, --dereference-command-line
-              follow symbolic links listed on the command line
+     dereference-command-line: {"-H", "--dereference-command-line"}
+         :"follow symbolic links listed on the command line"
 
-       --dereference-command-line-symlink-to-dir
+       {"--dereference-command-line-symlink-to-dir"}
               follow  each  command line symbolic link that points to a direc‐
               tory
 
-       "--hide"=PATTERN
+       {"--hide"}=PATTERN
               do not list implied entries matching shell  PATTERN  (overridden
               by -a or -A)
 
-       --indicator-style=WORD append indicator with style WORD to entry names:
+       {"--indicator-style"}=WORD append indicator with style WORD to entry names:
               none  (default),  slash  (-p), file-type (--file-type), classify
               (-F)
 
-       -i, "--inode"
+       {"-i", "--inode"}
               with -l, print the index number of each file
 
-       -I, --ignore=PATTERN
+       {"-I", "--ignore"}=PATTERN
               do not list implied entries matching shell PATTERN
 
-       -k     like --block-size=1K
+       {"-k"}     like --block-size=1K
 
-       -l     use a long listing format
+       {"-l"}     use a long listing format
 
-       -L, "--dereference"
+       {"-L", "--dereference"}
               when showing file information for a symbolic link, show informa‐
               tion  for  the file the link references rather than for the link
               itself
 
-       -m     fill width with a comma separated list of entries
+       {"-m"}     fill width with a comma separated list of entries
 
-       -n, --numeric-uid-gid
+       {"-n", "--numeric-uid-gid"}
               like -l, but list numeric user and group IDs
 
-       -N, "--literal"
+       {"-N", "--literal"}
               print raw entry names (don’t treat e.g. control characters  spe‐
               cially)
 
-       -o     like -l, but do not list group information
+       {"-o"}     like -l, but do not list group information
 
-       -p, --indicator-style=slash
-              append / indicator to directories
+       {"-p"} :"--indicator-style=slash 
+               append / indicator to directories"
 
-       -q, --hide-control-chars
+       {"-q", "--hide-control-chars"}
               print ? instead of non graphic characters
 
-       --show-control-chars
+       {"--show-control-chars"}
               show  non  graphic  characters  as-is (default unless program is
               ‘ls’ and output is a terminal)
 
-       -Q, --quote-name
+       {"-Q", "--quote-name"}
               enclose entry names in double quotes
 
-       --quoting-style=WORD
+       {"--quoting-style"}=WORD
               use quoting style WORD for entry names: literal, locale,  shell,
               shell-always, c, escape
 
-       -r, "--reverse"
+       {"-r", "--reverse"}
               reverse order while sorting
 
-       -R, --recursive
+       {"-R", "--recursive"}
               list subdirectories recursively
 
        -s, "--size"
               with -l, print size of each file, in blocks
 
-       -S     sort by file size
+       {"-S"}     sort by file size
 
-       --sort=WORD
+       {"--sort"}=WORD
               extension  -X, none -U, size -S, time -t, version -v, status -c,
               time -t, atime -u, access -u, use -u
 
-       --time=WORD
+       {"--time"}=WORD
               with -l, show time as WORD instead of modification time:  atime,
               access,  use, ctime or status; use specified time as sort key if
               --sort=time
 
-       --time-style=STYLE
+       {"--time-style"}=STYLE
               with -l, show times using style STYLE: full-iso, long-iso,  iso,
               locale,  +FORMAT.   FORMAT is interpreted like ‘date’; if FORMAT
               is FORMAT1<newline>FORMAT2, FORMAT1 applies to non-recent  files
               and FORMAT2 to recent files; if STYLE is prefixed with ‘posix-’,
               STYLE takes effect only outside the POSIX locale
 
-       -t     sort by modification time
+       {"-t"}     sort by modification time
 
-       -T, "--tabsize"=COLS
+       {"-T", "--tabsize"}=COLS
               assume tab stops at each COLS instead of 8
 
-       -u     with -lt: sort by, and show, access time with  -l:  show  access
+       {"-u"}     with -lt: sort by, and show, access time with  -l:  show  access
               time and sort by name otherwise: sort by access time
 
-       -U     do not sort; list entries in directory order
+       {"-U"}     do not sort; list entries in directory order
 
-       -v     sort by version
+       {"-v"}     sort by version
 
-       -w, "--width"=COLS
+       {"-w", "--width"}=COLS
               assume screen width instead of current value
 
-       -x     list entries by lines instead of by columns
+       {"-x"}     list entries by lines instead of by columns
 
-       -X     sort alphabetically by entry extension
+       {"-X"}     sort alphabetically by entry extension
 
-       -1     list one file per line
+       {"-1"}     list one file per line
 
        SELINUX options:
 
-       "--lcontext"
+       {"--lcontext"}
               Display  security  context.    Enable -l. Lines will probably be
               too wide for most displays.
 
-       -Z, "--context"
+       {"-Z", "--context"}
               Display security context so it fits on most displays.   Displays
               only mode, user, group, security context and file name.
 
-       "--scontext"
+       {"--scontext"}
               Display only security context and file name.
 
-       "--help" display this help and exit
+       {"--help"} display this help and exit
 
-       "--version"
+       {"--version"}
               output version information and exit
 
        SIZE  may  be (or may be an integer optionally followed by) one of fol‐

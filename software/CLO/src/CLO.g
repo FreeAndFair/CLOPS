@@ -100,7 +100,7 @@ arg_definition
                       |
                        { option.setProperty($pn1.text, "true"); }
                      )
-                     ( ',' pn=property_name 
+                     ( ','? pn=property_name 
                        ( '=' pv=property_value
                          { option.setProperty($pn.text, stripStringMarks($pv.text)); }
                         |

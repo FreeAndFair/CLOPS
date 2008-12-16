@@ -45,7 +45,7 @@ ARGS::
      classify:{"-F", "--classify"}
         :"append indicator (one of */=>@|) to entries"
 
-     filetype::{"--file-type"}
+     file_type::{"--file-type"}
         :"like {classify}, except do not append ‘*’"
 
      format::{"--format"}:{string-enum}:
@@ -63,55 +63,54 @@ ARGS::
      no_group:{"-G", "--no-group"}
         :"like {-l}, but do not list group"
 
-     human_readable: {"-h", "--human-readable"}
+     human_readable:{"-h", "--human-readable"}
         :"with -l, print sizes in human readable format (e.g., 1K 234M 2G)"
 
-     human_readable_decimal: {"--si"}
+     human_readable_decimal:{"--si"}
         :"like {human_readable} but use powers of 1000 not 1024"
 
-     dereference-command-line: {"-H", "--dereference-command-line"}
+     dereference-command-line:{"-H", "--dereference-command-line"}
          :"follow symbolic links listed on the command line"
 
-       {"--dereference-command-line-symlink-to-dir"}
-              follow  each  command line symbolic link that points to a direc‐
-              tory
+     dereference-command-line-symlink-to-dir:{"--dereference-command-line-symlink-to-dir"}
+         :"follow  each  command line symbolic link that points to a directory"
 
-       {"--hide"}=PATTERN
-              do not list implied entries matching shell  PATTERN  (overridden
-              by -a or -A)
+     hide:{"--hide"}:{string}:
+         :"do not list implied entries matching shell  pattern  (overridden
+              by -a or -A)"
 
-       {"--indicator-style"}=WORD append indicator with style WORD to entry names:
-              none  (default),  slash  (-p), file-type (--file-type), classify
-              (-F)
+     indicator_style:{"--indicator-style"}:string-enum
+         [choices="none,slash,file-type,classify" default="none"]
+         :"append indicator with style WORD to entry names"
+//              none  (default),  slash  (-p), file-type (--file-type), classify
+//              (-F)
 
-       {"-i", "--inode"}
-              with -l, print the index number of each file
+      inode:{"-i", "--inode"}
+         :"with {-l}, print the index number of each file"
 
-       {"-I", "--ignore"}=PATTERN
-              do not list implied entries matching shell PATTERN
+      ignores:{"-I", "--ignore"}:{string}
+              :"do not list implied entries matching shell pattern"
 
-       {"-k"}     like --block-size=1K
+      oneK_block:{"-k"}:"like --block-size=1K"
 
-       {"-l"}     use a long listing format
+      long:{"-l"}:"use a long listing format"
 
-       {"-L", "--dereference"}
-              when showing file information for a symbolic link, show informa‐
-              tion  for  the file the link references rather than for the link
-              itself
+      dereference:{"-L", "--dereference"}
+          :"when showing file information for a symbolic link, show information  
+            for  the file the link references rather than for the link itself"
 
-       {"-m"}     fill width with a comma separated list of entries
+      commas:{"-m"}:"fill width with a comma separated list of entries"
 
-       {"-n", "--numeric-uid-gid"}
-              like -l, but list numeric user and group IDs
+      numeric-uid-gid:{"-n", "--numeric-uid-gid"}
+           :"like -l, but list numeric user and group IDs"
 
-       {"-N", "--literal"}
-              print raw entry names (don’t treat e.g. control characters  spe‐
-              cially)
+      literal:{"-N", "--literal"}
+          :"print raw entry names (don’t treat e.g. control characters  specially)"
 
        {"-o"}     like -l, but do not list group information
 
-       {"-p"} :"--indicator-style=slash 
-               append / indicator to directories"
+       slash:{"-p"}
+           :"append / indicator to directories"
 
        {"-q", "--hide-control-chars"}
               print ? instead of non graphic characters
@@ -120,44 +119,48 @@ ARGS::
               show  non  graphic  characters  as-is (default unless program is
               ‘ls’ and output is a terminal)
 
-       {"-Q", "--quote-name"}
-              enclose entry names in double quotes
+       quote_name:{"-Q", "--quote-name"}
+           :"enclose entry names in double quotes"
 
-       {"--quoting-style"}=WORD
-              use quoting style WORD for entry names: literal, locale,  shell,
-              shell-always, c, escape
+       quoting_style
+           :{"--quoting-style"}
+           :{string-enum}
+           :[choices="literal,locale,shell,shell-always,c,escape"]
+           :"use quoting style WORD for entry names"
 
-       {"-r", "--reverse"}
-              reverse order while sorting
 
-       {"-R", "--recursive"}
-              list subdirectories recursively
+       reverse:{"-r", "--reverse"}:"reverse order while sorting"
 
-       -s, "--size"
-              with -l, print size of each file, in blocks
+       recursive:{"-R", "--recursive"}:"list subdirectories recursively"
 
-       {"-S"}     sort by file size
+       size:{"-s", "--size"}:"with {long}, print size of each file, in blocks"
 
-       {"--sort"}=WORD
-              extension  -X, none -U, size -S, time -t, version -v, status -c,
-              time -t, atime -u, access -u, use -u
+       sortby_size:{"-S"}:"sort by file size"
 
-       {"--time"}=WORD
-              with -l, show time as WORD instead of modification time:  atime,
+       sort:{"--sort"}
+           :string-enum
+           :"extension,none,size,time,version,status,time,atime,access,use"
+//              extension  -X, none -U, size -S, time -t, version -v, status -c,
+//              time -t, atime -u, access -u, use -u
+
+       time:{"--time"}:{string-enum}:
+           :[choices="atime,access,use,ctime,status"]
+              "with -l, show time as WORD instead of modification time:  atime,
               access,  use, ctime or status; use specified time as sort key if
-              --sort=time
+              {sort}=time"
 
-       {"--time-style"}=STYLE
-              with -l, show times using style STYLE: full-iso, long-iso,  iso,
+       time_style:{"--time-style"}:{string}
+           :"with -l, show times using style"             
+/*              STYLE: full-iso, long-iso,  iso,
               locale,  +FORMAT.   FORMAT is interpreted like ‘date’; if FORMAT
               is FORMAT1<newline>FORMAT2, FORMAT1 applies to non-recent  files
               and FORMAT2 to recent files; if STYLE is prefixed with ‘posix-’,
-              STYLE takes effect only outside the POSIX locale
+              STYLE takes effect only outside the POSIX locale */
 
-       {"-t"}     sort by modification time
+       sortby_modificationtime:{"-t"}:"sort by modification time"
 
-       {"-T", "--tabsize"}=COLS
-              assume tab stops at each COLS instead of 8
+       tabsize:{"-T", "--tabsize"}:{int}:[default="8"]
+          :"assume given tab stops"
 
        {"-u"}     with -lt: sort by, and show, access time with  -l:  show  access
               time and sort by name otherwise: sort by access time
@@ -203,3 +206,33 @@ ARGS::
        --color=auto, color codes are output only if standard  output  is  con‐
        nected  to  a  terminal  (tty).  The environment variable LS_COLORS can
        influence the colors, and can be set easily by the dircolors command.
+
+
+FLY::
+   across <-> format="across";
+   horizontal <-> format="across";
+   commas <-> format="commas";
+   long <-> format="long";
+   single-column <-> format="single-column";
+   verbose <-> format="verbose";
+   vertical <-> format="vertical";
+
+   slash <-> indicator_style="slash";
+   file_type <-> indicator_style="file-type";
+   classify <-> indicator_style="classify";
+
+   oneK_block <-> block_size=1024;
+
+   sort="extension" <-> sortby_extension;
+   sort="none" <-> sortby_none;
+   sort="size" <-> sortby_size;
+   sort="time" <-> sortby_time;
+   sort="version" <-> sortby_version;
+   sort="status" <-> sortby_status;
+   sort="time" <-> sortby_time;
+   sort="atime" <-> sortby_atime;
+   sort="access" <-> sortby_access;
+   sort="use" <-> sortby_use;
+
+
+

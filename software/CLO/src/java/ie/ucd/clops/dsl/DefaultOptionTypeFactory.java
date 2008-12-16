@@ -1,5 +1,8 @@
 package ie.ucd.clops.dsl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 
 /**
@@ -11,35 +14,52 @@ package ie.ucd.clops.dsl;
  */
 public class DefaultOptionTypeFactory extends OptionTypeFactory {
 
+  public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption", "boolean");
+  public static final OptionType COUNTED_BOOLEAN = new OptionType("counted-boolean", "ie.ucd.clops.runtime.options.CountedBooleanOption", "int");
+  public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String");
+  public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int");
+  public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float");
+  public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "java.io.File");
+  //public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String");
+  public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String");
+  public static final OptionType STRING_LIST = new OptionType("string-list", "ie.ucd.clops.runtime.options.StringListOption", "java.util.List<String>");
+  public static final OptionType FILE_LIST = new OptionType("file-list", "ie.ucd.clops.runtime.options.FileListOption", "java.util.List<File>");
+  
+  private final Map<String,OptionType> optionTypeMap;
+  
+  public DefaultOptionTypeFactory() {
+    optionTypeMap = new HashMap<String,OptionType>();
+    initialise();
+  }
+  
+  public void registerOptionType(String name, OptionType type) {
+    optionTypeMap.put(name, type);
+  }
+  
+  private static final OptionType[] BUILT_INS = {BOOLEAN, COUNTED_BOOLEAN, STRING, INTEGER, FLOAT, FILE, STRING_ENUM, STRING_LIST, FILE_LIST};
+  private void initialise() {
+    for (OptionType type : BUILT_INS) {
+      registerOptionType(type.getTypeDescriptionString(), type);
+    }
+    //Some additional mappings:
+    registerOptionType("bool", BOOLEAN);
+    registerOptionType("integer", INTEGER);
+  }
+  
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.OptionTypeFactory#getOptionType(java.lang.String)
    */
   public OptionType getOptionType(String optionType) throws UnknownOptionTypeException {
-    if (optionType.equalsIgnoreCase("bool") || optionType.equalsIgnoreCase("boolean")) {
-      return OptionType.BOOLEAN;
-    } else if (optionType.equalsIgnoreCase("string")) {
-      return OptionType.STRING;
-    } else if (optionType.equalsIgnoreCase("int") || optionType.equalsIgnoreCase("integer")) {
-      return OptionType.INTEGER;
-    } else if (optionType.equalsIgnoreCase("float")) {
-      return OptionType.FLOAT;
-    } else if (optionType.equalsIgnoreCase("file")) {
-      return OptionType.FILE; 
-    } else if (optionType.equalsIgnoreCase("counted-boolean")) {
-      return OptionType.COUNTED_BOOLEAN;
-    } else if (optionType.equalsIgnoreCase("regexp-string")) {
-      return OptionType.REG_EXP_STRING;
-    } else if (optionType.equalsIgnoreCase("string-enum")) {
-      return OptionType.STRING_ENUM;
-    } else if (optionType.equalsIgnoreCase("string-list")) {
-      return OptionType.STRING_LIST;
+    OptionType type = optionTypeMap.get(optionType);
+    if (type != null) {
+      return type;
     } else {
       throw new UnknownOptionTypeException("Unknown option type: " + optionType);
     }
   }
 
   public OptionType getDefaultOptionType() {
-    return OptionType.BOOLEAN;
+    return DefaultOptionTypeFactory.BOOLEAN;
   }
   
   

@@ -74,17 +74,6 @@ public class OptionType {
     return getType(); 
   }
 
-  public static final OptionType BOOLEAN = new OptionType("boolean", "ie.ucd.clops.runtime.options.BooleanOption", "boolean");
-  public static final OptionType COUNTED_BOOLEAN = new OptionType("counted-boolean", "ie.ucd.clops.runtime.options.CountedBooleanOption", "int");
-  public static final OptionType STRING = new OptionType("string", "ie.ucd.clops.runtime.options.StringOption", "String");
-  public static final OptionType INTEGER = new OptionType("int", "ie.ucd.clops.runtime.options.IntegerOption", "int");
-  public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float");
-  public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "java.io.File");
-  public static final OptionType REG_EXP_STRING = new OptionType("regexp-string", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String");
-  public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String");  
-  //public static final OptionType FLOAT = new OptionType("float", "ie.ucd.clops.runtime.options.FloatOption", "float");
-  public static final OptionType STRING_LIST = new OptionType("string-list", "ie.ucd.clops.runtime.options.StringListOption", "java.util.List<String>");
-  
   public static String unifyRegexps(List<String> regexps) {
     if (regexps.size() == 0) {
       return "";

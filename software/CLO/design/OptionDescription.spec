@@ -19,15 +19,15 @@ public class OptionDescription {
 	/*@ spec_public */ private String name;
 	/*@ spec_public */ private String description;
 	/*@ spec_public */ private String explanation;
-	public String getName() {
-		return name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public String getExplanation() {
-		return explanation;
-	}
+	
+	//@ ensures \result == name;
+	public String getName();
+	
+	//@ ensures \result == description;
+	public String getDescription();
+	
+	//@ ensures \result == explanation;
+	public String getExplanation();
 	
 
 }

@@ -15,8 +15,14 @@ ARGS::
      octal_escapes:{"-b", "--escape"}
        :"print octal escapes for nongraphic characters"
 
-     block_size:{"--block-size":{int}
+     block_size:{"--block-size":{int}:[min="0"]
        :"use SIZE-byte blocks"
+
+/*       SIZE  may  be (or may be an integer optionally followed by) 
+       one of following: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T,
+       P, E, Z, Y. */
+
+
 
      ignore_backups:{"-B", "--ignore-backups"}
        :"do not list implied entries ending with ~"
@@ -32,12 +38,19 @@ ARGS::
      color:{"--color"}:{string-enum}:[choices="never,always,auto", default="never"]
         :"control whether color is used to distinguish file types"
 
+     /*That is equivalent to using --color=none.  Using the --color
+       option without the optional WHEN argument is equivalent to
+       using --color=always.  With --color=auto, color codes are
+       output only if standard output is connected to a terminal
+       (tty). The environment variable LS_COLORS can influence the
+       colors, and can be set easily by the dircolors command.*/
+
      directory:{"-d", "--directory"}
         :"list directory entries instead of contents,
           and do not  dereference symbolic links"
 
      dired:{"-D", "--dired"}
-        :"generate output designed for Emacs’ dired mode"
+        :"generate output designed for Emacs' dired mode"
 
      not_sort:{"-f"}
         :"do not sort, enable -aU, disable -lst"
@@ -107,17 +120,17 @@ ARGS::
       literal:{"-N", "--literal"}
           :"print raw entry names (don’t treat e.g. control characters  specially)"
 
-       {"-o"}     like -l, but do not list group information
+      long_nogroups:{"-o"}:"like {long}, but do not list group information"
 
        slash:{"-p"}
            :"append / indicator to directories"
 
-       {"-q", "--hide-control-chars"}
-              print ? instead of non graphic characters
+       hide-control-chars:{"-q", "--hide-control-chars"}
+              "print ? instead of non graphic characters"
 
-       {"--show-control-chars"}
-              show  non  graphic  characters  as-is (default unless program is
-              ‘ls’ and output is a terminal)
+       show-control-chars:{"--show-control-chars"}:
+              "show  non  graphic  characters  as-is (default unless program is
+              'ls' and output is a terminal)"
 
        quote_name:{"-Q", "--quote-name"}
            :"enclose entry names in double quotes"
@@ -150,7 +163,9 @@ ARGS::
               {sort}=time"
 
        time_style:{"--time-style"}:{string}
+           :[suffixregexp="=((full-iso)|(long-iso)|(iso)|(locale)|(\\+.+))"]
            :"with -l, show times using style"             
+// TODO
 /*              STYLE: full-iso, long-iso,  iso,
               locale,  +FORMAT.   FORMAT is interpreted like ‘date’; if FORMAT
               is FORMAT1<newline>FORMAT2, FORMAT1 applies to non-recent  files
@@ -159,26 +174,27 @@ ARGS::
 
        sortby_modificationtime:{"-t"}:"sort by modification time"
 
-       tabsize:{"-T", "--tabsize"}:{int}:[default="8"]
+       tabsize:{"-T", "--tabsize"}:{int}:[min="0" default="8"]
           :"assume given tab stops"
 
-       {"-u"}     with -lt: sort by, and show, access time with  -l:  show  access
-              time and sort by name otherwise: sort by access time
+       access_time:{"-u"}:
+            "with -lt: sort by, and show, access time with  -l: show access
+             time and sort by name otherwise: sort by access time"
 
-       {"-U"}     do not sort; list entries in directory order
+       unordered:{"-U"}:"do not sort; list entries in directory order"
 
-       {"-v"}     sort by version
+       sortby_version:{"-v"}:"sort by version"
 
-       {"-w", "--width"}=COLS
-              assume screen width instead of current value
+       width:{"-w", "--width"}:{int}:[min="0"]
+         :"assume screen width instead of current value"
 
-       {"-x"}     list entries by lines instead of by columns
+       horizontal:{"-x"}:"list entries by lines instead of by columns"
 
-       {"-X"}     sort alphabetically by entry extension
+       sortby_entryextension:{"-X"}:"sort alphabetically by entry extension"
 
-       {"-1"}     list one file per line
+       one:{"-1"}:"list one file per line"
 
-       SELINUX options:
+/*       SELINUX options:
 
        {"--lcontext"}
               Display  security  context.    Enable -l. Lines will probably be
@@ -190,23 +206,13 @@ ARGS::
 
        {"--scontext"}
               Display only security context and file name.
+*/
 
-       {"--help"} display this help and exit
+       help:{"--help"}:"display this help and exit"
 
-       {"--version"}
-              output version information and exit
+       version:{"--version"}:"output version information and exit"
 
-       SIZE  may  be (or may be an integer optionally followed by) one of fol‐
-       lowing: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T,
-       P, E, Z, Y.
-
-       By  default,  color is not used to distinguish types of files.  That is
-       equivalent to using --color=none.  Using the --color option without the
-       optional  WHEN  argument  is  equivalent to using --color=always.  With
-       --color=auto, color codes are output only if standard  output  is  con‐
-       nected  to  a  terminal  (tty).  The environment variable LS_COLORS can
-       influence the colors, and can be set easily by the dircolors command.
-
+WHERE::
 
 FLY::
    across <-> format="across";

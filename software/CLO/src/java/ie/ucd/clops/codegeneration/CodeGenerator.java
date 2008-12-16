@@ -36,11 +36,12 @@ public class CodeGenerator {
 	String retv = null;
 	for (String line : lines) {
 	    line = line.trim();
+            if (line.isEmpty()) continue;
 	    if (retv == null) retv = "";
 	    else retv  += "+ \n     ";
 	    retv += quoteSimpleString(line);
 	}
-	if (retv.isEmpty()) retv = quoteSimpleString("");
+	if (retv == null || retv.isEmpty()) retv = quoteSimpleString("");
 	return retv;
     }
 

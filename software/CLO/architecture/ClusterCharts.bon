@@ -44,12 +44,13 @@ cluster_chart DOCUMENTATION
 indexing
   author: "Dermot Cochran";
   created: "2008-10-14-dc";
-  revised: "2008-10-16-dc"
+  revised: "2008-12-16-dc"
 explanation 
   "Information about how to use the command line options"
 class OPTION_DESCRIPTION description "Information about each command line option"
 class COMMAND_LINE_HELP description "Help information displayed on the command line"
 class MANUAL_PAGE description "Additional information shown on a manual page"
+class DOCUMENT_GENERATION description "Generation of documentation from the descriptions of options"
 end
 
 cluster_chart SCHEMA

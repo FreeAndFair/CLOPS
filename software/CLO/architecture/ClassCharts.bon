@@ -59,6 +59,9 @@ explanation
   "Documentation made available on the command line in response to the help directive, which itself might be a command line option"
 end
 
+class_chart DOCUMENT_GENERATION 
+explanation "Generation of documentation from the descriptions of options"
+end
 
 class_chart DSL_TYPECHECKER
 indexing

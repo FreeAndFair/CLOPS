@@ -18,7 +18,7 @@
   <property name="antlr-src" value="CLO"/>
   <property name="full-jar-name" value="clops"/>
   <property name="runtime-jar-name" value="clops-runtime"/>
-  <property name="test-file" value="dsl-test.txt"/>
+  <property name="test-file" value="dsl/ls.t"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
@@ -27,6 +27,7 @@
     <filelist dir="${lib}">
       <file name="stringtemplate.jar"/>
       <file name="antlr-2.7.7.jar"/>
+      <file name="velocity-1.6.jar"/>
     </filelist>
     <filelist dir="${lib}" files="junit-4.5.jar"/>
   </path>
@@ -103,7 +104,6 @@
   </target>
 
   <target name="compile-tests" depends="all-src" description="compile junit tests">
-    <!-- Compile the java code from ${java-src} into ${build} -->
     <javac srcdir="${test-src}" 
            destdir="${build}" 
            target="${java-target-version}"
@@ -117,7 +117,7 @@
 
   <target name="javadocs" depends="buildAntlr" description="Generate javadocs">
     <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path"
-             Verbose="yes">
+             Verbose="no">
             <packageset dir="${java-src}">    
                 <include name="**"/>
             </packageset>

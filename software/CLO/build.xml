@@ -18,7 +18,7 @@
   <property name="antlr-src" value="CLO"/>
   <property name="full-jar-name" value="clops"/>
   <property name="runtime-jar-name" value="clops-runtime"/>
-  <property name="test-file" value="dsl/ls.t"/>
+  <property name="test-file" value="dsl-test.txt"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>

@@ -1,12 +1,18 @@
 package ie.ucd.clops.documentation;
 
-import ie.ucd.clops.dsl.OptionType;
-
 import java.io.Writer;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+
+/**
+ * <BON>
+ * class_chart DOCUMENT_GENERATION 
+ *   explanation "Generation of documentation from the descriptions of options"
+ *  end
+ * </BON>
+ */
 
 public class DocumentGeneration {
 

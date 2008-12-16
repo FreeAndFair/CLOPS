@@ -17,8 +17,32 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+/**
+ * A class used to generate java code from a DSL.
+ * @author Fintan
+ * @author Mikolas Janota
+ */
 public class CodeGenerator {
 
+    /** Put quotes around the given String */
+    public static String quoteSimpleString(String s) {
+	return "\"" + s + "\"";
+    }
+
+
+    /** Produces java String constant containing a given String that may contain newlines.*/
+    public static String quoteMultilineString(String s) {
+	String[] lines = s.split("\n");
+	String retv = null;
+	for (String line : lines) {
+	    line = line.trim();
+	    if (retv == null) retv = "";
+	    else retv  += "+ \n     ";
+	    retv += quoteSimpleString(line);
+	}
+	if (retv.isEmpty()) retv = quoteSimpleString("");
+	return retv;
+    }
 
   public static void createCode(DSLInformation dslInfo, File outputDir, boolean genTest) {
 
@@ -175,7 +199,8 @@ public class CodeGenerator {
         constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
       }
       if (opDesc.getDescription() != null) {
-        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"description\",\"" + opDesc.getDescription() + "\")");
+        String desc = quoteMultilineString(opDesc.getDescription());
+        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"description\", " + desc + ")");
       }
       constructor.addStatement("addOption(" + opDesc.getIdentifier() + ")");
     }

@@ -28,6 +28,8 @@ public abstract class BasicOption<T> implements Option<T> {
   
   private String lastArgumentString;
   private Matcher matcher;
+  
+  private String description;
 
   public BasicOption(String identifier, String prefixRegexp) {
     this.identifier = identifier;
@@ -99,7 +101,7 @@ public abstract class BasicOption<T> implements Option<T> {
 
   public boolean acceptsProperty(String propertyName) {
     return propertyName.equalsIgnoreCase("default") || propertyName.equalsIgnoreCase("sanitizeprefix") ||
-           propertyName.equalsIgnoreCase("suffixregexp");
+           propertyName.equalsIgnoreCase("suffixregexp") || propertyName.equalsIgnoreCase("description");
   }
 
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
@@ -117,6 +119,8 @@ public abstract class BasicOption<T> implements Option<T> {
       }
     } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
       setMatchingSuffix(propertyValue);
+    } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
+      this.description = propertyValue;
     }
     //Else ignore
   }

@@ -8,15 +8,19 @@ PACKAGE::
 ARGS::
 
 input:{"-i","--input"}:{file}:[mustExist,canbedir="false"]
+  :"input file."
 output:{"-o","--output"}:{file}:[mustExist,mustbedir]
-
+  :"output file."
 //Strip quotes so we can write -p="" or -p "" for default package.
 output_package:{"-p","--package"}:{string}:[stripquotesifpresent]
+  :"output package. Left empty uses the default package."
 
 gen_test:{"-t","--test"}
+  :"generate a Main class with a main method for rapid testing/debugging."
 
 //option_factory should probably be a regular expression (for qualified java class names).
 option_factory:{"-of","--option-factory"}:{string}
+  :"use this option factory instead of the default. Must be a fully qualified class name."
 
 FORMAT::
 

@@ -13,13 +13,14 @@ import java.util.Map;
  */
 public class BasicOptionDescription implements OptionDescription {
 
-  private final List<String> aliases;
+  private final List<String> prefixRegexps;
   private String identifier;
   private final Map<String,String> properties;
   private OptionType type;
+  private String description;
 
   public BasicOptionDescription() {
-    this.aliases = new LinkedList<String>();
+    this.prefixRegexps = new LinkedList<String>();
     this.properties = new HashMap<String,String>();
   }
 
@@ -41,14 +42,14 @@ public class BasicOptionDescription implements OptionDescription {
    * @see ie.ucd.clo.dsl.structs.OptionDescription#addAlias(java.lang.String)
    */
   public void addPrefixRegexp(final String alias) {
-    aliases.add(alias);
+    prefixRegexps.add(alias);
   }
   
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getAliases()
    */
   public List<String> getPrefixRegexps() {
-    return aliases;
+    return prefixRegexps;
   }
 
   /* (non-Javadoc)
@@ -88,15 +89,23 @@ public class BasicOptionDescription implements OptionDescription {
     sb.append("Option ");
     sb.append(identifier);
     sb.append(", aliases: ");
-    for (String alias : aliases) {
+    for (String alias : prefixRegexps) {
       sb.append(alias);
       sb.append(", ");
     }
-    if (aliases.size() > 0) {
+    if (prefixRegexps.size() > 0) {
       sb.delete(sb.length()-2, sb.length());
     }
     return sb.toString();
-  }  
-  
-  
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
 }

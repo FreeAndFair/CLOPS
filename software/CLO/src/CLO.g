@@ -109,6 +109,10 @@ arg_definition
                      )*
                      ']' 
                    )?
+                   ( ':' s=STRING_CONSTANT
+                     { option.setDescription(stripStringMarks($s.text)); }
+                   
+                   )?
                      
                    { getDslInformation().addOptionDescription(option); }
                 ;

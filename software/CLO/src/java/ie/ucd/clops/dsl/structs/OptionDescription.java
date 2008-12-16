@@ -64,4 +64,16 @@ public interface OptionDescription {
    * @return the properties associated with this option.
    */
   Map<String,String> getProperties();
+  
+  /**
+   * Set the Option's textual description. 
+   * @param description
+   */
+  void setDescription(String description);
+  
+  /**
+   * Get the Option's textual description.
+   * @return
+   */
+  String getDescription();
 }

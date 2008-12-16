@@ -174,6 +174,9 @@ public class CodeGenerator {
       for (Entry<String,String> entry : opDesc.getProperties().entrySet()) {
         constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
       }
+      if (opDesc.getDescription() != null) {
+        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"description\",\"" + opDesc.getDescription() + "\")");
+      }
       constructor.addStatement("addOption(" + opDesc.getIdentifier() + ")");
     }
     

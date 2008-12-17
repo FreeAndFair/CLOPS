@@ -62,7 +62,7 @@ public abstract class BasicOption<T> implements Option<T> {
   }
   
   public static String sanitizePrefix(String regexp) {
-    return '(' + regexp.replaceAll("(^|([^\\\\]))\\(([^\\?])", "$1(?:$3") + ')';
+    return regexp.replaceAll("(^|([^\\\\]))\\(([^\\?])", "$1(?:$3");
   }
 
   public Option<?> getMatchingOption(String argumentString, int index) {
@@ -95,7 +95,7 @@ public abstract class BasicOption<T> implements Option<T> {
   }
   
   private void updatePattern() {
-    String p = sanitizePrefix ? sanitizePrefix(prefix) : prefix;
+    String p = sanitizePrefix ? "(" + sanitizePrefix(prefix) + ")" : prefix;
     pattern = Pattern.compile(p + suffix);
     dirty = false;
   }

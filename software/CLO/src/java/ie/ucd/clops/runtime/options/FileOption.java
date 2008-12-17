@@ -22,13 +22,6 @@ public class FileOption extends OneArgumentOption<File> {
   public File getValue() { return value; }
 
   /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#hasValue()
-   */
-  public boolean hasValue() {
-    return constraints != null;
-  }
-
-  /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
    */
   public void set(File value) throws InvalidOptionValueException {

@@ -12,7 +12,7 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
 public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   private String between = "[=" + SEP + "]";
-  private String argumentShape = "[^" + SEP + "]*" + SEP;
+  private String argumentShape = "[^" + SEP + "]*";
   
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
@@ -62,6 +62,6 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   }
 
   private void updateSuffix() {
-    setMatchingSuffix(between + "(" + argumentShape + ")");
+    setMatchingSuffix(between + "(" + argumentShape + ")" + SEP);
   }
 }

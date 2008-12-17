@@ -78,9 +78,9 @@ arg_definition
                    '{'
                    ( 
                      a1=arg_regexp 
-                     { option.addPrefixRegexp(stripStringMarks($a1.text)); }
+                     { option.addPrefixRegexp($a1.text); }
                      (',' a=arg_regexp
-                      { option.addPrefixRegexp(stripStringMarks($a.text)); }
+                      { option.addPrefixRegexp($a.text); }
                      )* 
                    )?
                    '}'
@@ -96,13 +96,13 @@ arg_definition
                    ( ':' '['
                      pn1=property_name  
                      ( '=' pv1=property_value
-                       { option.setProperty($pn1.text, stripStringMarks($pv1.text)); }
+                       { option.setProperty($pn1.text, $pv1.text); }
                       |
                        { option.setProperty($pn1.text, "true"); }
                      )
                      ( ','? pn=property_name 
                        ( '=' pv=property_value
-                         { option.setProperty($pn.text, stripStringMarks($pv.text)); }
+                         { option.setProperty($pn.text, $pv.text); }
                         |
                          { option.setProperty($pn.text, "true"); }
                        ) 
@@ -110,7 +110,7 @@ arg_definition
                      ']' 
                    )?
                    ( ':' s=STRING_CONSTANT
-                     { option.setDescription(stripStringMarks($s.text)); }
+                     { option.setDescription($s.text); }
                    
                    )?
                      
@@ -150,14 +150,14 @@ format_clause  :  format_subclause
 format_subclause  :  (   NAME  
                        | ( '(' format_subclause ')' )
                      ) 
-                     (repitition_operator)?
+                     (repetition_operator)?
                      (or_format_subclause)?
                   ;
 
 or_format_subclause  :  ('|')? format_subclause
                      ;
 
-repitition_operator  : '*' | '+' | '?'
+repetition_operator  : '*' | '+' | '?'
                     ;
 
 
@@ -225,13 +225,6 @@ integer_constant  :  INTEGER
 unspecified_constant  :  '?'
                       ;
 
-//Zero, one or two dashes, followed by an identifier that may start with a digit.
-possible_dash_started_alias  :  (DASH DASH?)? alias
-                             ;
-                            
-alias  :  ( NAME | INTEGER)+
-       ;
-
 /**********************************************/
 
 comparison_op  :    '='
@@ -248,8 +241,11 @@ comparison_op  :    '='
  ##############################################
  **********************************************/ 
 
-STRING_CONSTANT  :  '"' .* '"'
-                 ;
+STRING_CONSTANT : '"' .* '"' 
+  { /* FIXME */ 
+    setText($text.substring(1, $text.length() - 1));
+  }
+                ;
 
 MULTI_LINE_COMMENT  :  '/*' .* '*/' { $channel=HIDDEN; }
                     ;

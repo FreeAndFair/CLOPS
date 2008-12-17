@@ -2,13 +2,14 @@ NAME::
   Wc
 
 ARGS::
-  Bytes: {"-c", "--bytes"}          // option name, followed by aliases
+  // TODO: add file operands
+  Bytes: {"-c", "--bytes"}              // option name, followed by aliases
   Chars: {"-m", "--chars"}
   Words: {"-w", "--words"}
   Lines: {"-l", "--lines"}
   LineLength: {"-L", "--max-line-length"}
-  Files: {"--files0-from"}: {file}  // "file" is the option type
-  Help: {"--help"}                  /* the default type is "boolean" */
+  FilesFrom: {"--files0-from"}: {file}  // "file" is the option type
+  Help: {"--help"}                      /* the default type is "boolean" */
   Ver: {"--version"}
 
 FORMAT::
@@ -17,4 +18,4 @@ FORMAT::
 WHERE::
   Option:   // shorthand to make the FORMAT easier to read
     Bytes OR Chars OR Words OR Lines OR LineLength OR
-    Files OR Help OR Ver;
+    FilesFrom OR Help OR Ver;

@@ -54,7 +54,7 @@ public class FloatOption extends OneArgumentOption<Float> {
     try {
       return new Float(valueString);
     } catch (NumberFormatException e) {
-      throw new InvalidOptionValueException(valueString + " is not a proper float number.");
+      throw new InvalidOptionValueException(valueString + " is not a proper float number.", e);
     } 
   }
 
@@ -85,7 +85,7 @@ public class FloatOption extends OneArgumentOption<Float> {
           this.hasMaxValue = true;
         }
       } catch (NumberFormatException e) {
-        throw new InvalidOptionPropertyValueException("Invalid maxvalue, " + propertyValue + " is not a proper float number.");
+        throw new InvalidOptionPropertyValueException("Invalid maxvalue, " + propertyValue + " is not a proper float number.", e);
       }
     } else if (propertyName.equalsIgnoreCase("minvalue")) {
       try {
@@ -96,7 +96,7 @@ public class FloatOption extends OneArgumentOption<Float> {
           this.hasMinValue = true;
         }
       } catch (NumberFormatException e) {
-        throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not a proper float number.");
+        throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not a proper float number.", e);
       }
       this.hasMinValue = true;
     }

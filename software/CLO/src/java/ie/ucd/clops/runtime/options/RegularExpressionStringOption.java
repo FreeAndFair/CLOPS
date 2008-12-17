@@ -25,11 +25,10 @@ public class RegularExpressionStringOption extends StringOption {
 
   @Override
   public void set(String value) throws InvalidOptionValueException {
-    String input = value;
-    if (!pattern.matcher(input).matches()) {
+    if (!pattern.matcher(value).matches()) {
       throw new InvalidOptionValueException("");
     } else {
-      this.value = input;
+      this.value = value;
     }
   }
 
@@ -49,7 +48,7 @@ public class RegularExpressionStringOption extends StringOption {
       try {
         pattern = Pattern.compile(propertyValue);
       } catch (PatternSyntaxException pse) {
-        throw new InvalidOptionPropertyValueException("Invalid value for regexp: " + propertyValue);
+        throw new InvalidOptionPropertyValueException("Invalid value for regexp: " + propertyValue, pse);
       }
     } else {
       super.setProperty(propertyName, propertyValue);

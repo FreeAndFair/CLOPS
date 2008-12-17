@@ -48,13 +48,13 @@ public class CountedBooleanOption extends BasicOption<Integer> {
       try {
         count = Integer.parseInt(propertyValue);
       } catch (NumberFormatException nfe) {
-        throw new InvalidOptionPropertyValueException("Invalid countstart, " + propertyValue + " is not an integer.");
+        throw new InvalidOptionPropertyValueException("Invalid countstart, " + propertyValue + " is not an integer.", nfe);
       }
     } else if (propertyName.equalsIgnoreCase("countmax")) {
       try {
         countMax = Integer.parseInt(propertyValue);
       } catch (NumberFormatException nfe) {
-        throw new InvalidOptionPropertyValueException("Invalid countmax, " + propertyValue + " is not an integer.");
+        throw new InvalidOptionPropertyValueException("Invalid countmax, " + propertyValue + " is not an integer.", nfe);
       }      
     } else if (propertyName.equalsIgnoreCase("warnonexceedingmax")) {
       if (BooleanOption.validBooleanString(propertyValue)) {
@@ -115,7 +115,7 @@ public class CountedBooleanOption extends BasicOption<Integer> {
     try {
       return new Integer(value);
     } catch (NumberFormatException e) {
-      throw new InvalidOptionValueException(value + " is not an integer number.");
+      throw new InvalidOptionValueException(value + " is not an integer number.", e);
     }
   }
 

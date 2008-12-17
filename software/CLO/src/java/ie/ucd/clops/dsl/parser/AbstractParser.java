@@ -9,6 +9,7 @@ import org.antlr.runtime.IntStream;
 import org.antlr.runtime.MismatchedTokenException;
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.TokenStream;
 
 /**
@@ -26,8 +27,8 @@ public abstract class AbstractParser extends Parser {
   
   private DSLInformation dslInformation;
   
-  public AbstractParser(TokenStream ts) {
-    super(ts);
+  public AbstractParser(TokenStream ts, RecognizerSharedState state) {
+    super(ts, state);
     validParse = true;
     optionTypeFactory = new DefaultOptionTypeFactory();
     dslInformation = new DSLInformation();
@@ -52,29 +53,16 @@ public abstract class AbstractParser extends Parser {
     super.mismatch(input, ttype, follow);
   }
 
-  /* (non-Javadoc)
-   * @see org.antlr.runtime.BaseRecognizer#recoverFromMismatchedSet(org.antlr.runtime.IntStream, org.antlr.runtime.RecognitionException, org.antlr.runtime.BitSet)
-   */
-  @Override
-  public void recoverFromMismatchedSet(IntStream input, RecognitionException e,
-      BitSet follow) throws RecognitionException {
-    if (customErrorMessage != null) {
-      throw e;
-    }
-    super.recoverFromMismatchedSet(input, e, follow);
-  }
-
-  /* (non-Javadoc)
+  /*
    * @see org.antlr.runtime.BaseRecognizer#recoverFromMismatchedToken(org.antlr.runtime.IntStream, org.antlr.runtime.RecognitionException, int, org.antlr.runtime.BitSet)
    */
   @Override
-  public void recoverFromMismatchedToken(IntStream input,
-      RecognitionException e, int ttype, BitSet follow)
+  public Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)
       throws RecognitionException {
     if (customErrorMessage != null) {
-      throw e;
+      throw new MismatchedTokenException(ttype, input);
     }
-    super.recoverFromMismatchedToken(input, e, ttype, follow);
+    return super.recoverFromMismatchedToken(input, ttype, follow);
   }
   
   public boolean isValidParse() {
@@ -105,9 +93,4 @@ public abstract class AbstractParser extends Parser {
   public DSLInformation getDslInformation() {
     return dslInformation;
   }
-
-  protected static String stripStringMarks(String s) {
-    return s.substring(1,s.length()-1);
-  }
-  
 }

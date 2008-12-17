@@ -54,7 +54,7 @@ public class IntegerOption extends OneArgumentOption<Integer> {
     try {
       return new Integer(valueString);
     } catch (NumberFormatException e) {
-      throw new InvalidOptionValueException(valueString + " is not an integer number.");
+      throw new InvalidOptionValueException(valueString + " is not an integer number.", e);
     }
   }
 
@@ -85,7 +85,7 @@ public class IntegerOption extends OneArgumentOption<Integer> {
           this.hasMaxValue = true;
         }
       } catch (NumberFormatException e) {
-        throw new InvalidOptionPropertyValueException("Invalid maxvalue, " + propertyValue + " is not an integer number.");
+        throw new InvalidOptionPropertyValueException("Invalid maxvalue, " + propertyValue + " is not an integer number.", e);
       }
     } else if (propertyName.equalsIgnoreCase("minvalue")) {
       try {
@@ -96,7 +96,7 @@ public class IntegerOption extends OneArgumentOption<Integer> {
           this.hasMinValue = true;
         }
       } catch (NumberFormatException e) {
-        throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not an integer number.");
+        throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not an integer number.", e);
       }
       this.hasMinValue = true;
     }

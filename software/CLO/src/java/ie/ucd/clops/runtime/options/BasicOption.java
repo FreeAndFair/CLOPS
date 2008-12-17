@@ -55,7 +55,8 @@ public abstract class BasicOption<T> implements Option<T> {
     return match.end() - match.start();
   }
 
-  public void setMatchingPrefix(String regexp) {
+  @Override
+  public final void setMatchingPrefix(String regexp) {
     prefix = regexp;
     dirty = true;
   }
@@ -88,7 +89,7 @@ public abstract class BasicOption<T> implements Option<T> {
     set(convertStringToValue(valueString));
   }
 
-  protected void setMatchingSuffix(String regexp) {
+  protected final void setMatchingSuffix(String regexp) {
     suffix = regexp;
     dirty = true;
   }
@@ -109,7 +110,7 @@ public abstract class BasicOption<T> implements Option<T> {
       try {
         this.setFromString(propertyValue);
       } catch (InvalidOptionValueException iove) {
-        throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage());
+        throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage(), iove);
       }
     } else if (propertyName.equalsIgnoreCase("sanitizeprefix")) {
       if (BooleanOption.validBooleanString(propertyName)) {

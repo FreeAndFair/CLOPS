@@ -244,23 +244,19 @@ public class CodeGenerator {
     tester.addImport("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
     
     GeneratedMethod main = new GeneratedMethod("main", "void", Visibility.Public);
+    main.addException("Exception");
     main.addModifier("static");
     main.addArg(new GeneratedArgument("args", "String[]"));
     main.addStatement("CLOLogger.setLogLevel(Level.FINE)");
     
     
-    main.addStatement("try {", false);
-    main.addStatement("  " + parserName + "Parser parser = new " + parserName + "Parser()");
-    main.addStatement("  boolean success = parser.parse(args)");
+    main.addStatement(parserName + "Parser parser = new " + parserName + "Parser()");
+    main.addStatement("boolean success = parser.parse(args)");
     
-    main.addStatement("  if (success) {", false);
-    main.addStatement("    CLOLogger.getLogger().log(Level.INFO, \"Successful parse.\")");
-    main.addStatement("  } else {", false);
-    main.addStatement("    CLOLogger.getLogger().log(Level.INFO, \"Parse did not succeed.\")");
-    main.addStatement("  }", false);
-    
-    main.addStatement("} catch (InvalidOptionPropertyValueException e) {", false);
-    main.addStatement("  CLOLogger.getLogger().log(Level.SEVERE, \"Error setting initial property values for options.\")");
+    main.addStatement("if (success) {", false);
+    main.addStatement("  CLOLogger.getLogger().log(Level.INFO, \"Successful parse.\")");
+    main.addStatement("} else {", false);
+    main.addStatement("  CLOLogger.getLogger().log(Level.INFO, \"Parse did not succeed.\")");
     main.addStatement("}", false);
     
     tester.addMethod(main);

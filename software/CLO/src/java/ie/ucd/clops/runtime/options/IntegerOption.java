@@ -99,9 +99,9 @@ public class IntegerOption extends OneArgumentOption<Integer> {
         throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not an integer number.", e);
       }
       this.hasMinValue = true;
+    } else {
+      super.setProperty(propertyName, propertyValue);
     }
-    
-    super.setProperty(propertyName, propertyValue);
   }
 
   @Override

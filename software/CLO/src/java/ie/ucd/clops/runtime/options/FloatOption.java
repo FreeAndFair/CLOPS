@@ -99,9 +99,9 @@ public class FloatOption extends OneArgumentOption<Float> {
         throw new InvalidOptionPropertyValueException("Invalid minvalue, " + propertyValue + " is not a proper float number.", e);
       }
       this.hasMinValue = true;
+    } else {
+      super.setProperty(propertyName, propertyValue);
     }
-    
-    super.setProperty(propertyName, propertyValue);
   }
 
   @Override

@@ -140,21 +140,23 @@
 
     <mkdir dir="${dist}/lib"/>
     <copy todir="${dist}/lib">
-    	<fileset dir="${lib}/" includes="antlr-3.1.1-runtime.jar,stringtemplate-3.2.jar"/>
+    	<fileset dir="${lib}/" includes="antlr-3.1.1-runtime.jar,stringtemplate-3.2.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
     </copy>
 		
-    <jar jarfile="${dist}/lib/${runtime-jar-name}.jar" 
-         basedir="${build}"
-         includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**">
+    <jar jarfile="${dist}/lib/${runtime-jar-name}.jar">
+      <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**"/>
+      <fileset dir="." includes="templates/**"/>
       <manifest>
         <attribute name="Class-Path" value="antlr-3.1.1-runtime.jar" />
       </manifest>
     </jar>
 
-    <jar jarfile="${dist}/lib/${full-jar-name}.jar" basedir="${build}">
+    <jar jarfile="${dist}/lib/${full-jar-name}.jar">
+      <fileset dir="${build}"/>
+      <fileset dir="." includes="templates/**"/>
       <manifest>
         <attribute name="Main-Class" value="ie.ucd.clops.dsl.Main" />
-        <attribute name="Class-Path" value="antlr-3.1.1-runtime.jar" />
+        <attribute name="Class-Path" value="antlr-3.1.1-runtime.jar velocity-1.6.1-dep.jar velocity-1.6.1.jar" />
       </manifest>
     </jar>
 	  	

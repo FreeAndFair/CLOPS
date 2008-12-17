@@ -70,7 +70,7 @@ public class BasicOptionDescription implements OptionDescription {
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setId(java.lang.String)
    */
   public void setId(String id) {
-    this.identifier = id;
+    this.identifier = id.replaceAll("-", "_");
   }
 
   /* (non-Javadoc)

@@ -2,14 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="src/test"/>
-	<classpathentry kind="lib" path="lib/antlr-runtime-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/stringtemplate.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="lib/antlr-3.0.1-mod.jar"/>
-	<classpathentry kind="lib" path="lib/antlr-3.0.1.jar"/>
+	<classpathentry kind="src" path="/jmlspecs"/>
+	<classpathentry kind="lib" path="lib/antlr-3.1.1-runtime.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-3.1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6"/>
 	<classpathentry kind="lib" path="lib/velocity-1.6.1-dep.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.6.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

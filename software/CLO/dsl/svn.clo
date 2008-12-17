@@ -38,8 +38,8 @@ ARGS::
    unlock:{"unlock"}
    update:{"update","up"}
    
-   //Options
-   targets:{"--targets"}:{file}:[mustexist,canbedir="false"]
+   //Option 
+   targets:{"--t'argets"}:{file}:[mustexist,canbedir="false"]
      :"pass contents of file ARG as additional args"
    non_recursive:{"-N","--non-recursive"}     
      :"obsolete; try --depth=files or --depth=immediates"

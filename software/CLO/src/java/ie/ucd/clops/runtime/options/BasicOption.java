@@ -120,10 +120,11 @@ public abstract class BasicOption<T> implements Option<T> {
       }
     } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
       setMatchingSuffix(propertyValue);
-    } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
+    } else if (propertyName.equalsIgnoreCase("description")) {
       this.description = propertyValue;
+    } else {
+      throw new InvalidOptionPropertyValueException("Unknown property " + propertyName);
     }
-    //Else ignore
   }
 
   @Override

@@ -49,6 +49,7 @@ public class Main {
         return;
       }
     } catch (InvalidOptionPropertyValueException e) {
+      e.printStackTrace();
       CLOLogger.getLogger().log(Level.SEVERE, "Error setting initial property values for options.");
     }
   }

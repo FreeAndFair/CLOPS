@@ -23,7 +23,7 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
   public static final OptionType STRING_REGEXP = new OptionType("string-regexp", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String");
   public static final OptionType STRING_ENUM = new OptionType("string-enum", "ie.ucd.clops.runtime.options.StringEnumOption", "String");
   public static final OptionType STRING_LIST = new OptionType("string-list", "ie.ucd.clops.runtime.options.StringListOption", "java.util.List<String>");
-  public static final OptionType FILE_LIST = new OptionType("file-list", "ie.ucd.clops.runtime.options.FileListOption", "java.util.List<File>");
+  public static final OptionType FILE_LIST = new OptionType("file-list", "ie.ucd.clops.runtime.options.FileListOption", "java.util.List<java.io.File>");
   
   private final Map<String,OptionType> optionTypeMap;
   

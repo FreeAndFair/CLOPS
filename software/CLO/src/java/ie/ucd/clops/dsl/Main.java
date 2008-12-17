@@ -1,6 +1,7 @@
 package ie.ucd.clops.dsl;
 
 import ie.ucd.clops.codegeneration.CodeGenerator;
+import ie.ucd.clops.documentation.DocumentGenerator;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
@@ -90,6 +91,12 @@ public class Main {
         CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
         
         CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
+      
+        // Generate Documentation
+        DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
+		documentation.generate ("help.txt", DocumentGenerator.HELP_TEMPLATE);
+		documentation.generate ("help.html", DocumentGenerator.HTML_TEMPLATE);
+        
         return true;
       } else {
         CLOLogger.getLogger().log(Level.SEVERE, "Did not parse successfully.");
@@ -108,7 +115,10 @@ public class Main {
       if (parser.getCustomErrorMessage() != null) {
         CLOLogger.getLogger().log(Level.SEVERE, parser.getCustomErrorMessage());
       }
-    }
+    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     return false;
   }
   

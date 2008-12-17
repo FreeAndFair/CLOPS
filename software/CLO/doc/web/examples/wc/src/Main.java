@@ -15,13 +15,15 @@ public class Main {
     if (opt.isBytesSet())
       System.out.println("I should print a byte count.");
     if (opt.isFilesSet()) {
-      for (File f : opt.getFiles()) {
+      File f = opt.getFiles();
+      if (f == null) return;
+      //for (File f : opt.getFiles()) {
         System.out.print("The file " + f.getAbsolutePath());
         if (f.exists())
           System.out.println(" exists.");
         else
           System.out.println(" does not exist.");
-      }
+      //}
     }
   }
 }

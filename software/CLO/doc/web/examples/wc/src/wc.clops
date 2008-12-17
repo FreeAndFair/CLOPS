@@ -2,7 +2,7 @@ NAME::
   Wc
 
 ARGS::
-  Files: {""} : {file-list} : [between=""]
+  Files: {""} : {file} : [between=""]   // TODO: list
   Bytes: {"-c", "--bytes"}              // option name, followed by aliases
   Chars: {"-m", "--chars"}
   Words: {"-w", "--words"}

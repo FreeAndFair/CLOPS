@@ -5,7 +5,7 @@
       <arg value="-o=src/generated"/>
       <arg value="-p=generated"/>
     </java>
-    <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar"/>
+    <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar" debug="yes"/>
     <jar destfile="jars/wc.jar" basedir="classes">
       <manifest>
         <attribute name="Main-Class" value="Main"/>

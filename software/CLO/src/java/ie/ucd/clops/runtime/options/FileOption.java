@@ -12,6 +12,7 @@ public class FileOption extends OneArgumentOption<File> {
 
   public FileOption(String identifier, String prefix) {
     super(identifier, prefix);
+    setArgumentShape("[^-][^" + SEP + "]*");
     constraints = new FileOptionConstraints();
   }
 
@@ -58,6 +59,7 @@ public class FileOption extends OneArgumentOption<File> {
     }
   }
 
+  // TODO: Add "allowdash" property
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
     if (!constraints.setProperty(propertyName, propertyValue)) {

@@ -70,6 +70,7 @@ public class CodeGenerator {
         writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore, tester);
       }
     } catch (FileNotFoundException fnfe) {
+      fnfe.printStackTrace();
       CLOLogger.getLogger().log(Level.SEVERE, "Error creating file. " + fnfe);
     }
     

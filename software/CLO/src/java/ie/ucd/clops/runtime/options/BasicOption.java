@@ -61,7 +61,7 @@ public abstract class BasicOption<T> implements Option<T> {
     dirty = true;
   }
   
-  private static String sanitizePrefix(String regexp) {
+  public static String sanitizePrefix(String regexp) {
     return '(' + regexp.replaceAll("(^|([^\\\\]))\\(([^\\?])", "$1(?:$3") + ')';
   }
 

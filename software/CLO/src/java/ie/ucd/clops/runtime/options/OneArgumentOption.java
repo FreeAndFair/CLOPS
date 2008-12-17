@@ -11,12 +11,12 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  */
 public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
-  private static final String BETWEEN = "[=" + SEP + "]";
-  private static final String SUFFIX = "([^" + SEP + "]*)" + SEP;
+  private String between = "[=" + SEP + "]";
+  private String argumentShape = "[^" + SEP + "]*" + SEP;
   
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
-    setMatchingSuffix(BETWEEN + SUFFIX);
+    updateSuffix();
   }
 
   @Override
@@ -28,10 +28,20 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
     if (propertyName.equals("between")) {
-      setMatchingSuffix(propertyValue + SUFFIX);
+      setBetween(propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }
+  }
+
+  public void setBetween(String newBetween) {
+    between = BasicOption.sanitizePrefix(newBetween);
+    updateSuffix();
+  }
+
+  public void setArgumentShape(String newArgumentShape) {
+    argumentShape = newArgumentShape;
+    updateSuffix();
   }
 
   /* (non-Javadoc)
@@ -50,5 +60,8 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       }
     }
   }
-  
+
+  private void updateSuffix() {
+    setMatchingSuffix(between + "(" + argumentShape + ")");
+  }
 }

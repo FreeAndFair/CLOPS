@@ -5,6 +5,10 @@ import java.util.Set;
 
 /**
  * 
+ * An option whose value is one of a given finite set of strings.
+ * These string are given in the property "choices" and the value is a
+ * comma-separated list of the individual values. The spaces are
+ * preserved
  * @author Fintan
  *
  */
@@ -26,7 +30,8 @@ public class StringEnumOption extends StringOption {
   @Override
   public void set(String value) throws InvalidOptionValueException {
     for (String choice : choices) {
-      if ((caseSensitive && choice.equals(value)) || choice.equalsIgnoreCase(value)) {
+      if ((caseSensitive && choice.equals(value)) || 
+          choice.equalsIgnoreCase(value)) {
         super.set(value);
         return;
       }

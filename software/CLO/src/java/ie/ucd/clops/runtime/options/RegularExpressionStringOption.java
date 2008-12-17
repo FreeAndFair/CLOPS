@@ -5,6 +5,8 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  * 
+ * An option type whose value is  regular expression. 
+ * The expression has the same syntax as a java regular expression.
  * @author Fintan
  *
  */

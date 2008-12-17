@@ -3,6 +3,8 @@ package ie.ucd.clops.runtime.options;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
+ * An option whose value is either true of false.
+ *
  * @author Mikolas Janota
  * @author Fintan
  *

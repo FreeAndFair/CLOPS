@@ -4,6 +4,7 @@ $information.getParserName()
 
 #foreach($option in $information.getOptionDescriptions())
 
-$option.Name
+Name: $option.Identifier
+Description: $option.Description
 
 #end

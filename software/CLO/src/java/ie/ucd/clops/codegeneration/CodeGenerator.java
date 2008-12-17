@@ -184,7 +184,7 @@ public class CodeGenerator {
     specificOptionStore.addImport(pack + ".OptionGroup");
     
     for (OptionDescription opDesc : opDescriptions) {
-      GeneratedField field = new GeneratedField(opDesc.getIdentifier(), opDesc.getType().getOptionTypeClass(), Visibility.Private);
+      GeneratedField field = new GeneratedField(opDesc.getIdentifier() + "OG", opDesc.getType().getOptionTypeClass(), Visibility.Private);
       field.addModifier("final");
       specificOptionStore.addField(field);
     }
@@ -194,28 +194,28 @@ public class CodeGenerator {
     
     //Create and add each Option
     for (OptionDescription opDesc : opDescriptions) {
-      constructor.addStatement(opDesc.getIdentifier() + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\", \"" + OptionType.unifyRegexps(opDesc.getPrefixRegexps()) + "\")"); 
+      constructor.addStatement(opDesc.getIdentifier() + "OG" + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\", \"" + OptionType.unifyRegexps(opDesc.getPrefixRegexps()) + "\")"); 
 
       for (Entry<String,String> entry : opDesc.getProperties().entrySet()) {
-        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
+        constructor.addStatement(opDesc.getIdentifier() + "OG.setProperty(\"" + entry.getKey() + "\",\"" + entry.getValue() + "\")");
       }
       if (opDesc.getDescription() != null) {
         String desc = quoteMultilineString(opDesc.getDescription());
-        constructor.addStatement(opDesc.getIdentifier() + ".setProperty(\"description\", " + desc + ")");
+        constructor.addStatement(opDesc.getIdentifier() + "OG.setProperty(\"description\", " + desc + ")");
       }
-      constructor.addStatement("addOption(" + opDesc.getIdentifier() + ")");
+      constructor.addStatement("addOption(" + opDesc.getIdentifier() + "OG)");
     }
     
     //Create and add each OptionGroup
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
-      constructor.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
-      constructor.addStatement("addOptionGroup(" + opGroupDesc.getIdentifier() + ")");
+      constructor.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + "OG" + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
+      constructor.addStatement("addOptionGroup(" + opGroupDesc.getIdentifier() + "OG)");
     }
     
     //Loop again, this time adding the children
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
       for (String child : opGroupDesc.getChildren()) {
-        constructor.addStatement(opGroupDesc.getIdentifier() + ".addOptionOrGroup(" + child + ")");
+        constructor.addStatement(opGroupDesc.getIdentifier() + "OG.addOptionOrGroup(" + child + "OG)");
       }
     }
 
@@ -224,13 +224,13 @@ public class CodeGenerator {
     
     for (OptionDescription od : opDescriptions) {
       GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
-      isSetMethod.addStatement("return " + od.getIdentifier() + ".hasValue()");
+      isSetMethod.addStatement("return " + od.getIdentifier() + "OG" + ".hasValue()");
       specificOptionStore.addMethod(isSetMethod);
       GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
-      getValueMethod.addStatement("return " + od.getIdentifier() + ".getValue()");
+      getValueMethod.addStatement("return " + od.getIdentifier() + "OG" + ".getValue()");
       specificOptionStore.addMethod(getValueMethod);
       GeneratedMethod getOptionMethod = new GeneratedMethod("get" + od.getIdentifier() + "Option", od.getType().getOptionTypeClass(), Visibility.Public);
-      getOptionMethod.addStatement("return " + od.getIdentifier());
+      getOptionMethod.addStatement("return " + od.getIdentifier() + "OG");
       specificOptionStore.addMethod(getOptionMethod);
     }
     

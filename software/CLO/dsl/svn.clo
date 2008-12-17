@@ -34,7 +34,7 @@ ARGS::
    resolved:{"resolved"}
    revert:{"revert"}
    status:{"status","stat","st"}
-   switch:{"switch,"sw"}
+   switch:{"switch","sw"}
    unlock:{"unlock"}
    update:{"update","up"}
    
@@ -94,13 +94,11 @@ ARGS::
                                    Ignore changes in EOL style
                                 -p (--show-c-function):
                                    Show C function name in diff output."
-   force:{"--force"}
-     :"force operation to run"
    recursive:{"-R","--recursive"}
      :"descend recursively, same as --depth=infinity"
    remove:{"--remove"}
      :"remove changelist association"
-   changelist:{"--changelist","--cl"}
+   changelist_op:{"--changelist","--cl"}
      :"operate only on members of changelist ARG"
    ignore_externals:{"--ignore-externals"}
      :"ignore externals definitions"
@@ -141,7 +139,7 @@ FORMAT::
     ( option* subcommand option* )
   | ( help subcommand+ )
   | ( version quiet? )
-  
+  ;
   
 WHERE::
   subcommand:    add

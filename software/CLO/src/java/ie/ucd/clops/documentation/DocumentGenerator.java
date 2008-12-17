@@ -46,6 +46,8 @@ public class DocumentGenerator {
 	 */
 	public void generate(String filename, String templateName) throws Exception {
 			
+		
+		    if (Velocity.templateExists(templateName)) {
 			Template template = Velocity.getTemplate(templateName);
 			
 			PrintStream printStream = new PrintStream(filename);
@@ -56,6 +58,7 @@ public class DocumentGenerator {
 			
 			writer.flush();
 			writer.close();
+		    }
 
 		 
 	}

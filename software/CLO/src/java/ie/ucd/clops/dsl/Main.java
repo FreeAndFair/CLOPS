@@ -93,9 +93,9 @@ public class Main {
         CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
       
         // Generate Documentation
-        DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
-		documentation.generate ("help.txt", DocumentGenerator.HELP_TEMPLATE);
-		documentation.generate ("help.html", DocumentGenerator.HTML_TEMPLATE);
+        //DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
+		///ocumentation.generate ("help.txt", DocumentGenerator.HELP_TEMPLATE);
+		//documentation.generate ("help.html", DocumentGenerator.HTML_TEMPLATE);
         
         return true;
       } else {

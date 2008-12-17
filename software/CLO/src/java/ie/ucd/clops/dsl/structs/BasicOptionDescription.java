@@ -15,13 +15,13 @@ public class BasicOptionDescription implements OptionDescription {
 
   private final List<String> prefixRegexps;
   private String identifier;
-  private final Map<String,String> properties;
+  private final List<Pair<String,String>> properties;
   private OptionType type;
   private String description;
 
   public BasicOptionDescription() {
     this.prefixRegexps = new LinkedList<String>();
-    this.properties = new HashMap<String,String>();
+    this.properties = new LinkedList<Pair<String,String>>();
   }
 
   /* (non-Javadoc)
@@ -56,13 +56,13 @@ public class BasicOptionDescription implements OptionDescription {
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setProperty(java.lang.String, java.lang.String)
    */
   public void setProperty(String key, String value) {
-    properties.put(key, value);
+    properties.add(new Pair<String,String>(key,value));
   }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */
-  public Map<String,String> getProperties() {
+  public List<Pair<String,String>> getProperties() {
     return properties;
   }
 

@@ -78,7 +78,7 @@ public interface OptionDescription {
    * Get the properties associated with this option.
    * @return the properties associated with this option.
    */
-  Map<String,String> getProperties();
+  List<Pair<String,String>> getProperties();
   
   /**
    * Set the Option's textual description. 

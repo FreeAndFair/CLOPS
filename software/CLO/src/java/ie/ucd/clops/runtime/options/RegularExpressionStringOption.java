@@ -25,7 +25,7 @@ public class RegularExpressionStringOption extends StringOption {
 
   @Override
   public void set(String value) throws InvalidOptionValueException {
-    String input = (String)value;
+    String input = value;
     if (!pattern.matcher(input).matches()) {
       throw new InvalidOptionValueException("");
     } else {

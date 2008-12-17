@@ -17,7 +17,7 @@ public class GeneratedCodeUnit {
   
   public GeneratedCodeUnit(String name, Visibility visibility) {
     this.visibility = visibility;
-    this.name = name;
+    this.name = name.replaceAll("-", "_");
     this.modifiers = new HashSet<String>();
   }
   

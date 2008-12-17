@@ -36,7 +36,7 @@ ARGS::
         :"list entries by columns"
 
      color:{"--color"}:{string-enum}
-        :[default="never" choices="never,always,auto"]
+        :[choices="never,always,auto" default="never" ]
         :"control whether color is used to distinguish file types"
 
      /*That is equivalent to using --color=none.  Using the --color

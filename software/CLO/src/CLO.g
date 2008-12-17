@@ -109,7 +109,7 @@ arg_definition
                      )*
                      ']' 
                    )?
-                   ( ':' s=STRING_CONSTANT
+                   ( ':' s=option_comment
                      { option.setDescription($s.text); }
                    
                    )?
@@ -135,6 +135,9 @@ property_name  :  NAME
                ;
                
 property_value  :  STRING_CONSTANT
+                ;
+                
+option_comment  :  STRING_CONSTANT
                 ;
 
 /**********************************************/
@@ -241,7 +244,7 @@ comparison_op  :    '='
  ##############################################
  **********************************************/ 
 
-STRING_CONSTANT : '"' .* '"' 
+STRING_CONSTANT : '"' (~'"')* '"' 
   { /* FIXME */ 
     setText($text.substring(1, $text.length() - 1));
   }

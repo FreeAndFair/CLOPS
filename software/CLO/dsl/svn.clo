@@ -1,0 +1,193 @@
+NAME::
+  SVN
+  
+ARGS::
+
+   //Subcommands
+   add:{"add"}
+   blame:{"blame","praise","annotate","ann"}
+   cat:{"cat"}
+   changelist:{"changelist","cl"}
+   checkout:{"checkout","co"}
+   cleanup:{"cleanup"}
+   commit:{"commit","ci"}
+   copy:{"copy","cp"}
+   delete:{"delete","del","remove","rm"}
+   diff:{"diff","di"}
+   export:{"export"}
+   help:{"help","\\?", "h"}
+   import:{"import"}
+   info:{"info"}
+   list:{"list","ls"}
+   lock:{"lock"}
+   log:{"log"}
+   merge:{"merge"}
+   mergeinfo:{"mergeinfo"}
+   mkdir:{"mkdir"}
+   move:{"move","mv","rename","ren"}
+   propdel:{"propdel","pdel","pd"}
+   propedit:{"propedit","pedit","pe"}
+   propget:{"propget","pget","pg"}
+   proplist:{"proplist","plist","pl"}
+   propset:{"propset","pset","ps"}
+   resolve:{"resolve"}
+   resolved:{"resolved"}
+   revert:{"revert"}
+   status:{"status","stat","st"}
+   switch:{"switch,"sw"}
+   unlock:{"unlock"}
+   update:{"update","up"}
+   
+   //Options
+   targets:{"--targets"}:{file}:[mustexist,canbedir="false"]
+     :"pass contents of file ARG as additional args"
+   non_recursive:{"-N","--non-recursive"}     
+     :"obsolete; try --depth=files or --depth=immediates"
+     
+   //This is an interesting case, as we have what is really an integer option, but special strings map to specific values?  
+   depth:{"--depth"}:{string}
+     :"limit operation by depth ARG ('empty', 'files', 'immediates', or 'infinity')"
+   quiet:{"-q","--quiet"}
+     :"print nothing, or only summary information"
+   force:{"--force"}
+     :"force operation to run"
+   no_ignore:{"--no-ignore"}
+     :"disregard default and svn:ignore property ignores"
+   auto_props:{"--auto-props"}
+     :"enable automatic properties"
+   no_auto_props:{"--no-auto-props"}
+     :"disable automatic properties"
+   parents:{"--parents"}
+     :"add intermediate parents"
+
+   revision:{"-r","--revision"}:{string}
+     :"ARG (some commands also take ARG1:ARG2 range)
+                             A revision argument can be one of:
+                                NUMBER       revision number
+                                '{' DATE '}' revision at start of the date
+                                'HEAD'       latest in repository
+                                'BASE'       base rev of item's working copy
+                                'COMMITTED'  last commit at or before BASE
+                                'PREV'       revision just before COMMITTED"
+   verbose:{"-v","--verbose"}
+     :"print extra information"
+   use_merge_history:{"-g","--use-merge-history"}
+     :"use/display additional information from merge history"
+   incremental:{"--incremental"}
+     :"give output suitable for concatenation"
+   xml:{"--xml"}
+     :"output in XML"
+   extensions:{"-x","--extensions"}:{string-enum}:[choices="-u,--unified,-b,--ignore-space-change,-w,--ignore-all-space,--ignore-eol-style,-p,--show-c-function"]
+     : "Default: '-u'. When Subversion is invoking an
+                             external diff program, ARG is simply passed along
+                             to the program. But when Subversion is using its
+                             default internal diff implementation, or when
+                             Subversion is displaying blame annotations, ARG
+                             could be any of the following:
+                                -u (--unified):
+                                   Output 3 lines of unified context.
+                                -b (--ignore-space-change):
+                                   Ignore changes in the amount of white space.
+                                -w (--ignore-all-space):
+                                   Ignore all white space.
+                                --ignore-eol-style:
+                                   Ignore changes in EOL style
+                                -p (--show-c-function):
+                                   Show C function name in diff output."
+   force:{"--force"}
+     :"force operation to run"
+   recursive:{"-R","--recursive"}
+     :"descend recursively, same as --depth=infinity"
+   remove:{"--remove"}
+     :"remove changelist association"
+   changelist:{"--changelist","--cl"}
+     :"operate only on members of changelist ARG"
+   ignore_externals:{"--ignore-externals"}
+     :"ignore externals definitions"
+   diff3_cmd:{"--diff3-cmd"}:{string}
+     :"use ARG as merge command"
+   no_unlock:{"--no-unlock"}
+     :"don't unlock the targets"
+   message:{"-m","--message"}:{string}
+     :"specify log message ARG"
+   file:{"-F","--file"}:{file}:[mustexist,canbedir="false"]
+     :"read log message from file ARG"
+   force_log:{"--force-log"}
+     :"force validity of log message source"
+   editor-cmd:{"--editor-cmd"}:{string}
+     :"use ARG as external editor"
+   encoding:{"--encoding"}:{string}
+     :"treat value as being in charset encoding ARG"
+   with_revprop:{"--with-revprop"}
+     :"set revision property ARG in new revision using the name[=value] format"
+   keep_changelists:{"--keep-changelists"}
+     :"don't delete changelists after commit"
+
+
+   //global options
+   username:{"--username"}:{string}
+     :"a username ARG"
+   password:{"--password"}:{string}
+     :"specify a password ARG"
+   no_auth_cache:{"--no-auth-cache"}
+     :"do not cache authentication tokens"
+   non_interactive:{"--non-interactive"}
+     :"do no interactive prompting"
+   config_dir:{"--config-dir"}:{file}:[mustexist,mustbedir]
+     :"read user configuration files from directory ARG"
+      
+FORMAT::
+//subcommand to be expanded..
+    ( option* subcommand option* )
+  | ( help subcommand+ )
+  | ( version quiet? )
+  
+  
+WHERE::
+  subcommand:    add
+              OR blame
+              OR cat
+              OR changelist
+              OR checkout
+              OR cleanup
+              OR commit
+              OR copy
+              OR delete
+              OR diff
+              OR export
+              OR help 
+              OR import
+              OR info
+              OR list 
+              OR lock
+              OR log
+              OR merge
+              OR mergeinfo
+              OR mkdir
+              OR move
+              OR propdel
+              OR propedit
+              OR propget
+              OR proplist
+              OR propset
+              OR resolve
+              OR resolved
+              OR revert
+              OR status
+              OR switch
+              OR unlock
+              OR update 
+            ;
+              
+  global_option:    username
+                 OR password
+                 OR no_auth_cache
+                 OR non_interactive
+                 OR config_dir
+               ;
+  
+FLY::
+  
+OVERRIDES::
+  
+VALIDITY::

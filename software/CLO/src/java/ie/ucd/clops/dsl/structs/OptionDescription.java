@@ -12,7 +12,22 @@ import java.util.Map;
  *
  * @author Mikolas
  * @author Fintan
- *
+ * 
+ * <BON>
+ * class_chart OPTION_DESCRIPTION
+ * indexing
+ *   in_cluster: "DOCUMENTATION"
+ * explanation 
+ *   "Informal textual description of the purpose, format, dependencies and behaviour of a command line option"
+ * query
+ *   "What is the name of the option?",
+ *   "What is the short description?",
+ *   "What is the long explanation?"
+ * end
+ * </BON>
+ * <JML>
+ *   refines "OptionDescription.spec"
+ * </JML>
  */
 public interface OptionDescription {
 

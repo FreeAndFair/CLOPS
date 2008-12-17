@@ -63,7 +63,7 @@ ARGS::
         :"like {classify}, except do not append ‘*’"
 
      format:{"--format"}:{string-enum}:
-              [choice="across,commas,horizontal,longFormat,single-column,verbose,vertical"]
+              [choices="across,commas,horizontal,longFormat,single-column,verbose,vertical"]
 //           across  -x, commas -m, horizontal -x, long -l, single-column -1,
 //           verbose -l, vertical -C
 
@@ -175,7 +175,7 @@ ARGS::
 
        sortby_modificationtime:{"-t"}:"sort by modification time"
 
-       tabsize:{"-T", "--tabsize"}:{int}:[min="0" default="8"]
+       tabsize:{"-T", "--tabsize"}:{int}:[minvalue="0" default="8"]
           :"assume given tab stops"
 
        access_time:{"-u"}:
@@ -186,7 +186,7 @@ ARGS::
 
        sortby_version:{"-v"}:"sort by version"
 
-       width:{"-w", "--width"}:{int}:[min="0"]
+       width:{"-w", "--width"}:{int}:[minvalue="0"]
          :"assume screen width instead of current value"
 
        horizontal:{"-x"}:"list entries by lines instead of by columns"

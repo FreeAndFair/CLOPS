@@ -15,12 +15,12 @@ ARGS::
      octal_escapes:{"-b", "--escape"}
        :"print octal escapes for nongraphic characters"
 
-     block_size:{"--block-size":{int}:[min="0"]
-       :"use SIZE-byte blocks"
+     block_size:{"--block-size"}:{string-regexp}
+       :[regexp="(\\d+((kB)|(K)|(MB)|M|G|T|P|E|Z|Y)?)"]
+       :"use blocks of the given size"
 
 /*       SIZE  may  be (or may be an integer optionally followed by) 
-       one of following: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T,
-       P, E, Z, Y. */
+       one of following: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T, P, E, Z, Y. */
 
 
 
@@ -35,7 +35,8 @@ ARGS::
      columns:{"-C"}
         :"list entries by columns"
 
-     color:{"--color"}:{string-enum}:[choices="never,always,auto", default="never"]
+     color:{"--color"}:{string-enum}
+        :[default="never" choices="never,always,auto"]
         :"control whether color is used to distinguish file types"
 
      /*That is equivalent to using --color=none.  Using the --color
@@ -58,11 +59,11 @@ ARGS::
      classify:{"-F", "--classify"}
         :"append indicator (one of */=>@|) to entries"
 
-     file_type::{"--file-type"}
+     file_type:{"--file-type"}
         :"like {classify}, except do not append ‘*’"
 
-     format::{"--format"}:{string-enum}:
-              [choice="across,commas,horizontal,long,single-column,verbose,vertical"]
+     format:{"--format"}:{string-enum}:
+              [choice="across,commas,horizontal,longFormat,single-column,verbose,vertical"]
 //           across  -x, commas -m, horizontal -x, long -l, single-column -1,
 //           verbose -l, vertical -C
 
@@ -88,12 +89,12 @@ ARGS::
      dereference-command-line-symlink-to-dir:{"--dereference-command-line-symlink-to-dir"}
          :"follow  each  command line symbolic link that points to a directory"
 
-     hide:{"--hide"}:{string}:
+     hide:{"--hide"}:{string}
          :"do not list implied entries matching shell  pattern  (overridden
               by -a or -A)"
 
-     indicator_style:{"--indicator-style"}:string-enum
-         [choices="none,slash,file-type,classify" default="none"]
+     indicator_style:{"--indicator-style"}:{string-enum}
+         :[choices="none,slash,file-type,classify" default="none"]
          :"append indicator with style WORD to entry names"
 //              none  (default),  slash  (-p), file-type (--file-type), classify
 //              (-F)
@@ -106,7 +107,7 @@ ARGS::
 
       oneK_block:{"-k"}:"like --block-size=1K"
 
-      long:{"-l"}:"use a long listing format"
+      longFormat:{"-l"}:"use a long listing format"
 
       dereference:{"-L", "--dereference"}
           :"when showing file information for a symbolic link, show information  
@@ -114,22 +115,22 @@ ARGS::
 
       commas:{"-m"}:"fill width with a comma separated list of entries"
 
-      numeric-uid-gid:{"-n", "--numeric-uid-gid"}
+      numeric_uid_gid:{"-n", "--numeric-uid-gid"}
            :"like -l, but list numeric user and group IDs"
 
       literal:{"-N", "--literal"}
           :"print raw entry names (don’t treat e.g. control characters  specially)"
 
-      long_nogroups:{"-o"}:"like {long}, but do not list group information"
+      long_nogroups:{"-o"}:"like {longFormat}, but do not list group information"
 
        slash:{"-p"}
            :"append / indicator to directories"
 
-       hide-control-chars:{"-q", "--hide-control-chars"}
-              "print ? instead of non graphic characters"
+       hide_control_chars:{"-q", "--hide-control-chars"}
+           :"print ? instead of non graphic characters"
 
-       show-control-chars:{"--show-control-chars"}:
-              "show  non  graphic  characters  as-is (default unless program is
+       show_control_chars:{"--show-control-chars"}
+           :"show  non  graphic  characters  as-is (default unless program is
               'ls' and output is a terminal)"
 
        quote_name:{"-Q", "--quote-name"}
@@ -146,24 +147,24 @@ ARGS::
 
        recursive:{"-R", "--recursive"}:"list subdirectories recursively"
 
-       size:{"-s", "--size"}:"with {long}, print size of each file, in blocks"
+       size:{"-s", "--size"}:"with {longFormat}, print size of each file, in blocks"
 
        sortby_size:{"-S"}:"sort by file size"
 
        sort:{"--sort"}
-           :string-enum
+           :{string-enum}
            :"extension,none,size,time,version,status,time,atime,access,use"
 //              extension  -X, none -U, size -S, time -t, version -v, status -c,
 //              time -t, atime -u, access -u, use -u
 
-       time:{"--time"}:{string-enum}:
+       time:{"--time"}:{string-enum}
            :[choices="atime,access,use,ctime,status"]
-              "with -l, show time as WORD instead of modification time:  atime,
-              access,  use, ctime or status; use specified time as sort key if
-              {sort}=time"
+           :"with -l, show time as WORD instead of modification time:  atime,
+              access,  use, ctime or status; use specified time 
+              as sort key if {sort}=time"
 
-       time_style:{"--time-style"}:{string}
-           :[suffixregexp="=((full-iso)|(long-iso)|(iso)|(locale)|(\\+.+))"]
+       time_style:{"--time-style"}:{string-regexp}
+           :[regexp="((full-iso)|(long-iso)|(iso)|(locale)|(\\+.+))"]
            :"with -l, show times using style"             
 // TODO
 /*              STYLE: full-iso, long-iso,  iso,
@@ -212,13 +213,17 @@ ARGS::
 
        version:{"--version"}:"output version information and exit"
 
+
+FORMAT::
+  help | version;
+
 WHERE::
 
 FLY::
-   across <-> format="across";
+/*   across <-> format="across";
    horizontal <-> format="across";
    commas <-> format="commas";
-   long <-> format="long";
+   longFormat <-> format="long";
    single-column <-> format="single-column";
    verbose <-> format="verbose";
    vertical <-> format="vertical";
@@ -239,6 +244,6 @@ FLY::
    sort="atime" <-> sortby_atime;
    sort="access" <-> sortby_access;
    sort="use" <-> sortby_use;
-
+*/
 
 

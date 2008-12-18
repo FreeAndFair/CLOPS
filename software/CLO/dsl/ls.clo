@@ -215,11 +215,15 @@ ARGS::
 
 
 FORMAT::
-  help | version;
+  allOpts*;
 
 WHERE::
+  allOpts: help OR version OR longFormat OR one;
 
 FLY::
+   longFormat -> one:=#false#;
+   one -> longFormat:=#false#;
+
 /*   across <-> format="across";
    horizontal <-> format="across";
    commas <-> format="commas";

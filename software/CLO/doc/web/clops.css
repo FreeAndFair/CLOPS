@@ -40,3 +40,37 @@ code {
   font-size: small;
   background-color: #ffeeee;
 }
+
+table#related-work {
+  border: 1px solid gray;
+}
+
+table#related-work td {
+  border: 1px solid gray;
+}
+
+table#related-work th {
+  background-color: #88f;
+}
+
+table#related-work th.clear {
+  background-color: white;
+}
+
+table#related-work .low {
+  background-color: #f88;
+}
+
+table#related-work .mid {
+  background-color: #ff8;
+}
+
+table#related-work .high {
+  background-color: #8f8;
+}
+
+.todo {
+	background-color: yellow;
+	border: 4px dotted black;
+	font-weight: bold;
+}

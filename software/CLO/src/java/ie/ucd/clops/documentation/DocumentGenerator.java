@@ -24,84 +24,84 @@ import org.apache.velocity.app.Velocity;
  */
 
 public class DocumentGenerator {
-	
-	public static final String HTML_TEMPLATE = "templates/html.vm";
-	public static final String HELP_TEMPLATE = "templates/help.vm";
-	private VelocityContext context;
 
-	public DocumentGenerator(DSLInformation information) throws Exception {
-		Velocity.init();
-		context = createContext(information);	
-		}
+  public static final String HTML_TEMPLATE = "templates/html.vm";
+  public static final String HELP_TEMPLATE = "templates/help.vm";
+  private VelocityContext context;
 
-	/**
-	 * 
-	 * @param filename
-	 * @param templateName
-	 * @throws Exception
-	 * 
-	 * <JML>
-	 *   requires velocity.templateExists(templateName);
-	 * </JML>
-	 */
-	public void generate(String filename, String templateName) throws Exception {
-			
-		
-		    if (Velocity.templateExists(templateName)) {
-			Template template = Velocity.getTemplate(templateName);
-			
-			PrintStream printStream = new PrintStream(filename);
+  public DocumentGenerator(DSLInformation information) throws Exception {
+    Velocity.init();
+    context = createContext(information);	
+  }
 
-			Writer writer = new java.io.OutputStreamWriter(printStream);
+  /**
+   * 
+   * @param filename
+   * @param templateName
+   * @throws Exception
+   * 
+   * <JML>
+   *   requires velocity.templateExists(templateName);
+   * </JML>
+   */
+  public void generate(String filename, String templateName) throws Exception {
 
-			template.merge(context, writer);
-			
-			writer.flush();
-			writer.close();
-		    }
 
-		 
-	}
+    if (Velocity.resourceExists(templateName)) {
+      Template template = Velocity.getTemplate(templateName);
 
-	/**
-	 * Define the context for document generation
-	 * 
-	 * @return Context for DSL information
-	 */
-	protected VelocityContext createContext(DSLInformation information) {
-		VelocityContext context = new VelocityContext();
+      PrintStream printStream = new PrintStream(filename);
 
-		context.put("information", information);
-		return context;
-	}
-	
-	/**
-	 * Test document generation
-	 */
-	public static void main(String[] args) {
-		
-		PrintStream logfile = System.out;
-		
-		logfile.println("Starting document generation");
-		
-		DSLInformation information = new DSLInformation();
-		information.setPackageName("TEST");
-		OptionDescription optionDescription = new BasicOptionDescription();
-		optionDescription.setId("Option 1");
-		information.addOptionDescription(optionDescription);
-		optionDescription.setId("Option 2");
-		information.addOptionDescription(optionDescription);
-		information.setParserName("Parser");
-		
-		try {
-			DocumentGenerator documentation = new DocumentGenerator(information);
-			documentation.generate ("help.txt", HELP_TEMPLATE);
-			documentation.generate ("help.html", HTML_TEMPLATE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		logfile.println("Finished document generation");
-	}
+      Writer writer = new java.io.OutputStreamWriter(printStream);
+
+      template.merge(context, writer);
+
+      writer.flush();
+      writer.close();
+    }
+
+
+  }
+
+  /**
+   * Define the context for document generation
+   * 
+   * @return Context for DSL information
+   */
+  protected VelocityContext createContext(DSLInformation information) {
+    VelocityContext context = new VelocityContext();
+
+    context.put("information", information);
+    return context;
+  }
+
+  /**
+   * Test document generation
+   */
+  public static void main(String[] args) {
+
+    PrintStream logfile = System.out;
+
+    logfile.println("Starting document generation");
+
+    DSLInformation information = new DSLInformation();
+    information.setPackageName("TEST");
+    OptionDescription optionDescription = new BasicOptionDescription();
+    optionDescription.setId("Option 1");
+    information.addOptionDescription(optionDescription);
+    optionDescription.setId("Option 2");
+    information.addOptionDescription(optionDescription);
+    information.setParserName("Parser");
+
+    try {
+      DocumentGenerator documentation = new DocumentGenerator(information);
+      documentation.generate ("help.txt", HELP_TEMPLATE);
+      documentation.generate ("help.html", HTML_TEMPLATE);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    logfile.println("Finished document generation");
+  }
 
 }

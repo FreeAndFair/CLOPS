@@ -1,0 +1,4 @@
+## all.vm
+#foreach($option in $information.getOptionDescriptions())
+  $option.Identifier 
+#end

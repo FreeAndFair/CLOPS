@@ -10,12 +10,12 @@ ARGS::
   FilesFrom: {"--files0-from"}: {file}  // "file" is the option type
   Help: {"--help"}                      /* the default type is "boolean" */
   Ver: {"--version"}
-  Files: {} : {file-list} : [between=""]
+  Files: {}: {file-list}: [between="", allowMultiple="false"]
 
 FORMAT::
-  Option*;  // this is a regular expression
+  (Option | Files)*;  // this is a regular expression
 
 WHERE::
   Option:   // shorthand to make the FORMAT easier to read
     Bytes OR Chars OR Words OR Lines OR LineLength OR
-    FilesFrom OR Help OR Ver OR Files;
+    FilesFrom OR Help OR Ver;

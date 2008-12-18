@@ -15,17 +15,22 @@ h2 {
 
 body {
   font-family: Verdana, Helvetica, sans-serif;
+  font-size: normal;
 }
 
 tt {
   font-family: courier, monospace;
-  font-size: normal;
 }
 
 pre {
   font-family: courier, monospace;
   font-size: large;
   padding-left: 1cm;
+  background-color: #eeeeee;
+}
+
+code {
+  font-family: courier, monospace;
   background-color: #eeeeee;
 }
 

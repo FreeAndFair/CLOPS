@@ -40,6 +40,12 @@ it create a file <tt>wc.clops</tt> with the content: </p>
 <!--#include virtual="examples/wc/src/wc.clops"-->
 </pre>
 
+<table class="gotcha">
+<tr><td><img src="attention.png" alt="!"/></td><td>
+The <i>properties</i> <tt>between</tt> and <tt>allowMultiple</tt>
+will be explained in the <a href="#dashdash">Dealing with --</a> section.
+</td></tr></table>
+
 <p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
 Generate the parser with:</p>
 
@@ -65,7 +71,7 @@ javac -cp CLOPSPATH/clops-runtime.jar -sourcepath src -d classes src/Main.java s
 
 <p>On UNIX, replace <tt>CLOPSPATH</tt> by <tt>$CLOPSPATH</tt>. On
 Windows, replace <tt>CLOPSPATH</tt> by <tt>%CLOPSPATH%</tt> and
-<tt>/</tt>&nbsp;(slash) by <tt>\</tt>&nbsp;(backslash).</p>
+slash&nbsp;(<tt>/</tt>) by backslash&nbsp;(<tt>\</tt>).</p>
 
 <table class="gotcha">
 <tr><td><img src="attention.png" alt="!"/></td><td>
@@ -76,9 +82,9 @@ stops on the most obviously wrong CLOPS input.
 
 <p>You can now run your program with:</p>
 
-<pre>java -cp classes:CLOPSPATH/clops-runtime.jar Main OPTIONS</pre>
+<pre>java -cp classes:CLOPSPATH/clops-runtime.jar Main ARGUMENTS</pre>
 
-<p>Try to replace <tt>OPTIONS</tt> with various values and see
+<p>Try to replace <tt>ARGUMENTS</tt> with various values and see
 what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
 <tt>&quot;--files0-from&nbsp;.&quot;</tt>, and only
 <tt>&quot;--files0-from&quot;</tt>.</p>
@@ -114,7 +120,7 @@ an email. (TODO: mailing list address.)</p>
 
 <h1>Advanced features</h1>
 
-<h2>The format: dealing with <tt>--</tt></h2>
+<h2><a name="dashdash"/>Dealing with <tt>--</tt></h2>
 
 <p>The <tt>wc</tt> command line implementation above is
 <i>almost</i> OK. One problem is that it doesn't allow the user
@@ -122,9 +128,68 @@ to examine a file whose name is &quot;<tt>-w</tt>&quot; (or any
 other name that conflicts with an option). The usual convention
 to handle such situations is to use a special option (<tt>--</tt>)
 and treat all that follows as being an operand (not an option).
+We can handle this by changing <tt>wc.clops</tt> a little.</p>
+
+<pre class="prettyprint"><!--#include virtual="examples/wc1/src/wc.clops.diff"--></pre>
+
+<p>Also, add the following line at the end of your <tt>main</tt>
+method:</p>
+
+<pre class="prettyprint"><!--#include virtual="examples/wc1/src/Main.java.diff"--></pre>
+
+<p>Recompile and run.</p>
+
+<pre>
+ant
+java -jar jars/wc.jar ARGUMENTS
+</pre>
+
+<p>As before, spend some time trying different <tt>ARGUMENTS</tt>.</p>
+
+<p>Each option type, like <tt>file-list</tt>, has a number of
+properties that customize its behavior, like <tt>between</tt>,
+<tt>allowMultiple</tt>, and <tt>allowDash</tt>. The
+default behavior for <tt>file-list</tt> is to recognize
+command lines like <code>-f nameA,nameB</code> and like
+<code>-f=nameA,nameB</code>. If the set of aliases
+is left empty then it will recognize command lines
+like <code>=nameA,nameB</code> or <code>&quot;&quot;
+nameA,nameB</code>. In other words, it still expects <tt>=</tt>
+or an argument delimiter between the empty prefix and the file
+names. If we want command lines like <code>nameA,nameB</code> to
+be recognized then we must say <tt>between=&quot;&quot;</tt>.
+The second property, <tt>allowMultiple</tt>, defaults to
+<tt>true</tt> and means that a comma&nbsp;(<tt>,</tt>) can be
+used to separate multiple file names. But <tt>wc</tt> considers
+the command line <code>x,y</code> as being one file name, not
+two, so we set <tt>allowMultiple</tt> to <tt>false</tt> to get
+this behavior. Finally, because it is by far the most common
+behavior, the default is not to allow file names that begin with
+a dash.</p>
+
+<p>The other secret ingredient in getting the same behavior
+as <tt>wc</tt> is the <i>format</i>. It says that a <tt>--</tt>
+might appear (<tt>?</tt>) followed by any number (<tt>*</tt>)
+of file names that may start with a dash.
 </p>
 
-<p>(TODO: The format string to deal with this POSIX convention.)</p>
+<p>TODO: explain format string</p>
+
+<p>TODO: explain other combinations of the presented properties,
+perhaps plus splitter.</p>
+
+<p>If you wonder if the zoo of properties is big enough to handle
+all your needs then the answer is that underneath there is an even
+more general mechanism, and most properties are just syntactic
+sugar to make your life easier. Read on.</p>
+
+<p>SCRAPS: If the set of aliases would contain
+<tt>&quot;-f&quot;</tt> instead of being empty then command lines
+like <code>-fnameA,nameB</code> would be recognized. The splitter
+itself can be changed by using the property <tt>splitter</tt>.
+You'd want to do this, for example, to read things like a
+classpath. </p>
+
 
 <h2>Regular expressions as aliases</h2>
 

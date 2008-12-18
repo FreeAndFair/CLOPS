@@ -15,7 +15,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
   
   private List<T> value;
   private boolean allowMultiple;
-  private String splittingString;
+  protected String splittingString;
   
   public ListOption(String identifier, String prefix) {
     super(identifier, prefix);
@@ -81,11 +81,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {
     if (propertyName.equalsIgnoreCase("allowmultiple")) {
-      if (BooleanOption.validBooleanString(propertyValue)) {
-        allowMultiple = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid allowmultiple, must be a boolean: " + propertyValue);
-      } 
+      allowMultiple = Options.parseBooleanProperty(propertyName, propertyValue);
     } else if (propertyName.equalsIgnoreCase("splitter")) {
       splittingString = propertyValue;
     } else {

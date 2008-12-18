@@ -113,19 +113,11 @@ public class BooleanOption extends BasicOption<Boolean> {
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {
     if (propertyName.equalsIgnoreCase("allowarg")) {
-      if (validBooleanString(propertyValue)) {
-        allowArg = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid allowarg, must be a boolean: " + propertyValue);
-      }
+      allowArg = Options.parseBooleanProperty(propertyName, propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }
   }
-  
-  public static boolean validBooleanString(String s) {
-    return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false");
-  } 
   
   protected void setAllowArg(boolean allowArg) {
     this.allowArg = allowArg;

@@ -2,7 +2,6 @@ NAME::
   Wc
 
 ARGS::
-  Files: {""} : {file} : [between=""]   // TODO: list
   Bytes: {"-c", "--bytes"}              // option name, followed by aliases
   Chars: {"-m", "--chars"}
   Words: {"-w", "--words"}
@@ -11,6 +10,7 @@ ARGS::
   FilesFrom: {"--files0-from"}: {file}  // "file" is the option type
   Help: {"--help"}                      /* the default type is "boolean" */
   Ver: {"--version"}
+  Files: {} : {file-list} : [between=""]
 
 FORMAT::
   Option*;  // this is a regular expression

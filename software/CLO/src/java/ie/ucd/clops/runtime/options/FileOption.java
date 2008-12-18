@@ -6,13 +6,15 @@ import java.io.File;
  * @author Fintan
  */
 public class FileOption extends OneArgumentOption<File> {
+  public static final String DASH_REGEXP = "[^" + SEP + "]+";
+  public static final String NO_DASH_REGEXP = "[^-][^" + SEP + "]*";
 
   private FileOptionConstraints constraints;
   private File value;
 
   public FileOption(String identifier, String prefix) {
     super(identifier, prefix);
-    setArgumentShape("[^-][^" + SEP + "]*");
+    setArgumentShape(NO_DASH_REGEXP);
     constraints = new FileOptionConstraints();
   }
 
@@ -45,17 +47,21 @@ public class FileOption extends OneArgumentOption<File> {
 
   @Override
   public boolean acceptsProperty(String propertyName) {
-    if (constraints.acceptsProperty(propertyName)) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
-    }
+    return 
+      constraints.acceptsProperty(propertyName) ||
+      propertyName.equalsIgnoreCase("allowdash") ||
+      super.acceptsProperty(propertyName);
   }
 
-  // TODO: Add "allowdash" property
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
-    if (!constraints.setProperty(propertyName, propertyValue)) {
+    if (propertyName.equalsIgnoreCase("allowdash")) {
+      if (Options.parseBooleanProperty(propertyName, propertyValue)) {
+        setArgumentShape(DASH_REGEXP);
+      } else {
+        setArgumentShape(NO_DASH_REGEXP);
+      }
+    } else if (!constraints.setProperty(propertyName, propertyValue)) {
       super.setProperty(propertyName, propertyValue);
     }
   }
@@ -157,35 +163,17 @@ public class FileOption extends OneArgumentOption<File> {
 
     public boolean setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
       if (propertyName.equalsIgnoreCase("canexist")) {
-        if (BooleanOption.validBooleanString(propertyValue)) {
-          setCanExist(Boolean.parseBoolean(propertyValue));
-          return true;
-        } else {
-          throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
-        }
+        setCanExist(Options.parseBooleanProperty(propertyName, propertyValue));
       } else if (propertyName.equalsIgnoreCase("mustexist")) {
-        if (BooleanOption.validBooleanString(propertyValue)) {
-          setMustExist(Boolean.parseBoolean(propertyValue));
-          return true;
-        } else {
-          throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
-        }      
+        setMustExist(Options.parseBooleanProperty(propertyName, propertyValue));
       } else if (propertyName.equalsIgnoreCase("canbedir")) {
-        if (BooleanOption.validBooleanString(propertyValue)) {
-          setCanBeDir(Boolean.parseBoolean(propertyValue));
-          return true;
-        } else {
-          throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
-        }      
+        setCanBeDir(Options.parseBooleanProperty(propertyName, propertyValue));
       } else if (propertyName.equalsIgnoreCase("mustbedir")) {
-        if (BooleanOption.validBooleanString(propertyValue)) {
-          setMustBeDir(Boolean.parseBoolean(propertyValue));
-          return true;
-        } else {
-          throw new InvalidOptionPropertyValueException("Invalid canexist, must be a boolean: " + propertyValue);
-        }      
+        setMustBeDir(Options.parseBooleanProperty(propertyName, propertyValue));
+      } else {
+        return false;
       }
-      return false;
+      return true;
     }
 
   }

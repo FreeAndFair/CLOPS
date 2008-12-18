@@ -113,11 +113,7 @@ public abstract class BasicOption<T> implements Option<T> {
         throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage(), iove);
       }
     } else if (propertyName.equalsIgnoreCase("sanitizeprefix")) {
-      if (BooleanOption.validBooleanString(propertyName)) {
-        sanitizePrefix = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid boolean value: " + propertyValue);
-      }
+      sanitizePrefix = Options.parseBooleanProperty(propertyName, propertyValue);
     } else if (propertyName.equalsIgnoreCase("suffixregexp")) {
       setMatchingSuffix(propertyValue);
     } else if (propertyName.equalsIgnoreCase("description")) {

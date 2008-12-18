@@ -57,11 +57,7 @@ public class StringEnumOption extends StringOption {
         choices.add(newChoice);
       }
     } else if (propertyName.equalsIgnoreCase("casesensitive")) {
-      if (BooleanOption.validBooleanString(propertyValue)) {
-        caseSensitive = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid casesensitive, must be a boolean: " + propertyValue);
-      }
+      caseSensitive = Options.parseBooleanProperty(propertyName, propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }

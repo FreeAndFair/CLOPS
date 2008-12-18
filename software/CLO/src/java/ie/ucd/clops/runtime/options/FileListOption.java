@@ -10,6 +10,7 @@ public class FileListOption extends ListOption<File> {
   
   public FileListOption(String identifier, String prefix) {
     super(identifier, prefix);
+    setAllowDash(false);
     constraints = new FileOptionConstraints();
   }
 
@@ -27,18 +28,23 @@ public class FileListOption extends ListOption<File> {
 
   @Override
   public boolean acceptsProperty(String propertyName) {
-    if (constraints.acceptsProperty(propertyName)) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
-    }
+    return 
+      constraints.acceptsProperty(propertyName) ||
+      propertyName.equalsIgnoreCase("allowdash") ||
+      super.acceptsProperty(propertyName);
   }
 
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
-    if (!constraints.setProperty(propertyName, propertyValue)) {
+    if (propertyName.equalsIgnoreCase("allowdash")) {
+      setAllowDash(Options.parseBooleanProperty(propertyName, propertyValue));
+    } else if (!constraints.setProperty(propertyName, propertyValue)) {
       super.setProperty(propertyName, propertyValue);
     }
   }
-  
+
+  private void setAllowDash(boolean allowDash) {
+    String fileRegex = allowDash ? FileOption.DASH_REGEXP : FileOption.NO_DASH_REGEXP;
+    setArgumentShape(fileRegex + "(" + splittingString + fileRegex + ")*");
+  }
 }

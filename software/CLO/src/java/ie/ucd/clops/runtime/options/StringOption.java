@@ -79,11 +79,7 @@ public class StringOption extends OneArgumentOption<String> {
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {
     if (propertyName.equalsIgnoreCase("stripquotesifpresent")) {
-      if (BooleanOption.validBooleanString(propertyValue)) {
-        stripquotes = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid stripquotesifpresent, must be a boolean: " + propertyValue);
-      }
+      stripquotes = Options.parseBooleanProperty(propertyName, propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }

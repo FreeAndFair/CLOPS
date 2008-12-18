@@ -57,17 +57,9 @@ public class CountedBooleanOption extends BasicOption<Integer> {
         throw new InvalidOptionPropertyValueException("Invalid countmax, " + propertyValue + " is not an integer.", nfe);
       }      
     } else if (propertyName.equalsIgnoreCase("warnonexceedingmax")) {
-      if (BooleanOption.validBooleanString(propertyValue)) {
-        warnOnExceedingMax = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid warnonexceedingmax, must be a boolean: " + propertyValue);
-      }      
+      warnOnExceedingMax = Options.parseBooleanProperty(propertyName, propertyValue);
     } else if (propertyName.equalsIgnoreCase("erroronexceedingmax")) {
-      if (BooleanOption.validBooleanString(propertyValue)) {
-        errorOnExceedingMax = Boolean.parseBoolean(propertyValue);
-      } else {
-        throw new InvalidOptionPropertyValueException("Invalid erroronexceedingmax, must be a boolean: " + propertyValue);
-      }      
+      errorOnExceedingMax = Options.parseBooleanProperty(propertyName, propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }

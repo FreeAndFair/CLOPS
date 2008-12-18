@@ -171,9 +171,9 @@ public class GenericCLParser {
       List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
       if (validityErrorList.size() > 0) {
         //We had a validity error.
-        System.out.println("Validity check failed.");
+        CLOLogger.getLogger().log(Level.SEVERE, "Validity check failed.");
         for (String errorMessage : validityErrorList) {
-          System.out.println(errorMessage);
+          CLOLogger.getLogger().log(Level.SEVERE, errorMessage);
         }
         return false;
       }

@@ -67,7 +67,7 @@ public class CodeGenerator {
 
     //SpecificRuleStore
     GeneratedClassOrInterface specificRuleStore = createSpecificRuleStore(parserName, dslInfo, dslInfo.getPackageName());
-    
+
     try {
       writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore, specificRuleStore);
       if (genTest) {
@@ -114,10 +114,10 @@ public class CodeGenerator {
     specificParser.addMethod(createRules);
     createRules.addStatement("return new " + parserName + "RuleStore()");    
   }
-  
+
   private static GeneratedClassOrInterface createSpecificRuleStore(String parserName, DSLInformation dslInfo, String packageName) {
     List<FlyRuleDescription> flyRuleDescriptions = dslInfo.getFlyRuleDescriptions();
-    
+
     GeneratedClassOrInterface ruleStore = new GeneratedClassOrInterface(parserName + "RuleStore", false, packageName, Visibility.Public);
     ruleStore.setSuperClass("ie.ucd.clops.runtime.rules.RuleStore");
     ruleStore.addImport("ie.ucd.clops.runtime.rules.Action");
@@ -126,11 +126,11 @@ public class CodeGenerator {
     ruleStore.addImport("ie.ucd.clops.runtime.rules.OverrideRule");
     ruleStore.addImport("ie.ucd.clops.runtime.rules.Rule");
     ruleStore.addImport("ie.ucd.clops.runtime.rules.ValidityRule");
-    
-    
+
+
     GeneratedMethod constructor = new GeneratedConstructor(parserName + "RuleStore");
     ruleStore.addMethod(constructor);
-    
+
     for (FlyRuleDescription flyRuleDescription : flyRuleDescriptions) {
       String opId = flyRuleDescription.getTriggeringOptionIdentifier();
       OptionDescription triggerOpDescription = dslInfo.getOptionDescriptionForIdentifier(opId);
@@ -166,13 +166,13 @@ public class CodeGenerator {
         }
       }
     }
-    
+
     for (OverrideRuleDescription ruleDesc : dslInfo.getOverrideRuleDescriptions()) {
       String id = getUniqueID();
       String ruleName = "rule" + id;
       String conditionName = "rule" + id + "Condition";
       String conditionText = ruleDesc.getConditionText();
-      
+
       if (conditionText == null || conditionText.equals("")) {
         constructor.addStatement("Rule " + ruleName + " = new OverrideRule(Expression.TRUE)");
       } else {
@@ -181,7 +181,7 @@ public class CodeGenerator {
         ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
         constructor.addStatement("Rule " + ruleName + " = new OverrideRule(" + conditionName + ")");
       }
-      
+
       int count = 1;
       for (AssignmentDescription desc : ruleDesc.getAssignments()) {
         OptionDescription lhsOpDescription = dslInfo.getOptionDescriptionForIdentifier(desc.getOptionIdentifier());
@@ -195,13 +195,13 @@ public class CodeGenerator {
         }
       }
     }
-    
+
     for (ValidityRuleDescription validityDesc : dslInfo.getValidityRuleDescriptions()) {
       String id = getUniqueID();
       String ruleName = "rule" + id;
       String conditionName = "rule" + id + "Condition";
       String conditionText = validityDesc.getConditionText();
-      
+
       if (conditionText == null || conditionText.equals("")) {
         System.out.println("Error, no condition for validity rule.");
       } else {
@@ -210,46 +210,46 @@ public class CodeGenerator {
         ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
         constructor.addStatement("Rule " + ruleName + " = new ValidityRule(" + conditionName + ")");
       }
-      
+
       String expressionName = "Rule" + id + "Expression";
       String parameter = "java.util.List<String>";
       String contents = "java.util.Arrays.asList(\"" + validityDesc.getExplanation() + "\")";
       ruleStore.addContainedClass(createSpecificExpression(expressionName, parameter, contents));
       constructor.addStatement(ruleName + ".addAction(new Action<" + parameter + ">(\"CLOPSERROROPTION\", new " + expressionName +  "()))");
-      
+
     }
-    
+
     return ruleStore;
   }
-  
+
   private static GeneratedClassOrInterface createSpecificExpression(String name, String type, String conditionText) {
     GeneratedClassOrInterface condition = new GeneratedClassOrInterface(name, false, null, Visibility.Public);
     condition.addModifier("static");
     condition.addImplementedInterface("ie.ucd.clops.runtime.rules.Expression<" + type + ">");
-    
+
     GeneratedMethod evaluate = new GeneratedMethod("evaluate", type, Visibility.Public);
     evaluate.addArg(new GeneratedArgument("optionStore", "ie.ucd.clops.runtime.options.OptionStore"));
     evaluate.addStatement("return " + conditionText);
     condition.addMethod(evaluate);
-    
+
     return condition;
   }
-  
+
   /*private static GeneratedClassOrInterface createSpecificAction(String name, String optionName, String actionText) {
     GeneratedClassOrInterface condition = new GeneratedClassOrInterface(name, false, null, Visibility.Public);
     condition.addModifier("static");
     condition.addImplementedInterface("ie.ucd.clops.runtime.rules.Action");
-    
+
     GeneratedMethod evaluate = new GeneratedMethod("perform", "void", Visibility.Public);
     evaluate.addArg(new GeneratedArgument("optionStore", "ie.ucd.clops.runtime.options.OptionStore"));
-    
+
     evaluate.addStatement("optionStore.getOptionByIdentifier(\"" + optionName + "\").set("  + actionText + ")");
-    
+
     condition.addMethod(evaluate);
-    
+
     return condition;
   }*/
-  
+
   private static int counter = 1;
   private static String getUniqueID() {
     return "" + counter++;
@@ -281,7 +281,7 @@ public class CodeGenerator {
     optionStore.addModifier("final");
     specificParser.addField(optionStore);
     specificParser.addMethod(createGetter(optionStore));
-    
+
     GeneratedField ruleStore = new GeneratedField("ruleStore", "ie.ucd.clops.runtime.rules.RuleStore");
     optionStore.addModifier("final");
     specificParser.addMethod(createGetter(ruleStore));
@@ -344,6 +344,7 @@ public class CodeGenerator {
       constructor.addStatement("addOption(" + Namer.getOptionInstanceName(opDesc) + ")");
     }
     constructor.addStatement(CLOPSErrorOption.ERROR_OPTION_ID + " = new ie.ucd.clops.runtime.options.CLOPSErrorOption()");
+    constructor.addStatement("addOption(" + CLOPSErrorOption.ERROR_OPTION_ID + ")");
 
     //Create and add each OptionGroup
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {

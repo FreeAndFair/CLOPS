@@ -21,10 +21,12 @@ public class RuleStore {
   private final Map<String,List<FlyRule>> optionIdentifierToFlyRuleMap;
   //Other data structures for normal rules...
   private final List<OverrideRule> overrideRules;
+  private final List<ValidityRule> validityRules;
     
   public RuleStore() {
     this.optionIdentifierToFlyRuleMap = new HashMap<String,List<FlyRule>>();
     this.overrideRules = new LinkedList<OverrideRule>();
+    this.validityRules = new LinkedList<ValidityRule>();
   }
   
   public void addFlyRule(String optionIdentifier, FlyRule rule) {
@@ -36,7 +38,15 @@ public class RuleStore {
     existingRules.add(rule);
     CLOLogger.getLogger().log(Level.FINE, "Added rule " + rule + " for " + optionIdentifier);
   }
+  
+  public void addOverrideRule(OverrideRule rule) {
+    overrideRules.add(rule);
+  }
 
+  public void addValidityRule(ValidityRule rule) {
+    validityRules.add(rule);
+  }
+  
   public List<FlyRule> getFlyRulesForOption(String optionIdentifier) {
     return optionIdentifierToFlyRuleMap.get(optionIdentifier);
   }
@@ -58,6 +68,12 @@ public class RuleStore {
   
   public void applyOverrideRules(OptionStore optionStore) throws InvalidOptionValueException {
     for (OverrideRule rule : overrideRules) {
+      rule.applyRule(optionStore);
+    }
+  }
+  
+  public void applyValidityRules(OptionStore optionStore) throws InvalidOptionValueException {
+    for (ValidityRule rule : validityRules) {
       rule.applyRule(optionStore);
     }
   }

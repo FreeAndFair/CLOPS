@@ -143,13 +143,14 @@ public class CodeGenerator {
 
         String conditionText = flyRuleDescription.getConditionText();
         if (conditionText == null || conditionText.equals("")) {
-          constructor.addStatement("Rule " + ruleName + " = new FlyRule(\"" + opId + "\", Expression.TRUE)");
+          constructor.addStatement("FlyRule " + ruleName + " = new FlyRule(\"" + opId + "\", Expression.TRUE)");
         } else {
           String conditionTypeName = "Rule" + id + "Condition";
           constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
           ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
-          constructor.addStatement("Rule " + ruleName + " = new FlyRule(\"" + opId + "\", " + conditionName + ")");
+          constructor.addStatement("FlyRule " + ruleName + " = new FlyRule(\"" + opId + "\", " + conditionName + ")");
         }
+        constructor.addStatement("addFlyRule(\"" + opId + "\"," + ruleName + ")");
 
 
         int count = 1;
@@ -174,13 +175,14 @@ public class CodeGenerator {
       String conditionText = ruleDesc.getConditionText();
 
       if (conditionText == null || conditionText.equals("")) {
-        constructor.addStatement("Rule " + ruleName + " = new OverrideRule(Expression.TRUE)");
+        constructor.addStatement("OverrideRule " + ruleName + " = new OverrideRule(Expression.TRUE)");
       } else {
         String conditionTypeName = "Rule" + id + "Condition";
         constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
         ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
-        constructor.addStatement("Rule " + ruleName + " = new OverrideRule(" + conditionName + ")");
+        constructor.addStatement("OverrideRule " + ruleName + " = new OverrideRule(" + conditionName + ")");
       }
+      constructor.addStatement("addOverrideRule(" + ruleName + ")");
 
       int count = 1;
       for (AssignmentDescription desc : ruleDesc.getAssignments()) {
@@ -204,11 +206,13 @@ public class CodeGenerator {
 
       if (conditionText == null || conditionText.equals("")) {
         System.out.println("Error, no condition for validity rule.");
+        continue;
       } else {
         String conditionTypeName = "Rule" + id + "Condition";
         constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
         ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
-        constructor.addStatement("Rule " + ruleName + " = new ValidityRule(" + conditionName + ")");
+        constructor.addStatement("ValidityRule " + ruleName + " = new ValidityRule(" + conditionName + ")");
+        constructor.addStatement("addValidityRule(" + ruleName + ")");
       }
 
       String expressionName = "Rule" + id + "Expression";

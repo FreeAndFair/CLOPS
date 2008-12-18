@@ -160,6 +160,14 @@ public class GenericCLParser {
         return false;
       }
       
+      
+      try {
+        flyStore.applyValidityRules(optionStore);
+      } catch (InvalidOptionValueException e) {
+        //Really, really shouldn't happen
+        CLOLogger.getLogger().log(Level.SEVERE, "Something internal went wrong.");
+        return false;
+      }
       List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
       if (validityErrorList.size() > 0) {
         //We had a validity error.

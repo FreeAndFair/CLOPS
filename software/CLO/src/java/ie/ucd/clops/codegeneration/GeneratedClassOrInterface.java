@@ -11,7 +11,10 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
   private final String packageName;
   private final boolean isInterface;
   private final List<String> implementedInterfaces;
+  private final List<GeneratedClassOrInterface> containedClasses;
   private String superClass;
+  
+  
   
   public GeneratedClassOrInterface(String name, boolean isInterface, String packageName) {
     super(name);
@@ -20,6 +23,7 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
     this.implementedInterfaces = new LinkedList<String>();
+    this.containedClasses = new LinkedList<GeneratedClassOrInterface>();
     this.packageName = packageName;
     this.superClass = null;
   }
@@ -31,6 +35,7 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     this.fields = new LinkedList<GeneratedField>();
     this.imports = new LinkedList<String>();
     this.implementedInterfaces = new LinkedList<String>();
+    this.containedClasses = new LinkedList<GeneratedClassOrInterface>();
     this.packageName = packageName;
     this.superClass = null;
   }
@@ -83,6 +88,12 @@ public class GeneratedClassOrInterface extends GeneratedCodeUnit {
     return isInterface;
   }
   
-  
+  public void addContainedClass(GeneratedClassOrInterface c) {
+    containedClasses.add(c);
+  }
+
+  public List<GeneratedClassOrInterface> getContainedClasses() {
+    return containedClasses;
+  }
   
 }

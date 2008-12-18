@@ -1,9 +1,9 @@
 package ie.ucd.clops.runtime.parser;
 
 import ie.ucd.clops.runtime.automaton.Tokenizer;
-import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.rules.RuleStore;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class TestGenericCLParser {
     private OptionStore os;
-    private FlyRuleStore flyStore;
+    private RuleStore flyStore;
     private BooleanOption bo1;
     private BooleanOption bo2;
     private GenericCLParser gp;
@@ -29,7 +29,7 @@ public class TestGenericCLParser {
         os.addOption(bo1);
         os.addOption(bo2);
         
-        flyStore = new FlyRuleStore();
+        flyStore = new RuleStore();
 
         gp = new GenericCLParser();
     }

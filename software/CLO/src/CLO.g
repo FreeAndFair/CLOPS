@@ -8,11 +8,7 @@ options {
 @header {
   package ie.ucd.clops.dsl.parser; 
   
-  import ie.ucd.clops.dsl.structs.OptionDescription;
-  import ie.ucd.clops.dsl.structs.OptionGroupDescription;
-  import ie.ucd.clops.dsl.structs.BasicOptionDescription;
-  import ie.ucd.clops.dsl.structs.FlyRuleDescription;
-  import ie.ucd.clops.dsl.structs.AssignmentDescription;
+  import ie.ucd.clops.dsl.structs.*;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.OptionType;
   import ie.ucd.clops.dsl.UnknownOptionTypeException;
@@ -185,21 +181,41 @@ fly_section  :  'FLY::' (fly_rule)*
 
 fly_rule  :  t=NAME
              { FlyRuleDescription or = new FlyRuleDescription($t.text); } 
-             '->' n1=NAME ':=' v1=constant
+             (
+               ':' condition
+               { or.setConditionText($condition.text); }
+             )?
+             '->' n1=NAME ':=' v1=assignment_rhs
              { or.addAssignment(new AssignmentDescription($n1.text, $v1.text)); } 
              (',' 
-              n=NAME ':=' v=constant
+              n=NAME ':=' v=assignment_rhs
               { or.addAssignment(new AssignmentDescription($n.text, $v.text)); }
              )* ';'
              { getDslInformation().addFlyRuleDescription(or); }
           ;
+          
+condition  :  UNCHECKED_JAVA
+           ;
+          
+assignment_rhs  :  UNCHECKED_JAVA
+                ;
 
 /**********************************************/
 
 overrides_section  :  'OVERRIDES::' (override_rule)*
                    ;
 
-override_rule  :  NAME comparison_op constant ('AND' NAME comparison_op constant)* '->' NAME ':=' constant (',' NAME ':=' constant)* ';'
+override_rule  :  condition '->' 
+                  { OverrideRuleDescription ord = new OverrideRuleDescription(); 
+                    ord.setConditionText($condition.text);                            } 
+                  n1=NAME ':=' v1=assignment_rhs
+                  { ord.addAssignment(new AssignmentDescription($n1.text, $v1.text)); } 
+                  (',' 
+                    n=NAME ':=' v=assignment_rhs
+                    { ord.addAssignment(new AssignmentDescription($n.text, $v.text)); }
+                  )* 
+                  { getDslInformation().addOverrideRuleDescription(ord); }
+                  ';'
                ;
 
 /**********************************************/
@@ -207,8 +223,19 @@ override_rule  :  NAME comparison_op constant ('AND' NAME comparison_op constant
 validity_section  :  'VALIDITY::' (validity_rule)*
                   ;
 
-validity_rule  :  NAME comparison_op constant ('OR' NAME comparison_op constant)* ';'
+validity_rule  :  condition
+                  { ValidityRuleDescription vrd = new ValidityRuleDescription(); 
+                    vrd.setConditionText($condition.text);                            }
+                  (
+                    ':' explanation
+                    { vrd.setExplanation($explanation.text); }
+                  )? 
+                  { getDslInformation().addValidityRuleDescription(vrd); } 
+                  ';'
                ;
+               
+explanation  :  STRING_CONSTANT
+             ;
 
 /**********************************************
  **********************************************/
@@ -244,7 +271,13 @@ comparison_op  :    '='
  ##############################################
  **********************************************/ 
 
-STRING_CONSTANT : '"' (~'"')* '"' 
+UNCHECKED_JAVA  : '#' .* '#'
+  {
+    setText($text.substring(1, $text.length()-1).trim());
+  }
+                ;
+
+STRING_CONSTANT : '"' .* '"' 
   { /* FIXME */ 
     setText($text.substring(1, $text.length() - 1));
   }

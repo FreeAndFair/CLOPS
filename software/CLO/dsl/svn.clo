@@ -185,7 +185,10 @@ WHERE::
                ;
   
 FLY::
-  
+  quiet : #"".equals("")# -> verbose := #false#;
+  verbose -> quiet := #false#; 
 OVERRIDES::
-  
+  #"test".equals("test")# -> recursive := #true#;
 VALIDITY::
+  # "test2".equals("test2")         # : "Two string must be equal." ;
+  # "test3".equals("test3")     # : "-v and -q cannot be used together" ;

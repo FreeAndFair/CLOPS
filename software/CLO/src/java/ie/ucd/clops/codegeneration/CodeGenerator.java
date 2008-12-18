@@ -7,14 +7,18 @@ import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.dsl.structs.FlyRuleDescription;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
+import ie.ucd.clops.dsl.structs.OverrideRuleDescription;
 import ie.ucd.clops.dsl.structs.Pair;
+import ie.ucd.clops.dsl.structs.ValidityRuleDescription;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -28,7 +32,6 @@ public class CodeGenerator {
   public static String quoteSimpleString(String s) {
     return "\"" + s + "\"";
   }
-
 
   /** Produces java String constant containing a given String that may contain newlines.*/
   public static String quoteMultilineString(String s) {
@@ -59,15 +62,17 @@ public class CodeGenerator {
     //OptionsInterface
     GeneratedClassOrInterface optionsInterface = createOptionsInterface(parserName, opDescriptions, dslInfo.getPackageName());
 
-    //SpecifiOptionsStore
+    //SpecificOptionsStore
     GeneratedClassOrInterface specificOptionStore = createSpecificOptionStore(parserName, opDescriptions, opGroupDescriptions, dslInfo.getPackageName());
 
+    //SpecificRuleStore
+    GeneratedClassOrInterface specificRuleStore = createSpecificRuleStore(parserName, dslInfo, dslInfo.getPackageName());
+    
     try {
-      if (!genTest) {
-        writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore);
-      } else {
+      writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore, specificRuleStore);
+      if (genTest) {
         GeneratedClassOrInterface tester = createTester(parserName, dslInfo.getPackageName());
-        writeGeneratedClasses(outputDir, specificParser, optionsInterface, specificOptionStore, tester);
+        writeGeneratedClass(outputDir, tester);
       }
     } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
@@ -104,29 +109,158 @@ public class CodeGenerator {
     return createOps;
   }
 
-  private static void createFlyRuleInitialisationCode(GeneratedClassOrInterface specificParser, Collection<FlyRuleDescription> overrideRuleDescriptions) {
+  private static void createRuleInitialisationCode(GeneratedClassOrInterface specificParser, String parserName) {
+    GeneratedMethod createRules = new GeneratedMethod("createRuleStore", "ie.ucd.clops.runtime.rules.RuleStore", Visibility.Private);
+    specificParser.addMethod(createRules);
+    createRules.addStatement("return new " + parserName + "RuleStore()");    
+  }
+  
+  private static GeneratedClassOrInterface createSpecificRuleStore(String parserName, DSLInformation dslInfo, String packageName) {
+    List<FlyRuleDescription> flyRuleDescriptions = dslInfo.getFlyRuleDescriptions();
+    
+    GeneratedClassOrInterface ruleStore = new GeneratedClassOrInterface(parserName + "RuleStore", false, packageName, Visibility.Public);
+    ruleStore.setSuperClass("ie.ucd.clops.runtime.rules.RuleStore");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.Action");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.Expression");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.FlyRule");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.OverrideRule");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.Rule");
+    ruleStore.addImport("ie.ucd.clops.runtime.rules.ValidityRule");
+    
+    
+    GeneratedMethod constructor = new GeneratedConstructor(parserName + "RuleStore");
+    ruleStore.addMethod(constructor);
+    
+    for (FlyRuleDescription flyRuleDescription : flyRuleDescriptions) {
+      String opId = flyRuleDescription.getTriggeringOptionIdentifier();
+      OptionDescription triggerOpDescription = dslInfo.getOptionDescriptionForIdentifier(opId);
+      if (triggerOpDescription == null) {
+        System.out.println("Error, option " + opId + " not found for fly rule");
+      } else {
+        String id = getUniqueID();
+        String ruleName = "rule" + id;
+        String conditionName = "rule" + id + "Condition"; 
 
-    GeneratedMethod createOverrideRules = new GeneratedMethod("createFlyRuleStore", "ie.ucd.clops.runtime.flyrules.FlyRuleStore", Visibility.Private);
-    specificParser.addMethod(createOverrideRules);
+        String conditionText = flyRuleDescription.getConditionText();
+        if (conditionText == null || conditionText.equals("")) {
+          constructor.addStatement("Rule " + ruleName + " = new FlyRule(\"" + opId + "\", Expression.TRUE)");
+        } else {
+          String conditionTypeName = "Rule" + id + "Condition";
+          constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
+          ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
+          constructor.addStatement("Rule " + ruleName + " = new FlyRule(\"" + opId + "\", " + conditionName + ")");
+        }
 
-    createOverrideRules.addStatement("ie.ucd.clops.runtime.flyrules.FlyRuleStore flyStore = new ie.ucd.clops.runtime.flyrules.FlyRuleStore()");
 
-    for (FlyRuleDescription orDescription : overrideRuleDescriptions) {
-      String opId = orDescription.getTriggeringOptionIdentifier();
-      for (AssignmentDescription desc : orDescription.getAssignments()) {
-        createOverrideRules.addStatement("flyStore.addAssignmentForOption(\"" + opId + "\", new ie.ucd.clops.runtime.options.OptionAssignment(\"" + desc.getOptionIdentifier() + "\", \"" + desc.getValue() + "\"))");
+        int count = 1;
+        for (AssignmentDescription desc : flyRuleDescription.getAssignments()) {
+          OptionDescription lhsOpDescription = dslInfo.getOptionDescriptionForIdentifier(desc.getOptionIdentifier());
+          if (lhsOpDescription == null) {
+            System.out.println("Error, option " + desc.getOptionIdentifier() + " not found for assignment in fly rule");
+          } else {
+            String expressionName = "Rule" + id + "Expression" + (count++);
+            String parameter = lhsOpDescription.getType().getOptionValueTypeParameterisation();
+            ruleStore.addContainedClass(createSpecificExpression(expressionName, parameter, desc.getValue()));
+            constructor.addStatement(ruleName + ".addAction(new Action<" + parameter + ">(\"" + desc.getOptionIdentifier() + "\", new " + expressionName +  "()))");
+          }
+        }
       }
     }
-
-    createOverrideRules.addStatement("return flyStore");
+    
+    for (OverrideRuleDescription ruleDesc : dslInfo.getOverrideRuleDescriptions()) {
+      String id = getUniqueID();
+      String ruleName = "rule" + id;
+      String conditionName = "rule" + id + "Condition";
+      String conditionText = ruleDesc.getConditionText();
+      
+      if (conditionText == null || conditionText.equals("")) {
+        constructor.addStatement("Rule " + ruleName + " = new OverrideRule(Expression.TRUE)");
+      } else {
+        String conditionTypeName = "Rule" + id + "Condition";
+        constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
+        ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
+        constructor.addStatement("Rule " + ruleName + " = new OverrideRule(" + conditionName + ")");
+      }
+      
+      int count = 1;
+      for (AssignmentDescription desc : ruleDesc.getAssignments()) {
+        OptionDescription lhsOpDescription = dslInfo.getOptionDescriptionForIdentifier(desc.getOptionIdentifier());
+        if (lhsOpDescription == null) {
+          System.out.println("Error, option " + desc.getOptionIdentifier() + " not found for assignment in fly rule");
+        } else {
+          String expressionName = "Rule" + id + "Expression" + (count++);
+          String parameter = lhsOpDescription.getType().getOptionValueTypeParameterisation();
+          ruleStore.addContainedClass(createSpecificExpression(expressionName, parameter, desc.getValue()));
+          constructor.addStatement(ruleName + ".addAction(new Action<" + parameter + ">(\"" + desc.getOptionIdentifier() + "\", new " + expressionName +  "()))");
+        }
+      }
+    }
+    
+    for (ValidityRuleDescription validityDesc : dslInfo.getValidityRuleDescriptions()) {
+      String id = getUniqueID();
+      String ruleName = "rule" + id;
+      String conditionName = "rule" + id + "Condition";
+      String conditionText = validityDesc.getConditionText();
+      
+      if (conditionText == null || conditionText.equals("")) {
+        System.out.println("Error, no condition for validity rule.");
+      } else {
+        String conditionTypeName = "Rule" + id + "Condition";
+        constructor.addStatement("Expression<Boolean> " + conditionName + " = new " + conditionTypeName + "()");
+        ruleStore.addContainedClass(createSpecificExpression(conditionTypeName, "Boolean", conditionText));
+        constructor.addStatement("Rule " + ruleName + " = new ValidityRule(" + conditionName + ")");
+      }
+      
+      String expressionName = "Rule" + id + "Expression";
+      String parameter = "java.util.List<String>";
+      String contents = "java.util.Arrays.asList(\"" + validityDesc.getExplanation() + "\")";
+      ruleStore.addContainedClass(createSpecificExpression(expressionName, parameter, contents));
+      constructor.addStatement(ruleName + ".addAction(new Action<" + parameter + ">(\"CLOPSERROROPTION\", new " + expressionName +  "()))");
+      
+    }
+    
+    return ruleStore;
+  }
+  
+  private static GeneratedClassOrInterface createSpecificExpression(String name, String type, String conditionText) {
+    GeneratedClassOrInterface condition = new GeneratedClassOrInterface(name, false, null, Visibility.Public);
+    condition.addModifier("static");
+    condition.addImplementedInterface("ie.ucd.clops.runtime.rules.Expression<" + type + ">");
+    
+    GeneratedMethod evaluate = new GeneratedMethod("evaluate", type, Visibility.Public);
+    evaluate.addArg(new GeneratedArgument("optionStore", "ie.ucd.clops.runtime.options.OptionStore"));
+    evaluate.addStatement("return " + conditionText);
+    condition.addMethod(evaluate);
+    
+    return condition;
+  }
+  
+  /*private static GeneratedClassOrInterface createSpecificAction(String name, String optionName, String actionText) {
+    GeneratedClassOrInterface condition = new GeneratedClassOrInterface(name, false, null, Visibility.Public);
+    condition.addModifier("static");
+    condition.addImplementedInterface("ie.ucd.clops.runtime.rules.Action");
+    
+    GeneratedMethod evaluate = new GeneratedMethod("perform", "void", Visibility.Public);
+    evaluate.addArg(new GeneratedArgument("optionStore", "ie.ucd.clops.runtime.options.OptionStore"));
+    
+    evaluate.addStatement("optionStore.getOptionByIdentifier(\"" + optionName + "\").set("  + actionText + ")");
+    
+    condition.addMethod(evaluate);
+    
+    return condition;
+  }*/
+  
+  private static int counter = 1;
+  private static String getUniqueID() {
+    return "" + counter++;
   }
 
   private static GeneratedClassOrInterface createOptionsInterface(String parserName, Collection<OptionDescription> opDescriptions, String outputPackage) {
     GeneratedClassOrInterface optionsInterface = new GeneratedClassOrInterface(parserName + "OptionsInterface", true, outputPackage, Visibility.Public);
     for (OptionDescription od : opDescriptions) {
-      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
+      GeneratedMethod isSetMethod = new GeneratedMethod(Namer.getIsSetMethodName(od), "boolean", Visibility.Public);
       isSetMethod.setAbstract(true);
-      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
+      GeneratedMethod getValueMethod = new GeneratedMethod(Namer.getGetValueMethodName(od), od.getType().getOptionValueTypeClass(), Visibility.Public);
       getValueMethod.setAbstract(true);
       optionsInterface.addMethod(isSetMethod);
       optionsInterface.addMethod(getValueMethod);
@@ -147,23 +281,24 @@ public class CodeGenerator {
     optionStore.addModifier("final");
     specificParser.addField(optionStore);
     specificParser.addMethod(createGetter(optionStore));
-    GeneratedField flyRuleStore = new GeneratedField("flyRuleStore", "ie.ucd.clops.runtime.flyrules.FlyRuleStore");
+    
+    GeneratedField ruleStore = new GeneratedField("ruleStore", "ie.ucd.clops.runtime.rules.RuleStore");
     optionStore.addModifier("final");
-    specificParser.addMethod(createGetter(flyRuleStore));
-    specificParser.addField(flyRuleStore);
+    specificParser.addMethod(createGetter(ruleStore));
+    specificParser.addField(ruleStore);
 
     specificParser.setSuperClass("ie.ucd.clops.runtime.parser.AbstractSpecificCLParser");
     GeneratedMethod constructor = new GeneratedConstructor(parserName + "Parser", Visibility.Public);
     constructor.addException("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
     constructor.addStatement("optionStore = createOptionStore()");
-    constructor.addStatement("flyRuleStore = createFlyRuleStore()");
+    constructor.addStatement("ruleStore = createRuleStore()");
     specificParser.addMethod(constructor);
 
     //Create the method that will initialise the OptionStore
     specificParser.addMethod(createOptionInitialisationMethod(parserName, outputPackage, specificParser, opDescriptions, opGroupDescriptions));
 
     //Create the method that will initialise the override rules
-    createFlyRuleInitialisationCode(specificParser, overrideRuleDescriptions);
+    createRuleInitialisationCode(specificParser, parserName);
 
     GeneratedMethod createFormat = new GeneratedMethod("getFormatString", "String", Visibility.Public);
     createFormat.addStatement("return \"" + formatString + "\"");
@@ -181,42 +316,45 @@ public class CodeGenerator {
     GeneratedClassOrInterface specificOptionStore = new GeneratedClassOrInterface(parserName + className, false, outputPackage, Visibility.Public);
     specificOptionStore.setSuperClass("ie.ucd.clops.runtime.options.OptionStore");
     specificOptionStore.addImplementedInterface(parserName + "OptionsInterface");
-    final String pack = "ie.ucd.clops.runtime.options";
-    specificOptionStore.addImport(pack + ".OptionGroup");
+    specificOptionStore.addImport("ie.ucd.clops.runtime.options.OptionGroup");
 
     for (OptionDescription opDesc : opDescriptions) {
-      GeneratedField field = new GeneratedField(opDesc.getIdentifier() + "OG", opDesc.getType().getOptionTypeClass(), Visibility.Private);
+      GeneratedField field = new GeneratedField(Namer.getOptionInstanceName(opDesc), opDesc.getType().getOptionTypeClass(), Visibility.Private);
       field.addModifier("final");
       specificOptionStore.addField(field);
     }
+    GeneratedField field = new GeneratedField(CLOPSErrorOption.ERROR_OPTION_ID, "ie.ucd.clops.runtime.options.CLOPSErrorOption", Visibility.Private);
+    field.addModifier("final");
+    specificOptionStore.addField(field);
 
     GeneratedConstructor constructor = new GeneratedConstructor(parserName + className, Visibility.Public);
     constructor.addException("ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException");
 
     //Create and add each Option
     for (OptionDescription opDesc : opDescriptions) {
-      constructor.addStatement(opDesc.getIdentifier() + "OG" + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\", \"" + OptionType.unifyRegexps(opDesc.getPrefixRegexps()) + "\")"); 
+      constructor.addStatement(Namer.getOptionInstanceName(opDesc) + " = new " + opDesc.getType().getOptionTypeClass() + "(\"" + opDesc.getIdentifier() + "\", \"" + OptionType.unifyRegexps(opDesc.getPrefixRegexps()) + "\")"); 
 
       for (Pair<String,String> entry : opDesc.getProperties()) {
-        constructor.addStatement(opDesc.getIdentifier() + "OG.setProperty(\"" + entry.getFirst() + "\",\"" + entry.getSecond() + "\")");
+        constructor.addStatement(Namer.getOptionInstanceName(opDesc) + ".setProperty(\"" + entry.getFirst() + "\",\"" + entry.getSecond() + "\")");
       }
       if (opDesc.getDescription() != null) {
         String desc = quoteMultilineString(opDesc.getDescription());
-        constructor.addStatement(opDesc.getIdentifier() + "OG.setProperty(\"description\", " + desc + ")");
+        constructor.addStatement(Namer.getOptionInstanceName(opDesc) + ".setProperty(\"description\", " + desc + ")");
       }
-      constructor.addStatement("addOption(" + opDesc.getIdentifier() + "OG)");
+      constructor.addStatement("addOption(" + Namer.getOptionInstanceName(opDesc) + ")");
     }
+    constructor.addStatement(CLOPSErrorOption.ERROR_OPTION_ID + " = new ie.ucd.clops.runtime.options.CLOPSErrorOption()");
 
     //Create and add each OptionGroup
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
-      constructor.addStatement("OptionGroup " + opGroupDesc.getIdentifier() + "OG" + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
-      constructor.addStatement("addOptionGroup(" + opGroupDesc.getIdentifier() + "OG)");
+      constructor.addStatement("OptionGroup " + Namer.getOptionGroupInstanceName(opGroupDesc) + " = new OptionGroup(\"" + opGroupDesc.getIdentifier() + "\")");
+      constructor.addStatement("addOptionGroup(" + Namer.getOptionGroupInstanceName(opGroupDesc) + ")");
     }
 
     //Loop again, this time adding the children
     for (OptionGroupDescription opGroupDesc : opGroupDescriptions) {
       for (String child : opGroupDesc.getChildren()) {
-        constructor.addStatement(opGroupDesc.getIdentifier() + "OG.addOptionOrGroup(" + child + "OG)");
+        constructor.addStatement(Namer.getOptionGroupInstanceName(opGroupDesc) + ".addOptionOrGroup(" + Namer.getOptionGroupChildInstanceName(child) + ")");
       }
     }
 
@@ -224,14 +362,14 @@ public class CodeGenerator {
 
 
     for (OptionDescription od : opDescriptions) {
-      GeneratedMethod isSetMethod = new GeneratedMethod("is" + od.getIdentifier() + "Set", "boolean", Visibility.Public);
-      isSetMethod.addStatement("return " + od.getIdentifier() + "OG" + ".hasValue()");
+      GeneratedMethod isSetMethod = new GeneratedMethod(Namer.getIsSetMethodName(od), "boolean", Visibility.Public);
+      isSetMethod.addStatement("return " + Namer.getOptionInstanceName(od) + ".hasValue()");
       specificOptionStore.addMethod(isSetMethod);
-      GeneratedMethod getValueMethod = new GeneratedMethod("get" + od.getIdentifier(), od.getType().getOptionValueTypeClass(), Visibility.Public);
-      getValueMethod.addStatement("return " + od.getIdentifier() + "OG" + ".getValue()");
+      GeneratedMethod getValueMethod = new GeneratedMethod(Namer.getGetValueMethodName(od), od.getType().getOptionValueTypeClass(), Visibility.Public);
+      getValueMethod.addStatement("return " + Namer.getOptionInstanceName(od) + ".getValue()");
       specificOptionStore.addMethod(getValueMethod);
-      GeneratedMethod getOptionMethod = new GeneratedMethod("get" + od.getIdentifier() + "Option", od.getType().getOptionTypeClass(), Visibility.Public);
-      getOptionMethod.addStatement("return " + od.getIdentifier() + "OG");
+      GeneratedMethod getOptionMethod = new GeneratedMethod(Namer.getGetOptionMethodName(od), od.getType().getOptionTypeClass(), Visibility.Public);
+      getOptionMethod.addStatement("return " + Namer.getOptionInstanceName(od));
       specificOptionStore.addMethod(getOptionMethod);
     }
 

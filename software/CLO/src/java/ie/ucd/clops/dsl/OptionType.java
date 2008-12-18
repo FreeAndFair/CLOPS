@@ -23,6 +23,7 @@ public class OptionType {
   private String typeDescriptionString;
   private String optionTypeClass;
   private String optionValueTypeClass;
+  private String optionValueTypeParameterisation; 
 
   /** 
    * Initialize a new {@code OptionType}.
@@ -30,14 +31,16 @@ public class OptionType {
    * @param typeDescriptionString  a textual description of the type
    * @param optionTypeClass a java class representing this option during option processing,
    *                     the class must implement the interface
-   *                     {@link ie.ucd.clops.runtime.options.Option} instanciated with {@code optionValueTypeClass}
-   * @param optionValueTypeClass a java class representing the value of this option type
+   *                     {@link ie.ucd.clops.runtime.options.Option} instantiated with {@code optionValueTypeClass}
+   * @param optionValueTypeClass a java type representing the return type value of this option type
+   * @param optionValueTypeParameterisation a java class type that is the parameterisation of Option<?> for this option type
    */  
-  public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass) {
+  public OptionType(final String typeDescriptionString, String optionTypeClass, String optionValueTypeClass, String optionValueTypeParameterisation) {
     this.type = count++;
     this.typeDescriptionString = typeDescriptionString;
     this.optionTypeClass = optionTypeClass;
     this.optionValueTypeClass = optionValueTypeClass;
+    this.optionValueTypeParameterisation = optionValueTypeParameterisation;
   }
   
   public int getType() {
@@ -58,6 +61,10 @@ public class OptionType {
 
   public String getOptionValueTypeClass() {
     return optionValueTypeClass;
+  }
+  
+  public String getOptionValueTypeParameterisation() {
+    return optionValueTypeParameterisation;
   }
 
   @Override

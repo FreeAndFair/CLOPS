@@ -61,7 +61,7 @@ public class GeneratedCodePrinter {
   }
 
   public void printClass(GeneratedClassOrInterface genClass) {
-    startLine();
+    newLine();
     
     printPackage(genClass.getPackageName());
     
@@ -118,6 +118,10 @@ public class GeneratedCodePrinter {
       printMethod(method);
     }
     
+    for (GeneratedClassOrInterface c : genClass.getContainedClasses()) {
+      printClass(c);
+    }
+    
     closeBraces();    
   }
   
@@ -149,6 +153,7 @@ public class GeneratedCodePrinter {
   }
   
   public void printMethod(GeneratedMethod method) {
+    newLine();
     printVisibility(method.getVisibility());
     printModifiers(method.getModifiers());
     if (!(method instanceof GeneratedConstructor)) {

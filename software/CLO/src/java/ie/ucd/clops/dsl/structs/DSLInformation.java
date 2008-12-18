@@ -1,8 +1,10 @@
 package ie.ucd.clops.dsl.structs;
 
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Simple AST-like datastructure for storing the information gathered
@@ -13,17 +15,23 @@ import java.util.LinkedList;
  */
 public class DSLInformation {
 
-  private final Collection<OptionDescription> optionDescriptions;
-  private final Collection<OptionGroupDescription> optionGroupDescriptions;
-  private final Collection<FlyRuleDescription> flyRuleDescriptions;
+  private final List<OptionDescription> optionDescriptions;
+  private final Map<String,OptionDescription> optionIdDescriptionMap;
+  private final List<OptionGroupDescription> optionGroupDescriptions;
+  private final List<FlyRuleDescription> flyRuleDescriptions;
+  private final List<OverrideRuleDescription> overrideRuleDescriptions;
+  private final List<ValidityRuleDescription> validityRuleDescriptions;
   private String parserName;
   private String packageName;
   private String formatString;
   
   public DSLInformation() {
     optionDescriptions = new LinkedList<OptionDescription>();
+    optionIdDescriptionMap = new HashMap<String,OptionDescription>();
     optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
     flyRuleDescriptions = new LinkedList<FlyRuleDescription>();
+    overrideRuleDescriptions = new LinkedList<OverrideRuleDescription>();
+    validityRuleDescriptions = new LinkedList<ValidityRuleDescription>();
     parserName = "";
     packageName = "";
   }
@@ -38,9 +46,10 @@ public class DSLInformation {
   
   public void addOptionDescription(OptionDescription optionDescription) {
     optionDescriptions.add(optionDescription);
+    optionIdDescriptionMap.put(optionDescription.getIdentifier(), optionDescription);
   }
   
-  public Collection<OptionDescription> getOptionDescriptions() {
+  public List<OptionDescription> getOptionDescriptions() {
     return optionDescriptions;
   }
   
@@ -48,7 +57,7 @@ public class DSLInformation {
     optionGroupDescriptions.add(optionGroupDescription);
   }
   
-  public Collection<OptionGroupDescription> getOptionGroupDescriptions() {
+  public List<OptionGroupDescription> getOptionGroupDescriptions() {
     return optionGroupDescriptions;
   }
   
@@ -56,7 +65,15 @@ public class DSLInformation {
     flyRuleDescriptions.add(flyRuleDescription);
   }
   
-  public Collection<FlyRuleDescription> getFlyRuleDescriptions() {
+  public void addOverrideRuleDescription(OverrideRuleDescription overrideRuleDescription) {
+    overrideRuleDescriptions.add(overrideRuleDescription);
+  }
+    
+  public void addValidityRuleDescription(ValidityRuleDescription validityRuleDescription) {
+    validityRuleDescriptions.add(validityRuleDescription);
+  }
+  
+  public List<FlyRuleDescription> getFlyRuleDescriptions() {
     return flyRuleDescriptions;
   }
 
@@ -75,5 +92,19 @@ public class DSLInformation {
   public void setPackageName(String packageName) {
     this.packageName = packageName;
   }
+  
+  public OptionDescription getOptionDescriptionForIdentifier(String identifier) {
+    return optionIdDescriptionMap.get(identifier);
+  }
+
+  public List<OverrideRuleDescription> getOverrideRuleDescriptions() {
+    return overrideRuleDescriptions;
+  }
+
+  public List<ValidityRuleDescription> getValidityRuleDescriptions() {
+    return validityRuleDescriptions;
+  }
+  
+  
   
 }

@@ -5,11 +5,12 @@ import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
-import ie.ucd.clops.runtime.flyrules.FlyRuleStore;
+import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.rules.RuleStore;
 
 import static ie.ucd.clops.runtime.options.IMatchable.SEP;
 
@@ -41,7 +42,7 @@ public class GenericCLParser {
    * @param args the commandline as given to the main method
    * @return {@code true} iff the commmandline has been successfully parsed
    */
-  public boolean parse(String formatString, OptionStore optionStore, FlyRuleStore flyStore, String[] args)
+  public boolean parse(String formatString, OptionStore optionStore, RuleStore flyStore, String[] args)
       throws Tokenizer.IllegalCharacterException,
              Tokenizer.UnknownOptionException {
 
@@ -149,13 +150,35 @@ public class GenericCLParser {
     CLOLogger.getLogger().log(Level.FINE, "Final Option values: ");
     CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
     CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
-    return automaton.isAccepting();
+    
+    if (automaton.isAccepting()) {
+      try {
+        flyStore.applyOverrideRules(optionStore);
+      } catch (InvalidOptionValueException e) {
+        //Again, shouldn't happen?
+        CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from override rule: " + e);
+        return false;
+      }
+      
+      List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
+      if (validityErrorList.size() > 0) {
+        //We had a validity error.
+        System.out.println("Validity check failed.");
+        for (String errorMessage : validityErrorList) {
+          System.out.println(errorMessage);
+        }
+        return false;
+      }
+      
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
   private static final Pattern unmatcher = Pattern.compile(Option.SEP + "*[^" + Option.SEP_STRING + "]+");
   private static String suggestUnmatchedOption(String argumentString, int offset) {
-    //String current = argumentString.substring(offset);
     Matcher matcher = unmatcher.matcher(argumentString);
     matcher.region(offset, argumentString.length());
     

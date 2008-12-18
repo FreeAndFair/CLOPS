@@ -1,7 +1,6 @@
 package ie.ucd.clops.dsl;
 
 import ie.ucd.clops.codegeneration.CodeGenerator;
-import ie.ucd.clops.documentation.DocumentGenerator;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;

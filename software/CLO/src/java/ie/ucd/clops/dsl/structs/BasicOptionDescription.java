@@ -2,10 +2,8 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Fintan

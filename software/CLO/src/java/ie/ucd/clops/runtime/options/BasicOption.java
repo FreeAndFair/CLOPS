@@ -144,7 +144,6 @@ public abstract class BasicOption<T> implements Option<T> {
 
   protected abstract String getTypeString();
 
-  private final static Pattern ALIAS_PATTERN = Pattern.compile("\\(\\?\\:(.+)\\)");
   //Warning, currently a VERY naive implementation
   public List<String> getAliases() {
     String[] parts = prefix.split("\\|");

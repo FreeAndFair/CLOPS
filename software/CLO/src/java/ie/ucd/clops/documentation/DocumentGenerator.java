@@ -4,7 +4,6 @@ import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Writer;
 

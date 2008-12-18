@@ -3,7 +3,6 @@ package ie.ucd.clops.dsl.structs;
 import ie.ucd.clops.dsl.OptionType;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *

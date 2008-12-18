@@ -73,9 +73,9 @@ public class AutomatonTest {
 	private static class TestInstance {
 		String stage;
 		String format;
-		Option[] follow;
+		Option<?>[] follow;
 		String result;
-		TestInstance( String stage, String format, Option[] follow, String result) {
+		TestInstance( String stage, String format, Option<?>[] follow, String result) {
 			this.stage = stage;
 			this.format = format;
 			this.follow = follow;
@@ -105,7 +105,7 @@ public class AutomatonTest {
 		try {
 			tokens = new Tokenizer().tokenize( ti.format, os);
 			a = new Automaton<IMatchable>( tokens);
-			for (Option o:ti.follow)
+			for (Option<?> o:ti.follow)
 				a.nextStep( o);
 			result = stringTransitions( a.availableTransitions());
 			if (a.isAccepting())
@@ -143,10 +143,10 @@ public class AutomatonTest {
 	public static void main(String[] args) throws Exception {
 
 		OptionStore os = new OptionStore();
-		Option bo1 = new BooleanOption("bo1", "bo1");
-		Option bo2 = new BooleanOption("bo2", "bo2");
-		Option bo3 = new BooleanOption("bo3", "bo3");
-		Option bo4 = new BooleanOption("bo4", "bo4");
+		Option<?> bo1 = new BooleanOption("bo1", "bo1");
+		Option<?> bo2 = new BooleanOption("bo2", "bo2");
+		Option<?> bo3 = new BooleanOption("bo3", "bo3");
+		Option<?> bo4 = new BooleanOption("bo4", "bo4");
 
 		os.addOption( bo1);
 		os.addOption( bo2);

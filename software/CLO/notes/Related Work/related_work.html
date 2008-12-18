@@ -1,0 +1,149 @@
+
+<html>
+<head>
+<title>CLOPS - Related projects</title>
+<style>
+body {font-family: sans-serif;}
+table {border: 1px solid gray;}
+td {border: 1px solid gray;}
+th {background-color:#88f;}
+th.clear {background-color: white;}
+.low {background-color:#f88;}
+.mid {background-color:#ff8;}
+.high {background-color:#8f8;}
+</style>
+</head>
+<body>
+<h1>CLOPS - Related projects</h1>
+<table>
+<tr>
+<th class="clear">Project/Feature</th>
+<th>CLOPS</th>
+<th>JewelCLI</th>
+<th>Commons CLI</th>
+<th>Parse-cmd</th>
+<th>JCommando</th>
+</tr>
+<tr>
+<th>Type of specification</th>
+<td>DSL, separate file</td>
+<td>Annotation of getter methods</td>
+<td>Builder pattern</td>
+<td>Builder pattern</td>
+<td>DSL/XML, separate file<td>
+</tr>
+<tr>
+<th>Variants of option names</th>
+<td class="high">Yes</td>
+<td class="high">Yes</td>
+<td class="mid">Short/long</td>
+<td class="low">No</td>
+<td class="mid">Short/long</td>
+</tr>
+<tr>
+<th>Alternatives to hyphen</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="mid">One command</td>
+</tr>
+<tr>
+<th>Option format ("-m X","-m=X","-mX")</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+</tr>
+<tr>
+<th>Dynamic option names (-1,-2,..,-9)</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+</tr>
+<tr>
+<th>Optional parameters</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class=""></td>
+</tr>
+<tr>
+<th>Required parameters</th>
+<td class="high">Yes</td>
+<td>Yes?</td>
+<td class="low">No</td>
+<td class="high">Yes</td>
+<td class=""></td>
+</tr>
+<tr>
+<th>Default parameters</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class=""></td>
+<td class=""></td>
+<td class=""></td>
+</tr>
+<tr>
+<th>Types of parameters (Boolean, Integer, etc.)</th>
+<td class="high">Basic and specific types</td>
+<td class="high">Java primitive types, Class, generic List</td>
+<td class="low">String only</td>
+<td class="low">String only</td>
+<td class="mid">Basic types</td>
+</tr>
+<tr>
+<th>Parameter validation (type-based, limits, regular expression)</th>
+<td class="high">Type, attributes, regexp</td>
+<td class="mid">Type-based</td>
+<td class="low">None</td>
+<td class="low">None</td>
+<td class="mid">Range checking</td>
+</tr>
+<tr>
+<th>Command line format, ordering of parameters</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+</tr>
+<tr>
+<th>Multiple use of one option</th>
+<td class="high">Yes</td>
+<td class=""></td>
+<td class=""></td>
+<td class="low">No, only first one counts</td>
+<td class="low">No, only first one counts</td>
+</tr>
+<tr>
+<th>Generation of help</th>
+<td class="">No?</td>
+<td class="">No?</td>
+<td class="high">Yes</td>
+<td class="high">Yes</td>
+<td></td>
+</tr>
+<tr>
+<th>Fly rules</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="high">Yes, method call-backs</td>
+</tr>
+<tr>
+<th>Relation among parameters</th>
+<td class="high">Yes</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="low">No</td>
+<td class="mid">In context of a command, boolean and/or/xor structure</td>
+</tr>
+</table>
+</body>
+</html>

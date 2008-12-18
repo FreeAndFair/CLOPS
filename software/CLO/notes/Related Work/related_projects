@@ -1,0 +1,25 @@
+
+xJOpt Simple
+http://jopt-simple.sourceforge.net/
+
+*parse-cmd
+http://code.google.com/p/parse-cmd/
+
+*Apache Commons CLI
+http://commons.apache.org/cli/
+
+xcli-parser
+http://code.google.com/p/cli-parser/
+
+xargs4j
+http://args4j.dev.java.net/
+
+*JewelCli
+http://jewelcli.sourceforge.net/
+JewelCli uses an annotated interface definition to automatically parse and present command line arguments
+
+jargs
+
+
+More to learn in
+http://javathink.blogspot.com/2008/04/why-does-parsing-arguments-in-java-suck.html

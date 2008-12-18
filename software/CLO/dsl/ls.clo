@@ -36,7 +36,7 @@ ARGS::
         :"list entries by columns"
 
      color:{"--color"}:{string-enum}
-        :[choices="never,always,auto" default="never" ]
+        :[suffixregexp="(=((never)|(always)|(auto)))?\\00" choices="never,always,auto" default="never" ]
         :"control whether color is used to distinguish file types"
 
      /*That is equivalent to using --color=none.  Using the --color

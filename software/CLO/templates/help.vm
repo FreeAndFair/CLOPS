@@ -11,6 +11,16 @@ Name: $option.Identifier
 Description: $!option.Description
 #end
 
+Option Groups
+=============
+
+#foreach($group in $information.getOptionGroupDescriptions())
+Group: $group.Identifier
+#foreach($child in $group.getChildren())
+  $!child #end
+
+#end
+
 Rules
 =====
 #foreach($rule in $information.getOverrideRuleDescriptions())

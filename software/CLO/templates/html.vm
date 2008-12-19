@@ -13,6 +13,15 @@ $information.PackageName
 <h3>$option.Identifier</h3>
 <p>$!option.Description<p>
 #end
+<h2>Option Groups</h2>
+
+#foreach($group in $information.getOptionGroupDescriptions())
+<h3>$group.Identifier</h3>
+<p>
+#foreach($child in $group.getChildren())
+  $!child #end
+</p>
+#end
 <h2>Rules</h2>
  
 #foreach($rule in $information.getOverrideRuleDescriptions())

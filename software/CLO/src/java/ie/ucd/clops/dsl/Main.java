@@ -87,17 +87,32 @@ public class Main {
         if (options.isoutput_packageSet()) {
           parser.getDslInformation().setPackageName(options.getoutput_package());
         }
-        boolean genTest = options.isgen_testSet() && options.getgen_test();
-        CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
         
-        CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
+        if (options.isoutputSet()) {
+          boolean genTest = options.isgen_testSet() && options.getgen_test();
+          CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
+          CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
+        }        
       
-        // Generate Documentation
-        DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
-	    documentation.generate ("help.txt", DocumentGenerator.HELP_TEMPLATE);
-		documentation.generate ("help.html", DocumentGenerator.HTML_TEMPLATE);
-        documentation.generate ("all.txt", "templates/all.vm"); 
-        // TODO I think there should be a nicer mechanism how to add new templates --miko
+        if (options.isgen_docsSet()) {
+          DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
+          File outputFile = options.getgen_docs();
+          // Generate Documentation
+          if (options.isgen_docs_customSet()) {
+            File template = options.getgen_docs_custom();
+            documentation.generate(outputFile, template.getAbsolutePath());
+          } else if (options.isgen_docs_builtinSet()) {
+            String templateLoc = null;
+            if (options.getgen_docs_builtin().equalsIgnoreCase("txt")) {
+              templateLoc = DocumentGenerator.HELP_TEMPLATE; 
+            } else if (options.getgen_docs_builtin().equalsIgnoreCase("html")) {
+              templateLoc = DocumentGenerator.HTML_TEMPLATE;
+            }
+            if (templateLoc != null) {
+              documentation.generate(outputFile, templateLoc);
+            }
+          }
+        }
         
         return true;
       } else {

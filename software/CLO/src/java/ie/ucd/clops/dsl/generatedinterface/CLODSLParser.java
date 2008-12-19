@@ -32,7 +32,7 @@ public class CLODSLParser extends ie.ucd.clops.runtime.parser.AbstractSpecificCL
   }
   
   public String getFormatString() {
-    return "( input output optional_args*) | ( output input optional_args*)";
+    return "all_args*";
     
   }
   

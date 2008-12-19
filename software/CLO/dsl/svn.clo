@@ -121,6 +121,8 @@ ARGS::
    keep_changelists:{"--keep-changelists"}
      :"don't delete changelists after commit"
 
+   version:{"--version"}
+     :" see the program version and RA modules."
 
    //global options
    username:{"--username"}:{string}
@@ -136,7 +138,7 @@ ARGS::
       
 FORMAT::
 //subcommand to be expanded..
-    ( option* subcommand option* )
+    ( global_option* subcommand global_option* )
   | ( help subcommand+ )
   | ( version quiet? )
   ;

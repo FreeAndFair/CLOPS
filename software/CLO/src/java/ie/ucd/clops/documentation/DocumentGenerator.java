@@ -5,10 +5,12 @@ import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.logging.CLOLogger;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Writer;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.velocity.Template;
@@ -35,51 +37,65 @@ public class DocumentGenerator {
 	public static final String HELP_TEMPLATE = "templates/help.vm";
 	private VelocityContext context;
 
-	public DocumentGenerator(DSLInformation information) throws Exception {
-		Velocity.init();
-		context = createContext(information);
-	}
 
-	/**
-	 * Generate command line options help documentation from DSL information using template.
-	 * 
-	 * @param filename The filename of the document to be created
-	 * @param templateName The template from which to create the document
-	 */
-	public void generate(String filename, String templateName) {
+  public DocumentGenerator(DSLInformation information) throws Exception {
+    Velocity.init(configureVelocityLoader());
+    context = createContext(information);	
+  }
 
-		if (Velocity.resourceExists(templateName)) {
-			try {
-				Template template = Velocity.getTemplate(templateName);
+  private static Properties configureVelocityLoader() {
+    Properties prop = new Properties();
+    prop.put("resource.loader", "file, class");
+    prop.put("class.resource.loader.description", "Velocity Classpath Resource Loader");
+    prop.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+    prop.put("file.resource.loader.description", "Velocity File Resource Loader");
+    prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
+    prop.put("file.resource.loader.path", "");
+    return prop;
+  }
 
-				PrintStream printStream = new PrintStream(filename);
+  /**
+   * 
+   * @param filename
+   * @param templateName
+   * @throws Exception
+   * 
+   * <JML>
+   *   requires velocity.resourceExists(templateName);
+   * </JML>
+   */
+  public void generate(File outputFile, String templateFile) {
 
-				Writer writer = new java.io.OutputStreamWriter(printStream);
+    if (Velocity.resourceExists(templateFile)) {
 
-				template.merge(context, writer);
+      try {
+        Template template = Velocity.getTemplate(templateFile);
+        FileWriter writer = new FileWriter(outputFile);
 
-				writer.flush();
-				writer.close();
-			} catch (ResourceNotFoundException e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			} catch (ParseErrorException e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			} catch (MethodInvocationException e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			} catch (FileNotFoundException e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			} catch (IOException e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			} catch (Exception e) {
-				CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
-			}
-		} else {
-			CLOLogger.getLogger().log(Level.WARNING,
-			    "Unable to find resource for document generation template in " + templateName);
-		}
+        template.merge(context, writer);
+        writer.flush();
+        writer.close();
+        CLOLogger.getLogger().log(Level.INFO, "Successfully created documentation " + outputFile.getPath());
 
-	}
+      } catch (ResourceNotFoundException e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      } catch (ParseErrorException e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      } catch (MethodInvocationException e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      } catch (FileNotFoundException e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      } catch (IOException e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      } catch (Exception e) {
+        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+      }
+    } else {
+      CLOLogger.getLogger().log(Level.SEVERE, "Error, template not found: " + templateFile);
+    }
 
+  }
+    
 	/**
 	 * Define the context for document generation
 	 * 
@@ -112,8 +128,8 @@ public class DocumentGenerator {
 
 		try {
 			DocumentGenerator documentation = new DocumentGenerator(information);
-			documentation.generate("help.txt", HELP_TEMPLATE);
-			documentation.generate("help.html", HTML_TEMPLATE);
+//			documentation.generate("help.txt", HELP_TEMPLATE);
+//			documentation.generate("help.html", HTML_TEMPLATE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -23,4 +23,16 @@ public interface CLODSLOptionsInterface {
   
   public String getoption_factory();
   
+  public boolean isgen_docsSet();
+  
+  public java.io.File getgen_docs();
+  
+  public boolean isgen_docs_builtinSet();
+  
+  public String getgen_docs_builtin();
+  
+  public boolean isgen_docs_customSet();
+  
+  public java.io.File getgen_docs_custom();
+  
 }

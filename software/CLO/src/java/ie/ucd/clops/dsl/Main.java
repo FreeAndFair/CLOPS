@@ -109,6 +109,7 @@ public class Main {
               templateLoc = DocumentGenerator.HTML_TEMPLATE;
             }
             if (templateLoc != null) {
+                //TODO templateLoc should be an absolute path
               documentation.generate(outputFile, templateLoc);
             }
           }

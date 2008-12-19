@@ -171,6 +171,11 @@
         <enable/>
       </assertions>
       <classpath refid="test.path"/>
+      <!-- this should probably use the -b option and -d should produce a file -->
+      <!-- corresponding to the intput file -->
+      <arg value="-d=./test/o.html"/>
+      <arg value="-c"/>
+      <arg value="./templates/html.vm"/> 
       <arg value="-i"/>
       <arg value="${test-file}"/>
       <arg value="-o"/>

@@ -26,11 +26,13 @@ pre {
   font-family: courier, monospace;
   font-size: large;
   padding-left: 1cm;
-  background-color: #eeeeee;
 }
 
 code {
   font-family: courier, monospace;
+}
+
+.cmdline {
   background-color: #eeeeee;
 }
 
@@ -43,6 +45,7 @@ code {
 
 table#related-work {
   border: 1px solid gray;
+  font-size: small;
 }
 
 table#related-work td {

@@ -139,7 +139,7 @@ method:</p>
 
 <p>Recompile and run.</p>
 
-<pre>
+<pre class="cmdline">
 ant
 java -jar jars/wc.jar ARGUMENTS
 </pre>
@@ -150,18 +150,18 @@ java -jar jars/wc.jar ARGUMENTS
 properties that customize its behavior, like <tt>between</tt>,
 <tt>allowMultiple</tt>, and <tt>allowDash</tt>. The
 default behavior for <tt>file-list</tt> is to recognize
-command lines like <code>-f nameA,nameB</code> and like
-<code>-f=nameA,nameB</code>. If the set of aliases
+command lines like <code class="cmdline">-f nameA,nameB</code> and like
+<code class="cmdline">-f=nameA,nameB</code>. If the set of aliases
 is left empty then it will recognize command lines
-like <code>=nameA,nameB</code> or <code>&quot;&quot;
+like <code class="cmdline">=nameA,nameB</code> or <code class="cmdline">&quot;&quot;
 nameA,nameB</code>. In other words, it still expects <tt>=</tt>
 or an argument delimiter between the empty prefix and the file
-names. If we want command lines like <code>nameA,nameB</code> to
+names. If we want command lines like <code class="cmdline">nameA,nameB</code> to
 be recognized then we must say <tt>between=&quot;&quot;</tt>.
 The second property, <tt>allowMultiple</tt>, defaults to
 <tt>true</tt> and means that a comma&nbsp;(<tt>,</tt>) can be
 used to separate multiple file names. But <tt>wc</tt> considers
-the command line <code>x,y</code> as being one file name, not
+the command line <code class="cmdline">x,y</code> as being one file name, not
 two, so we set <tt>allowMultiple</tt> to <tt>false</tt> to get
 this behavior. Finally, because it is by far the most common
 behavior, the default is not to allow file names that begin with
@@ -185,7 +185,7 @@ sugar to make your life easier. Read on.</p>
 
 <p>SCRAPS: If the set of aliases would contain
 <tt>&quot;-f&quot;</tt> instead of being empty then command lines
-like <code>-fnameA,nameB</code> would be recognized. The splitter
+like <code class="cmdline">-fnameA,nameB</code> would be recognized. The splitter
 itself can be changed by using the property <tt>splitter</tt>.
 You'd want to do this, for example, to read things like a
 classpath. </p>

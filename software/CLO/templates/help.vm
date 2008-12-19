@@ -1,37 +1,32 @@
 ## help.vm
 $information.ParserName
-$information.getParserName()
 
 Options
 =======
+#parse("templates/all.vm")
 
 #foreach($option in $information.getOptionDescriptions())
 
 Name: $option.Identifier
 Description: $!option.Description
-
 #end
 
 Rules
 =====
-
 #foreach($rule in $information.getOverrideRuleDescriptions())
 
 #foreach($assignment in $rule.getAssignments())
 Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 Condition: $!rule.ConditionText
-
 #end
 
 #foreach($rule in $information.getValidityRuleDescriptions())
-
 Explanation: $rule.getExplanation()
 #foreach($assignment in $rule.getAssignments())
 Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 Condition: $!rule.ConditionText
-
 #end
 
 #foreach($rule in $information.getFlyRuleDescriptions())
@@ -41,5 +36,4 @@ Triggered by: $!rule.TriggeringOptionIndentifier
 Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 Condition: $!rule.getConditionText()
-
 #end

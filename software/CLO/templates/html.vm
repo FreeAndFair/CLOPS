@@ -1,21 +1,17 @@
 ## html.vm
-
-
 <html>
 <title>
 $information.ParserName
 </title>
 <head>
 $information.PackageName
-$information.getPackageName()
 </head>
 <body>
 <h2>Options</h2>
 #foreach($option in $information.getOptionDescriptions())
 
 <h3>$option.Identifier</h3>
-<p>$option.Description<p>
-
+<p>$!option.Description<p>
 #end
 <h2>Rules</h2>
  
@@ -23,35 +19,33 @@ $information.getPackageName()
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: assignment.OptionIdentifier = assignment.Value
+Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 </p>
 <p>
-Condition: $rule.ConditionText
+Condition: $!rule.ConditionText
 </p>
-
 #end
 
 #foreach($rule in $information.getValidityRuleDescriptions())
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: assignment.OptionIdentifier = assignment.Value
+Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 </p>
-<p>Condition: $rule.ConditionText
+<p>Condition: $!rule.ConditionText
 </p>
-
 #end
 
 #foreach($rule in $information.getFlyRuleDescriptions())
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: assignment.OptionIdentifier = assignment.Value
+Assignment: $assignment.OptionIdentifier = $assignment.Value
 #end
 </p>
-<p>Condition: $rule.ConditionText
+<p>Condition: $!rule.ConditionText
 </p>
 
 #end

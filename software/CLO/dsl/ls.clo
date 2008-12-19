@@ -61,10 +61,10 @@ ARGS::
         :"append indicator (one of */=>@|) to entries"
 
      file_type:{"--file-type"}
-        :"like {classify}, except do not append ‘*’"
+        :"like {classify}, except do not append `*'
 
      format:{"--format"}:{string-enum}:
-              [choices="across,commas,horizontal,longFormat,single-column,verbose,vertical"]
+              [choices="across,commas,horizontal,long,single-column,verbose,vertical"]
 //           across  -x, commas -m, horizontal -x, long -l, single-column -1,
 //           verbose -l, vertical -C
 
@@ -73,13 +73,13 @@ ARGS::
         :"like -l --time-style=full-iso"
 
      list_group:{"-g"}
-        :"like {-l}, but do not list owner"
+        :"like {long}, but do not list owner"
 
      no_group:{"-G", "--no-group"}
-        :"like {-l}, but do not list group"
+        :"like {long}, but do not list group"
 
      human_readable:{"-h", "--human-readable"}
-        :"with -l, print sizes in human readable format (e.g., 1K 234M 2G)"
+        :"with {long}, print sizes in human readable format (e.g., 1K 234M 2G)"
 
      human_readable_decimal:{"--si"}
         :"like {human_readable} but use powers of 1000 not 1024"
@@ -101,14 +101,14 @@ ARGS::
 //              (-F)
 
       inode:{"-i", "--inode"}
-         :"with {-l}, print the index number of each file"
+         :"with {long}, print the index number of each file"
 
       ignores:{"-I", "--ignore"}:{string}
               :"do not list implied entries matching shell pattern"
 
       oneK_block:{"-k"}:"like --block-size=1K"
 
-      longFormat:{"-l"}:"use a long listing format"
+      long:{"-l"}:"use a long listing format"
 
       dereference:{"-L", "--dereference"}
           :"when showing file information for a symbolic link, show information  
@@ -122,7 +122,7 @@ ARGS::
       literal:{"-N", "--literal"}
           :"print raw entry names (don’t treat e.g. control characters  specially)"
 
-      long_nogroups:{"-o"}:"like {longFormat}, but do not list group information"
+      long_nogroups:{"-o"}:"like {long}, but do not list group information"
 
        slash:{"-p"}
            :"append / indicator to directories"
@@ -148,7 +148,7 @@ ARGS::
 
        recursive:{"-R", "--recursive"}:"list subdirectories recursively"
 
-       size:{"-s", "--size"}:"with {longFormat}, print size of each file, in blocks"
+       size:{"-s", "--size"}:"with {long}, print size of each file, in blocks"
 
        sortby_size:{"-S"}:"sort by file size"
 
@@ -219,17 +219,17 @@ FORMAT::
   allOpts*;
 
 WHERE::
-  allOpts: color OR help OR version OR longFormat OR one;
+  allOpts: color OR help OR version OR long OR one;
 
 FLY::
-   longFormat -> one:=#false#;
-   one -> longFormat:=#false#;
+   long -> one:=#false#;
+   one -> long:=#false#;
  //  color -> color:=#"auto"#;
 
 /*   across <-> format="across";
    horizontal <-> format="across";
    commas <-> format="commas";
-   longFormat <-> format="long";
+   long<-> format="long";
    single-column <-> format="single-column";
    verbose <-> format="verbose";
    vertical <-> format="vertical";

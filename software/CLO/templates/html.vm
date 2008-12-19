@@ -11,7 +11,7 @@ $information.PackageName
 #foreach($option in $information.getOptionDescriptions())
 
 <h3>$option.Identifier</h3>
-<p>$!option.Description<p>
+<p>$!option.Description</p>
 #end
 <h2>Option Groups</h2>
 

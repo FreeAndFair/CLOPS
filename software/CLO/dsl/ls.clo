@@ -61,7 +61,7 @@ ARGS::
         :"append indicator (one of */=>@|) to entries"
 
      file_type:{"--file-type"}
-        :"like {classify}, except do not append `*'
+        :"like {classify}, except do not append *"
 
      format:{"--format"}:{string-enum}:
               [choices="across,commas,horizontal,long,single-column,verbose,vertical"]
@@ -120,7 +120,7 @@ ARGS::
            :"like -l, but list numeric user and group IDs"
 
       literal:{"-N", "--literal"}
-          :"print raw entry names (don’t treat e.g. control characters  specially)"
+          :"print raw entry names (don't treat e.g. control characters  specially)"
 
       long_nogroups:{"-o"}:"like {long}, but do not list group information"
 

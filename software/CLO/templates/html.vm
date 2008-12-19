@@ -1,9 +1,59 @@
 ## html.vm
-$information.PackageName
-$information.getPackageName()
+
 
 <html>
 <title>
 $information.ParserName
 </title>
+<head>
+$information.PackageName
+$information.getPackageName()
+</head>
+<body>
+<h2>Options</h2>
+#foreach($option in $information.getOptionDescriptions())
+
+<h3>$option.Identifier</h3>
+<p>$option.Description<p>
+
+#end
+<h2>Rules</h2>
+ 
+#foreach($rule in $information.getOverrideRuleDescriptions())
+
+<p>
+#foreach($assignment in $rule.getAssignments())
+Assignment: assignment.OptionIdentifier = assignment.Value
+#end
+</p>
+<p>
+Condition: $rule.ConditionText
+</p>
+
+#end
+
+#foreach($rule in $information.getValidityRuleDescriptions())
+
+<p>
+#foreach($assignment in $rule.getAssignments())
+Assignment: assignment.OptionIdentifier = assignment.Value
+#end
+</p>
+<p>Condition: $rule.ConditionText
+</p>
+
+#end
+
+#foreach($rule in $information.getFlyRuleDescriptions())
+
+<p>
+#foreach($assignment in $rule.getAssignments())
+Assignment: assignment.OptionIdentifier = assignment.Value
+#end
+</p>
+<p>Condition: $rule.ConditionText
+</p>
+
+#end
+</body>
 </html>

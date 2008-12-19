@@ -216,10 +216,68 @@ ARGS::
 
 
 FORMAT::
+
   allOpts*;
 
 WHERE::
-  allOpts: color OR help OR version OR long OR one;
+ allOpts: 
+  all OR
+  almost_all OR
+  author OR
+  octal_escapes OR
+  block_size OR
+  ignore_backups OR
+  sortby_ctime OR
+  columns OR
+  color OR
+  directory OR
+  dired OR
+  not_sort OR
+  classify OR
+  file_type OR
+  format OR
+  full_time OR
+  list_group OR
+  no_group OR
+  human_readable OR
+  human_readable_decimal OR
+  dereference_command_line OR
+  dereference_command_line_symlink_to_dir OR
+  hide OR
+  indicator_style OR
+  inode OR
+  ignores OR
+  oneK_block OR
+  long OR
+  dereference OR
+  commas OR
+  numeric_uid_gid OR
+  literal OR
+  long_nogroups OR
+  slash OR
+  hide_control_chars OR
+  show_control_chars OR
+  quote_name OR
+  quoting_style OR
+  reverse OR
+  recursive OR
+  size OR
+  sortby_size OR
+  sort OR
+  time OR
+  time_style OR
+  sortby_modificationtime OR
+  tabsize OR
+  access_time OR
+  unordered OR
+  sortby_version OR
+  width OR
+  horizontal OR
+  sortby_entryextension OR
+  one OR
+  help OR
+  version ;
+
 
 FLY::
    long -> one:=#false#;

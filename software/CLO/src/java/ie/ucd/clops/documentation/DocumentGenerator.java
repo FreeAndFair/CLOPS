@@ -40,7 +40,7 @@ public class DocumentGenerator {
    * @throws Exception
    * 
    * <JML>
-   *   requires velocity.templateExists(templateName);
+   *   requires velocity.resourceExists(templateName);
    * </JML>
    */
   public void generate(String filename, String templateName) throws Exception {

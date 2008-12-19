@@ -96,6 +96,8 @@ public class Main {
         DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
 	    documentation.generate ("help.txt", DocumentGenerator.HELP_TEMPLATE);
 		documentation.generate ("help.html", DocumentGenerator.HTML_TEMPLATE);
+        documentation.generate ("all.txt", "templates/all.vm"); 
+        // TODO I think there should be a nicer mechanism how to add new templates --miko
         
         return true;
       } else {

@@ -1,0 +1,14 @@
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+#end
+
+public interface $info.getParserName()OptionsInterface {
+
+#foreach($desc in $info.getOptionDescriptions())
+#set($type = $desc.getType())
+  public boolean is$desc.getIdentifier()Set();
+  
+  public $type.getOptionValueTypeClass() get$desc.getIdentifier()();
+  
+#end
+}

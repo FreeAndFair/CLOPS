@@ -1,6 +1,5 @@
 package ie.ucd.clops.runtime.rules;
 
-import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 
 /**

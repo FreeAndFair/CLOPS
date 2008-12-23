@@ -47,6 +47,7 @@ public class FileOption extends OneArgumentOption<File> {
 
   @Override
   public boolean acceptsProperty(String propertyName) {
+    //TODO - allowdash should be moved to FileOptionConstraints for reuse in FileListOption
     return 
       constraints.acceptsProperty(propertyName) ||
       propertyName.equalsIgnoreCase("allowdash") ||

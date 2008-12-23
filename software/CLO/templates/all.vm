@@ -1,4 +1,4 @@
 ## all.vm
-#foreach($option in $information.getOptionDescriptions())
+#foreach($option in $info.getOptionDescriptions())
   $!option.Identifier#if($velocityHasNext),#end 
 #end

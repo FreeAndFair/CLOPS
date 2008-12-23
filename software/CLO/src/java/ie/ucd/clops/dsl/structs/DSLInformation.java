@@ -96,6 +96,11 @@ public class DSLInformation {
   public OptionDescription getOptionDescriptionForIdentifier(String identifier) {
     return optionIdDescriptionMap.get(identifier);
   }
+  
+  public String getOptionValuTypeParameterisationForIdentifier(String identifier) {
+    OptionDescription od = getOptionDescriptionForIdentifier(identifier);
+    return od == null ? null : od.getType().getOptionValueTypeParameterisation();
+  }
 
   public List<OverrideRuleDescription> getOverrideRuleDescriptions() {
     return overrideRuleDescriptions;

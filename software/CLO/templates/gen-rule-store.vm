@@ -1,0 +1,101 @@
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+#end
+#set($parserName = $info.getParserName())
+
+import ie.ucd.clops.runtime.rules.*;
+import ie.ucd.clops.runtime.options.*;
+
+public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore {
+
+  public ${parserName}RuleStore() {
+    
+#foreach($flyrule in $info.getFlyRuleDescriptions())
+#set($flyid = $flyrule.getId()) 
+#if( "$!flyrule.getConditionText()" != "" )
+    Expression<Boolean> rule${flyid}Condition = new Rule${flyid}Condition();
+#else
+    Expression<Boolean> rule${flyid}Condition = Expression.TRUE;
+#end
+    FlyRule rule${flyid} = new FlyRule("$flyrule.getTriggeringOptionIdentifier()",rule${flyid}Condition);
+    addFlyRule("$flyrule.getTriggeringOptionIdentifier()", rule${flyid});
+#foreach($assign in $flyrule.getAssignments())
+#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+    rule${flyid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${flyid}Expression$assign.getId()()));
+#end
+#end    
+
+#foreach($orrule in $info.getOverrideRuleDescriptions())
+#set($orid = $orrule.getId())
+    Expression<Boolean> rule${orid}Condition = new Rule${orid}Condition();
+    OverrideRule rule${orid} = new OverrideRule(rule${orid}Condition);
+    addOverrideRule(rule${orid});
+#foreach($assign in $orrule.getAssignments())
+#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+    rule${orid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${orid}Expression$assign.getId()()));
+#end
+#end
+  
+#foreach($valrule in $info.getValidityRuleDescriptions())
+#set($valid = $valrule.getId())
+    Expression<Boolean> rule${valid}Condition = new Rule${valid}Condition();
+    ValidityRule rule${valid} = new ValidityRule(rule${valid}Condition);
+    rule${valid}.addAction(new Action<java.util.List<String>>("$CLOPSErrorOption.getErrorId()", new Rule${valid}Expression()));
+    addValidityRule(rule${valid});
+#end
+  }
+
+#foreach($flyrule in $info.getFlyRuleDescriptions())
+#set($flyid = $flyrule.getId())
+#if( "$!flyrule.getConditionText()" != "" )
+    public static class Rule${flyid}Condition implements Expression<Boolean> {
+      public Boolean evaluate(OptionStore optionStore) {
+        return $flyrule.getConditionText();
+      }
+    }
+    
+#end
+#foreach($assign in $flyrule.getAssignments())
+#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+    public static class Rule${flyid}Expression$assign.getId() implements Expression<$assigntype> {
+      public $assigntype evaluate(OptionStore optionStore) {
+        return $assign.getValue();
+      }
+    }
+#end
+#end    
+
+#foreach($orrule in $info.getOverrideRuleDescriptions())
+#set($orid = $orrule.getId())
+    public static class Rule${orid}Condition implements Expression<Boolean> {
+      public Boolean evaluate(OptionStore optionStore) {
+        return $orrule.getConditionText();
+      }
+    }
+    
+#foreach($assign in $orrule.getAssignments())
+#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+    public static class Rule${orid}Expression$assign.getId() implements Expression<$assigntype> {
+      public $assigntype evaluate(OptionStore optionStore) {
+        return $assign.getValue();
+      }
+    }
+#end
+#end
+  
+#foreach($valrule in $info.getValidityRuleDescriptions())
+#set($valid = $valrule.getId())
+    public static class Rule${valid}Condition implements Expression<Boolean> {
+      public Boolean evaluate(OptionStore optionStore) {
+        return $valrule.getConditionText();
+      }
+    }
+    
+    public static class Rule${valid}Expression implements Expression<java.util.List<String>> {
+      public java.util.List<String> evaluate(OptionStore optionStore) {
+        return java.util.Arrays.asList("$valrule.getExplanation()");
+      }
+    }
+#end
+
+}

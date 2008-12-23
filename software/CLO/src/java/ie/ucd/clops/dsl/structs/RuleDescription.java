@@ -10,11 +10,15 @@ import java.util.List;
  */
 public class RuleDescription {
 
+  private static int count = 1;
+  
   protected final List<AssignmentDescription> assignments;
   private String conditionText;
+  private final String id;
 
   public RuleDescription() {
     this.assignments = new LinkedList<AssignmentDescription>();
+    this.id = (count++) + "";
   }
   
   public void addAssignment(AssignmentDescription assign) {
@@ -31,6 +35,10 @@ public class RuleDescription {
 
   public void setConditionText(String conditionText) {
     this.conditionText = conditionText;
+  }
+
+  public String getId() {
+    return id;
   }
 
 }

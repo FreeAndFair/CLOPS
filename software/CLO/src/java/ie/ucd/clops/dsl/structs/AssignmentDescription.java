@@ -7,12 +7,16 @@ package ie.ucd.clops.dsl.structs;
  */
 public class AssignmentDescription {
 
+  private static int count = 1;
+  
   private final String optionIdentifier;
   private final String value;
+  private final String id;
   
   public AssignmentDescription(String optionIdentifier, String value) {
     this.optionIdentifier = optionIdentifier;
     this.value = value;
+    this.id = (count++) + "";
   }
 
   public String getOptionIdentifier() {
@@ -21,6 +25,10 @@ public class AssignmentDescription {
 
   public String getValue() {
     return value;
+  }
+  
+  public String getId() {
+    return id;
   }
   
 }

@@ -12,9 +12,7 @@ import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 
@@ -40,7 +38,7 @@ public class AutomatonTest {
 
   private static String stringTokens( List<Token<IMatchable>> tokens) {
     String result = "";
-    boolean last_match = false;
+    //boolean last_match = false;
     for (Token<IMatchable> token:tokens) {
       switch (token.type) {
       case MATCH: result += "'" +token.match.getIdentifier() +"' "; break;

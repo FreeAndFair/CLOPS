@@ -1,15 +1,12 @@
 package ie.ucd.clops.documentation;
 
-import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
-import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.logging.CLOLogger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -33,9 +30,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 public class DocumentGenerator {
 
-	public static final String HTML_TEMPLATE = "templates/html.vm";
-	public static final String HELP_TEMPLATE = "templates/help.vm";
-	private VelocityContext context;
+  public static final String HTML_TEMPLATE = "templates/html.vm";
+  public static final String HELP_TEMPLATE = "templates/help.vm";
+  private VelocityContext context;
 
 
   public DocumentGenerator(DSLInformation information) throws Exception {
@@ -51,6 +48,9 @@ public class DocumentGenerator {
     prop.put("file.resource.loader.description", "Velocity File Resource Loader");
     prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
     prop.put("file.resource.loader.path", "");
+    
+    prop.put("directive.foreach.iterator.name", "velocityHasNext");
+
     return prop;
   }
 
@@ -64,7 +64,7 @@ public class DocumentGenerator {
    *   requires velocity.resourceExists(templateName);
    * </JML>
    */
-  public void generate(File outputFile, String templateFile) {
+  public void generate(File outputFile, String templateFile, String explanationText) {
 
     if (Velocity.resourceExists(templateFile)) {
 
@@ -75,66 +75,37 @@ public class DocumentGenerator {
         template.merge(context, writer);
         writer.flush();
         writer.close();
-        CLOLogger.getLogger().log(Level.INFO, "Successfully created documentation " + outputFile.getPath());
+        CLOLogger.getLogger().log(Level.INFO, "Successfully created " + outputFile.getPath());
 
       } catch (ResourceNotFoundException e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       } catch (ParseErrorException e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       } catch (MethodInvocationException e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       } catch (FileNotFoundException e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       } catch (IOException e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       } catch (Exception e) {
-        CLOLogger.getLogger().log(Level.WARNING,"Document generation failed:" + e.getLocalizedMessage());
+        CLOLogger.getLogger().log(Level.WARNING, explanationText + " failed:" + e.getLocalizedMessage());
       }
     } else {
       CLOLogger.getLogger().log(Level.SEVERE, "Error, template not found: " + templateFile);
     }
 
   }
-    
-	/**
-	 * Define the context for document generation
-	 * 
-	 * @return Context for DSL information
-	 */
-	protected VelocityContext createContext(DSLInformation information) {
-		VelocityContext context = new VelocityContext();
 
-		context.put("information", information);
-		return context;
-	}
+  /**
+   * Define the context for document generation
+   * 
+   * @return Context for DSL information
+   */
+  protected VelocityContext createContext(DSLInformation information) {
+    VelocityContext context = new VelocityContext();
+    context.put("info", information);
+    return context;
+  }
 
-	/**
-	 * Test document generation
-	 */
-	public static void main(String[] args) {
-
-		PrintStream logfile = System.out;
-
-		logfile.println("Starting document generation");
-
-		DSLInformation information = new DSLInformation();
-		information.setPackageName("TEST");
-		OptionDescription optionDescription = new BasicOptionDescription();
-		optionDescription.setId("Option 1");
-		information.addOptionDescription(optionDescription);
-		optionDescription.setId("Option 2");
-		information.addOptionDescription(optionDescription);
-		information.setParserName("Parser");
-
-		try {
-			DocumentGenerator documentation = new DocumentGenerator(information);
-//			documentation.generate("help.txt", HELP_TEMPLATE);
-//			documentation.generate("help.html", HTML_TEMPLATE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		logfile.println("Finished document generation");
-	}
 
 }

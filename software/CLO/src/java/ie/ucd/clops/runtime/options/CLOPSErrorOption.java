@@ -11,6 +11,7 @@ import java.util.List;
 public class CLOPSErrorOption extends StringListOption {
 
   public static final String ERROR_OPTION_ID = "CLOPSERROROPTION";
+  public static String getErrorId() { return ERROR_OPTION_ID; }
   
   public CLOPSErrorOption() {
     super(ERROR_OPTION_ID, "");

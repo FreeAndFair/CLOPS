@@ -1,21 +1,21 @@
 ## html.vm
 <html>
 <title>
-$information.ParserName
+$info.ParserName
 </title>
 <head>
-$information.PackageName
+$info.PackageName
 </head>
 <body>
 <h2>Options</h2>
-#foreach($option in $information.getOptionDescriptions())
+#foreach($option in $info.getOptionDescriptions())
 
 <h3>$option.Identifier</h3>
 <p>$!option.Description</p>
 #end
 <h2>Option Groups</h2>
 
-#foreach($group in $information.getOptionGroupDescriptions())
+#foreach($group in $info.getOptionGroupDescriptions())
 <h3>$group.Identifier</h3>
 <p>
 #foreach($child in $group.getChildren())
@@ -24,7 +24,7 @@ $information.PackageName
 #end
 <h2>Rules</h2>
  
-#foreach($rule in $information.getOverrideRuleDescriptions())
+#foreach($rule in $info.getOverrideRuleDescriptions())
 
 <p>
 #foreach($assignment in $rule.getAssignments())
@@ -36,7 +36,7 @@ Condition: $!rule.ConditionText
 </p>
 #end
 
-#foreach($rule in $information.getValidityRuleDescriptions())
+#foreach($rule in $info.getValidityRuleDescriptions())
 
 <p>
 #foreach($assignment in $rule.getAssignments())
@@ -47,7 +47,7 @@ Assignment: $assignment.OptionIdentifier = $assignment.Value
 </p>
 #end
 
-#foreach($rule in $information.getFlyRuleDescriptions())
+#foreach($rule in $info.getFlyRuleDescriptions())
 
 <p>
 #foreach($assignment in $rule.getAssignments())

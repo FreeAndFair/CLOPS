@@ -1,0 +1,29 @@
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+#end
+#set( $parsername = $info.getParserName() )
+
+import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
+import ie.ucd.clops.runtime.rules.RuleStore;
+
+public class ${parsername}Parser extends AbstractSpecificCLParser { 
+  private final ${parsername}OptionStore optionStore;
+  private final ie.ucd.clops.runtime.rules.RuleStore ruleStore;
+
+  public ${parsername}Parser() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
+    optionStore = new ${parsername}OptionStore();
+    ruleStore = new ${parsername}RuleStore(); 
+  }
+
+  public ${parsername}OptionStore getOptionStore() {
+    return optionStore;  
+  }
+  
+  public RuleStore getRuleStore() {
+    return ruleStore;
+  }
+  
+  public String getFormatString() {
+    return "$info.getFormatString()"; 
+  }
+}

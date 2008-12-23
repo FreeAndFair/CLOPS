@@ -98,9 +98,10 @@ public class Main {
           DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
           File outputFile = options.getgen_docs();
           // Generate Documentation
+          String explanation = "Document generation";
           if (options.isgen_docs_customSet()) {
             File template = options.getgen_docs_custom();
-            documentation.generate(outputFile, template.getAbsolutePath());
+            documentation.generate(outputFile, template.getAbsolutePath(), explanation);
           } else if (options.isgen_docs_builtinSet()) {
             String templateLoc = null;
             if (options.getgen_docs_builtin().equalsIgnoreCase("txt")) {
@@ -110,7 +111,7 @@ public class Main {
             }
             if (templateLoc != null) {
                 //TODO templateLoc should be an absolute path
-              documentation.generate(outputFile, templateLoc);
+              documentation.generate(outputFile, templateLoc, explanation);
             }
           }
         }

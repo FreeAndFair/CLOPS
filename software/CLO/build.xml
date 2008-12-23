@@ -46,6 +46,14 @@
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
   </path>
+	
+	<path id="testdist.path">
+	  <filelist dir="${dist}/lib">
+		  <file name="${full-jar-name}.jar"/>
+	  	<file name="antlr-3.1.1-runtime.jar"/>
+	  	<file name="velocity-1.6.1.jar"/>
+	  </filelist>
+	</path>
 
   <path id="compile.path">
     <path refid="test.path"/>
@@ -124,7 +132,7 @@
       <assertions>
         <enable/>
       </assertions>
-      <classpath refid="test.path"/>
+      <classpath refid="testdist.path"/>
       <arg value="-i"/>
       <arg value="${dsl-interface-file}"/>
       <arg value="-o"/>
@@ -170,7 +178,7 @@
       <assertions>
         <enable/>
       </assertions>
-      <classpath refid="test.path"/>
+      <classpath refid="testdist.path"/>
       <!-- this should probably use the -b option and -d should produce a file -->
       <!-- corresponding to the intput file -->
       <arg value="-d=./test/o.html"/>

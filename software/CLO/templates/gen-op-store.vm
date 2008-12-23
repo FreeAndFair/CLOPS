@@ -1,0 +1,73 @@
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+#end
+
+import ie.ucd.clops.runtime.options.*;
+
+public class $info.getParserName()OptionStore extends OptionStore implements $info.getParserName()OptionsInterface {
+
+#foreach($desc in $info.getOptionDescriptions())
+#set($type = $desc.getType())
+  private final $type.getOptionTypeClass() $desc.getIdentifier()OG;
+#end
+  private final CLOPSErrorOption CLOPSERROROPTION;
+
+  public $info.getParserName()OptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
+
+    //Options
+#foreach($desc in $info.getOptionDescriptions())
+#set($type = $desc.getType())
+#set($id = $desc.getIdentifier())
+    ${id}OG = new $type.getOptionTypeClass()("$id","$OptionType.unifyRegexps($desc.getPrefixRegexps())");
+    addOption(${id}OG);
+#foreach($pair in $desc.getProperties())
+    ${id}OG.setProperty("$pair.first","$pair.second");
+#end
+#if( "$!desc.getDescription()" != "" )
+#set( $lines = $CodeGenerator.quoteMultilineString($desc.getDescription()) )
+#if( $lines.size() == 1 ) 
+    ${id}OG.setProperty("description", "$desc.getDescription()");
+#else
+    ${id}OG.setProperty("description", 
+      #foreach( $line in $lines )"${line}"#if($velocityCount != $lines.size()) +
+      #else);
+#end
+#end
+#end
+#end
+#end
+  
+    CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
+    addOption(CLOPSERROROPTION);
+  
+    //Option groups
+#foreach($desc in $info.getOptionGroupDescriptions())
+#set($id = $desc.getIdentifier())
+    OptionGroup ${id}OG = new OptionGroup("$id");
+    addOptionGroup(${id}OG);
+#end
+    //Setup groupings
+#foreach($desc in $info.getOptionGroupDescriptions())
+#foreach($child in $desc.getChildren())
+#set($id = $desc.getIdentifier())
+    ${id}OG.addOptionOrGroup(${child}OG);
+#end
+#end
+  }
+  
+#foreach($desc in $info.getOptionDescriptions())
+#set($type = $desc.getType())
+#set($id = $desc.getIdentifier())
+  public boolean is${id}Set() {
+    return ${id}OG.hasValue();
+  }
+  
+  public $type.getOptionValueTypeClass() get${id}() {
+    return ${id}OG.getValue();
+  }
+  
+  public $type.getOptionTypeClass() get${id}Option() {
+    return ${id}OG;
+  }
+#end
+}

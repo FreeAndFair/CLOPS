@@ -1,8 +1,7 @@
-
 package ie.ucd.clops.dsl.generatedinterface;
 
 public interface CLODSLOptionsInterface {
-  
+
   public boolean isinputSet();
   
   public java.io.File getinput();

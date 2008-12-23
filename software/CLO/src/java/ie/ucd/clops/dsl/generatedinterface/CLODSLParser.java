@@ -1,39 +1,26 @@
-
 package ie.ucd.clops.dsl.generatedinterface;
 
-public class CLODSLParser extends ie.ucd.clops.runtime.parser.AbstractSpecificCLParser {
-  final ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore optionStore;
-  ie.ucd.clops.runtime.rules.RuleStore ruleStore;
-  
-  public ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore getOptionStore() {
-    return optionStore;
-    
-  }
-  
-  public ie.ucd.clops.runtime.rules.RuleStore getRuleStore() {
-    return ruleStore;
-    
-  }
-  
+import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
+import ie.ucd.clops.runtime.rules.RuleStore;
+
+public class CLODSLParser extends AbstractSpecificCLParser { 
+  private final CLODSLOptionStore optionStore;
+  private final ie.ucd.clops.runtime.rules.RuleStore ruleStore;
+
   public CLODSLParser() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
-    optionStore = createOptionStore();
-    ruleStore = createRuleStore();
-    
+    optionStore = new CLODSLOptionStore();
+    ruleStore = new CLODSLRuleStore(); 
+  }
+
+  public CLODSLOptionStore getOptionStore() {
+    return optionStore;  
   }
   
-  private ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore createOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
-    return new CLODSLOptionStore();
-    
-  }
-  
-  private ie.ucd.clops.runtime.rules.RuleStore createRuleStore() {
-    return new CLODSLRuleStore();
-    
+  public RuleStore getRuleStore() {
+    return ruleStore;
   }
   
   public String getFormatString() {
-    return "all_args*";
-    
+    return "all_args*"; 
   }
-  
 }

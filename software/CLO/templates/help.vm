@@ -1,11 +1,11 @@
 ## help.vm
-$information.ParserName
+$info.ParserName
 
 Options
 =======
 #parse("templates/all.vm")
 
-#foreach($option in $information.getOptionDescriptions())
+#foreach($option in $info.getOptionDescriptions())
 
 Name: $option.Identifier
 Description: $!option.Description
@@ -23,7 +23,7 @@ Group: $group.Identifier
 
 Rules
 =====
-#foreach($rule in $information.getOverrideRuleDescriptions())
+#foreach($rule in $info.getOverrideRuleDescriptions())
 
 #foreach($assignment in $rule.getAssignments())
 Assignment: $assignment.OptionIdentifier = $assignment.Value
@@ -31,7 +31,7 @@ Assignment: $assignment.OptionIdentifier = $assignment.Value
 Condition: $!rule.ConditionText
 #end
 
-#foreach($rule in $information.getValidityRuleDescriptions())
+#foreach($rule in $info.getValidityRuleDescriptions())
 Explanation: $rule.getExplanation()
 #foreach($assignment in $rule.getAssignments())
 Assignment: $assignment.OptionIdentifier = $assignment.Value
@@ -39,7 +39,7 @@ Assignment: $assignment.OptionIdentifier = $assignment.Value
 Condition: $!rule.ConditionText
 #end
 
-#foreach($rule in $information.getFlyRuleDescriptions())
+#foreach($rule in $info.getFlyRuleDescriptions())
 
 Triggered by: $!rule.TriggeringOptionIndentifier
 #foreach($assignment in $rule.getAssignments())

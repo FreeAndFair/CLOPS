@@ -55,8 +55,10 @@ public class CodeGenerator extends DocumentGenerator {
   private static String OP_INTERFACE_TEMPLATE = TEMPLATE_BASE + "gen-interface.vm";
   private static String OP_STORE_TEMPLATE = TEMPLATE_BASE + "gen-op-store.vm";
   private static String RULE_STORE_TEMPLATE = TEMPLATE_BASE + "gen-rule-store.vm";
+  private static String MAIN_TEMPLATE = TEMPLATE_BASE + "gen-main.vm";
   
   public static void createCode(DSLInformation dslInfo, File outputDir, boolean genTest) {
+    dslInfo.processPlaceholders();
     String parserName = dslInfo.getParserName();
     try {      
       CodeGenerator codeGen = new CodeGenerator(dslInfo);
@@ -72,6 +74,11 @@ public class CodeGenerator extends DocumentGenerator {
       
       File ruleStoreFile = new File(outputDir.getPath() + '/' + parserName + "RuleStore.java");
       codeGen.generate(ruleStoreFile, RULE_STORE_TEMPLATE, "Code generation");
+      
+      if (genTest) {
+        File mainFile = new File(outputDir.getPath() + '/' + "Main.java");
+        codeGen.generate(mainFile, MAIN_TEMPLATE, "Code generation");
+      }
       
     } catch (Exception e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Something went wrong with code generation. " + e);

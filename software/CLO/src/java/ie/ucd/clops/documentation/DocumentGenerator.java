@@ -48,8 +48,6 @@ public class DocumentGenerator {
     prop.put("file.resource.loader.description", "Velocity File Resource Loader");
     prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
     prop.put("file.resource.loader.path", "");
-    
-    prop.put("directive.foreach.iterator.name", "velocityHasNext");
 
     return prop;
   }

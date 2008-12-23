@@ -1,0 +1,24 @@
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+#end
+#set($parserName = $info.getParserName())
+
+import java.util.logging.Level;
+import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+
+public class Main {
+  
+  public static void main(String[] args) throws Exception {
+    CLOLogger.setLogLevel(Level.FINE);
+    ${parserName}Parser parser = new ${parserName}Parser();
+    boolean success = parser.parse(args);
+    if (success) {
+      CLOLogger.getLogger().log(Level.INFO, "Successful parse.");
+    } else {
+      CLOLogger.getLogger().log(Level.INFO, "Parse did not succeed.");
+    }
+    
+  }
+  
+}

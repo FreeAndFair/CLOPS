@@ -10,7 +10,7 @@ public class AssignmentDescription {
   private static int count = 1;
   
   private final String optionIdentifier;
-  private final String value;
+  private String value;
   private final String id;
   
   public AssignmentDescription(String optionIdentifier, String value) {
@@ -29,6 +29,10 @@ public class AssignmentDescription {
   
   public String getId() {
     return id;
+  }
+  
+  public void processPlaceholders(DSLInformation dslInfo) {
+    value = RuleDescription.processPlaceholders(value, dslInfo);
   }
   
 }

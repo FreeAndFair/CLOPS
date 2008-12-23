@@ -11,5 +11,4 @@ public class ValidityRule extends Rule {
     super(null, condition);
   }
 
-  
 }

@@ -223,16 +223,35 @@ override_rule  :  condition '->'
 validity_section  :  'VALIDITY::' (validity_rule)*
                   ;
 
-validity_rule  :  condition
-                  { ValidityRuleDescription vrd = new ValidityRuleDescription(); 
-                    vrd.setConditionText($condition.text);                            }
-                  (
-                    ':' explanation
-                    { vrd.setExplanation($explanation.text); }
-                  )? 
-                  { getDslInformation().addValidityRuleDescription(vrd); } 
-                  ';'
+validity_rule  :   standard_validity_rule
+                 | requires_validity_rule
                ;
+
+standard_validity_rule  :  condition
+                           { ValidityRuleDescription vrd = new ValidityRuleDescription(); 
+                             vrd.setConditionText($condition.text);                            }
+                           (
+                             ':' explanation
+                             { vrd.setExplanation($explanation.text); }
+                           )? 
+                           { getDslInformation().addValidityRuleDescription(vrd); } 
+                           ';'
+                        ;
+
+requires_validity_rule  :  arg_name 'requires' requires_expression
+                           {  ValidityRuleDescription vrd = ValidityRuleDescription.fromRequires($arg_name.text, $requires_expression.text); }
+                           (
+                            ':' explanation
+                            { vrd.setExplanation($explanation.text); }
+                           )?
+                           { getDslInformation().addValidityRuleDescription(vrd); }
+                           ';'
+                        ;
+
+requires_expression  :   ( '(' requires_expression ')' )
+                       | ( arg_name '&&' arg_name )
+                       | ( arg_name '||' arg_name )
+                     ;
                
 explanation  :  STRING_CONSTANT
              ;

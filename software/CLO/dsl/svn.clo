@@ -201,3 +201,4 @@ OVERRIDES::
 
 VALIDITY::
   # $(auto_props?) && $(no_auto_props) # : "--auto-props and --no-auto-props are mutually exclusive." ;
+  force requires add || delete  : "Cannot use option --force with this subcommand."  ;

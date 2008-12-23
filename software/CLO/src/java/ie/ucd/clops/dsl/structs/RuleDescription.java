@@ -91,7 +91,7 @@ public class RuleDescription {
       CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);
       return "";
     } else {
-      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).hasValue()";
+      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).getValue()";
     }
   }
   
@@ -101,7 +101,7 @@ public class RuleDescription {
       CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);
       return "";
     } else {
-      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).getValue()";
+      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).hasValue()";
     }
   }
 }

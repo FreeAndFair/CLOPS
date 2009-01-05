@@ -21,14 +21,17 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   @Override
   public boolean acceptsProperty(String propertyName) {
-    return propertyName.equals("between") 
+    return propertyName.equalsIgnoreCase("between") 
+      || propertyName.equalsIgnoreCase("argumentshape")
       || super.acceptsProperty(propertyName);
   }
 
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
-    if (propertyName.equals("between")) {
+    if (propertyName.equalsIgnoreCase("between")) {
       setBetween(propertyValue);
+    } else if (propertyName.equalsIgnoreCase("argumentshape")) {
+      setArgumentShape(propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }

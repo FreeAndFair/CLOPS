@@ -39,7 +39,7 @@ ARGS::
    update:{"update","up"}
    
    //Option 
-   targets:{"--t'argets"}:{file}:[mustexist,canbedir="false"]
+   targets:{"--targets"}:{file}:[mustexist,canbedir="false"]
      :"pass contents of file ARG as additional args"
    non_recursive:{"-N","--non-recursive"}     
      :"obsolete; try --depth=files or --depth=immediates"
@@ -188,6 +188,9 @@ ARGS::
      :"do no interactive prompting"
    config_dir:{"--config-dir"}:{file}:[mustexist,mustbedir]
      :"read user configuration files from directory ARG"
+   
+   //Program arguments
+   arg_path_list:{}:{file}
       
 FORMAT::
     ( all_options* subcommand all_options* )
@@ -218,44 +221,44 @@ WHERE::
              ; 
   
 FLY::
-  quiet : #$(verbose?)# -> verbose := #false#;
-  verbose : #$(quiet?)# -> quiet := #false#; 
-  recursive -> depth := #"infinity"#;
+  quiet { $(verbose?) } -> verbose := { false };
+  verbose { $(quiet?) } -> quiet := { false }; 
+  recursive -> depth := { "infinity" };
 
   //Improve error message by storing the set subcommand
-  add -> chosen_subcommand:=#"add"#;
-  blame -> chosen_subcommand:=#"blame"#;
-  cat -> chosen_subcommand:=#"cat"#;
-  changelist -> chosen_subcommand:=#"changelist"#;
-  checkout -> chosen_subcommand:=#"checkout"#;
-  cleanup -> chosen_subcommand:=#"cleanup"#;
-  commit -> chosen_subcommand:=#"commit"#;
-  copy -> chosen_subcommand:=#"copy"#;
-  delete -> chosen_subcommand:=#"delete"#;
-  diff -> chosen_subcommand:=#"diff"#;
-  export -> chosen_subcommand:=#"export"#;
-  help -> chosen_subcommand:=#"help"#;
-  import -> chosen_subcommand:=#"import"#;
-  info -> chosen_subcommand:=#"info"#;
-  list -> chosen_subcommand:=#"list"#;
-  lock -> chosen_subcommand:=#"lock"#;
-  log -> chosen_subcommand:=#"log"#;
-  merge -> chosen_subcommand:=#"merge"#;
-  mergeinfo -> chosen_subcommand:=#"mergeinfo"#;
-  mkdir -> chosen_subcommand:=#"mkdir"#;
-  move -> chosen_subcommand:=#"move"#;
-  propdel -> chosen_subcommand:=#"propdel"#;
-  propedit -> chosen_subcommand:=#"propedit"#;
-  propget -> chosen_subcommand:=#"propget"#;
-  proplist -> chosen_subcommand:=#"proplist"#;
-  propset -> chosen_subcommand:=#"propset"#;
-  resolve -> chosen_subcommand:=#"resolve"#;
-  resolved -> chosen_subcommand:=#"resolved"#;
-  revert -> chosen_subcommand:=#"revert"#;
-  status -> chosen_subcommand:=#"status"#;
-  switch -> chosen_subcommand:=#"switch"#;
-  unlock -> chosen_subcommand:=#"unlock"#;
-  update -> chosen_subcommand:=#"update"#;
+  add -> chosen_subcommand:={"add"};
+  blame -> chosen_subcommand:={"blame"};
+  cat -> chosen_subcommand:={"cat"};
+  changelist -> chosen_subcommand:={"changelist"};
+  checkout -> chosen_subcommand:={"checkout"};
+  cleanup -> chosen_subcommand:={"cleanup"};
+  commit -> chosen_subcommand:={"commit"};
+  copy -> chosen_subcommand:={"copy"};
+  delete -> chosen_subcommand:={"delete"};
+  diff -> chosen_subcommand:={"diff"};
+  export -> chosen_subcommand:={"export"};
+  help -> chosen_subcommand:={"help"};
+  import -> chosen_subcommand:={"import"};
+  info -> chosen_subcommand:={"info"};
+  list -> chosen_subcommand:={"list"};
+  lock -> chosen_subcommand:={"lock"};
+  log -> chosen_subcommand:={"log"};
+  merge -> chosen_subcommand:={"merge"};
+  mergeinfo -> chosen_subcommand:={"mergeinfo"};
+  mkdir -> chosen_subcommand:={"mkdir"};
+  move -> chosen_subcommand:={"move"};
+  propdel -> chosen_subcommand:={"propdel"};
+  propedit -> chosen_subcommand:={"propedit"};
+  propget -> chosen_subcommand:={"propget"};
+  proplist -> chosen_subcommand:={"proplist"};
+  propset -> chosen_subcommand:={"propset"};
+  resolve -> chosen_subcommand:={"resolve"};
+  resolved -> chosen_subcommand:={"resolved"};
+  revert -> chosen_subcommand:={"revert"};
+  status -> chosen_subcommand:={"status"};
+  switch -> chosen_subcommand:={"switch"};
+  unlock -> chosen_subcommand:={"unlock"};
+  update -> chosen_subcommand:={"update"};
   
 OVERRIDES::
 

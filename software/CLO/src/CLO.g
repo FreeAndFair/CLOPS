@@ -69,9 +69,9 @@ args_section  :  'ARGS::'
 //Currently allowing anything for the 
 arg_definition  
 @init { OptionDescription option = new BasicOptionDescription(); }
-                :  id=arg_name ':'
+                :  id=arg_name
                    { option.setId($id.text); } 
-                   '{'
+                   COLON_BRACKET
                    ( 
                      a1=arg_regexp 
                      { option.addPrefixRegexp($a1.text); }
@@ -81,7 +81,7 @@ arg_definition
                    )?
                    '}'
                    (
-                   ( ':' '{' t=NAME '}'
+                   ( COLON_BRACKET t=NAME '}'
                        { try { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType);
                              } catch(UnknownOptionTypeException e) { throw new DSLParseException(e.getMessage()); } 
                        }
@@ -182,7 +182,7 @@ fly_section  :  'FLY::' (fly_rule)*
 fly_rule  :  t=NAME
              { FlyRuleDescription or = new FlyRuleDescription($t.text); } 
              (
-               ':' condition
+               condition
                { or.setConditionText($condition.text); }
              )?
              '->' n1=NAME ':=' v1=assignment_rhs
@@ -194,11 +194,12 @@ fly_rule  :  t=NAME
              { getDslInformation().addFlyRuleDescription(or); }
           ;
           
-condition  :  UNCHECKED_JAVA
+condition  :  UNCHECKED_CODE_BLOCK
            ;
           
-assignment_rhs  :  UNCHECKED_JAVA
+assignment_rhs  :  UNCHECKED_CODE_BLOCK
                 ;
+
 
 /**********************************************/
 
@@ -318,6 +319,26 @@ UNCHECKED_JAVA  : '#' .* '#'
     setText($text.substring(1, $text.length()-1).trim());
   }
                 ;
+   
+UNCHECKED_CODE_BLOCK  :  UNCHECKED_CODE { setText($text.substring(1, $text.length()-1).trim()); }
+                      ;
+   
+fragment                  
+UNCHECKED_CODE :
+	'{'
+	(	options {greedy=false; k=2;}
+	:	UNCHECKED_CODE
+	|	SINGLE_LINE_COMMENT
+	|	MULTI_LINE_COMMENT
+	|	.
+	)*
+	'}'
+	
+   ;
+
+//Do not allow {...} to always match unchecked_code
+COLON_BRACKET  :  ':' '{'
+               ;
 
 STRING_CONSTANT : '"' .* '"' 
   { /* FIXME */ 

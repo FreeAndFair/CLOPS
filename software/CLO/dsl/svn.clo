@@ -190,9 +190,65 @@ ARGS::
      :"read user configuration files from directory ARG"
    
    //Program arguments
-   arg_path_list:{}:{file}
+   arg_path_list:{}:{file}:[between="",argumentshape="[^-]+.*"]
       
 FORMAT::
+/*
+svn add path+
+svn blame TARGET[@rev]+
+svn cat TARGET[@rev]+
+changelist CLNAME TARGET+
+changelist --remove TARGET+
+checkout URL[@REV]+ PATH?
+cleanup [PATH...]*
+commit [PATH...]*
+copy SRC[@REV]+ DST
+delete PATH...
+delete URL...
+diff [-c M | -r N[:M]] [TARGET[@REV]...]
+diff [-r N[:M]] --old=OLD-TGT[@OLDREV] [--new=NEW-TGT[@NEWREV]] [PATH...]
+diff OLD-URL[@OLDREV] NEW-URL[@NEWREV]
+export [-r REV] URL[@PEGREV] [PATH]
+export [-r REV] PATH1[@PEGREV] [PATH2]
+help [SUBCOMMAND...]
+import [PATH] URL
+info [TARGET[@REV]...]
+list [TARGET[@REV]...]
+lock TARGET...
+log [PATH]
+log URL[@REV] [PATH...]
+merge sourceURL1[@N] sourceURL2[@M] [WCPATH]
+merge sourceWCPATH1@N sourceWCPATH2@M [WCPATH]
+merge [[-c M]... | [-r N:M]...] [SOURCE[@REV] [WCPATH]]
+mergeinfo SOURCE_URL[@REV] [TARGET[@REV]...]
+mkdir PATH...
+mkdir URL...
+move SRC... DST
+propdel PROPNAME [PATH...]
+propdel PROPNAME --revprop -r REV [TARGET]
+propedit PROPNAME TARGET...
+propedit PROPNAME --revprop -r REV [TARGET]
+propget PROPNAME [TARGET[@REV]...]
+propget PROPNAME --revprop -r REV [URL]
+proplist [TARGET[@REV]...]
+proplist --revprop -r REV [TARGET]
+propset PROPNAME [PROPVAL | -F VALFILE] PATH...
+propset PROPNAME --revprop -r REV [PROPVAL | -F VALFILE] [TARGET]
+resolve PATH...
+resolved PATH...
+revert PATH...
+status [PATH...]
+switch URL[@PEGREV] [PATH]
+switch --relocate FROM TO [PATH...]
+unlock TARGET...
+update [PATH...]
+
+((add | delete | resolve | resolved | revert) path+)
+( (cleanup | commit | status) path*)
+
+path - file list, must exist (! maybe not, most cases you can give a file that doesn't exist) can be dir
+*/
+
     ( all_options* subcommand all_options* )
   | ( help subcommand+ )
   | ( version quiet? )
@@ -259,6 +315,7 @@ FLY::
   switch -> chosen_subcommand:={"switch"};
   unlock -> chosen_subcommand:={"unlock"};
   update -> chosen_subcommand:={"update"};
+
   
 OVERRIDES::
 

@@ -225,33 +225,56 @@ validity_section  :  'VALIDITY::' (validity_rule)*
 
 validity_rule  :   standard_validity_rule
                  | requires_validity_rule
+                 | exclusive_or_validity_rule
                ;
 
 standard_validity_rule  :  condition
                            { ValidityRuleDescription vrd = new ValidityRuleDescription(); 
                              vrd.setConditionText($condition.text);                            }
-                           (
-                             ':' explanation
+                           ( ':' explanation
                              { vrd.setExplanation($explanation.text); }
                            )? 
                            { getDslInformation().addValidityRuleDescription(vrd); } 
                            ';'
                         ;
 
-requires_validity_rule  :  arg_name 'requires' requires_expression
-                           {  ValidityRuleDescription vrd = ValidityRuleDescription.fromRequires($arg_name.text, $requires_expression.text); }
-                           (
-                            ':' explanation
+requires_validity_rule  :  'requires' ':' arg_name '=>' requires_expression
+                           { ValidityRuleDescription vrd = ValidityRuleDescription.fromRequires($arg_name.text, $requires_expression.text); }
+                           ( ':' explanation
                             { vrd.setExplanation($explanation.text); }
                            )?
                            { getDslInformation().addValidityRuleDescription(vrd); }
                            ';'
                         ;
 
-requires_expression  :   ( '(' requires_expression ')' )
-                       | ( arg_name '&&' arg_name )
-                       | ( arg_name '||' arg_name )
+requires_expression  :   requires_or_expression
                      ;
+                     
+requires_or_expression  :  requires_and_expression ( '||' requires_and_expression )*
+                        ;
+                        
+requires_and_expression  :  requires_expression_unit ( '&&' requires_expression_unit )*
+                         ;
+                         
+requires_expression_unit  :    arg_name 
+                             | ( '(' requires_expression ')' )
+                          ;
+
+                     
+exclusive_or_validity_rule  :  'xor' ':' a1=arg_name
+                               { List<String> args = new java.util.LinkedList<String>();
+                                 args.add($a1.text);                                    }
+                               ( ',' a=arg_name 
+                                 { args.add($a.text); }
+                               )+
+                               { ValidityRuleDescription vrd = ValidityRuleDescription.fromXOR(args); }
+                               (
+                                ':' explanation
+                                { vrd.setExplanation($explanation.text); }
+                               )?
+                                { getDslInformation().addValidityRuleDescription(vrd); }
+                               ';'
+                            ;
                
 explanation  :  STRING_CONSTANT
              ;

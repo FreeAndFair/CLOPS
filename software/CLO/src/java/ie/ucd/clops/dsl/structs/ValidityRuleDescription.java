@@ -1,5 +1,6 @@
 package ie.ucd.clops.dsl.structs;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,24 @@ public class ValidityRuleDescription extends RuleDescription {
     sb.append(" : false");
     ValidityRuleDescription rule = new ValidityRuleDescription();
     rule.setConditionText(sb.toString());
+    return rule;
+  }
+  
+  public static ValidityRuleDescription fromXOR(List<String> names) {
+    ValidityRuleDescription rule = new ValidityRuleDescription();
+    
+    StringBuilder sb = new StringBuilder();
+    sb.append("ie.ucd.clops.runtime.rules.Util.countSetOptions(new String[] { ");
+    
+    for (String name : names) {
+      sb.append('"');
+      sb.append(name);
+      sb.append("\", ");
+    }
+    sb.delete(sb.length()-2, sb.length());
+    sb.append(" }, optionStore) > 1");
+    rule.setConditionText(sb.toString());
+    
     return rule;
   }
   

@@ -93,7 +93,11 @@ public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore
     
     public static class Rule${valid}Expression implements Expression<java.util.List<String>> {
       public java.util.List<String> evaluate(OptionStore optionStore) {
+#if ( "$!valrule.getExplanation()" != "" )
         return java.util.Arrays.asList("$valrule.getExplanation()");
+#else
+        return java.util.Arrays.asList("");
+#end
       }
     }
 #end

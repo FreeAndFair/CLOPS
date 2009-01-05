@@ -43,14 +43,14 @@ public class GenericCLParser {
    * @return {@code true} iff the commmandline has been successfully parsed
    */
   public boolean parse(String formatString, OptionStore optionStore, RuleStore flyStore, String[] args)
-      throws Tokenizer.IllegalCharacterException,
-             Tokenizer.UnknownOptionException {
+  throws Tokenizer.IllegalCharacterException,
+  Tokenizer.UnknownOptionException {
 
     CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
     CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
-    
+
     CLOLogger.getLogger().log(Level.FINE, flyStore.toString());
-    
+
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
     Automaton<IMatchable> automaton = null;
@@ -59,13 +59,13 @@ public class GenericCLParser {
     }
     catch (Tokenizer.UnknownOptionException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error: Unkown option name \"" +e.opt_name +"\".");
-        throw e;
+      throw e;
     }
     catch (Tokenizer.IllegalCharacterException e) {
-        //TODO: logger?
+      //TODO: logger?
       CLOLogger.getLogger().log(Level.SEVERE, "Error: Illegal character \"" +formatString.charAt( e.index)
-                            +"\" at position " +e.index +".");
-        throw e;
+          +"\" at position " +e.index +".");
+      throw e;
     }
 
     try {
@@ -84,7 +84,7 @@ public class GenericCLParser {
       sb.append(SEP);
     }
     String argumentString = sb.toString();
-    
+
     //Main loop
     for (int i=0; i < argumentString.length(); ) {
       //Get available next options
@@ -92,11 +92,11 @@ public class GenericCLParser {
       CLOLogger.getLogger().log(Level.FINE, "Transitions: " + possibleTransitions);
       CLOLogger.getLogger().log(Level.FINE, "Set options: ");
       CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
-      
+
       //Matched option
       Option<?> matchedOption = null;
       Set<IMatchable> matches = new HashSet<IMatchable>();
-      
+
       //Try and find a match
       for (IMatchable transition : possibleTransitions) {
         Option<?> newMatchedOption = transition.getMatchingOption(argumentString, i);
@@ -113,7 +113,7 @@ public class GenericCLParser {
       if (matchedOption == null) {
         //Check if we can have a program argument here...
         //if not, report error 
-        
+
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
         return false;
       } else {
@@ -122,9 +122,9 @@ public class GenericCLParser {
         //Update automaton
         CLOLogger.getLogger().log(Level.FINE, "Matches: " + matches);
         automaton.nextStep(matches);
-        
+
         CLOLogger.getLogger().log(Level.FINE, "Matched option: " + matchedOption);
-        
+
         ProcessingResult pr = matchedOption.process();
         if (pr.errorDuringProcessing()) {
           //output error
@@ -150,19 +150,21 @@ public class GenericCLParser {
     CLOLogger.getLogger().log(Level.FINE, "Final Option values: ");
     CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
     CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
-    
+
     if (automaton.isAccepting()) {
       try {
         flyStore.applyOverrideRules(optionStore);
+        CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
       } catch (InvalidOptionValueException e) {
         //Again, shouldn't happen?
         CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from override rule: " + e);
         return false;
       }
-      
-      
+
+
       try {
         flyStore.applyValidityRules(optionStore);
+        CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
       } catch (InvalidOptionValueException e) {
         //Really, really shouldn't happen
         CLOLogger.getLogger().log(Level.SEVERE, "Something internal went wrong.");
@@ -173,11 +175,15 @@ public class GenericCLParser {
         //We had a validity error.
         CLOLogger.getLogger().log(Level.SEVERE, "Validity check failed.");
         for (String errorMessage : validityErrorList) {
-          CLOLogger.getLogger().log(Level.SEVERE, errorMessage);
+          if (errorMessage != null && !errorMessage.equals("")) { 
+            CLOLogger.getLogger().log(Level.SEVERE, errorMessage);
+          }
         }
         return false;
+      } else {
+        CLOLogger.getLogger().log(Level.FINE, "Validity checks passed.");
       }
-      
+
       return true;
     } else {
       return false;
@@ -189,12 +195,12 @@ public class GenericCLParser {
   private static String suggestUnmatchedOption(String argumentString, int offset) {
     Matcher matcher = unmatcher.matcher(argumentString);
     matcher.region(offset, argumentString.length());
-    
+
     if (matcher.lookingAt()) {
       return matcher.group();
     } else {
       return "";
     }
   }
-  
+
 }

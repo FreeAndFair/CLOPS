@@ -116,14 +116,67 @@ ARGS::
      :"use ARG as external editor"
    encoding:{"--encoding"}:{string}
      :"treat value as being in charset encoding ARG"
-   with_revprop:{"--with-revprop"}
+   with_revprop:{"--with-revprop"}:{string}
      :"set revision property ARG in new revision using the name[=value] format"
    keep_changelists:{"--keep-changelists"}
      :"don't delete changelists after commit"
-
+   keep_local:{"--keep-local"}
+     :"keep path in working copy"
+   change:{"-c","--change"}:{string}
+     :"the change made by revision ARG (like -r ARG-1:ARG)
+       If ARG is negative this is like -r ARG:ARG-1"
+   old:{"--old"}:{string}
+     :"use ARG as the older target"
+   new:{"--new"}:{string}
+     :"use ARG as the newer target" 
+   diff_cmd:{"--diff-cmd"}:{string}
+     :"use ARG as diff command" 
    version:{"--version"}
-     :" see the program version and RA modules."
-
+     :"see the program version and RA modules."
+   no_diff_deleted:{"--no-diff-deleted"}
+     :"do not print differences for deleted files"
+   notice_ancestry:{"--notice-ancestry"}
+     :"notice ancestry when calculating differences"
+   summarize:{"--summarize"}
+     :"show a summary of the results"
+   native_eol:{"--native-eol"}
+     :"use a different EOL marker than the standard
+       system marker for files with the svn:eol-style
+       property set to 'native'.
+       ARG may be one of 'LF', 'CR', 'CRLF'"
+   limit:{"-l","--limit"}:{int}
+     :"maximum number of log entries"
+   with_all_revprops:{"--with-all-revprops"}
+     :"retrieve all revision properties"
+   stop_on_copy:{"--stop-on-copy"}
+     :"do not cross copies while traversing history"
+   ignore_ancestry:{"--ignore-ancestry"}
+     :"ignore ancestry when calculating merges"
+   accept:{"--accept"}:{string-enum}:[choices="postpone,base,mine-full,theirs-full,edit,launch"]
+     :"specify automatic conflict resolution action"
+   reintegrate:{"--reintegrate"}
+     :"lump-merge all of source URL's unmerged changes"
+   dry_run:{"--dry-run"}
+     :"try operation but make no changes"
+   record_only:{"--record-only"}
+     :"mark revisions as merged (use with -r)"
+   show_revs:{"--show-revs"}:{string-enum}:[choices="merged,eligible"]
+     :"specify which collection of revisions to display"
+   revprop:{"--revprop"}
+     :"operate on a revision property (use with -r)"
+   strict:{"--strict"}
+     :"use strict semantics"
+   show_updates:{"-u","--show-updates"}
+     :"display update information"
+   set_depth:{"--set-depth"}:{string-enum}:[choices="empty,files,immediates,infinity"]
+     :"set new working copy depth to ARG ('empty', 'files', 'immediates', or 'infinity')"
+   relocate:{"--relocate"}
+     :"relocate via URL-rewriting"
+     
+   //virtual option
+   chosen_subcommand:{""}:{string}
+     :"the selected subcommand (hidden option)."  
+     
    //global options
    username:{"--username"}:{string}
      :"a username ARG"
@@ -178,12 +231,12 @@ WHERE::
               OR update 
             ;
               
-  global_option:    username
-                 OR password
-                 OR no_auth_cache
-                 OR non_interactive
-                 OR config_dir
-               ;
+//  global_option:    username
+//                 OR password
+//                 OR no_auth_cache
+//                 OR non_interactive
+//                 OR config_dir
+//               ;
   
   all_options:  targets OR non_recursive OR depth OR quiet OR force OR no_ignore OR
                 auto_props OR no_auto_props OR parents OR revision OR verbose OR 
@@ -191,14 +244,110 @@ WHERE::
                 remove OR changelist_op OR ignore_externals OR diff3_cmd OR no_unlock OR 
                 message OR file OR force_log OR editor_cmd OR encoding OR with_revprop OR
                 keep_changelists OR username OR password OR no_auth_cache OR non_interactive OR
-                config_dir
+                config_dir OR keep_local OR change OR old OR new OR diff_cmd OR version OR 
+                no_diff_deleted OR notice_ancestry OR summarize OR native_eol OR limit OR
+                with_all_revprops OR stop_on_copy OR ignore_ancestry OR accept OR reintegrate OR
+                dry_run OR record_only OR show_revs OR revprop OR strict OR show_updates OR 
+                set_depth OR relocate
              ; 
   
 FLY::
-  quiet : #$(verbose)# -> verbose := #false#;
-  verbose : #$(quiet)# -> quiet := #false#; 
+  quiet : #$(verbose?)# -> verbose := #false#;
+  verbose : #$(quiet?)# -> quiet := #false#; 
+  recursive -> depth := #"infinity"#;
+
+  //Improve error message by storing the set subcommand
+  add -> chosen_subcommand:=#"add"#;
+  blame -> chosen_subcommand:=#"blame"#;
+  cat -> chosen_subcommand:=#"cat"#;
+  changelist -> chosen_subcommand:=#"changelist"#;
+  checkout -> chosen_subcommand:=#"checkout"#;
+  cleanup -> chosen_subcommand:=#"cleanup"#;
+  commit -> chosen_subcommand:=#"commit"#;
+  copy -> chosen_subcommand:=#"copy"#;
+  delete -> chosen_subcommand:=#"delete"#;
+  diff -> chosen_subcommand:=#"diff"#;
+  export -> chosen_subcommand:=#"export"#;
+  help -> chosen_subcommand:=#"help"#;
+  import -> chosen_subcommand:=#"import"#;
+  info -> chosen_subcommand:=#"info"#;
+  list -> chosen_subcommand:=#"list"#;
+  lock -> chosen_subcommand:=#"lock"#;
+  log -> chosen_subcommand:=#"log"#;
+  merge -> chosen_subcommand:=#"merge"#;
+  mergeinfo -> chosen_subcommand:=#"mergeinfo"#;
+  mkdir -> chosen_subcommand:=#"mkdir"#;
+  move -> chosen_subcommand:=#"move"#;
+  propdel -> chosen_subcommand:=#"propdel"#;
+  propedit -> chosen_subcommand:=#"propedit"#;
+  propget -> chosen_subcommand:=#"propget"#;
+  proplist -> chosen_subcommand:=#"proplist"#;
+  propset -> chosen_subcommand:=#"propset"#;
+  resolve -> chosen_subcommand:=#"resolve"#;
+  resolved -> chosen_subcommand:=#"resolved"#;
+  revert -> chosen_subcommand:=#"revert"#;
+  status -> chosen_subcommand:=#"status"#;
+  switch -> chosen_subcommand:=#"switch"#;
+  unlock -> chosen_subcommand:=#"unlock"#;
+  update -> chosen_subcommand:=#"update"#;
+  
 OVERRIDES::
 
 VALIDITY::
-  # $(auto_props?) && $(no_auto_props) # : "--auto-props and --no-auto-props are mutually exclusive." ;
-  force requires add || delete  : "Cannot use option --force with this subcommand."  ;
+  //# $(auto_props?) && $(no_auto_props?) # : "--auto-props and --no-auto-props are mutually exclusive." ;
+  xor : auto_props, no_auto_props   : "--auto-props and --no-auto-props cannot be used together." ;
+  
+//Valid subcommands for options
+requires : accept => merge || resolve || switch || update;
+requires : auto_props  => add || import;
+requires : change => diff || log || merge;
+requires : changelist_op  => changelist || diff || info || propdel || propget || proplist || propset || revert || status || update;
+requires : depth  => add || changelist || checkout || commit || diff || export || import || info || list || merge || propdel || propget || proplist || propset || resolve || resolved || revert || status || switch || update;
+requires : diff_cmd => diff;
+requires : diff3_cmd  => cleanup || merge || switch || update;
+requires : dry_run => merge;
+requires : file  => commit || copy || delete || import || lock || mkdir || move || propedit || propset;
+requires : force  => add || blame || checkout || delete || diff || export || import || lock || merge || move || propedit || propset || switch || unlock || update;
+requires : force_log => commit || copy || delete || import || lock || mkdir || move || propedit;
+requires : editor_cmd  => commit || copy || delete || import || mkdir || move || propedit || update;
+requires : encoding  => commit || copy || delete || import || lock || mkdir || move || propedit || propset;
+requires : extensions  => blame || diff || merge;
+requires : ignore_ancestry => merge;
+requires : ignore_externals  => checkout || export || status || switch || update;
+requires : incremental  => blame || info || list || log || status;
+requires : keep_changelists => commit;
+requires : keep_local => delete;
+requires : limit => log;
+requires : message  => commit || copy || delete || import || lock || mkdir || move || propedit;
+requires : native_eol => export;
+requires : new => diff;
+requires : non_recursive  => add || checkout || commit || diff || export || import || merge || status || switch || update;
+requires : no_diff_deleted => diff;
+requires : no_ignore  => add || import || status;
+requires : no_auto_props  => add || import;
+requires : no_unlock  =>  commit;
+requires : notice_ancestry => diff;
+requires : old => diff;
+requires : parents  => add || copy || mkdir || move;
+requires : quiet  => add || changelist || checkout || commit || copy || delete || export || import || log || merge || mkdir || move || propdel || proplist || propset || resolve || resolved || revert || status || switch || update;
+requires : record_only => merge;
+requires : recursive => changelist || info || list || propdel || propget || proplist || propset || resolve || resolved || revert;
+requires : reintegrate => merge;
+requires : relocate => switch;
+requires : remove  => changelist;
+requires : revision  => blame || cat || checkout || copy || diff || export || info || list || log || merge || mergeinfo || move || propdel || propedit || propget || proplist || propset || switch || update;
+requires : revprop => propdel || propedit || propget || proplist || propset;
+requires : set_depth => switch || update;
+requires : show_revs => mergeinfo;
+requires : show_updates => status;
+requires : stop_on_copy => log;
+requires : strict => propget;
+requires : summarize => diff;
+requires : targets => add || changelist || commit || delete || lock || log || propset || resolve || resolved || revert || unlock;
+requires : use_merge_history => blame || log;
+requires : verbose  => blame || list || log || proplist || status;
+requires : with_all_revprops => log;
+requires : with_revprop => commit || copy || delete || import || log || mkdir || move || propedit;
+requires : xml  => blame || diff || info || list || log || propget || proplist || status;
+
+// username, password, no_auth_cache, non_interactive, config_dir are all global options.

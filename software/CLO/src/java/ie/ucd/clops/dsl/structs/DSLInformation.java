@@ -113,7 +113,7 @@ public class DSLInformation {
   public void processPlaceholders() {
     for (RuleDescription rule : flyRuleDescriptions) rule.processPlaceHolders(this);
     for (RuleDescription rule : overrideRuleDescriptions) rule.processPlaceHolders(this);
-    for (RuleDescription rule : validityRuleDescriptions) rule.processPlaceHolders(this);
+    for (ValidityRuleDescription rule : validityRuleDescriptions) rule.processPlaceHolders(this);
   }
   
 }

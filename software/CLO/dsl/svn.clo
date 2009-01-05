@@ -196,47 +196,13 @@ FORMAT::
   ;
   
 WHERE::
-  subcommand:    add
-              OR blame
-              OR cat
-              OR changelist
-              OR checkout
-              OR cleanup
-              OR commit
-              OR copy
-              OR delete
-              OR diff
-              OR export
-              OR help 
-              OR import
-              OR info
-              OR list 
-              OR lock
-              OR log
-              OR merge
-              OR mergeinfo
-              OR mkdir
-              OR move
-              OR propdel
-              OR propedit
-              OR propget
-              OR proplist
-              OR propset
-              OR resolve
-              OR resolved
-              OR revert
-              OR status
-              OR switch
-              OR unlock
-              OR update 
+  subcommand:    add OR blame OR cat OR changelist OR checkout OR
+                 cleanup OR commit OR copy OR delete OR diff OR export OR
+                 help OR import OR info OR list OR lock OR log OR merge OR
+                 mergeinfo OR mkdir OR move OR propdel OR propedit OR propget OR
+                 proplist OR propset OR resolve OR resolved OR revert OR status OR
+                 switch OR unlock OR update 
             ;
-              
-//  global_option:    username
-//                 OR password
-//                 OR no_auth_cache
-//                 OR non_interactive
-//                 OR config_dir
-//               ;
   
   all_options:  targets OR non_recursive OR depth OR quiet OR force OR no_ignore OR
                 auto_props OR no_auto_props OR parents OR revision OR verbose OR 
@@ -293,9 +259,8 @@ FLY::
   
 OVERRIDES::
 
-VALIDITY::
-  //# $(auto_props?) && $(no_auto_props?) # : "--auto-props and --no-auto-props are mutually exclusive." ;
-  xor : auto_props, no_auto_props   : "--auto-props and --no-auto-props cannot be used together." ;
+VALIDITY::  
+  exclusive : auto_props, no_auto_props   : "--auto-props and --no-auto-props cannot be used together." ;
   
 //Valid subcommands for options
 requires : accept => merge || resolve || switch || update;

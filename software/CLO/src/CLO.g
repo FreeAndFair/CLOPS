@@ -225,7 +225,7 @@ validity_section  :  'VALIDITY::' (validity_rule)*
 
 validity_rule  :   standard_validity_rule
                  | requires_validity_rule
-                 | exclusive_or_validity_rule
+                 | exclusive_validity_rule
                ;
 
 standard_validity_rule  :  condition
@@ -261,7 +261,7 @@ requires_expression_unit  :    arg_name
                           ;
 
                      
-exclusive_or_validity_rule  :  'xor' ':' a1=arg_name
+exclusive_validity_rule  :  'exclusive' ':' a1=arg_name
                                { List<String> args = new java.util.LinkedList<String>();
                                  args.add($a1.text);                                    }
                                ( ',' a=arg_name 

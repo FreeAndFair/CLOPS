@@ -1,5 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
@@ -19,11 +22,21 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     updateSuffix();
   }
 
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("between");
+      acceptedPropertyNames.add("argumentshape");
+    }
+    return acceptedPropertyNames;
+  }
+  
   @Override
-  public boolean acceptsProperty(String propertyName) {
-    return propertyName.equalsIgnoreCase("between") 
-      || propertyName.equalsIgnoreCase("argumentshape")
-      || super.acceptsProperty(propertyName);
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

@@ -2,6 +2,8 @@ package ie.ucd.clops.runtime.options;
 
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
+import java.util.Collection;
+
 /**
  * This interface describes information about the option needed during option parsing.
  *
@@ -71,6 +73,8 @@ public interface Option<T> extends IMatchable {
    * {@code InvalidOptionPropertyValueException} is also thrown when the value does not match the property type.
    */
   void setProperty(/*@non_null*/String propertyName, String propertyValue) throws InvalidOptionPropertyValueException;
+  
+  Collection<String> getAcceptedPropertyNames();
 
   /** Determines whether this option supports the given property. */
   /*@pure*/boolean acceptsProperty(/*@non_null*/String propertyName);

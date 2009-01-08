@@ -1,5 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 
 /**
  * @author Viliam Holub
@@ -65,13 +68,22 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 		this.value = null;
 	}
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equalsIgnoreCase("maxvalue") || propertyName.equalsIgnoreCase("minvalue")) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+	
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(OneArgumentOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("maxvalue");
+      acceptedPropertyNames.add("minvalue");
     }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

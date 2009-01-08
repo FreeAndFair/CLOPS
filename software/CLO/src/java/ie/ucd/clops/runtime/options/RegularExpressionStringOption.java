@@ -1,5 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -32,13 +34,20 @@ public class RegularExpressionStringOption extends StringOption {
     }
   }
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equalsIgnoreCase("regexp")) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("regexp");
     }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
   
   @Override

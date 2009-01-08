@@ -1,6 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -39,13 +41,21 @@ public class StringEnumOption extends StringOption {
     throw new InvalidOptionValueException(value + " is not an allowed choice.");
   }
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equalsIgnoreCase("choices") ||  propertyName.equalsIgnoreCase("casesensitive")) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("choices");
+      acceptedPropertyNames.add("casesensitive");
     }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

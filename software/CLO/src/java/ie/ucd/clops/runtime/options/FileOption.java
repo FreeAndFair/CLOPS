@@ -1,6 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author Fintan
@@ -45,13 +47,21 @@ public class FileOption extends OneArgumentOption<File> {
     this.constraints = null;
   }
 
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(OneArgumentOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.addAll(FileOptionConstraints.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("allowdash");
+    }
+    return acceptedPropertyNames;
+  }
+  
   @Override
-  public boolean acceptsProperty(String propertyName) {
-    //TODO - allowdash should be moved to FileOptionConstraints for reuse in FileListOption
-    return 
-      constraints.acceptsProperty(propertyName) ||
-      propertyName.equalsIgnoreCase("allowdash") ||
-      super.acceptsProperty(propertyName);
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override
@@ -84,10 +94,18 @@ public class FileOption extends OneArgumentOption<File> {
       canBeDir = true;
       mustBeDir = false;
     }
-
-    public boolean acceptsProperty(String propertyName) {
-      return    propertyName.equalsIgnoreCase("canexist") || propertyName.equalsIgnoreCase("mustexist") 
-             || propertyName.equalsIgnoreCase("canBeDir") || propertyName.equalsIgnoreCase("mustBeDir") ;
+    
+    //Static for space/time efficiency (we don't need one per instance) 
+    private static Collection<String> acceptedPropertyNames; 
+    protected static Collection<String> getStaticAcceptedPropertyNames() {
+      if (acceptedPropertyNames == null) {
+        acceptedPropertyNames = new LinkedList<String>();  
+        acceptedPropertyNames.add("canexist");
+        acceptedPropertyNames.add("mustexist");
+        acceptedPropertyNames.add("canBeDir");
+        acceptedPropertyNames.add("mustBeDir");
+      }
+      return acceptedPropertyNames;
     }
 
     public void checkSetValue(File file) throws InvalidOptionValueException {

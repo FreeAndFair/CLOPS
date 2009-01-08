@@ -3,6 +3,8 @@ package ie.ucd.clops.runtime.options;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.logging.Level;
 
 /**
@@ -30,14 +32,23 @@ public class CountedBooleanOption extends BasicOption<Integer> {
     errorOnExceedingMax = false;
   }
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (   propertyName.equalsIgnoreCase("countstart") || propertyName.equalsIgnoreCase("countmax")
-        || propertyName.equalsIgnoreCase("warnonexceedingmax") || propertyName.equalsIgnoreCase("erroronexceedingmax") ) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("countstart");
+      acceptedPropertyNames.add("countmax");
+      acceptedPropertyNames.add("warnonexceedingmax");
+      acceptedPropertyNames.add("erroronexceedingmax");
     }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

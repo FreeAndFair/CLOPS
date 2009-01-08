@@ -1,5 +1,6 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,15 +69,23 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     this.value = new LinkedList<T>();
   }
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equalsIgnoreCase("allowmultiple") ||  propertyName.equalsIgnoreCase("splitter")) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(OneArgumentOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("allowmultiple");
+      acceptedPropertyNames.add("splitter");
     }
+    return acceptedPropertyNames;
   }
-
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
+  }
+  
   @Override
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {

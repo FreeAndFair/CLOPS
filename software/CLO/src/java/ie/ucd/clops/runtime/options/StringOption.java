@@ -1,5 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 
 /**
  * @author Fintan
@@ -70,9 +73,20 @@ public class StringOption extends OneArgumentOption<String> {
 	  return value;
 	}
 
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(OneArgumentOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("stripquotesifpresent");
+    }
+    return acceptedPropertyNames;
+  }
+  
   @Override
-  public boolean acceptsProperty(String propertyName) {
-    return propertyName.equalsIgnoreCase("stripquotesifpresent") || super.acceptsProperty(propertyName);
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

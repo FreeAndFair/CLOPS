@@ -1,5 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
@@ -100,13 +103,20 @@ public class BooleanOption extends BasicOption<Boolean> {
     return value;
   }
 
-  @Override
-  public boolean acceptsProperty(String propertyName) {
-    if (propertyName.equalsIgnoreCase("allowarg")) {
-      return true;
-    } else {
-      return super.acceptsProperty(propertyName);
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.add("allowarg");
     }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
 
   @Override

@@ -3,6 +3,7 @@
  */
 package ie.ucd.clops.runtime.options;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.MatchResult;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 public abstract class BasicOption<T> implements Option<T> {
 
   private final String identifier;
-
+  
   private boolean sanitizePrefix;
   private boolean dirty;
   
@@ -100,9 +101,32 @@ public abstract class BasicOption<T> implements Option<T> {
     dirty = false;
   }
 
+  //Static for space/time efficiency (we don't need one per instance) 
+  private static Collection<String> acceptedPropertyNames; 
+  protected static Collection<String> getStaticAcceptedPropertyNames() {
+    if (acceptedPropertyNames == null) {
+      acceptedPropertyNames =  new LinkedList<String>();
+      acceptedPropertyNames.add("default");
+      acceptedPropertyNames.add("sanitizeprefix");
+      acceptedPropertyNames.add("suffixregexp");
+      acceptedPropertyNames.add("description");
+    }
+    return acceptedPropertyNames;
+  }
+  
+  @Override
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
+  }
+  
   public boolean acceptsProperty(String propertyName) {
-    return propertyName.equalsIgnoreCase("default") || propertyName.equalsIgnoreCase("sanitizeprefix") ||
-           propertyName.equalsIgnoreCase("suffixregexp") || propertyName.equalsIgnoreCase("description");
+    Collection<String> acceptedNames = getAcceptedPropertyNames();
+    for (String acceptedName : acceptedNames) {
+      if (propertyName.equalsIgnoreCase(acceptedName)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
@@ -158,6 +182,10 @@ public abstract class BasicOption<T> implements Option<T> {
     String r = getTypeString() + " Option: \"" + getIdentifier() + "\"";
     r += hasValue() ? "(=" + getValue() + ")" : "(not set)";
     return r;
+  }
+
+  public String getDescription() {
+    return description;
   }
   
 }

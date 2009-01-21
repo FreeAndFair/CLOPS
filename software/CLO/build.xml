@@ -180,7 +180,7 @@
       </assertions>
       <classpath refid="testdist.path"/>
       <!-- this should probably use the -b option and -d should produce a file -->
-      <!-- corresponding to the intput file -->
+      <!-- corresponding to the input file -->
       <arg value="-d=./test/o.html"/>
       <arg value="-c"/>
       <arg value="./templates/html.vm"/> 

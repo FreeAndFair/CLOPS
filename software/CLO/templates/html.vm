@@ -28,11 +28,11 @@ $info.PackageName
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: $assignment.OptionIdentifier = $assignment.Value
+Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
 <p>
-Condition: $!rule.ConditionText
+##Condition: $!rule.getConditionText()
 </p>
 #end
 
@@ -40,10 +40,10 @@ Condition: $!rule.ConditionText
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: $assignment.OptionIdentifier = $assignment.Value
+Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
-<p>Condition: $!rule.ConditionText
+<p>##Condition: $!rule.getConditionText()
 </p>
 #end
 
@@ -51,10 +51,10 @@ Assignment: $assignment.OptionIdentifier = $assignment.Value
 
 <p>
 #foreach($assignment in $rule.getAssignments())
-Assignment: $assignment.OptionIdentifier = $assignment.Value
+Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
-<p>Condition: $!rule.ConditionText
+<p>##Condition: $!rule.getConditionText()
 </p>
 
 #end

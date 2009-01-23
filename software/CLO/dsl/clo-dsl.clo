@@ -55,4 +55,6 @@ OVERRIDES::
 
 VALIDITY::
 
-//input != ? && output != ?
+{ !$(input?) } : "input not set";
+{ !$(output?) } : "output not set";
+

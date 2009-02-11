@@ -41,4 +41,19 @@ public class StringUtil {
     return parts;
   }
   
+  public static String convertAliasesForManpage(List<String> aliases) {
+    System.out.println("Before: " + aliases);
+    StringBuilder sb = new StringBuilder();
+    for (String alias : aliases) {
+      sb.append(alias.replace("-", "\\-").replace("\\\\?", "?"));
+      sb.append(", ");
+    }
+    if (sb.length() > 1) {
+      sb.delete(sb.length()-2, sb.length());
+    }
+    
+    System.out.println("After: " + sb.toString());
+    return sb.toString();
+  }
+  
 }

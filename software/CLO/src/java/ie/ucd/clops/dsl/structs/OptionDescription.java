@@ -90,4 +90,6 @@ public interface OptionDescription {
    * @return
    */
   String getDescription();
+  
+  List<String> getAliases();
 }

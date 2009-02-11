@@ -1,7 +1,9 @@
 package ie.ucd.clops.documentation;
 
+import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.util.StringUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -102,6 +104,8 @@ public class DocumentGenerator {
   protected VelocityContext createContext(DSLInformation information) {
     VelocityContext context = new VelocityContext();
     context.put("info", information);
+    context.put("StringUtil", StringUtil.class);
+    context.put("BasicOptionDescription", BasicOptionDescription.class);
     return context;
   }
 

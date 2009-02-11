@@ -105,5 +105,8 @@ public class BasicOptionDescription implements OptionDescription {
     this.description = description;
   }
 
-
+  //Warning, currently a VERY naive implementation
+  public List<String> getAliases() {
+    return getPrefixRegexps();
+  }
 }

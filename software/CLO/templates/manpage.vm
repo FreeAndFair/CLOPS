@@ -1,0 +1,29 @@
+#set($parserName = $info.getParserName())
+.TH "$parserName" 1
+.SH NAME
+$parserName \- T.B.D. Tool description.
+.SH SYNOPSIS
+.B $parserName
+T.B.D. Default usage string.
+.SH DESCRIPTION
+
+T.B.D. Tool description string.
+
+.SH OPTIONS
+
+#foreach($desc in $info.getOptionDescriptions())
+#set($aliases = $desc.getAliases())
+.TP
+.B $StringUtil.convertAliasesForManpage(${aliases}) 
+#if( "$!desc.getDescription()" != "" ) 
+$desc.getDescription()
+#else
+No description.
+#end
+#end
+.SH USAGE
+T.B.D. Usage explanation. 
+
+.SH AUTHOR
+Fintan Fairmichael <fintan dot fairmichael at ucd dot ie> 
+

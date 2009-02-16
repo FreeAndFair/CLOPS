@@ -9,9 +9,8 @@ $info.PackageName
 <body>
 <h2>Options</h2>
 #foreach($option in $info.getOptionDescriptions())
-
 <h3>$option.Identifier</h3>
-<p>$!option.getPrefixRegexps()</p>
+<p>$!option.getAliases() </p>
 <p>$!option.Description</p>
 #end
 <h2>Option Groups</h2>

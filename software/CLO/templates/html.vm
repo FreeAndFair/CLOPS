@@ -11,6 +11,7 @@ $info.PackageName
 #foreach($option in $info.getOptionDescriptions())
 
 <h3>$option.Identifier</h3>
+<p>$!option.getPrefixRegexps()</p>
 <p>$!option.Description</p>
 #end
 <h2>Option Groups</h2>
@@ -32,7 +33,7 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
 <p>
-##Condition: $!rule.getConditionText()
+  Condition: $!rule.getConditionText()
 </p>
 #end
 
@@ -43,7 +44,10 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
-<p>##Condition: $!rule.getConditionText()
+<p>Condition: $!rule.getConditionText()
+</p>
+</p>
+<p>Explanation: $!rule.getExplanation()
 </p>
 #end
 
@@ -54,7 +58,7 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
-<p>##Condition: $!rule.getConditionText()
+<p>Condition: $!rule.getConditionText()
 </p>
 
 #end

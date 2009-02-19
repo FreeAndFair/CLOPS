@@ -1,7 +1,7 @@
 --
--- COMMANDO - Generalized parsing of command line options
+-- VOTAIL
 --
--- Copyright (c) 2008 Dermot Cochran
+-- Copyright (c) 2009 Dermot Cochran
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,29 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 --
-dynamic_diagram Parse_options
+dynamic_diagram Ballot_Counting
+
 component
-  scenario "PARSE_OPTIONS"
+  scenario "BALLOT_COUNTING"
   action
-    "1" "Read the list of options"
+    "1" "Start the count"
+    "2"	"Get total number of ballots"
+    "3" "Calculate the quota"
+    "4" "Find highest candidate with quota"
+    "4" "Check number of remaining seats"
+    "5" "Check number of continuing candidates"
   end
-  object COMMAND_LINE
-  object SPECIFIC_PARSER
-  SPECIFIC_PARSER calls COMMAND_LINE "1"
+  object BALLOT_BOX
+  BALLOT_BOX calls COUNT_PROCESS "1"
 end
 
-dynamic_diagram Generate_API
+dynamic_diagram Distribute_Surplus
 component
-  scenario "GENERATE_API"
+  scenario "DISTRIBUTE_SURPLUS"
   action
-    "1" "Read the list of options"
+    "1" "Determine the transfer ratio"
   end
-  object COMMAND_LINE
-  object PARSER
-  PARSER calls COMMAND_LINE "1"
+  object CANDIDATE_LIST
+  object BALLOT_BOX
+  CANDIDATE_LIST calls BALLOT_BOX "1"
 end

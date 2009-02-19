@@ -1,7 +1,7 @@
 --
--- COMMANDO - Generalized parsing of command line options
+-- VOTAIL
 -- 
--- Copyright (c) 2008 Dermot Cochran
+-- Copyright (c) 2009 Dermot Cochran
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -22,108 +22,14 @@
 -- THE SOFTWARE.
 --
 
-cluster_chart DEPENDENCIES
+cluster_chart BALLOT_COUNTING
 indexing
   author: "Dermot Cochran";
-  created: "2008-10-14-dc";
-  revised: "2008-10-15-dc"
-explanation 
-  "Permitted relationships between options"
-class RULE description "Expression in which the LHS is set of options values and the RHS is a single assignment\
-                        \ of a new option value"
-class EXCLUSION_SET description "Subset of command line options which cannot be used together"
-class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
-class OVERRIDE_RULE description "The interdependent relationship between two different command line options"
-class EXPRESSION description "Set of option value pairs"
-class ASSIGNMENT_EXPRESSION description "Single assignment of a new value to an option"
-class OPTION_VALUE_PAIR description "Relationship between values and options"
-class OPTION_VALUE_PAIR_SET description "Set of relationships between values and options"
-end
-
-cluster_chart DOCUMENTATION
-indexing
-  author: "Dermot Cochran";
-  created: "2008-10-14-dc";
-  revised: "2008-12-16-dc"
-explanation 
-  "Information about how to use the command line options"
-class OPTION_DESCRIPTION description "Information about each command line option"
-class COMMAND_LINE_HELP description "Help information displayed on the command line"
-class MANUAL_PAGE description "Additional information shown on a manual page"
-class DOCUMENT_GENERATION description "Generation of documentation from the descriptions of options"
-end
-
-cluster_chart SCHEMA
-indexing
-  author: "Dermot Cochran";
-  created: "2008-10-14-dc";
-  revised: "2008-10-17-dc", "2008-10-31-dc"
-explanation 
-  "Reading and interpretation of the command line"
-class ARGUMENT description "Additional parameter within a command line option"
-class COMMAND_LINE_SCHEMA description "The syntax of and dependencies between command line options" 
-class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
-class COMMAND_LINE description "The set of options chosen by the user"
-class VALUE description "The specific value assigned to a command line option or one of its arguments"
-class VIRTUAL_OPTION description "The underlying option represented by one or more different arguments"
-class PATTERN description "Specific instance of a regular pattern against which options can be matched"
-end
-
-cluster_chart ERRORS
-indexing
-  author: "Dermot Cochran";
-  created: "2008-10-16-dc";
-  revised: "2008-12-03-dc"
-explanation
-  "Inconsistencies arising from dependencies between differnt command line options"
-class ERROR_HANDLER description "Subcomponent which handles and reports errors"
-class ERROR_MESSAGE description "Detailed description of a specific inconsistency or problem"
-class JAVA_EXCEPTION description "Mechanism by which errors are sent to the client code"
-class LOGGING description "Manage display and presentation of all error and log messages"
-class MESSAGING description "Manage string constants, literals, localisation and internationalisation"
-end
-
-cluster_chart API_GENERATION
-indexing
-  author: "Dermot Cochran";
-  created: "2008-10-16-dc";
-  revised: "2008-10-16-dc", "2008-10-31"
-explanation
-  "Generation of an API for handling the specifics of each command line option"
-class AST description "Abstract Syntax Tree representation of the command line schema"
-class DSL_PROCESSING description "Interpretation of a domain specific language (DSL) for command line options"
-class DSL_TYPECHECKER description "Typechecker for the options schema and model as written in DSL format"
-class INTERNAL_REPRESENTATION description "Internal or generic representation of the command line schema"
-class JAVA_API description "Java classes and interfaces generated from the schema"
-class CODE_GENERATION description "Generation of general purpose language (GPL) code for \
-	\processing of command line options"
-class COMMAND_LINE_ENGINE description "Morphism or mechanism which transforms the command line schema into a parser"
-end
-
-cluster_chart EXTENSIONS
-indexing
-  author: "Dermot Cochran";
-  created: "2008-10-16-dc";
-  revised: "2008-10-16-dc" 
-explanation
-  "Optional extensions of the command line inteface (e.g. tab completion) or alternative interfaces e.g GUI"
-class EXTENSION_POINT description "Extension of or alternative interface, layered over the command line interface"
-class TAB_COMPLETION description "Optional feature for autocompletion of command line options"
-class GUI_LAYER description "GUI representation of the command line format"
-class PLUGIN_INTERFACE description "Eclipse plugin representation of the GUI interface"
-end
-
-cluster_chart PARSERS
-indexing
-  created: "2008-10-16-dc";
-  revised: "2008-10-31-dc"
-explanation 
-  "A parser is one of the components in an interpreter or compiler, which checks for correct \
-  \syntax and builds a data structure (often some kind of parse tree, abstract syntax tree or \
-  \other hierarchical structure) implicit in the input tokens.  parsing, or, more formally, \
-  \syntactic analysis, is the process of analyzing a sequence of tokens to determine their \
-  \grammatical structure with respect to a given (more or less) formal grammar."
-class COMMAND_LINE_PARSER description "A parser which extracts arguments and values from the command line"
-class GENERIC_PARSER description "Non-configurable subcomponent of the comamnd line parser"
-class SPECIFIC_PARSER description "Configurable subcomponent of the command line parser"
+  created: "2009-02-19-dc";
+ explanation 
+  "The counting of ballot papers"
+class BALLOT_BOX description "The set of all valid ballots"
+class CANDIDATE_LIST description "The set of all candidates for election and the status of each candidate"
+class COUNT_PROCESS description "The procedure and algorithm for counting of ballots"
+class ELECTION_RESULT description "The number of votes for each candidate at each round of counting"
 end

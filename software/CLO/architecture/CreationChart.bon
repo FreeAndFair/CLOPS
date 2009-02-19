@@ -1,7 +1,7 @@
 --
--- COMMANDO - Generalized parsing of command line options
+-- Votail
 --
--- Copyright (c) 2008 Dermot Cochran
+-- Copyright (c) 2009 Dermot Cochran
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,11 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 --
-creation_chart COMMANDO
+creation_chart VOTAIL
 indexing
   author: "Dermot Cochran";
-  created: "2008-10-15";
+  created: "2009-02-19-dc";
   level_of_detail: "1"
 explanation 
-  "Objects created while processing command line options"
-creator DSL_PROCESSING creates INTERNAL_REPRESENTATION
-creator CODE_GENERATION creates JAVA_API
-creator ERROR_HANDLER creates JAVA_EXCEPTION
+  "The set of objects created by the system"
 end

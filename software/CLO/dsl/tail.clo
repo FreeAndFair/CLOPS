@@ -54,13 +54,14 @@ WHERE::
 
 FLY::
 
-	follow -> follow_x:=#"descriptor"#;
-	Follow -> follow_x:=#"name"#;
-	Follow -> retry:=#true#;
-	verbose -> header_mode:=#"always"#;
-	quiet -> header_mode:=#"never"#;
+	follow -> follow_x:={"descriptor"};
+	Follow -> follow_x:={"name"};
+	Follow -> retry:={true};
+	verbose -> header_mode:={"always"};
+	quiet -> header_mode:={"never"};
 
 OVERRIDES::
 
 VALIDITY::
-#true# :"this is a string";
+{true} :"this is a string";
+

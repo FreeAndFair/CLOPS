@@ -280,9 +280,9 @@ WHERE::
 
 
 FLY::
-   long -> one:=#false#;
-   one -> long:=#false#;
- //  color -> color:=#"auto"#;
+   long -> one:={false};
+   one -> long:={false};
+ //  color -> color:={"auto"};
 
 /*   across <-> format="across";
    horizontal <-> format="across";

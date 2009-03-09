@@ -19,8 +19,12 @@ options {
   package ie.ucd.clops.dsl.parser;
 }
 
+@lexer::members {
+  boolean curliesInJavaMode = false;
+}
+
 @members {
-  //Currently nothing
+  // Nothing now.
 }
 
 /**********************************************  
@@ -44,15 +48,13 @@ clo_specification  :  name_section
 
 /**********************************************/
 
-name_section  :  'NAME::'
-                 NAME
+name_section  :  SECTION_NAME NAME
                  { getDslInformation().setParserName($NAME.text); }
               ;
 
 /**********************************************/
 
-package_section  :  'PACKAGE::'
-                    package_name
+package_section  :  SECTION_PACKAGE package_name
                     { getDslInformation().setPackageName($package_name.text); }
               ;
               
@@ -62,8 +64,7 @@ package_name  :  NAME ('.' NAME)*
 
 /**********************************************/
 
-args_section  :  'ARGS::'
-                 (arg_definition)+
+args_section  :  SECTION_ARGS (arg_definition)+
               ;
 
 //Currently allowing anything for the 
@@ -71,7 +72,7 @@ arg_definition
 @init { OptionDescription option = new BasicOptionDescription(); }
                 :  id=arg_name
                    { option.setId($id.text); } 
-                   COLON_BRACKET
+                   ':' '{'
                    ( 
                      a1=arg_regexp 
                      { option.addPrefixRegexp($a1.text); }
@@ -81,7 +82,7 @@ arg_definition
                    )?
                    '}'
                    (
-                   ( COLON_BRACKET t=NAME '}'
+                   ( ':' '{' t=NAME '}'
                        { try { OptionType optionType = getOptionTypeFactory().getOptionType($t.text); option.setType(optionType);
                              } catch(UnknownOptionTypeException e) { throw new DSLParseException(e.getMessage()); } 
                        }
@@ -138,7 +139,7 @@ option_comment  :  STRING_CONSTANT
 
 /**********************************************/
 
-args_format_section  :  'FORMAT::' format_clause  
+args_format_section  :  SECTION_FORMAT format_clause  
                         { getDslInformation().setFormatString($format_clause.text); }
                         ';'
                      ;
@@ -162,7 +163,7 @@ repetition_operator  : '*' | '+' | '?'
 
 /**********************************************/
 
-where_section  :  'WHERE::' (where_clause)*
+where_section  :  SECTION_WHERE (where_clause)*
                ;
 
 where_clause  :  group=NAME
@@ -176,7 +177,7 @@ where_clause  :  group=NAME
 
 /**********************************************/
 
-fly_section  :  'FLY::' (fly_rule)*
+fly_section  :  SECTION_FLY (fly_rule)*
              ;
 
 fly_rule  :  t=NAME
@@ -203,7 +204,7 @@ assignment_rhs  :  UNCHECKED_CODE_BLOCK
 
 /**********************************************/
 
-overrides_section  :  'OVERRIDES::' (override_rule)*
+overrides_section  :  SECTION_OVERRIDES (override_rule)*
                    ;
 
 override_rule  :  condition '->' 
@@ -221,7 +222,7 @@ override_rule  :  condition '->'
 
 /**********************************************/
 
-validity_section  :  'VALIDITY::' (validity_rule)*
+validity_section  :  SECTION_VALIDITY (validity_rule)*
                   ;
 
 validity_rule  :   standard_validity_rule
@@ -308,24 +309,30 @@ comparison_op  :    '='
                   | '>='
                ;
 
+
 /**********************************************  
  ##############################################
  ###   Lexer...                             ###
  ##############################################
  **********************************************/ 
 
-UNCHECKED_JAVA  : '#' .* '#'
-  {
-    setText($text.substring(1, $text.length()-1).trim());
-  }
-                ;
-   
-UNCHECKED_CODE_BLOCK  :  UNCHECKED_CODE { setText($text.substring(1, $text.length()-1).trim()); }
-                      ;
+SECTION_NAME: 'NAME::';
+SECTION_PACKAGE: 'PACKAGE::';
+SECTION_ARGS: 'ARGS::' {curliesInJavaMode=false;};
+SECTION_FORMAT: 'FORMAT::';
+SECTION_WHERE: 'WHERE::';
+SECTION_FLY: 'FLY::' {curliesInJavaMode=true;};
+SECTION_OVERRIDES: 'OVERRIDES::' {curliesInJavaMode=true;};
+SECTION_VALIDITY: 'VALIDITY::' {curliesInJavaMode=true;};
+
+UNCHECKED_CODE_BLOCK  :
+  {curliesInJavaMode}?=>
+  UNCHECKED_CODE { setText($text.substring(1, $text.length()-1).trim()); }
+  ;
    
 fragment                  
 UNCHECKED_CODE :
-	'{'
+	'{' 
 	(	options {greedy=false; k=2;}
 	:	UNCHECKED_CODE
 	|	SINGLE_LINE_COMMENT
@@ -335,10 +342,6 @@ UNCHECKED_CODE :
 	'}'
 	
    ;
-
-//Do not allow {...} to always match unchecked_code
-COLON_BRACKET  :  ':' '{'
-               ;
 
 STRING_CONSTANT : '"' .* '"' 
   { /* FIXME */ 

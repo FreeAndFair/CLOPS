@@ -64,8 +64,15 @@ public class DocumentGenerator {
    *   requires velocity.resourceExists(templateName);
    * </JML>
    */
-  public void generate(File outputFile, String templateFile, String explanationText) {
-
+  public void generate(File outputFile, String templateFileName, String explanationText) {
+    String templateFile;
+    if (Velocity.resourceExists(templateFileName)) {
+      templateFile = templateFileName;
+    }
+    else {
+      templateFile = new File(templateFileName).getAbsolutePath();
+      //we're feeling lucky
+    }
     if (Velocity.resourceExists(templateFile)) {
 
       try {

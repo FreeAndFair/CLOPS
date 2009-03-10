@@ -233,7 +233,7 @@ validity_rule  :   standard_validity_rule
 standard_validity_rule  :  condition
                            { ValidityRuleDescription vrd = new ValidityRuleDescription(); 
                              vrd.setConditionText($condition.text);                            }
-                           ( ':' explanation
+                           ( '->' explanation
                              { vrd.setExplanation($explanation.text); }
                            )? 
                            { getDslInformation().addValidityRuleDescription(vrd); } 
@@ -242,7 +242,7 @@ standard_validity_rule  :  condition
 
 requires_validity_rule  :  'requires' ':' arg_name '=>' requires_expression
                            { ValidityRuleDescription vrd = ValidityRuleDescription.fromRequires($arg_name.text, $requires_expression.text); }
-                           ( ':' explanation
+                           ( '->' explanation
                             { vrd.setExplanation($explanation.text); }
                            )?
                            { getDslInformation().addValidityRuleDescription(vrd); }

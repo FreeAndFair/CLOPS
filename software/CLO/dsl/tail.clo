@@ -63,5 +63,5 @@ FLY::
 OVERRIDES::
 
 VALIDITY::
-{true} :"this is a string";
+{true} -> "this is a string";
 

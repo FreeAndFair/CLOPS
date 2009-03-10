@@ -170,7 +170,7 @@ where_clause  :  group=NAME
                  { OptionGroupDescription opGroup = new OptionGroupDescription($group.text); } 
                  ':' child1=NAME
                  { opGroup.addChild($child1.text); }  
-                 ('OR' child=NAME { opGroup.addChild($child.text); } )* 
+                 (('OR'|'|') child=NAME { opGroup.addChild($child.text); } )* 
                  { getDslInformation().addOptionGroupDescription(opGroup); }
                  ';'
               ;

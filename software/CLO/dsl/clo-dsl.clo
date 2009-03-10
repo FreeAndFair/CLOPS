@@ -55,6 +55,6 @@ OVERRIDES::
 
 VALIDITY::
 
-{ !$(input?) } -> "input not set";
-{ !$(output?) } -> "output not set";
+{ !$(input?) } : "input not set";
+{ !$(output?) } : "output not set";
 

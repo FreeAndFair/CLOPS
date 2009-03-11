@@ -1,27 +1,51 @@
 ## html.vm
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<title>
-$info.ParserName
-</title>
 <head>
-$info.PackageName
+  <!-- link type="text/css" rel="stylesheet" href="style.css" -->
+  <title>$info.ParserName ($info.PackageName)</title>
+  <style type="text/css">
+    body { color: black; background: white; }
+    .id {width:50px; color:blue;}
+    .aliases {font-family:Courier; background-color=grey;}
+  </style>
 </head>
+
 <body>
+<h1>$info.ParserName</h1>
 <h2>Options</h2>
-#foreach($option in $info.getOptionDescriptions())
-<h3>$option.Identifier</h3>
-<p>$!option.getAliases() </p>
-<p>$!option.Description</p>
-#end
-<h2>Option Groups</h2>
 
 #foreach($group in $info.getOptionGroupDescriptions())
-<h3>$group.Identifier</h3>
 <p>
+<h3>$group.Identifier options</h3>
+<table>
+
 #foreach($child in $group.getChildren())
-  $!child #end
-</p>
+ #set($option =  $info.getOptionDescriptionForIdentifier($!child))
+ <tr>
+ <td><span class="id">$option.Identifier</span></td>
+ <td><span class="aliases">
+     #if("$!option.getAliases()" == "[]")
+       #if( $option.getType().getType() != 0 )
+           &lt;$option.getType().getTypeDescriptionString()&gt;
+       #end
+     #end
+     #foreach($alias in $option.getAliases())
+       $alias
+      
+       #if( $option.getType().getType() != 0 )
+           &lt;$option.getType().getTypeDescriptionString()&gt;
+       #end
+       <br/>
+     #end
+     </span></td>
+ <td><span class="description">$!option.Description</span></td>
+ </tr>
+  #end
+</table>
 #end
+
 <h2>Rules</h2>
  
 #foreach($rule in $info.getOverrideRuleDescriptions())

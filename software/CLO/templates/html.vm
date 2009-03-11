@@ -15,10 +15,10 @@
 <body>
 <h1>$info.ParserName</h1>
 <p>
-<a href="options">Options</a><br/>
-<a href="rules">Rules</a>
+<a href="#options">Options</a><br/>
+<a href="#rules">Rules</a>
 </p>
-<h2><a name="#options">Options</a></h2>
+<h2><a name="options">Options</a></h2>
 
 #foreach($group in $info.getOptionGroupDescriptions())
 <p>
@@ -49,7 +49,7 @@
 </table>
 #end
 
-<h2><a name="#rules">Rules</a></h2>
+<h2><a name="rules">Rules</a></h2>
  
 #foreach($rule in $info.getOverrideRuleDescriptions())
 

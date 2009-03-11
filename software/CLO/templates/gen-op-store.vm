@@ -18,10 +18,10 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
-    ${id}OG = new $type.getOptionTypeClass()("$id","$OptionType.unifyRegexps($desc.getPrefixRegexps())");
+    ${id}OG = new $type.getOptionTypeClass()("$id", "$OptionType.unifyRegexps($desc.getPrefixRegexps())");
     addOption(${id}OG);
 #foreach($pair in $desc.getProperties())
-    ${id}OG.setProperty("$pair.first","$pair.second");
+    ${id}OG.setProperty("$pair.first", "$pair.second");
 #end
 #if( "$!desc.getDescription()" != "" )
 #set( $lines = $CodeGenerator.quoteMultilineString($desc.getDescription()) )
@@ -43,7 +43,7 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     //Option groups
 #foreach($desc in $info.getOptionGroupDescriptions())
 #set($id = $desc.getIdentifier())
-    OptionGroup ${id}OG = new OptionGroup("$id");
+    final OptionGroup ${id}OG = new OptionGroup("$id");
     addOptionGroup(${id}OG);
 #end
     //Setup groupings
@@ -58,10 +58,16 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
+  /**
+   * {@inheritDoc}
+   */
   public boolean is${id}Set() {
     return ${id}OG.hasValue();
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public $type.getOptionValueTypeClass() get${id}() {
     return ${id}OG.getValue();
   }
@@ -69,5 +75,6 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
   public $type.getOptionTypeClass() get${id}Option() {
     return ${id}OG;
   }
+  
 #end
 }

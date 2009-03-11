@@ -1,28 +1,52 @@
 #if( "$!info.getPackageName()" != "" ) 
 package $info.getPackageName();
+
 #end
 #set( $parsername = $info.getParserName() )
-
 import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
 import ie.ucd.clops.runtime.rules.RuleStore;
+import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 
+
+/**
+ * The arguments parser.
+ * This is the main entry point for the option's handling.
+ * @author The CLOPS team (kind@ucd.ie)
+ */
 public class ${parsername}Parser extends AbstractSpecificCLParser { 
+
+  /** the option store used to hold the options status. */
   private final ${parsername}OptionStore optionStore;
+  /** the store which contains the constraints associated with the options. */
   private final ie.ucd.clops.runtime.rules.RuleStore ruleStore;
 
-  public ${parsername}Parser() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
+  /**
+   * Creates a parser to handle the options.
+   * @throws InvalidOptionPropertyValueException if one of the option had
+   * an invalid property attached to it in the CLOPS description file.
+   */
+  public ${parsername}Parser() throws InvalidOptionPropertyValueException {
     optionStore = new ${parsername}OptionStore();
     ruleStore = new ${parsername}RuleStore(); 
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public ${parsername}OptionStore getOptionStore() {
     return optionStore;  
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public RuleStore getRuleStore() {
     return ruleStore;
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public String getFormatString() {
     return "$info.getFormatString()"; 
   }

@@ -26,17 +26,7 @@ public class BooleanOption extends BasicOption<Boolean> {
     setMatchingSuffix(SUFFIX);
   }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#getValue()
-   */
-  public Boolean getValue() { return value; }
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#hasValue()
-   */
-  public boolean hasValue() {
-    return value != null;
-  }
+  public Boolean getRawValue() { return value; }
 
   /* (non-Javadoc)
    * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String, int)

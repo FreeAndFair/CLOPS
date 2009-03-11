@@ -32,10 +32,17 @@ public interface Option<T> extends IMatchable {
 
   /**
    * Get the value associated with this Option.
-   * {@code hasValue() <=> getValue()!=null}.
    * @return the value associated with this Option.
+   * @throws IllegalStateException if this option wasn't set
    */
   /*@pure*/T getValue();
+
+  /**
+   * Get the value associated with this Option.
+   * {@code hasValue() <=> getRawValue()!=null}.
+   * @return the value associated with this Option.
+   */
+  /*@pure*/T getRawValue();
 
   /**
    * Unset this Option.

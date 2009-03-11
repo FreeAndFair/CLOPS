@@ -24,17 +24,7 @@ public class FloatOption extends OneArgumentOption<Float> {
 		this.hasMinValue = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#getValue()
-	 */
-	public Float getValue() { return value; }
-
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#hasValue()
-	 */
-	public boolean hasValue() {
-		return value != null;
-	}
+	public Float getRawValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)

@@ -17,17 +17,7 @@ public class StringOption extends OneArgumentOption<String> {
 		this.stripquotes = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#getValue()
-	 */
-	public String getValue() { return value; }
-
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#hasValue()
-	 */
-	public boolean hasValue() {
-		return value != null;
-	}
+	public String getRawValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)

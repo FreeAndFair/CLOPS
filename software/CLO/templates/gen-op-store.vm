@@ -71,6 +71,13 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
   public $type.getOptionValueTypeClass() get${id}() {
     return ${id}OG.getValue();
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  public $type.getOptionValueTypeClass() getRaw${id}() {
+    return ${id}OG.getRawValue();
+  }
   
   public $type.getOptionTypeClass() get${id}Option() {
     return ${id}OG;

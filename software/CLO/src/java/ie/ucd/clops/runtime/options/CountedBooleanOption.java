@@ -81,7 +81,7 @@ public class CountedBooleanOption extends BasicOption<Integer> {
     return "Counted boolean.";
   }
 
-  public Integer getValue() {
+  public Integer getRawValue() {
     return count;
   }
 
@@ -123,6 +123,7 @@ public class CountedBooleanOption extends BasicOption<Integer> {
   }
 
   public void unset() {
+    // TODO(rg): I think this should be an exception.
     assert false;
   }
 

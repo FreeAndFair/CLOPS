@@ -20,14 +20,8 @@ public class FileOption extends OneArgumentOption<File> {
     constraints = new FileOptionConstraints();
   }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#getValue()
-   */
-  public File getValue() { return value; }
+  public File getRawValue() { return value; }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)
-   */
   public void set(File value) throws InvalidOptionValueException {
     constraints.checkSetValue(value);
     this.value = value;	  

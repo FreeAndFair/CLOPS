@@ -48,8 +48,17 @@ public abstract class BasicOption<T> implements Option<T> {
     return identifier;
   }
 
+  /** Returns the value to which the option was set, or throws
+   * {@code IllegalStateException} if the option was not set to
+   * any value. */
+  public T getValue() {
+    if (!hasValue()) throw new IllegalStateException(
+      "This option was not set. You might want to use getRaw*().");
+    return getRawValue();
+  }
+
   public boolean hasValue() {
-    return getValue() != null;
+    return getRawValue() != null;
   }
   
   public int getMatchLength() { 

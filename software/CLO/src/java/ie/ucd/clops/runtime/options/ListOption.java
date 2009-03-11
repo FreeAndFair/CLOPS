@@ -25,7 +25,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     this.splittingString = DEFAULT_SPLIT;
   }
   
-  public List<T> getValue() {
+  public List<T> getRawValue() {
     return value;
   }
 

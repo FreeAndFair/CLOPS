@@ -24,17 +24,7 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 		this.hasMinValue = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#getValue()
-	 */
-	public Integer getValue() { return value; }
-
-	/* (non-Javadoc)
-	 * @see ie.ucd.clo.runtime.options.Option#hasValue()
-	 */
-	public boolean hasValue() {
-		return value != null;
-	}
+	public Integer getRawValue() { return value; }
 
 	/* (non-Javadoc)
 	 * @see ie.ucd.clo.runtime.options.Option#set(java.lang.Object)

@@ -37,20 +37,20 @@ public class AutomatonTest {
   }
 
   private static String stringTokens( List<Token<IMatchable>> tokens) {
-    String result = "";
+    StringBuilder result = new StringBuilder();
     //boolean last_match = false;
     for (Token<IMatchable> token:tokens) {
       switch (token.type) {
-      case MATCH: result += "'" +token.match.getIdentifier() +"' "; break;
-      case LEFT: result += '('; break;
-      case RIGHT: result += ')'; break;
-      case OR: result += '|'; break;
-      case PLUS: result += '+'; break;
-      case STAR: result += '*'; break;
-      case QUESTION: result += '?'; break;
+      case MATCH: result.append("'" +token.match.getIdentifier() +"' "); break;
+      case LEFT: result.append('('); break;
+      case RIGHT: result.append(')'); break;
+      case OR: result.append('|'); break;
+      case PLUS: result.append('+'); break;
+      case STAR: result.append('*'); break;
+      case QUESTION: result.append('?'); break;
       }
     }
-    return result;
+    return result.toString();
   }
 
   //	public static String stringOptions( Option[] options) {
@@ -60,7 +60,7 @@ public class AutomatonTest {
   //		return result;
   //	}
 
-  public static String stage;
+  private static String stage;
 
   private static class TestInstance {
     String stage;

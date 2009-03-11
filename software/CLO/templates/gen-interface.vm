@@ -10,15 +10,24 @@ public interface $info.getParserName()OptionsInterface {
 
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
+
+ /* Option $desc.getIdentifier().
+#if( "$!desc.getDescription()" != "" )
+  * Description: $desc.getDescription()
+#end
+  * Aliases: $desc.getAliases()
+  */
+
   /**
-   * @return true if the option $desc.getIdentifier() has been mentionned
+   * @return true if the option $desc.getIdentifier() has been used
    * in the command line.
-   */ 
+   */
   boolean is$desc.getIdentifier()Set();
   
   /**
+   * Get the value of {@code Option} $desc.getIdentifier().
    * @return the value of the option $desc.getIdentifier() if it has been set
-   * using the arguments. Throws an exception otherwise.
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
   $type.getOptionValueTypeClass() get$desc.getIdentifier()();
   

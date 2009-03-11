@@ -2,7 +2,9 @@
 package $info.getPackageName();
 #end
 
-import ie.ucd.clops.runtime.options.*;
+import ie.ucd.clops.runtime.options.CLOPSErrorOption;
+import ie.ucd.clops.runtime.options.OptionGroup;
+import ie.ucd.clops.runtime.options.OptionStore;
 
 public class $info.getParserName()OptionStore extends OptionStore implements $info.getParserName()OptionsInterface {
 
@@ -58,6 +60,13 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
+ /* Option $desc.getIdentifier().
+#if( "$!desc.getDescription()" != "" )
+  * Description: $desc.getDescription()
+#end
+  * Aliases: $desc.getAliases()
+  */
+  
   /**
    * {@inheritDoc}
    */

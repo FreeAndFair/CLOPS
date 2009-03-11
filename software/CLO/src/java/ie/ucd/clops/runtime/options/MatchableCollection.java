@@ -12,7 +12,7 @@ public class MatchableCollection {
     /**
      * Enable a runtime check for duplicate matching.
      */
-    public static boolean assertForDuplicates = true;
+    public static final boolean assertForDuplicates = true;
 
     // collection of matchables
     protected Collection<IMatchable> ms;
@@ -50,8 +50,12 @@ public class MatchableCollection {
 
     @Override
     public boolean equals(Object o) {
+      if (o instanceof MatchableCollection) {
         MatchableCollection omc = (MatchableCollection) o;
         return omc.ms.equals(this.ms);
+      } else {
+        return false;
+      }
     }
 
     @Override 

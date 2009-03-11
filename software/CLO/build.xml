@@ -133,12 +133,11 @@
         <enable/>
       </assertions>
       <classpath refid="testdist.path"/>
-      <arg value="-i"/>
-      <arg value="${dsl-interface-file}"/>
       <arg value="-o"/>
       <arg value="${src-dsl-interface}"/>
       <arg value="-p"/>
       <arg value="${src-dsl-interface-package}"/>
+      <arg value="${dsl-interface-file}"/>
     </java>
     <antcall target="dist"/>
   </target>

@@ -1,15 +1,25 @@
 #if( "$!info.getPackageName()" != "" ) 
 package $info.getPackageName();
+
 #end
 #set($parserName = $info.getParserName())
+import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.rules.Action;
+import ie.ucd.clops.runtime.rules.Expression;
+import ie.ucd.clops.runtime.rules.RuleStore;
+import ie.ucd.clops.runtime.rules.ValidityRule;
 
-import ie.ucd.clops.runtime.rules.*;
-import ie.ucd.clops.runtime.options.*;
+import java.util.Arrays;
+import java.util.List;
 
-public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore {
+/**
+ * The rule store is used to handle the constraints and the validity
+ * checks associated with the options.
+ * @author The CLOPS team (kind@ucd.ie)
+ */
+public class ${parserName}RuleStore extends RuleStore {
 
   public ${parserName}RuleStore() {
-    
 #foreach($flyrule in $info.getFlyRuleDescriptions())
 #set($flyid = $flyrule.getId()) 
 #if( "$!flyrule.getConditionText()" != "" )
@@ -22,9 +32,9 @@ public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore
 #foreach($assign in $flyrule.getAssignments())
 #set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
     rule${flyid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${flyid}Expression$assign.getId()()));
+    
 #end
 #end    
-
 #foreach($orrule in $info.getOverrideRuleDescriptions())
 #set($orid = $orrule.getId())
     Expression<Boolean> rule${orid}Condition = new Rule${orid}Condition();
@@ -33,14 +43,14 @@ public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore
 #foreach($assign in $orrule.getAssignments())
 #set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
     rule${orid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${orid}Expression$assign.getId()()));
+
 #end
-#end
-  
+#end  
 #foreach($valrule in $info.getValidityRuleDescriptions())
 #set($valid = $valrule.getId())
     Expression<Boolean> rule${valid}Condition = new Rule${valid}Condition();
     ValidityRule rule${valid} = new ValidityRule(rule${valid}Condition);
-    rule${valid}.addAction(new Action<java.util.List<String>>("$CLOPSErrorOption.getErrorId()", new Rule${valid}Expression()));
+    rule${valid}.addAction(new Action<List<String>>("$CLOPSErrorOption.getErrorId()", new Rule${valid}Expression()));
     addValidityRule(rule${valid});
 #end
   }
@@ -48,58 +58,76 @@ public class ${parserName}RuleStore extends ie.ucd.clops.runtime.rules.RuleStore
 #foreach($flyrule in $info.getFlyRuleDescriptions())
 #set($flyid = $flyrule.getId())
 #if( "$!flyrule.getConditionText()" != "" )
-    public static class Rule${flyid}Condition implements Expression<Boolean> {
-      public Boolean evaluate(OptionStore optionStore) {
-        return $flyrule.getConditionText();
-      }
+  public static class Rule${flyid}Condition implements Expression<Boolean> {
+    /**
+     * {@inheritDoc}
+     */
+    public Boolean evaluate(OptionStore optionStore) {
+      return $flyrule.getConditionText();
     }
+  }
     
 #end
 #foreach($assign in $flyrule.getAssignments())
 #set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
-    public static class Rule${flyid}Expression$assign.getId() implements Expression<$assigntype> {
-      public $assigntype evaluate(OptionStore optionStore) {
-        return $assign.getValue();
-      }
+  public static class Rule${flyid}Expression$assign.getId() implements Expression<$assigntype> {
+    /**
+     * {@inheritDoc}
+     */
+    public $assigntype evaluate(OptionStore optionStore) {
+      return $assign.getValue();
     }
+  }
+  
 #end
 #end    
-
 #foreach($orrule in $info.getOverrideRuleDescriptions())
 #set($orid = $orrule.getId())
-    public static class Rule${orid}Condition implements Expression<Boolean> {
-      public Boolean evaluate(OptionStore optionStore) {
-        return $orrule.getConditionText();
-      }
+  public static class Rule${orid}Condition implements Expression<Boolean> {
+    /**
+     * {@inheritDoc}
+     */
+    public Boolean evaluate(OptionStore optionStore) {
+      return $orrule.getConditionText();
     }
+  }
     
 #foreach($assign in $orrule.getAssignments())
 #set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
-    public static class Rule${orid}Expression$assign.getId() implements Expression<$assigntype> {
-      public $assigntype evaluate(OptionStore optionStore) {
-        return $assign.getValue();
-      }
+  public static class Rule${orid}Expression$assign.getId() implements Expression<$assigntype> {
+    /**
+     * {@inheritDoc}
+     */
+    public $assigntype evaluate(OptionStore optionStore) {
+      return $assign.getValue();
     }
-#end
-#end
-  
-#foreach($valrule in $info.getValidityRuleDescriptions())
-#set($valid = $valrule.getId())
-    public static class Rule${valid}Condition implements Expression<Boolean> {
-      public Boolean evaluate(OptionStore optionStore) {
-        return $valrule.getConditionText();
-      }
-    }
-    
-    public static class Rule${valid}Expression implements Expression<java.util.List<String>> {
-      public java.util.List<String> evaluate(OptionStore optionStore) {
-#if ( "$!valrule.getExplanation()" != "" )
-        return java.util.Arrays.asList("$valrule.getExplanation()");
-#else
-        return java.util.Arrays.asList("");
-#end
-      }
-    }
+  }
 #end
 
+#end
+#foreach($valrule in $info.getValidityRuleDescriptions())
+#set($valid = $valrule.getId())
+  public static class Rule${valid}Condition implements Expression<Boolean> {
+    /**
+     * {@inheritDoc}
+     */
+    public Boolean evaluate(final OptionStore optionStore) {
+      return $valrule.getConditionText();
+    }
+  }
+    
+  public static class Rule${valid}Expression implements Expression<List<String>> {
+    /**
+     * {@inheritDoc}
+     */
+    public List<String> evaluate(final OptionStore optionStore) {
+#if ( "$!valrule.getExplanation()" != "" )
+      return Arrays.asList("$valrule.getExplanation()");
+#else
+      return Arrays.asList("");
+#end
+    }
+  }
+  
+#end
 }

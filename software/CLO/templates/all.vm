@@ -2,3 +2,5 @@
 #foreach($option in $info.getOptionDescriptions())
   $!option.Identifier#if($velocityHasNext),#end 
 #end
+
+## TODO: customizable macro for pretty printing of option names

@@ -1,0 +1,12 @@
+## usage.vm
+$info.ParserName
+
+Usage
+=====
+#parse("templates/all.vm")
+
+#foreach($option in $info.getOptionDescriptions())
+
+Name: $option.Identifier
+Description: $!option.Description
+#end

@@ -18,7 +18,7 @@
   <property name="antlr-src" value="CLO"/>
   <property name="full-jar-name" value="clops"/>
   <property name="runtime-jar-name" value="clops-runtime"/>
-  <property name="test-file" value="dsl-test.txt"/>
+  <property name="test-file" value="dsl/clo-dsl.clo"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
@@ -133,6 +133,7 @@
         <enable/>
       </assertions>
       <classpath refid="testdist.path"/>
+      <arg value="-v"/>
       <arg value="-o"/>
       <arg value="${src-dsl-interface}"/>
       <arg value="-p"/>
@@ -180,15 +181,15 @@
       <classpath refid="testdist.path"/>
       <!-- this should probably use the -b option and -d should produce a file -->
       <!-- corresponding to the input file -->
+      <arg value="-v"/>
       <arg value="-d=./test/o.html"/>
       <arg value="-c"/>
       <arg value="./templates/html.vm"/> 
-      <arg value="-i"/>
-      <arg value="${test-file}"/>
       <arg value="-o"/>
       <arg value="${temp-test}"/>
     	<arg value='-p=""'/>
     	<arg value="-t"/>
+      <arg value="${test-file}"/>
     </java>
     <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
       <compilerarg value="-Xlint:all"/>

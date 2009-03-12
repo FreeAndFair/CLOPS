@@ -80,7 +80,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public Boolean evaluate(final OptionStore optionStore) {
-      return ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue() ? !((ie.ucd.clops.runtime.options.StringEnumOption)optionStore.getOptionByIdentifier("gen_docs_builtin")).hasValue() || ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs_custom")).hasValue() : false;
+      return ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue() ? !(((ie.ucd.clops.runtime.options.StringEnumOption)optionStore.getOptionByIdentifier("gen_docs_builtin")).hasValue() || ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs_custom")).hasValue()) : false;
     }
   }
     
@@ -98,7 +98,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public Boolean evaluate(final OptionStore optionStore) {
-      return ((ie.ucd.clops.runtime.options.StringEnumOption)optionStore.getOptionByIdentifier("gen_docs_builtin")).hasValue() ? !((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue() : false;
+      return ((ie.ucd.clops.runtime.options.StringEnumOption)optionStore.getOptionByIdentifier("gen_docs_builtin")).hasValue() ? !(((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue()) : false;
     }
   }
     
@@ -116,7 +116,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public Boolean evaluate(final OptionStore optionStore) {
-      return ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs_custom")).hasValue() ? !((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue() : false;
+      return ((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs_custom")).hasValue() ? !(((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("gen_docs")).hasValue()) : false;
     }
   }
     

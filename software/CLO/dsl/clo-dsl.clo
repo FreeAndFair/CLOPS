@@ -25,6 +25,9 @@ gen_docs_builtin:{"-b","--built-in"}:{string-enum}:[choices="html,txt"]
   :"Use a built-in template for documentation generation."
 gen_docs_custom:{"-c","--custom"}:{file}:[mustExist,canBeDir="false"]
   :"Use a custom template for documentation generation."
+  
+verbose:{"-v","--verbose"}:[default="false"]
+  :"Print debugging messages."
 
 input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input file."
@@ -45,6 +48,7 @@ all_args:    output
           OR gen_docs
           OR gen_docs_builtin
           OR gen_docs_custom
+          OR verbose
          ;
 
 FLY::

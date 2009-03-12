@@ -61,6 +61,9 @@ public class Main {
    * @param options the parsed options to use for running the program.
    */
   public static boolean execute(CLODSLOptionsInterface options) {
+    if (options.isverboseSet() && options.getverbose()) {
+      CLOLogger.setLogLevel(Level.FINE);
+    }
     
     //No need to check if each of these are set, as this is enforced by the parser, validity checker, etc.
     File inputFile = options.getinput();

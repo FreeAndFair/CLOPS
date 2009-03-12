@@ -140,6 +140,25 @@ public interface CLODSLOptionsInterface {
   java.io.File getgen_docs_custom();
   
 
+ /* Option verbose.
+  * Description: Print debugging messages.
+  * Aliases: [-v, --verbose]
+  */
+
+  /**
+   * @return true if the option verbose has been used
+   * in the command line.
+   */
+  boolean isverboseSet();
+  
+  /**
+   * Get the value of {@code Option} verbose.
+   * @return the value of the option verbose if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getverbose();
+  
+
  /* Option input.
   * Description: Input file.
   * Aliases: []

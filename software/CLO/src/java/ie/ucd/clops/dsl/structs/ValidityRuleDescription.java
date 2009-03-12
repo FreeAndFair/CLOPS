@@ -25,9 +25,9 @@ public class ValidityRuleDescription extends RuleDescription {
     StringBuilder sb = new StringBuilder();
     sb.append("$(");
     sb.append(opName);
-    sb.append("?) ? !");
+    sb.append("?) ? !(");
     sb.append(convertNamesToIsSetPlaceholders(requiresExpression).trim());
-    sb.append(" : false");
+    sb.append(") : false");
     ValidityRuleDescription rule = new ValidityRuleDescription();
     rule.setConditionText(sb.toString());
     return rule;

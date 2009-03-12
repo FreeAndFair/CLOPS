@@ -13,6 +13,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final ie.ucd.clops.runtime.options.FileOption gen_docsOG;
   private final ie.ucd.clops.runtime.options.StringEnumOption gen_docs_builtinOG;
   private final ie.ucd.clops.runtime.options.FileOption gen_docs_customOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption verboseOG;
   private final ie.ucd.clops.runtime.options.FileOption inputOG;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
@@ -48,6 +49,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     gen_docs_customOG.setProperty("mustExist", "true");
     gen_docs_customOG.setProperty("canBeDir", "false");
     gen_docs_customOG.setProperty("description", "Use a custom template for documentation generation.");
+    verboseOG = new ie.ucd.clops.runtime.options.BooleanOption("verbose", "(?:-v)|(?:--verbose)");
+    addOption(verboseOG);
+    verboseOG.setProperty("default", "false");
+    verboseOG.setProperty("description", "Print debugging messages.");
     inputOG = new ie.ucd.clops.runtime.options.FileOption("input", "");
     addOption(inputOG);
     inputOG.setProperty("between", "");
@@ -66,6 +71,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     all_argsOG.addOptionOrGroup(gen_testOG);
     all_argsOG.addOptionOrGroup(gen_docs_customOG);
     all_argsOG.addOptionOrGroup(option_factoryOG);
+    all_argsOG.addOptionOrGroup(verboseOG);
     all_argsOG.addOptionOrGroup(gen_docsOG);
     all_argsOG.addOptionOrGroup(outputOG);
     all_argsOG.addOptionOrGroup(output_packageOG);
@@ -279,6 +285,36 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public ie.ucd.clops.runtime.options.FileOption getgen_docs_customOption() {
     return gen_docs_customOG;
+  }
+  
+ /* Option verbose.
+  * Description: Print debugging messages.
+  * Aliases: [-v, --verbose]
+  */
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isverboseSet() {
+    return verboseOG.hasValue();
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getverbose() {
+    return verboseOG.getValue();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getRawverbose() {
+    return verboseOG.getRawValue();
+  }
+  
+  public ie.ucd.clops.runtime.options.BooleanOption getverboseOption() {
+    return verboseOG;
   }
   
  /* Option input.

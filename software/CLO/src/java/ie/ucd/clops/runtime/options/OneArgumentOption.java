@@ -65,8 +65,9 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
    */
   public ProcessingResult process() {
     String arg = match.group(2);
-    if (arg.equals("")) {
-      return ProcessingResult.erroneousProcess( "Parameter expected");
+    if (arg == null || arg.equals("")) {
+      return ProcessingResult.erroneousProcess( "Parameter expected for "
+        + match.group(0));
     } else {
       try {
         setFromString(arg);
@@ -78,6 +79,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   }
 
   private void updateSuffix() {
-    setMatchingSuffix(between + "(" + argumentShape + ")" + SEP);
+    setMatchingSuffix(
+      "(?:" + between + "(" + argumentShape + "))?" + SEP);
   }
 }

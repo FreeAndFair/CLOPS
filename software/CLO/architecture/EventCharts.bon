@@ -1,0 +1,41 @@
+--
+-- COMMANDO - Generalized parsing of command line options
+--
+
+-- External (incoming) events
+
+event_chart COMMANDO
+incoming
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-15-dc"
+part
+  "1/2"
+event
+  "A new command line is entered"
+involves
+  COMMAND_LINE_FORMAT
+event
+  "A new command line interface is specified"
+involves
+  COMMAND_LINE_FORMAT
+end
+
+-- Internal (outgoing) events
+
+event_chart COMMANDO
+outgoing
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-15-dc"
+part
+  "2/2"
+event
+  "The command line model is inconsistent or incomplete"
+involves
+  COMMAND_LINE_FORMAT
+event 
+  "The command line options are invalid"
+involves
+  COMMAND_LINE_OPTION
+end

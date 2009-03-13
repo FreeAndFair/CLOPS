@@ -1,0 +1,14 @@
+-- 
+-- COMMANDO - Generalized parsing of command line options
+--
+static_diagram
+component
+  cluster GENERIC_PARSING
+  component
+    cluster DEPENDENCIES
+    cluster ERRORS
+    cluster EXTENSION_POINTS
+    end
+  cluster DOCUMENTATION
+  cluster API_GENERATION
+end

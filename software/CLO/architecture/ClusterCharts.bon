@@ -1,0 +1,66 @@
+--
+-- COMMANDO - Generalized parsing of command line options
+--
+
+cluster_chart DEPENDENCIES
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "2008-10-15-dc";
+  level_of_detail: "1";
+explanation 
+  "Permitted relationships between options"
+class RULE description "Expression in which the LHS is set of options values and the RHS is a single assignment\
+                        \ of a new option value"
+class EXCLUSION_SET description "Subset of command line options which cannot be used together"
+class DEFAULT_RULE description "The relationship between the default value of one command line option and the actual value of another"
+class OVERRIDE_RULE description "The interdependent relationship between two different command line options"
+end
+
+cluster_chart DOCUMENTATION
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "2008-10-16-dc";
+  level_of_detail: "0";
+explanation 
+  "Information about how to use the command line options"
+class OPTION_DESCRIPTION description "Information about each command line option"
+end
+
+cluster_chart GENERIC_PARSING
+indexing
+  author: "Dermot Cochran";
+  created: "2008-10-14-dc";
+  revised: "2008-10-16-dc";
+  level_of_detail: "0";
+explanation 
+  "Reading and interpretation of the command line"
+class COMMAND_LINE_FORMAT description "The syntax of and dependencies between command line options" 
+class COMMAND_LINE_OPTION description "A keyword which activates, deactivates, controls or modifies a behaviour or feature of the program"
+cluster DEPENDENCIES description "Permitted relationships between options"
+cluster ERRORS description "Handling of inconsistencies in the command line options"
+cluster EXTENSION_POINTS description "Optional extensions of the command line inteface (e.g. tab completion) or alternative interfaces e.g GUI"
+end
+
+cluster_chart ERRORS
+explanation
+  "Inconsistencies arising from dependencies between differnt command line options"
+class ERROR_HANDLER description "Subcomponent which handles and reports errors"
+class JAVA_EXCEPTION description "Mechanism by which errors are sent to the client code"
+end
+
+cluster_chart API_GENERATION
+explanation
+  "Generation of an API for handling the specifics of each command line option"
+class DSL_PROCESSING description ""
+class INTERNAL_REPRESENTATION description ""
+class JAVA_API description ""
+class CODE_GENERATION description ""
+end
+
+cluster_chart EXTENSION_POINTS 
+explanation
+  "Optional extensions of the command line inteface (e.g. tab completion) or alternative interfaces e.g GUI"
+class EXTENSION_POINT description "Extension of or alternative interface, layered over the command line interface"
+end

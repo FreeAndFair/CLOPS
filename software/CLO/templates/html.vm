@@ -10,13 +10,13 @@
     td{padding-right:10px;}
     .id {width:100px; color:blue;}
     .aliases {font-family:Courier; font-size:14px; background-color:lightgrey;}
-    .error{ color:red;}
-    #java{
+    #validity-explanation{width: 300px;
+           color:red;}
+    #validity-cond{
        background-color:lightgrey; 
        overflow:auto; 
        font-size:14px; 
        font-family:Courier; 
-       width:400px;
     }
     #usage-str{
        align: center;
@@ -128,22 +128,23 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
   The following section contains validity rules, rules that generate an error in
   case the given test is verified.
   <table>
-  <tr><td></td>
-      <td><b>Test:</b></td>
-	  <td><b>Error triggered if true:</b></td></tr>
+  <tr><td><b>Rule:</b></td>
+	  <td></td>
+	  <td><b>Exact check:</b></td></tr>
 
-  <tr>
+  
   #foreach($rule in $info.getValidityRuleDescriptions())
+    <tr>
+    <td><div id="validity-explanation">$!rule.getExplanation()</div></td>
     <td>
       #foreach($assignment in $rule.getAssignments())
         Assignment: $!assignment.OptionIdentifier = $!assignment.Value
       #end
     </td>
-    <td><div id="java">$!rule.getConditionText()</div>
+    <td><div id="validity-cond">$!rule.getConditionText()</div>
         </td>
-    <td class="error">$!rule.getExplanation()</td>
+	</tr>
   #end
-  </tr>
   </table>
 #end
 

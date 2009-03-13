@@ -1,10 +1,9 @@
 package ie.ucd.clops.dsl.structs;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 /**
- * 
  * AST-like information about an option group as specified in the CLOPS DSL.
  * @author Fintan
  *
@@ -13,12 +12,12 @@ public class OptionGroupDescription {
 
   private final String identifier;
   private final Collection<String> children;
-  
+
   public OptionGroupDescription(String identifier) {
     this.identifier = identifier;
-    this.children = new HashSet<String>();
+    this.children = new ArrayList<String>();
   }
-  
+
   public void addChild(String child) {
     children.add(child);
   }
@@ -36,7 +35,7 @@ public class OptionGroupDescription {
   public Collection<String> getChildren() {
     return children;
   }
-  
+
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Group ");
@@ -47,9 +46,8 @@ public class OptionGroupDescription {
       sb.append(", ");
     }
     if (children.size() > 0) {
-      sb.delete(sb.length()-2, sb.length());
+      sb.delete(sb.length() - 2, sb.length());
     }
     return sb.toString();
-  }  
-  
+  }
 }

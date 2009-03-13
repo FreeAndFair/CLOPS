@@ -127,7 +127,7 @@ public class ${parserName}RuleStore extends RuleStore {
 #if ( "$!valrule.getExplanation()" != "" )
 #set( $lines = $CodeGenerator.quoteMultilineString($valrule.getExplanation()) )
 #if( $lines.size() == 1 ) 
-      return Arrays.asList($valrule.getExplanation());
+      return Arrays.asList("$valrule.getExplanation()");
 #else
       return Arrays.asList(#foreach( $line in $lines )"${line} "#if($velocityCount != $lines.size()) +
                            #else);#end#end

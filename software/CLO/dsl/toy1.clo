@@ -1,0 +1,10 @@
+NAME:: toy
+
+ARGS::
+   source:{"-s"}:{file}:[mustexist] 
+   output:{"-o"}:{file}
+   quiet:{"-q"}
+
+FORMAT::
+      quiet? source output?;
+

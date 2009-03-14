@@ -1,0 +1,9 @@
+NAME:: toy
+
+ARGS::
+   source:{"-s"}:{file}:[mustexist] 
+   output:{"-o"}:{file}
+
+FORMAT::
+	source output;
+

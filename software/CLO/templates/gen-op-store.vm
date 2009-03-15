@@ -60,12 +60,10 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
- /* Option $desc.getIdentifier().
-#if( "$!desc.getDescription()" != "" )
-  * Description: $desc.getDescription()
-#end
-  * Aliases: $desc.getAliases()
-  */
+// Option $desc.getIdentifier().#*#if( "$!desc.getDescription()" != "" )
+/* Description: $desc.getDescription() */
+#end *#
+// Aliases: $desc.getAliases()
   
   /**
    * {@inheritDoc}

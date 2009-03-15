@@ -11,12 +11,11 @@ public interface $info.getParserName()OptionsInterface {
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 
- /* Option $desc.getIdentifier().
+// Option $desc.getIdentifier(). #*
 #if( "$!desc.getDescription()" != "" )
   * Description: $desc.getDescription()
-#end
-  * Aliases: $desc.getAliases()
-  */
+#end*#
+// Aliases: $desc.getAliases()
 
   /**
    * @return true if the option $desc.getIdentifier() has been used

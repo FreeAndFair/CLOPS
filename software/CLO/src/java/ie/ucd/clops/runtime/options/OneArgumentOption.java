@@ -15,6 +15,8 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  */
 public abstract class OneArgumentOption<T> extends BasicOption<T> {
   private static final String DEFAULTVAL="defaultvalue";
+  private static final String BETWEEN="between";
+  private static final String ARGUMENTSHAPE="argumentshape";
 
 
   private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
@@ -33,8 +35,8 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     if (acceptedPropertyNames == null) {
       acceptedPropertyNames = new LinkedList<String>();  
       acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
-      acceptedPropertyNames.add("between");
-      acceptedPropertyNames.add("argumentshape");
+      acceptedPropertyNames.add(BETWEEN);
+      acceptedPropertyNames.add(ARGUMENTSHAPE);
       acceptedPropertyNames.add(DEFAULTVAL);
     }
     return acceptedPropertyNames;
@@ -47,9 +49,9 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   @Override
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
-    if (propertyName.equalsIgnoreCase("between")) {
+    if (propertyName.equalsIgnoreCase(BETWEEN)) {
       setBetween(propertyValue);
-    } else if (propertyName.equalsIgnoreCase("argumentshape")) {
+    } else if (propertyName.equalsIgnoreCase(ARGUMENTSHAPE)) {
       setArgumentShape(propertyValue);
     } else if (propertyName.equalsIgnoreCase(DEFAULTVAL)) {
         setDefaultVal(propertyValue);   
@@ -58,7 +60,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     }
   }
 
-  public void setDefaultVal(String newDefaultVal) {
+  private void setDefaultVal(String newDefaultVal) {
       defaultVal = newDefaultVal;
   }
 
@@ -79,7 +81,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     String arg = match.group(2);
     if (arg == null || arg.equals("")) {
         // no arg specified
-        if (defaultVal != null) arg = defaultVal;// use defaultVal if available
+        if (defaultVal != null) arg = defaultVal;// use defaultVal, if available
         else {
             return ProcessingResult.erroneousProcess( "Parameter expected for "
                                                       + match.group(0));

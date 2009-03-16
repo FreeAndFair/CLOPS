@@ -16,13 +16,9 @@ ARGS::
        :"print octal escapes for nongraphic characters"
 
      block_size:{"--block-size"}:{string-regexp}
-       :[regexp="(\\d+((kB)|(K)|(MB)|M|G|T|P|E|Z|Y)?)"]
-       :"use blocks of the given size"
-
-/*       SIZE  may  be (or may be an integer optionally followed by) 
-       one of following: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T, P, E, Z, Y. */
-
-
+       :[regexp="(\\d*((kB)|(K)|(MB)|M|G|T|P|E|Z|Y)?)"]
+       :"use blocks of the given size, which may be (or may be an integer optionally followed by) 
+       one of following: kB 1000, K 1024, MB 1000*1000, M 1024*1024, and so on for G, T, P, E, Z, Y."
 
      ignore_backups:{"-B", "--ignore-backups"}
        :"do not list implied entries ending with ~"
@@ -34,18 +30,19 @@ ARGS::
 
      columns:{"-C"}
         :"list entries by columns"
-
-     color:{"--color"}:{string}
-        :[suffixregexp="(=((never)|(always)|(auto)))?\\00" default="never" ]
-        :"control whether color is used to distinguish file types"
-
-        //:[suffixregexp="(=((never)|(always)|(auto)))?\\00" choices="never,always,auto" default="never" ]
-     /*That is equivalent to using --color=none.  Using the --color
-       option without the optional WHEN argument is equivalent to
-       using --color=always.  With --color=auto, color codes are
-       output only if standard output is connected to a terminal
-       (tty). The environment variable LS_COLORS can influence the
-       colors, and can be set easily by the dircolors command.*/
+ 
+     color:{"--color"}:{string-enum}
+        :[defaultvalue="always"
+          between="="
+          choices="never,always,auto," 
+          default="never" ]:
+     "If not specified no color is used, i.e. --color=none.  Using
+       the --color option without the optional WHEN argument is
+       equivalent to using --color=always.  With --color=auto, color
+       codes are output only if standard output is connected to a
+       terminal (tty). The environment variable LS_COLORS can
+       influence the colors, and can be set easily by the dircolors
+       command."
 
      directory:{"-d", "--directory"}
         :"list directory entries instead of contents,
@@ -64,9 +61,8 @@ ARGS::
         :"like {classify}, except do not append *"
 
      format:{"--format"}:{string-enum}:
-              [choices="across,commas,horizontal,long,single-column,verbose,vertical"]
-//           across  -x, commas -m, horizontal -x, long -l, single-column -1,
-//           verbose -l, vertical -C
+              [choices="across,commas,horizontal,long,single-column,verbose,vertical"]:
+              "The listing format which can be one of across (-x), commas (-m), horizontal (-x), long (-l), single-column (-1), verbose (-l), vertical (-C)"
 
      
      full_time:{"--full-time"}
@@ -96,9 +92,8 @@ ARGS::
 
      indicator_style:{"--indicator-style"}:{string-enum}
          :[choices="none,slash,file-type,classify" default="none"]
-         :"append indicator with style WORD to entry names"
-//              none  (default),  slash  (-p), file-type (--file-type), classify
-//              (-F)
+         :"append indicator with style WORD to entry names, with the values
+              none  (default),  slash  (-p), file-type (--file-type), classify (-F)"
 
       inode:{"-i", "--inode"}
          :"with {long}, print the index number of each file"
@@ -117,7 +112,7 @@ ARGS::
       commas:{"-m"}:"fill width with a comma separated list of entries"
 
       numeric_uid_gid:{"-n", "--numeric-uid-gid"}
-           :"like -l, but list numeric user and group IDs"
+           :"like {long}, but list numeric user and group IDs"
 
       literal:{"-N", "--literal"}
           :"print raw entry names (don't treat e.g. control characters  specially)"
@@ -282,7 +277,10 @@ WHERE::
 FLY::
    long -> one:={false};
    one -> long:={false};
- //  color -> color:={"auto"};
+
+   format {$(format).equals("across")} -> across:={true};
+   across -> format:={"across"};
+
 
 /*   across <-> format="across";
    horizontal <-> format="across";
@@ -309,5 +307,3 @@ FLY::
    sort="access" <-> sortby_access;
    sort="use" <-> sortby_use;
 */
-
-

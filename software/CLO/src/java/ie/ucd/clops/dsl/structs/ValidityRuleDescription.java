@@ -33,6 +33,7 @@ public class ValidityRuleDescription extends RuleDescription {
     return rule;
   }
   
+    // TODO: this is NAND, not XOR
   public static ValidityRuleDescription fromXOR(List<String> names) {
     ValidityRuleDescription rule = new ValidityRuleDescription();
     

@@ -17,9 +17,9 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   private static final String DEFAULTVAL="defaultvalue";
 
 
-  private String between = "[=" + SEP + "]";
-  private String argumentShape = "[^" + SEP + "]*";
-  private String defaultVal = null; // The value of the arugment if none was specified. 
+  private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
+  private String argumentShape = "[^" + SEP + "]*"; // format of the argument
+  private String defaultVal = null; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
 
   
   public OneArgumentOption(String identifier, String prefix) {

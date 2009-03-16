@@ -40,7 +40,7 @@ clo_specification  :  name_section
                       (package_section)?
                       args_section
                       args_format_section
-                      where_section
+                      (where_section)?
                       (fly_section)?
                       (overrides_section)?
                       (validity_section)?
@@ -284,22 +284,22 @@ explanation  :  STRING_CONSTANT
 /**********************************************
  **********************************************/
 
-constant  :    boolean_constant
-             | integer_constant  
-             | STRING_CONSTANT
-             | unspecified_constant
-          ;
+// constant  :    boolean_constant
+//              | integer_constant  
+//              | STRING_CONSTANT
+//              | unspecified_constant
+//           ;
 
-boolean_constant  :  'true' | 'false'
-                  ;
+// boolean_constant  :  'true' | 'false'
+//                   ;
 
-integer_constant  :  INTEGER
-                  ;
+// integer_constant  :  INTEGER
+//                   ;
 
-unspecified_constant  :  '?'
-                      ;
+// unspecified_constant  :  '?'
+//                       ;
 
-/**********************************************/
+///**********************************************/
 
 comparison_op  :    '='
                   | '!='

@@ -10,12 +10,17 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  * Either -op1=value or ... -op1 value ...
  * 
  * @author Fintan
+ * @author Mikolas Janota
  *
  */
 public abstract class OneArgumentOption<T> extends BasicOption<T> {
+  private static final String DEFAULTVAL="defaultvalue";
+
 
   private String between = "[=" + SEP + "]";
   private String argumentShape = "[^" + SEP + "]*";
+  private String defaultVal = null; // The value of the arugment if none was specified. 
+
   
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
@@ -30,6 +35,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
       acceptedPropertyNames.add("between");
       acceptedPropertyNames.add("argumentshape");
+      acceptedPropertyNames.add(DEFAULTVAL);
     }
     return acceptedPropertyNames;
   }
@@ -45,9 +51,15 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       setBetween(propertyValue);
     } else if (propertyName.equalsIgnoreCase("argumentshape")) {
       setArgumentShape(propertyValue);
+    } else if (propertyName.equalsIgnoreCase(DEFAULTVAL)) {
+        setDefaultVal(propertyValue);   
     } else {
       super.setProperty(propertyName, propertyValue);
     }
+  }
+
+  public void setDefaultVal(String newDefaultVal) {
+      defaultVal = newDefaultVal;
   }
 
   public void setBetween(String newBetween) {
@@ -66,15 +78,19 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   public ProcessingResult process() {
     String arg = match.group(2);
     if (arg == null || arg.equals("")) {
-      return ProcessingResult.erroneousProcess( "Parameter expected for "
-        + match.group(0));
-    } else {
-      try {
+        // no arg specified
+        if (defaultVal != null) arg = defaultVal;// use defaultVal if available
+        else {
+            return ProcessingResult.erroneousProcess( "Parameter expected for "
+                                                      + match.group(0));
+        }
+    } 
+
+    try {
         setFromString(arg);
         return ProcessingResult.successfulProcess();
-      } catch (InvalidOptionValueException iove) {
+    } catch (InvalidOptionValueException iove) {
         return ProcessingResult.erroneousProcess(iove.getMessage());
-      }
     }
   }
 

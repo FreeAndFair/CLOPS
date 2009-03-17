@@ -1,9 +1,9 @@
 NAME:: toy
 
 ARGS::
-   source:{"-s"}:{file}:[mustexist] 
+   input:{"-i"}:{file}:[mustexist] 
    output:{"-o"}:{file}
 
 FORMAT::
-	source output;
+	input output;
 

@@ -7,10 +7,8 @@ package ie.ucd.clops.dsl.generatedinterface;
 public interface CLODSLOptionsInterface {
 
 
- /* Option output.
-  * Description: Output directory for generated files.
-  * Aliases: [-o, --output]
-  */
+// Option output. 
+// Aliases: [-o, --output]
 
   /**
    * @return true if the option output has been used
@@ -26,10 +24,8 @@ public interface CLODSLOptionsInterface {
   java.io.File getoutput();
   
 
- /* Option output_package.
-  * Description: Output package. If left empty the default package is used.
-  * Aliases: [-p, --package]
-  */
+// Option output_package. 
+// Aliases: [-p, --package]
 
   /**
    * @return true if the option output_package has been used
@@ -45,10 +41,8 @@ public interface CLODSLOptionsInterface {
   String getoutput_package();
   
 
- /* Option gen_test.
-  * Description: Generate a Main class with a main method for rapid testing/debugging.
-  * Aliases: [-t, --test]
-  */
+// Option gen_test. 
+// Aliases: [-t, --test]
 
   /**
    * @return true if the option gen_test has been used
@@ -64,10 +58,8 @@ public interface CLODSLOptionsInterface {
   boolean getgen_test();
   
 
- /* Option option_factory.
-  * Description: Use this option factory instead of the default. Must be a fully qualified class name.
-  * Aliases: [-of, --option-factory]
-  */
+// Option option_factory. 
+// Aliases: [-of, --option-factory]
 
   /**
    * @return true if the option option_factory has been used
@@ -83,10 +75,8 @@ public interface CLODSLOptionsInterface {
   String getoption_factory();
   
 
- /* Option gen_docs.
-  * Description: Generate documentation and write it to the given output file.
-  * Aliases: [-d, --docs]
-  */
+// Option gen_docs. 
+// Aliases: [-d, --docs]
 
   /**
    * @return true if the option gen_docs has been used
@@ -102,10 +92,8 @@ public interface CLODSLOptionsInterface {
   java.io.File getgen_docs();
   
 
- /* Option gen_docs_builtin.
-  * Description: Use a built-in template for documentation generation.
-  * Aliases: [-b, --built-in]
-  */
+// Option gen_docs_builtin. 
+// Aliases: [-b, --built-in]
 
   /**
    * @return true if the option gen_docs_builtin has been used
@@ -121,10 +109,8 @@ public interface CLODSLOptionsInterface {
   String getgen_docs_builtin();
   
 
- /* Option gen_docs_custom.
-  * Description: Use a custom template for documentation generation.
-  * Aliases: [-c, --custom]
-  */
+// Option gen_docs_custom. 
+// Aliases: [-c, --custom]
 
   /**
    * @return true if the option gen_docs_custom has been used
@@ -140,10 +126,8 @@ public interface CLODSLOptionsInterface {
   java.io.File getgen_docs_custom();
   
 
- /* Option verbose.
-  * Description: Print debugging messages.
-  * Aliases: [-v, --verbose]
-  */
+// Option verbose. 
+// Aliases: [-v, --verbose]
 
   /**
    * @return true if the option verbose has been used
@@ -159,10 +143,8 @@ public interface CLODSLOptionsInterface {
   boolean getverbose();
   
 
- /* Option input.
-  * Description: Input file.
-  * Aliases: []
-  */
+// Option input. 
+// Aliases: []
 
   /**
    * @return true if the option input has been used

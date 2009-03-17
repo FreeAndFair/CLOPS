@@ -67,20 +67,18 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     final OptionGroup all_argsOG = new OptionGroup("all_args");
     addOptionGroup(all_argsOG);
     //Setup groupings
-    all_argsOG.addOptionOrGroup(gen_docs_builtinOG);
-    all_argsOG.addOptionOrGroup(gen_testOG);
-    all_argsOG.addOptionOrGroup(gen_docs_customOG);
-    all_argsOG.addOptionOrGroup(option_factoryOG);
-    all_argsOG.addOptionOrGroup(verboseOG);
-    all_argsOG.addOptionOrGroup(gen_docsOG);
     all_argsOG.addOptionOrGroup(outputOG);
     all_argsOG.addOptionOrGroup(output_packageOG);
+    all_argsOG.addOptionOrGroup(option_factoryOG);
+    all_argsOG.addOptionOrGroup(gen_testOG);
+    all_argsOG.addOptionOrGroup(gen_docsOG);
+    all_argsOG.addOptionOrGroup(gen_docs_builtinOG);
+    all_argsOG.addOptionOrGroup(gen_docs_customOG);
+    all_argsOG.addOptionOrGroup(verboseOG);
   }
   
- /* Option output.
-  * Description: Output directory for generated files.
-  * Aliases: [-o, --output]
-  */
+// Option output.
+// Aliases: [-o, --output]
   
   /**
    * {@inheritDoc}
@@ -107,10 +105,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return outputOG;
   }
   
- /* Option output_package.
-  * Description: Output package. If left empty the default package is used.
-  * Aliases: [-p, --package]
-  */
+// Option output_package.
+// Aliases: [-p, --package]
   
   /**
    * {@inheritDoc}
@@ -137,10 +133,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return output_packageOG;
   }
   
- /* Option gen_test.
-  * Description: Generate a Main class with a main method for rapid testing/debugging.
-  * Aliases: [-t, --test]
-  */
+// Option gen_test.
+// Aliases: [-t, --test]
   
   /**
    * {@inheritDoc}
@@ -167,10 +161,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return gen_testOG;
   }
   
- /* Option option_factory.
-  * Description: Use this option factory instead of the default. Must be a fully qualified class name.
-  * Aliases: [-of, --option-factory]
-  */
+// Option option_factory.
+// Aliases: [-of, --option-factory]
   
   /**
    * {@inheritDoc}
@@ -197,10 +189,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return option_factoryOG;
   }
   
- /* Option gen_docs.
-  * Description: Generate documentation and write it to the given output file.
-  * Aliases: [-d, --docs]
-  */
+// Option gen_docs.
+// Aliases: [-d, --docs]
   
   /**
    * {@inheritDoc}
@@ -227,10 +217,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return gen_docsOG;
   }
   
- /* Option gen_docs_builtin.
-  * Description: Use a built-in template for documentation generation.
-  * Aliases: [-b, --built-in]
-  */
+// Option gen_docs_builtin.
+// Aliases: [-b, --built-in]
   
   /**
    * {@inheritDoc}
@@ -257,10 +245,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return gen_docs_builtinOG;
   }
   
- /* Option gen_docs_custom.
-  * Description: Use a custom template for documentation generation.
-  * Aliases: [-c, --custom]
-  */
+// Option gen_docs_custom.
+// Aliases: [-c, --custom]
   
   /**
    * {@inheritDoc}
@@ -287,10 +273,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return gen_docs_customOG;
   }
   
- /* Option verbose.
-  * Description: Print debugging messages.
-  * Aliases: [-v, --verbose]
-  */
+// Option verbose.
+// Aliases: [-v, --verbose]
   
   /**
    * {@inheritDoc}
@@ -317,10 +301,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return verboseOG;
   }
   
- /* Option input.
-  * Description: Input file.
-  * Aliases: []
-  */
+// Option input.
+// Aliases: []
   
   /**
    * {@inheritDoc}

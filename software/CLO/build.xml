@@ -77,14 +77,10 @@
 
   <target name="checkAntlrBuildUpToDate">
     <echo message="Checking if the ANTLR generated files are up to date"/>
-    <condition property="antlrBuild.required">
-      <not>
-        <uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}Parser.java"/>
-      </not>
-    </condition>
+    <uptodate srcfile="${src}/${antlr-src}.g" targetfile="${src-antlr}/${antlr-src}Parser.java" property="antlrBuild.notRequired"/>
   </target>
 
-  <target name="buildAntlr" depends="checkAntlrBuildUpToDate" if="antlrBuild.required">
+  <target name="buildAntlr" depends="checkAntlrBuildUpToDate" unless="antlrBuild.notRequired">
     <antcall target="clean-antlr"/>
     <echo message="Running antlr"/>
     <java fork="yes" dir="${java-src}" classname="org.antlr.Tool">

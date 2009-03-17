@@ -120,7 +120,7 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
 <p>
-  Condition: $!rule.getConditionText()
+  Condition: $!rule.getConditionDescription()
 </p>
 #end
 #if($info.getValidityRuleDescriptions().size() != 0)
@@ -141,7 +141,7 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
         Assignment: $!assignment.OptionIdentifier = $!assignment.Value
       #end
     </td>
-    <td><div id="validity-cond">$!rule.getConditionText()</div>
+    <td><div id="validity-cond">$!rule.getConditionDescription()</div>
         </td>
 	</tr>
   #end
@@ -156,7 +156,7 @@ Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 Assignment: $!assignment.OptionIdentifier = $!assignment.Value
 #end
 </p>
-<p>Condition: $!rule.getConditionText()
+<p>Condition: $!rule.getConditionDescription()
 </p>
 
 #end

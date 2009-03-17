@@ -19,6 +19,8 @@ public class RuleDescription {
   
   protected final List<AssignmentDescription> assignments;
   private String conditionText;
+  
+  private String conditionDescription; // for document generation
   private final String id;
 
   public RuleDescription() {
@@ -36,6 +38,18 @@ public class RuleDescription {
 
   public String getConditionText() {
     return conditionText;
+  }
+
+  // <BON> query "How would I describe this condition?" </BON>
+  // @ensures \result != null;
+  // @ensures \result.equals(conditionDescription) || \result.equals(conditionText);
+  public /*@ non_null @*/ String getConditionDescription() {
+    if (conditionDescription != null) {
+    	return conditionDescription;
+    }
+    else {
+	return conditionText;
+    }
   }
 
   public void setConditionText(String conditionText) {

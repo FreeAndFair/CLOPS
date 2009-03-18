@@ -33,4 +33,7 @@
   (run-hooks 'clops-mode-hook))
 
 (provide 'clops-mode)
+
+(setq comment-start "/\*")
+(setq comment-end "\*/")
 ;; ===== end of clops-mode

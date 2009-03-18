@@ -1,6 +1,6 @@
 #macro(enumBool $enum $enumVal $boolOpt)
    $enum -> $boolOpt := {$($enum).equals($enumVal)};
-   $boolOpt -> $enum := {$enumVal};
+   $boolOpt {$(?$boolOpt)}  -> $enum := {$enumVal};
 #end
 
 NAME:: 
@@ -305,4 +305,3 @@ FLY::
 #enumBool('sort' '"atime"'  'access_time')
 #enumBool('sort' '"access"'  'access_time')
 #enumBool('sort' '"use"'  'access_time')
-

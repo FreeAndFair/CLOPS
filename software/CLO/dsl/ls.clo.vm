@@ -28,7 +28,7 @@ ARGS::
      ignore_backups:{"-B", "--ignore-backups"}
        :"do not list implied entries ending with ~"
 
-     sortby_ctime:{"-c"}
+     ctime:{"-c"}
        :"with -lt: sort by, and show, ctime (time of last modification of
         file status information) with -l: show ctime and  sort  by  name
         otherwise: sort by ctime"
@@ -154,9 +154,8 @@ ARGS::
 
        sort:{"--sort"}
            :{string-enum}
-           :"extension,none,size,time,version,status,time,atime,access,use"
-//              extension  -X, none -U, size -S, time -t, version -v, status -c,
-//              time -t, atime -u, access -u, use -u
+           :[choices="extension,none,size,time,version,status,time,atime,access,use"]
+           :"extension  -X, none -U, size -S, time -t, version -v, status -c, time -t, atime -u, access -u, use -u"
 
        time:{"--time"}:{string-enum}
            :[choices="atime,access,use,ctime,status"]
@@ -227,7 +226,7 @@ WHERE::
   octal_escapes OR
   block_size OR
   ignore_backups OR
-  sortby_ctime OR
+  ctime OR
   columns OR
   color OR
   directory OR
@@ -280,8 +279,8 @@ WHERE::
 
 
 FLY::
-   long -> one:={false};
-   one -> long:={false};
+   long {$(long?)} -> one:={false};
+   one  {$(one?)} -> long:={false};
 
 #enumBool('format' '"across"' 'horizontal')
 #enumBool('format' '"horizontal"' 'horizontal')
@@ -297,15 +296,13 @@ FLY::
 
 #enumBool('block_size' '"1024"' 'oneK_block')
 
-/*
-   sort="extension" <-> sortby_extension;
-   sort="none" <-> sortby_none;
-   sort="size" <-> sortby_size;
-   sort="time" <-> sortby_time;
-   sort="version" <-> sortby_version;
-   sort="status" <-> sortby_status;
-   sort="time" <-> sortby_time;
-   sort="atime" <-> sortby_atime;
-   sort="access" <-> sortby_access;
-   sort="use" <-> sortby_use;
-*/
+#enumBool('sort' '"extension"'  'sortby_entryextension')
+#enumBool('sort' '"none"'  'unordered')
+#enumBool('sort' '"size"'  'sortby_size')
+#enumBool('sort' '"time"'  'sortby_modificationtime')
+#enumBool('sort' '"version"'  'sortby_version')
+#enumBool('sort' '"status"'  'ctime')
+#enumBool('sort' '"atime"'  'access_time')
+#enumBool('sort' '"access"'  'access_time')
+#enumBool('sort' '"use"'  'access_time')
+

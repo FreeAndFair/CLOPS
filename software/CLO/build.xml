@@ -68,7 +68,7 @@
     <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
   </path>
 
-  <target name="init">
+  <target name="init" depends="generate-ls">
     <echo message="Creating timestamp"/>
     <tstamp/>
     <mkdir dir="${build}"/>
@@ -178,9 +178,9 @@
       <!-- this should probably use the -b option and -d should produce a file -->
       <!-- corresponding to the input file -->
       <arg value="-v"/>
-      <arg value="-d=./test/o.html"/>
+      <arg value="-d=./test/help.txt"/>
       <arg value="-c"/>
-      <arg value="./templates/html.vm"/> 
+      <arg value="./templates/help.vm"/> 
       <arg value="-o"/>
       <arg value="${temp-test}"/>
     	<arg value='-p=""'/>
@@ -234,5 +234,11 @@
     <delete file="${src-antlr}/${antlr-src}Parser.java"/>
     <delete file="${src-antlr}/${antlr-src}Lexer.java"/>
   </target>	
+
+  <target name="generate-ls">
+    <ant antfile="buildls.xml"  
+         dir="dsl"
+         inheritAll="false"/>
+  </target>
 
 </project>

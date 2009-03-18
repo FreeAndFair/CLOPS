@@ -1,6 +1,6 @@
 #macro(enumBool $enum $enumVal $boolOpt)
    $enum -> $boolOpt := {$($enum).equals($enumVal)};
-   $boolOpt {$(?$boolOpt)}  -> $enum := {$enumVal};
+   $boolOpt {$($boolOpt?)}  -> $enum := {$enumVal};
 #end
 
 NAME:: 

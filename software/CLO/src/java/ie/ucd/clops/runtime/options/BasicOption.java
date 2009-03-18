@@ -53,7 +53,7 @@ public abstract class BasicOption<T> implements Option<T> {
    * any value. */
   public T getValue() {
     if (!hasValue()) throw new IllegalStateException(
-      "This option was not set. Either call is*Set() first or use getRaw*().");
+      "This option was not set. Either call is*Set() first or use getRaw*().(" + this + ")");
     return getRawValue();
   }
 

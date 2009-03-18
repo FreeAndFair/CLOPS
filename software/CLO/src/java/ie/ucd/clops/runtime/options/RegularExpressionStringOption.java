@@ -30,7 +30,7 @@ public class RegularExpressionStringOption extends StringOption {
     if (!pattern.matcher(value).matches()) {
       throw new InvalidOptionValueException("");
     } else {
-      this.value = value;
+      super.set(value);
     }
   }
 
@@ -62,10 +62,6 @@ public class RegularExpressionStringOption extends StringOption {
     } else {
       super.setProperty(propertyName, propertyValue);
     }
-  }
-
-  public String getStringValue() {
-    return value;
   }
 
   @Override

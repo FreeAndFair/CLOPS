@@ -9,7 +9,7 @@ import java.util.LinkedList;
  */
 public class StringOption extends OneArgumentOption<String> {
 	
-  protected String value;
+  private String value;
   private boolean stripquotes;
 
 	public StringOption(String identifier, String prefix) {
@@ -30,7 +30,7 @@ public class StringOption extends OneArgumentOption<String> {
 	  }
 	}
 	
-	private String stripQuotesIfNecessary(String value) {
+	private static String stripQuotesIfNecessary(String value) {
 	  if (value.length() >=2 && 
         value.charAt(0) == '"' && 
         value.charAt(value.length()-1) == '"') {

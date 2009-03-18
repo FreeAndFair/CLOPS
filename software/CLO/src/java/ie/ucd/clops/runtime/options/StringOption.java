@@ -9,7 +9,7 @@ import java.util.LinkedList;
  */
 public class StringOption extends OneArgumentOption<String> {
 	
-  private String value;
+  protected String value;
   private boolean stripquotes;
 
 	public StringOption(String identifier, String prefix) {

@@ -17,7 +17,7 @@ public class RegularExpressionStringOption extends StringOption {
 
   private static final String DEFAULT_REG_EXP = ".*";
   
-  private String value;
+    //  private String value;
   private Pattern pattern;
   
   public RegularExpressionStringOption(String identifier, String prefix) {

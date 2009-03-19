@@ -56,6 +56,13 @@ public class RuleDescription {
     this.conditionText = conditionText;
   }
 
+  /**
+   * Sets the condition decsription used for document generation
+   */
+  public void setConditionDescription(String conditionDescription) {
+    this.conditionDescription = conditionDescription;
+  }
+
   public String getId() {
     return id;
   }

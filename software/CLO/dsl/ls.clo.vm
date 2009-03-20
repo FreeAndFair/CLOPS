@@ -1,6 +1,10 @@
-#macro(enumBool $enum $enumVal $boolOpt)
-   $enum -> $boolOpt := {$($enum).equals($enumVal)};
-   $boolOpt {$($boolOpt?)}  -> $enum := {$enumVal};
+#macro(enumBool $enum $enumVals $boolOpt)
+   $enum {true} -> $boolOpt := {#foreach($enumVal in $enumVals)#if($velocityCount!=1) || #end$($enum).equals($enumVal)#end};
+#foreach ($enumVal in $enumVals)
+   #if ($velocityCount==1)$boolOpt {$($boolOpt)}  -> $enum := {$enumVal};#end
+
+#end
+
 #end
 
 NAME:: 
@@ -69,6 +73,7 @@ ARGS::
               [choices="across,commas,horizontal,long,single-column,verbose,vertical"]:
               "The listing format which can be one of across (-x), commas (-m), horizontal (-x), long (-l), single-column (-1), verbose (-l), vertical (-C)"
 
+     foo:{}:{string}:[suffixregexp="((--foo)|(--bar))\0"]
      
      full_time:{"--full-time"}
         :"like -l --time-style=full-iso"
@@ -108,7 +113,7 @@ ARGS::
 
       oneK_block:{"-k"}:"like --block-size=1K"
 
-      long:{"-l"}:"use a long listing format"
+      long:{"-l"}:[allowarg="false"]:"use a long listing format"
 
       dereference:{"-L", "--dereference"}
           :"when showing file information for a symbolic link, show information  
@@ -220,6 +225,7 @@ FORMAT::
 
 WHERE::
  allOpts: 
+foo OR
   all OR
   almost_all OR
   author OR
@@ -279,29 +285,27 @@ WHERE::
 
 
 FLY::
-   long {$(long?)} -> one:={false};
-   one  {$(one?)} -> long:={false};
+   full_time {$(full_time?)} -> long := {true}, time_style := {"full-iso"};
+   long { $(time_style?) && $(long) && $(time_style).equals("full-iso") } -> full_time := {true};
+   time_style { $(long?) && $(long) && $(time_style).equals("full-iso") } -> full_time := {true};
 
-#enumBool('format' '"across"' 'horizontal')
-#enumBool('format' '"horizontal"' 'horizontal')
-#enumBool('format' '"commas"' 'commas')
-#enumBool('format' '"long"' 'long')
-#enumBool('format' '"single-column"' 'one')
-#enumBool('format' '"verbose"' 'long')
-#enumBool('format' '"vertical"' 'columns')
+#enumBool('format' ['"across"', '"horizontal"' ] 'horizontal')
+#enumBool('format' ['"commas"'] 'commas')
+#enumBool('format' ['"single-column"'] 'one')
+#enumBool('format' ['"verbose"','"long"'] 'long')
+#enumBool('format' ['"vertical"'] 'columns')
 
-#enumBool('indicator_style' '"slash"' 'slash')
-#enumBool('indicator_style' '"file-type"' 'file_type')
-#enumBool('indicator_style' '"classify"' 'classify')
+#enumBool('indicator_style' ['"slash"'] 'slash')
+#enumBool('indicator_style' ['"file-type"'] 'file_type')
+#enumBool('indicator_style' ['"classify"'] 'classify')
 
-#enumBool('block_size' '"1024"' 'oneK_block')
+#enumBool('block_size' ['"1024"'] 'oneK_block')
 
-#enumBool('sort' '"extension"'  'sortby_entryextension')
-#enumBool('sort' '"none"'  'unordered')
-#enumBool('sort' '"size"'  'sortby_size')
-#enumBool('sort' '"time"'  'sortby_modificationtime')
-#enumBool('sort' '"version"'  'sortby_version')
-#enumBool('sort' '"status"'  'ctime')
-#enumBool('sort' '"atime"'  'access_time')
-#enumBool('sort' '"access"'  'access_time')
-#enumBool('sort' '"use"'  'access_time')
+#enumBool('sort' ['"extension"']  'sortby_entryextension')
+#enumBool('sort' ['"none"']  'unordered')
+#enumBool('sort' ['"size"']  'sortby_size')
+#enumBool('sort' ['"time"']  'sortby_modificationtime')
+#enumBool('sort' ['"version"']  'sortby_version')
+#enumBool('sort' ['"status"']  'ctime')
+#enumBool('sort' ['"atime"', '"access"', '"use"']  'access_time')
+

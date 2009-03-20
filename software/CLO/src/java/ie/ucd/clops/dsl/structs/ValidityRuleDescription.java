@@ -30,6 +30,7 @@ public class ValidityRuleDescription extends RuleDescription {
     sb.append(") : false");
     ValidityRuleDescription rule = new ValidityRuleDescription();
     rule.setConditionText(sb.toString());
+    rule.setConditionDescription(opName + " " + requiresExpression);
     return rule;
   }
   
@@ -38,16 +39,22 @@ public class ValidityRuleDescription extends RuleDescription {
     ValidityRuleDescription rule = new ValidityRuleDescription();
     
     StringBuilder sb = new StringBuilder();
+    StringBuilder docStr = new StringBuilder();
     sb.append("ie.ucd.clops.runtime.rules.Util.countSetOptions(new String[] { ");
-    
+    docStr.append("Mutually exclusive options: ");
+
     for (String name : names) {
       sb.append('"');
       sb.append(name);
       sb.append("\", ");
+      docStr.append(name);
+      docStr.append(" and ");
     }
     sb.delete(sb.length()-2, sb.length());
     sb.append(" }, optionStore) > 1");
     rule.setConditionText(sb.toString());
+    docStr.delete(docStr.length()-5, docStr.length());
+    rule.setConditionDescription(docStr.toString());
     
     return rule;
   }

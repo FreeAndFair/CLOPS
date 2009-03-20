@@ -13,10 +13,12 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  *
  */
 public class BooleanOption extends BasicOption<Boolean> {
+  private static final String ALLOWARG = "allowarg";
+
   private Boolean value;
   private boolean allowArg;
 
-  //private static final String NO_ARG_SUFFIX = SEP_STRING;
+  private static final String NO_ARG_SUFFIX = SEP_STRING;
   private static final String SUFFIX = "(=([^" + SEP + "]*))?" + SEP;
   
   
@@ -99,7 +101,7 @@ public class BooleanOption extends BasicOption<Boolean> {
     if (acceptedPropertyNames == null) {
       acceptedPropertyNames = new LinkedList<String>();  
       acceptedPropertyNames.addAll(BasicOption.getStaticAcceptedPropertyNames());
-      acceptedPropertyNames.add("allowarg");
+      acceptedPropertyNames.add(ALLOWARG);
     }
     return acceptedPropertyNames;
   }
@@ -112,8 +114,8 @@ public class BooleanOption extends BasicOption<Boolean> {
   @Override
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {
-    if (propertyName.equalsIgnoreCase("allowarg")) {
-      allowArg = Options.parseBooleanProperty(propertyName, propertyValue);
+    if (propertyName.equalsIgnoreCase(ALLOWARG)) {
+      setAllowArg(Options.parseBooleanProperty(propertyName, propertyValue));
     } else {
       super.setProperty(propertyName, propertyValue);
     }
@@ -121,6 +123,7 @@ public class BooleanOption extends BasicOption<Boolean> {
   
   protected void setAllowArg(boolean allowArg) {
     this.allowArg = allowArg;
+    setMatchingSuffix(allowArg ? SUFFIX : NO_ARG_SUFFIX);
   }
 
 }

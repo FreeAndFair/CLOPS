@@ -53,7 +53,7 @@ public interface OptionDescription {
    * @return this option's type.
    */
   OptionType getType();
-
+ 
   /**
    * Get the regular expressions for the prefix of this option.
    * @return the Set of prefixes.
@@ -65,6 +65,8 @@ public interface OptionDescription {
    * @param regexp the regular expression to add for this option.
    */
   void addPrefixRegexp(final String regexp);
+
+  String getPropertyValue(String key);
   
   /**
    * Set a property key,value pair for this option.

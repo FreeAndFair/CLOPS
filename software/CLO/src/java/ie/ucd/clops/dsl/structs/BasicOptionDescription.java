@@ -57,6 +57,14 @@ public class BasicOptionDescription implements OptionDescription {
     properties.add(new Pair<String,String>(key,value));
   }
 
+  public String getPropertyValue(String key) {
+    String retv = null;
+    for (Pair<String, String> p : properties) {
+      if (p.getFirst().equals(key)) retv = p.getSecond();
+    }
+    return retv;
+  }
+
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */

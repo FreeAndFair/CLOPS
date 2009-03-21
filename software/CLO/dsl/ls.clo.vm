@@ -32,12 +32,12 @@ ARGS::
      ignore_backups:{"-B", "--ignore-backups"}
        :"do not list implied entries ending with ~"
 
-     ctime:{"-c"}
+     ctime:{"-c"}:[allowarg="false"]
        :"with -lt: sort by, and show, ctime (time of last modification of
         file status information) with -l: show ctime and  sort  by  name
         otherwise: sort by ctime"
 
-     columns:{"-C"}
+     columns:{"-C"}:[allowarg="false"]
         :"list entries by columns"
  
      color:{"--color"}:{string-enum}
@@ -63,10 +63,10 @@ ARGS::
      not_sort:{"-f"}
         :"do not sort, enable -aU, disable -lst"
 
-     classify:{"-F", "--classify"}
+     classify:{"-F", "--classify"}:[allowarg="false"]
         :"append indicator (one of */=>@|) to entries"
 
-     file_type:{"--file-type"}
+     file_type:{"--file-type"}:[allowarg="false"]
         :"like {classify}, except do not append *"
 
      format:{"--format"}:{string-enum}:
@@ -111,7 +111,7 @@ ARGS::
       ignores:{"-I", "--ignore"}:{string}
               :"do not list implied entries matching shell pattern"
 
-      oneK_block:{"-k"}:"like --block-size=1K"
+      oneK_block:{"-k"}:[allowarg="false"]:"like --block-size=1K"
 
       long:{"-l"}:[allowarg="false"]:"use a long listing format"
 
@@ -119,7 +119,7 @@ ARGS::
           :"when showing file information for a symbolic link, show information  
             for  the file the link references rather than for the link itself"
 
-      commas:{"-m"}:"fill width with a comma separated list of entries"
+      commas:{"-m"}:[allowarg="false"]:"fill width with a comma separated list of entries"
 
       numeric_uid_gid:{"-n", "--numeric-uid-gid"}
            :"like {long}, but list numeric user and group IDs"
@@ -129,7 +129,7 @@ ARGS::
 
       long_nogroups:{"-o"}:"like {long}, but do not list group information"
 
-       slash:{"-p"}
+       slash:{"-p"}:[allowarg="false"]
            :"append / indicator to directories"
 
        hide_control_chars:{"-q", "--hide-control-chars"}
@@ -155,7 +155,7 @@ ARGS::
 
        size:{"-s", "--size"}:"with {long}, print size of each file, in blocks"
 
-       sortby_size:{"-S"}:"sort by file size"
+       sortby_size:{"-S"}:[allowarg="false"]:"sort by file size"
 
        sort:{"--sort"}
            :{string-enum}
@@ -178,27 +178,27 @@ ARGS::
               and FORMAT2 to recent files; if STYLE is prefixed with ‘posix-’,
               STYLE takes effect only outside the POSIX locale */
 
-       sortby_modificationtime:{"-t"}:"sort by modification time"
+       sortby_modificationtime:{"-t"}:[allowarg="false"]:"sort by modification time"
 
        tabsize:{"-T", "--tabsize"}:{int}:[minvalue="0" default="8"]
           :"assume given tab stops"
 
-       access_time:{"-u"}:
+       access_time:{"-u"}:[allowarg="false"]:
             "with -lt: sort by, and show, access time with  -l: show access
              time and sort by name otherwise: sort by access time"
 
-       unordered:{"-U"}:"do not sort; list entries in directory order"
+       unordered:{"-U"}:[allowarg="false"]:"do not sort; list entries in directory order"
 
-       sortby_version:{"-v"}:"sort by version"
+       sortby_version:{"-v"}:[allowarg="false"]:"sort by version"
 
        width:{"-w", "--width"}:{int}:[minvalue="0"]
          :"assume screen width instead of current value"
 
-       horizontal:{"-x"}:"list entries by lines instead of by columns"
+       horizontal:{"-x"}:[allowarg="false"]:"list entries by lines instead of by columns"
 
        sortby_entryextension:{"-X"}:"sort alphabetically by entry extension"
 
-       one:{"-1"}:"list one file per line"
+       one:{"-1"}:[allowarg="false"]:"list one file per line"
 
 /*       SELINUX options:
 

@@ -22,6 +22,204 @@ own command line interface</a>. </p>
 <p class="todo">Put here the table from the paper.
 Perhaps link to the <code>Option</code> interface.</p>
 
+<p><a href="#OptTable">Table 1</a> provides an overview of the
+built-in option types and their properties. All option types derive
+from the abstract type <b><i>basic</i></b>. The property <code>default</code>
+is the value to which the option is set before parsing begins and
+thus it will have this value if no assignments were performed to this option.</p>
+
+<p align="center"><b>TODO:</b>suffix and defaultval
+</p>
+
+
+<p>The type <b><i>boolean</i></b> is for options that are
+either <code>false</code>, <code>true</code>, or unset. The
+property <i>allowarg</i> determines whether the user may
+explicitly specify the option's value
+(e.g. <CODE>-o=false</CODE>). Setting <i>allowarg</i>
+and <i>default</i> to <CODE>false</CODE> yields the behavior we
+usually see in command-line programs. An option is <CODE>false</CODE>
+unless it appears on the command-line. The following declaration
+exemplifies an option verbose defaulting to <CODE>false</CODE>, which
+cannot be set explicitly to <CODE>false</CODE> by the end-user.
+
+<p align="center"><CODE>verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]</CODE></p>
+
+The option-type <b><i>counted-boolean</i></b> is for options for which
+we want to know how many times it was written on the command-line. The
+property <i>countstart</i> specifies where the count should
+start (default is 0),<i>countmax</i> is the maximum for the
+counter.  If <i>warnonexceedingmax</i>
+or <i>erroronexceedingmax</i> is set, an error or warning, respectively,
+is produced when the maximum is exceeded. The following is an example
+from <CODE>gzip</CODE> for which one may write <code>gzip -v -v</code>
+to increase verbosity level.
+
+<p align="center">verbose:{"-v","--verbose"}:{counted-boolean}:[countmax="3",warnonexceedingmax]</p>
+
+<p>The option-types <b><i>string</i></b>, <b><i>int</i></b>,
+and <b><i>float</i></b> are self-explanatory.  
+
+<p>The option-type <b><i>string-regexp</i></b> enables to specify a
+regular expression limiting the strings that the user may write on the
+command line as a value. The option-type <b><i>string-enum</i></b> is
+a restricted version of <i>string-regexp</i> for which we can specify
+a finite number of string values.
+ </p>
+
+<p>The option-type <b><i>file</b></i>  accepts a file-name as an argument and its
+properties can be used to require the file's (non)existence and
+whether is must or must not be a directory.</p>
+
+<p>The option-type <b><i>list</i></b> is an abstract predecessor for
+options which the end-user several values on the command-line. These
+values are separated according to the regular expression given by the
+property <i>splitter</i> (it is "," if not specified). The
+option-types
+<b><i>string-list</i></b> and
+<b><i>file-list</i></b> are list of string and lists, respectively.
+</p>
+
+
+<I CLASS="sans"></I><BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="618"></A>
+<TABLE>
+<CAPTION><a name="OptTable"><STRONG>Table 1:</STRONG></a>
+Built-in option types and properties. Abstract types are typeset in <SPAN  CLASS="textit">italics</SPAN>. <i>T</i>
+ is the type of the concrete option's value. </CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+
+</DIV>  <TABLE CELLPADDING=3 BORDER="1">
+<TR>
+<th ALIGN="LEFT">Name</th>
+<th ALIGN="LEFT">Inherits from</th>
+<th ALIGN="LEFT">Java type</th>
+<th ALIGN="LEFT">Properties</th>
+</TR>
+<TR><TD ALIGN="LEFT"><SPAN  CLASS="textit">basic</SPAN></TD>
+<TD ALIGN="LEFT">None</TD>
+<TD ALIGN="LEFT"> <i>T</i>
+</TD>
+<TD ALIGN="LEFT">default[T], suffixregexp[string]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">boolean</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><i>boolean</i>
+</TD>
+<TD ALIGN="LEFT">allowarg[boolean]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">counted-boolean</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><i>int</i>
+</TD>
+<TD ALIGN="LEFT">countstart[int], countmax[int],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">warnonexceedingmax[boolean],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">erroronexceedingmax[boolean]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">string</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><i>String</i>
+</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">string-regexp</TD>
+<TD ALIGN="LEFT">string</TD>
+<TD ALIGN="LEFT"><i>String</i>
+</TD>
+<TD ALIGN="LEFT">regexp[string]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">string-enum</TD>
+<TD ALIGN="LEFT">string</TD>
+<TD ALIGN="LEFT"><i>String</i>
+</TD>
+<TD ALIGN="LEFT">choices[string], casesensitive[boolean]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">int</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT">int</TD>
+<TD ALIGN="LEFT">minvalue[int], maxvalue[int]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">float</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><i>float</i>
+</TD>
+<TD ALIGN="LEFT">minvalue[float], maxvalue[float]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">file</TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><i>float</i>
+</TD>
+<TD ALIGN="LEFT">canexist[boolean], mustexist[boolean],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">canbedir[boolean], mustbedir[boolean],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">allowdash[boolean]</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><SPAN  CLASS="textit">list</SPAN></TD>
+<TD ALIGN="LEFT">basic</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $List\langle T \rangle$
+ -->
+<i>List&lt;T&gt;</i>
+<I></i>
+</TD>
+<TD ALIGN="LEFT">allowmultiple[boolean], splitter[string]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">string-list</TD>
+<TD ALIGN="LEFT">list</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $List\langle String \rangle$
+ -->
+<i>List&lt;String&gt;</i>
+</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">file-list</TD>
+<TD ALIGN="LEFT">list</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $List\langle File \rangle$
+ -->
+<i>List&lt;File&gt;</i>
+</TD>
+<TD ALIGN="LEFT">canexist[boolean], mustexist[boolean],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">canbedir[boolean], mustbedir[boolean],</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">allowdash[boolean]</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+  
+  <A NAME="tbl:builtin-types"></A></TD></TR>
+</TABLE>
+</DIV><P></P><BR><I CLASS="sans"></I>
+<P>
+
+
 <h1>API</h1>
 
 <p class="todo">Describe the programming interface.</p>

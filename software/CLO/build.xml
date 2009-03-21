@@ -22,6 +22,7 @@
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
+  <property name="TFR" value="false"/>
 
   <path id="base.path">
     <filelist dir="${lib}">
@@ -186,6 +187,7 @@
     	<arg value='-p=""'/>
     	<arg value="-t"/>
       <arg value="${test-file}"/>
+      <arg value="-tfr=${TFR}"/>
     </java>
     <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
       <compilerarg value="-Xlint:all"/>

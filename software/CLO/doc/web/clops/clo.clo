@@ -31,7 +31,7 @@ verbose:{"-v","--verbose"}:[default="false"]
 
  
 transitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
-  :"Fly rules will applied transitively."
+  :"Fly rules will applied transtiviely."
 
 input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input file."

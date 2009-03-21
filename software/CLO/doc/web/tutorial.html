@@ -289,11 +289,104 @@ sugar to make your life easier.</p>
 
 <h2>GZIP's -0, -1, ..., -9</h2>
 
-<p class="todo">TODO</p>
+<p>GZIP can be told what compression level to use by saying
+-0, -1, ..., or -9. From the program we'd like to be able to
+simply ask <tt>clopsParser.getCompressionLevel()</tt>. How can
+this be achieved? To understand the answer it helps if you
+know a little more about how CLOPS works. Each option has a <a
+href="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html">
+regular expression</a> that is built by default from
+aliases and from the option type. This regular expression is used
+to split the command line into meaningful bits. Let's say we
+declared the following option: </p>
+
+<pre class="prettyprint">
+  Foo: {"-f", "--foo"}: {int} 
+</pre>
+
+<p>Then, its default regular expression is</p>
+
+<pre class="prettyprint">
+  "((?:-f)|(?:--foo))(?:[=\0]([0-9]+))?\0"
+</pre>
+
+<p>Here <tt>\0</tt> matches the end of one command line argument
+and <tt>(?:X)</tt> is just the Java convention of grouping
+without numbering the group. In general, any option type that
+expects one argument has a default regular expression that
+consists of a prefix and a suffix. The prefix (in this case
+<tt>((?:-f)|(?:--foo))</tt>) is an alternation between aliases.
+The suffix is made out of the &quot;between&quot; part and
+the &quot;argument shape&quot; part. The &quot;between&quot;
+part is by default <tt>[=\0]</tt> and may be changed using
+the <tt>between</tt> property; the &quot;argument shape&quot;
+part defaults to something dependent on the option type
+(<tt>([0-9]+)</tt> for the option type <tt>int</tt>) and
+can be changed using the <tt>argumentShape</tt> property.
+The whole suffix part can be changed at once using the
+<tt>suffixregexp</tt> property. Notice that if you don't provide
+any alias and yet override the suffix you effectively specify the
+whole regular expression yourself.
+</p>
+
+<p>The groups in the regular expression are important. Group 1
+usually captures the prefix and is used in error messages; group
+2 captures the string that is then parsed to build the value of
+the option.</p>
+
+<p>We can now describe the solution.</p>
+
+<pre class="prettyprint">
+  CompressionLevel: {"-"}: {int}: [suffixregexp="([0-9])\0"]
+</pre>
+
+<p>That's all.</p>
+
+<p><i>Exercise:</i> How would you handle TAIL? (You can
+say <tt>tail -50 foo</tt> to display the last 50 lines of
+<tt>foo</tt>.)</p>
+
 
 <h2>TAR's Old Style Options</h2>
 
-<p class="todo">TODO</p>
+<p>The special character <tt>\0</tt> in the regular expressions
+above might look weird. But it is powerful. It allows you to have
+options that do not necessarily correspond to what your shell
+considers to be one argument. In particular, it allows you to
+handle old style options such as those supported by TAR.</p>
+
+<p>To decompress a file one typically says</p>
+
+<pre class="cmdline">
+tar xzf foo.tar.gz
+</pre>
+
+<p>and to compress</p>
+
+<pre class="cmdline">
+tar cjvf foo.tar.bz2 foo/
+</pre>
+
+<p>The option <tt>x</tt> stands for eXtract, option <tt>c</tt>
+for Create, option <tt>z</tt> for gZip, option <tt>j</tt> for
+bzip2, option <tt>v</tt> for Verbose, and option <tt>f</tt> says
+that the file name follows.</p>
+
+<p>But it is also possible to say</p>
+
+<pre class="cmdline">
+tar -c -z -f foo.tar.gz foo/
+</pre>
+
+<p>or even</p>
+
+<pre class="cmdline">
+tar fcz foo.tgz foo/
+</pre>
+
+<p>Let's see how this can be handled with CLOPS.</p>
+
+<p class="todo">Continue here.</p>
 
 <h2>LS Has Equivalent Options</h2> 
 
@@ -301,7 +394,8 @@ sugar to make your life easier.</p>
 
 <h2>Custom options</h2>
 
-<p class="todo">TODO</p>
+<p class="todo">TODO. Show how to implement an ENUM for
+excluding booleans.</p>
 
 <hr/>
 <p>

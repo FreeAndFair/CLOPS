@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -cp temp/:../dist/lib/clops.jar Main $*
+java -ea -cp temp/:../dist/lib/clops.jar Main $*

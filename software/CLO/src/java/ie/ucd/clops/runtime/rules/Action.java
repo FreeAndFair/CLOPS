@@ -24,5 +24,9 @@ public class Action<T> {
     T t = expression.evaluate(optionStore);
     option.set(t);
   }
+
+  /*@pure*/public String getAffectedOption() {
+      return optionId;
+  }
   
 }

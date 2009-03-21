@@ -7,6 +7,7 @@
 
 #end
 
+// Relying on transtivie fly rules, needs to be processed with the -tfr option.
 NAME:: 
        ls
 
@@ -73,8 +74,6 @@ ARGS::
               [choices="across,commas,horizontal,long,single-column,verbose,vertical"]:
               "The listing format which can be one of across (-x), commas (-m), horizontal (-x), long (-l), single-column (-1), verbose (-l), vertical (-C)"
 
-     foo:{}:{string}:[suffixregexp="((--foo)|(--bar))\0"]
-     
      full_time:{"--full-time"}
         :"like -l --time-style=full-iso"
 
@@ -225,7 +224,6 @@ FORMAT::
 
 WHERE::
  allOpts: 
-foo OR
   all OR
   almost_all OR
   author OR

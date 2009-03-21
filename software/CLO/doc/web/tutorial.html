@@ -34,7 +34,7 @@ the word count. Take a (short) look at its man page:</p>
 <p>Create a fresh directory. All the commands in this tutorial
 are written under the assumption that the current directory is
 this fresh directory. Create a subdirectory <tt>src</tt> and in
-it create a file <tt>wc.clops</tt> with the content: </p>
+it create a file <tt>wc.clo</tt> with the content: </p>
 
 <pre class="prettyprint">
 NAME::
@@ -70,7 +70,7 @@ will be explained in the <a href="#dashdash">Dealing with --</a> section.
 Generate the parser with:</p>
 
 <pre class="cmdline">
-clops -i src/wc.clops -o src/generated -p generated
+clops -i src/wc.clo -o src/generated -p generated
 </pre>
 
 <p>You should see three files in <tt>src/generated</tt>,
@@ -156,7 +156,7 @@ the jar files in CLOPSPATH. Now create <tt>build.xml</tt>:</p>
 &lt;project name="Wc" default="compile" basedir="."&gt;
   &lt;target name="compile" description="do everything"&gt;
     &lt;java fork="yes" dir="." jar="jars/clops.jar"&gt;
-      &lt;arg value="src/wc.clops"/&gt;
+      &lt;arg value="src/wc.clo"/&gt;
       &lt;arg value="-o=src/generated"/&gt;
       &lt;arg value="-p=generated"/&gt;
     &lt;/java&gt;
@@ -195,7 +195,7 @@ to examine a file whose name is &quot;<tt>-w</tt>&quot; (or any
 other name that conflicts with an option). The usual convention
 to handle such situations is to use a special option (<tt>--</tt>)
 and treat all that follows as being an operand (not an option).
-We can handle this by changing <tt>wc.clops</tt> a little.</p>
+We can handle this by changing <tt>wc.clo</tt> a little.</p>
 
 <pre class="prettyprint">
 ARGS::

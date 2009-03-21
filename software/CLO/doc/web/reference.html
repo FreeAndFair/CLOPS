@@ -64,7 +64,9 @@ and <b><i>float</i></b> are self-explanatory.
 regular expression limiting the strings that the user may write on the
 command line as a value. The option-type <b><i>string-enum</i></b> is
 a restricted version of <i>string-regexp</i> for which we can specify
-a finite number of string values.
+a finite number of string values. These values are specified as a
+comma-separated list. If one of these values is an empty string, the
+user may decide not to provide a value.
  </p>
 
 <p>The option-type <b><i>file</b></i>  accepts a file-name as an argument and its

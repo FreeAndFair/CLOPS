@@ -18,7 +18,7 @@ public class BooleanOption extends BasicOption<Boolean> {
   private Boolean value;
   private boolean allowArg;
 
-  private static final String NO_ARG_SUFFIX = SEP_STRING;
+  private static final String NO_ARG_SUFFIX = "" + SEP;
   private static final String SUFFIX = "(=([^" + SEP + "]*))?" + SEP;
   
   
@@ -34,7 +34,7 @@ public class BooleanOption extends BasicOption<Boolean> {
    * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String, int)
    */
   public ProcessingResult process() {
-    String arg = match.group(3);
+    String arg = match.groupCount() >= 3 ? match.group(3) : null;
     if (arg == null) {
       try {
         set(true);
@@ -51,13 +51,17 @@ public class BooleanOption extends BasicOption<Boolean> {
           return ProcessingResult.erroneousProcess(iove.getMessage());
         }
       } else {
-        return ProcessingResult.erroneousProcess("Option " + match.group(1) + " does not allow an argument.");
+        return ProcessingResult.erroneousProcess("Option " + match.group(1) + " does not allow an argument, which is '" + arg + "'.");
       }
     }
   }
 
   private boolean validValueString(String valueString) {
-    return valueString.equalsIgnoreCase("true") || valueString.equalsIgnoreCase("false");
+    return 
+      allowArg ? valueString.equalsIgnoreCase("true") || valueString.equalsIgnoreCase("false")
+               : valueString=="";
+
+
   }
   
   /* (non-Javadoc)
@@ -72,11 +76,16 @@ public class BooleanOption extends BasicOption<Boolean> {
     if (valueString == null) {
       throw new InvalidOptionValueException("null provided as value.");
     }
-    if (validValueString(valueString)) {
-      return Boolean.valueOf(valueString);
+    if (!allowArg) {
+      if (valueString != "") throw new InvalidOptionValueException("No argument allowed.");
+      else return new Boolean(true);
     } else {
-      throw new InvalidOptionValueException(valueString + " is not a boolean string.");
-    }    
+      if (validValueString(valueString)) {
+        return Boolean.valueOf(valueString);
+      } else {
+        throw new InvalidOptionValueException(valueString + " is not a boolean string.");
+      }    
+    }
   }
 
   /* (non-Javadoc)
@@ -120,9 +129,13 @@ public class BooleanOption extends BasicOption<Boolean> {
       super.setProperty(propertyName, propertyValue);
     }
   }
-  
+
+  /** Set {@code this.allowArg} to a given value and adapts the regex
+   * suffix accordingly. 
+   * @param allowArg the new value for {@code this.allowArg}
+   **/
   protected void setAllowArg(boolean allowArg) {
-    this.allowArg = allowArg;
+    this.allowArg=allowArg;
     setMatchingSuffix(allowArg ? SUFFIX : NO_ARG_SUFFIX);
   }
 

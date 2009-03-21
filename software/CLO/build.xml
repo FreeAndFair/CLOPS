@@ -26,8 +26,8 @@
   <path id="base.path">
     <filelist dir="${lib}">
       <file name="stringtemplate-3.2.jar"/>
-      <file name="velocity-1.6.1.jar"/>
-      <file name="velocity-1.6.1-dep.jar"/>
+      <file name="velocity-1.6.2.jar"/>
+      <file name="velocity-1.6.2-dep.jar"/>
       <file name="junit-4.5.jar"/>
     </filelist>
   </path>

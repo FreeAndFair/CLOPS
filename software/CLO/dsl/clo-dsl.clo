@@ -29,6 +29,10 @@ gen_docs_custom:{"-c","--custom"}:{file}:[mustExist,canBeDir="false"]
 verbose:{"-v","--verbose"}:[default="false"]
   :"Print debugging messages."
 
+ 
+transitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
+  :"Fly rules will applied transtiviely."
+
 input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input file."
 
@@ -49,6 +53,7 @@ all_args:    output
           OR gen_docs_builtin
           OR gen_docs_custom
           OR verbose
+          OR transitiveFlyRules
          ;
 
 FLY::

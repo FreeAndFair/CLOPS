@@ -16,6 +16,9 @@ h2 {
 body {
   font-family: Verdana, Helvetica, sans-serif;
   font-size: normal;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 tt {

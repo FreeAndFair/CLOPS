@@ -29,7 +29,7 @@ much space.</p>
 <p>The <tt>wc</tt> tool computes statistics of a text, such as
 the word count. Take a (short) look at its man page:</p>
 
-<pre>man wc</pre>
+<pre class="cmdline">man wc</pre>
 
 <p>Create a fresh directory. All the commands in this tutorial
 are written under the assumption that the current directory is
@@ -37,7 +37,27 @@ this fresh directory. Create a subdirectory <tt>src</tt> and in
 it create a file <tt>wc.clops</tt> with the content: </p>
 
 <pre class="prettyprint">
-<!--#include virtual="examples/wc/src/wc.clops"-->
+NAME::
+  Wc
+
+ARGS::
+  Bytes: {"-c", "--bytes"} // option name, followed by aliases
+  Chars: {"-m", "--chars"}
+  Words: {"-w", "--words"}
+  Lines: {"-l", "--lines"}
+  LineLength: {"-L", "--max-line-length"}
+  FilesFrom: {"--files0-from"}: {file}  // "file" is the option type
+  Help: {"--help"}         /* the default type is "boolean" */
+  Ver: {"--version"}
+  Files: {}: {file-list}: [between="", allowMultiple="false"]
+
+FORMAT::
+  (Option | Files)*;  // this is a regular expression
+
+WHERE::
+  Option:   // shorthand to make the FORMAT easier to read
+    Bytes OR Chars OR Words OR Lines OR LineLength OR
+    FilesFrom OR Help OR Ver;
 </pre>
 
 <table class="gotcha">
@@ -49,7 +69,9 @@ will be explained in the <a href="#dashdash">Dealing with --</a> section.
 <p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
 Generate the parser with:</p>
 
-<pre>clops -i src/wc.clops -o src/generated -p generated</pre>
+<pre class="cmdline">
+clops -i src/wc.clops -o src/generated -p generated
+</pre>
 
 <p>You should see three files in <tt>src/generated</tt>,
 each containing a class. (The option <tt>-p</tt> is followed
@@ -57,7 +79,33 @@ by a package name.) We'll place <tt>Main.java</tt> under
 <tt>src</tt>.</p>
 
 <pre class="prettyprint">
-<!--#include virtual="examples/wc/src/Main.java"-->
+import java.io.File;
+import generated.WcParser;
+import generated.WcOptionsInterface;
+
+public class Main {
+  public static void main(String[] args) throws Exception {
+    WcParser parser = new WcParser();
+    if (!parser.parse(args)) {
+      System.out.println("Usage: java Main [OPTIONS] file...");
+      System.exit(1);
+    }
+    WcOptionsInterface opt = parser.getOptionStore();
+    if (opt.isWordsSet()) 
+      System.out.println("I should print a word count.");
+    if (opt.isBytesSet()) 
+      System.out.println("I should print a byte count.");
+    for (File f : opt.getFiles()) checkFile(f);
+  }
+
+  public static void checkFile(File f) {
+    System.out.print("The file " + f.getPath());
+    if (f.exists())
+      System.out.println(" exists.");
+    else
+      System.out.println(" does not exist.");
+  }
+}
 </pre>
 
 <p>(TODO: Mention that you can generate a <tt>Main</tt> for testing
@@ -65,8 +113,9 @@ somewhere in the advanced section.)</p>
 
 <p>Create a subdirectory <tt>classes</tt>. To compile, say:</p>
 
-<pre>
-javac -cp CLOPSPATH/clops-runtime.jar -sourcepath src -d classes src/Main.java src/generated/*
+<pre class="cmdline">
+javac -cp CLOPSPATH/clops-runtime.jar\
+  -sourcepath src -d classes src/Main.java src/generated/*
 </pre>
 
 <p>On UNIX, replace <tt>CLOPSPATH</tt> by <tt>$CLOPSPATH</tt>. On
@@ -82,7 +131,9 @@ stops on the most obviously wrong CLOPS input.
 
 <p>You can now run your program with:</p>
 
-<pre>java -cp classes:CLOPSPATH/clops-runtime.jar Main ARGUMENTS</pre>
+<pre class="cmdline">
+java -cp classes:CLOPSPATH/clops-runtime.jar Main ARGUMENTS
+</pre>
 
 <p>Try to replace <tt>ARGUMENTS</tt> with various values and see
 what happens. In particular, try <tt>&quot;--files0-from=.&quot;</tt>,
@@ -102,7 +153,23 @@ Start by creating a directory <tt>jars</tt>. Populate it with all
 the jar files in CLOPSPATH. Now create <tt>build.xml</tt>:</p>
 
 <pre class="prettyprint">
-<!--#exec cmd="sed 's/</\&amp;lt;/g' examples/wc/build.xml | sed 's/>/\&amp;gt;/g'"-->
+&lt;project name="Wc" default="compile" basedir="."&gt;
+  &lt;target name="compile" description="do everything"&gt;
+    &lt;java fork="yes" dir="." jar="jars/clops.jar"&gt;
+      &lt;arg value="src/wc.clops"/&gt;
+      &lt;arg value="-o=src/generated"/&gt;
+      &lt;arg value="-p=generated"/&gt;
+    &lt;/java&gt;
+    &lt;javac destdir="classes" srcdir="src" 
+           classpath="jars/clops-runtime.jar" debug="yes"/&gt;
+    &lt;jar destfile="jars/wc.jar" basedir="classes"&gt;
+      &lt;manifest&gt;
+        &lt;attribute name="Main-Class" value="Main"/&gt;
+        &lt;attribute name="Class-Path" value="clops-runtime.jar"/&gt;
+      &lt;/manifest&gt;
+    &lt;/jar&gt;
+  &lt;/target&gt;
+&lt;/project&gt;
 </pre>
 
 <p>There are two differences from a usual ANT file:</p>
@@ -130,12 +197,22 @@ to handle such situations is to use a special option (<tt>--</tt>)
 and treat all that follows as being an operand (not an option).
 We can handle this by changing <tt>wc.clops</tt> a little.</p>
 
-<pre class="prettyprint"><!--#include virtual="examples/wc1/src/wc.clops.diff"--></pre>
+<pre class="prettyprint">
+ARGS::
+  DashFiles: {}: {file-list}: 
+    [between="", allowMultiple="false", allowDash="true"]
+  DashDash: {"--"}
+
+FORMAT::
+  (Option | Files)* (DashDash DashFiles*)?;
+</pre>
 
 <p>Also, add the following line at the end of your <tt>main</tt>
 method:</p>
 
-<pre class="prettyprint"><!--#include virtual="examples/wc1/src/Main.java.diff"--></pre>
+<pre class="prettyprint">
+    for (File f : opt.getDashFiles()) checkFile(f);
+</pre>
 
 <p>Recompile and run.</p>
 
@@ -205,6 +282,9 @@ the main points.)</p>
 
 <hr/>
 <p>
+  <a href="http://sourceforge.net/projects/clops">
+    <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=257014&amp;type=13" width="120" height="30" alt="Get CLOPS at SourceForge.net. Fast, secure and Free Open Source software downloads" />
+    </a>
   <a href="http://validator.w3.org/check?uri=referer"><img
      src="http://www.w3.org/Icons/valid-xhtml10-blue"
      alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>

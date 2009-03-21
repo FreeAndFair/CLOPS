@@ -68,7 +68,7 @@
     <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
   </path>
 
-  <target name="init" depends="generate-ls">
+  <target name="init">
     <echo message="Creating timestamp"/>
     <tstamp/>
     <mkdir dir="${build}"/>

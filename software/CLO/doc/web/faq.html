@@ -12,8 +12,14 @@
 
 <div class="title">CLOPS FAQ</div>
 
-<p>We didn't get many questions so far :(</p>
+<p class="question">1. What is the difference between
+<code>isFooSet()</code> and <code>getFoo()</code> for a boolean
+option <code>Foo</code>? </p>
 
+<p>Any option either is unset or is set and has a value: Options
+whose value is a boolean are no exception. If you want to know if
+a certain string (alias) appeared on the command line then you
+want to use <code>isFooSet()</code>.</p>
 
 
 <hr/>

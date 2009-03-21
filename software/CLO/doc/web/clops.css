@@ -35,6 +35,12 @@ code {
   font-family: courier, monospace;
 }
 
+.question {
+  padding-top: 10px;
+  font-size: large;
+  font-style: italic;
+}
+
 .cmdline {
   background-color: #eeeeee;
 }
@@ -44,6 +50,12 @@ code {
   margin-right: 3cm;
   font-size: small;
   background-color: #ffeeee;
+}
+
+.todo {
+	background-color: yellow;
+	border: 4px dotted black;
+	font-weight: bold;
 }
 
 table#related-work {
@@ -75,8 +87,3 @@ table#related-work .high {
   background-color: #8f8;
 }
 
-.todo {
-	background-color: yellow;
-	border: 4px dotted black;
-	font-weight: bold;
-}

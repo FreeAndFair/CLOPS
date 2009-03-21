@@ -45,7 +45,6 @@ public class GenericCLParser {
   public boolean parse(String formatString, OptionStore optionStore, RuleStore flyStore, String[] args)
   throws Tokenizer.IllegalCharacterException,
   Tokenizer.UnknownOptionException {
-
     CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
     CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
 
@@ -109,11 +108,8 @@ public class GenericCLParser {
         }
       }
 
-      //If we found a match
-      if (matchedOption == null) {
-        //Check if we can have a program argument here...
-        //if not, report error 
 
+      if (matchedOption == null) {//If no  match was found
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
         return false;
       } else {

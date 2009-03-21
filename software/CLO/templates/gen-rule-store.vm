@@ -21,6 +21,9 @@ import java.util.List;
  * @author The CLOPS team (kind@ucd.ie)
  */
 public class ${parserName}RuleStore extends RuleStore {
+  {
+    ie.ucd.clops.runtime.rules.RuleStore.TRANSITIVE_FLYRULES = $info.getTransitive_Flyrules();
+  }
 
   public ${parserName}RuleStore() {
 #foreach($flyrule in $info.getFlyRuleDescriptions())

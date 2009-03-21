@@ -59,6 +59,10 @@ code {
 	font-weight: bold;
 }
 
+table {
+  width: 100%;
+}
+
 table#related-work {
   border: 1px solid gray;
   font-size: small;

@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  "http://www.w3.org/tr/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
   <style type="text/css">@import url('clops.css');</style>
   <style type="text/css">@import url('prettify.css');</style>
   <script type="text/javascript" src="prettify.js"></script>
@@ -20,203 +21,202 @@ own command line interface</a>. </p>
 <h1>Option Types and Their Properties</h1>
 
 <p><a href="#OptTable">Table 1</a> provides an overview of the
-built-in option types and their properties. All option types derive
-from the abstract type <b><i>basic</i></b>. The property <code>default</code>
-is the value to which the option is set before parsing begins and
-thus it will have this value if no assignments were performed to this option.</p>
+built-in option types and their properties. All option types
+derive from the abstract type <b><i>basic</i></b>. The property
+<code>default</code> is the value to which the option is set
+before parsing begins and thus it will have this value if no
+assignments were performed to this option.</p>
 
-<p align="center"><b>TODO:</b>suffix and defaultval
+<p class="todo">suffix and defaultval</p>
+
+<p>The type <b><i>boolean</i></b> is for options that are either
+<code>false</code>, <code>true</code>, or unset. The property
+<i>allowarg</i> determines whether the user may explicitly
+specify the option's value (e.g. <code>-o=false</code>). Setting
+<i>allowarg</i> and <i>default</i> to <code>false</code> yields
+the behavior we usually see in command-line programs. An option
+is <code>false</code> unless it appears on the command-line. The
+following declaration exemplifies an option verbose defaulting
+to <code>false</code>, which cannot be set explicitly to
+<code>false</code> by the end-user.</p>
+
+<pre class="prettyprint">
+verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]
+</pre>
+
+<p>The option-type <tt>counted-boolean</tt> is for options
+for which we want to know how many times it was written on
+the command-line. The property <tt>countstart</tt> specifies
+where the count should start (default is 0),<tt>countmax</tt>
+is the maximum for the counter. If <tt>warnonexceedingmax</tt>
+or <tt>erroronexceedingmax</tt> is set, an error or warning,
+respectively, is produced when the maximum is exceeded. The
+following is an example from <code>gzip</code> for which one may
+write <code>gzip -v -v</code> to increase verbosity level.</p>
+
+<pre class="prettyprint">
+verbose:{"-v","--verbose"}:{counted-boolean}:
+  [countmax="3",warnonexceedingmax]
+</pre>
+
+<p>The option-types <tt>string</tt>, <tt>int</tt>, and
+<tt>float</tt> are self-explanatory.</p>
+
+<p>The option-type <tt>string-regexp</tt> enables to
+specify a regular expression limiting the strings that
+the user may write on the command line as a value. The
+option-type <tt>string-enum</tt> is a restricted version of
+<tt>string-regexp</tt> for which we can specify a finite number
+of string values. These values are specified as a comma-separated
+list. If one of these values is an empty string, the user may
+decide not to provide a value. </p>
+
+<p>The option-type <tt>file</tt> accepts a file-name as
+an argument and its properties can be used to require the
+file's (non)existence and whether is must or must not be a
+directory.</p>
+
+<p>The option-type <tt>list</tt> is an abstract predecessor for
+options which the end-user several values on the command-line.
+These values are separated according to the regular expression
+given by the property <tt>splitter</tt> (it is "," if not
+specified). The option-types <tt>string-list</tt> and
+<tt>file-list</tt> are list of string and lists, respectively.
 </p>
 
+<table>
+<caption><a name="OptTable"><strong>Table 1:</strong></a>
+Built-in option types and properties. Abstract types are typeset in 
+<i>italics</i>. <i>T</i>
+ is the type of the concrete option's value. </caption>
+<tr><td> 
 
-<p>The type <b><i>boolean</i></b> is for options that are
-either <code>false</code>, <code>true</code>, or unset. The
-property <i>allowarg</i> determines whether the user may
-explicitly specify the option's value
-(e.g. <CODE>-o=false</CODE>). Setting <i>allowarg</i>
-and <i>default</i> to <CODE>false</CODE> yields the behavior we
-usually see in command-line programs. An option is <CODE>false</CODE>
-unless it appears on the command-line. The following declaration
-exemplifies an option verbose defaulting to <CODE>false</CODE>, which
-cannot be set explicitly to <CODE>false</CODE> by the end-user.
-
-<p align="center"><CODE>verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]</CODE></p>
-
-The option-type <b><i>counted-boolean</i></b> is for options for which
-we want to know how many times it was written on the command-line. The
-property <i>countstart</i> specifies where the count should
-start (default is 0),<i>countmax</i> is the maximum for the
-counter.  If <i>warnonexceedingmax</i>
-or <i>erroronexceedingmax</i> is set, an error or warning, respectively,
-is produced when the maximum is exceeded. The following is an example
-from <CODE>gzip</CODE> for which one may write <code>gzip -v -v</code>
-to increase verbosity level.
-
-<p align="center">verbose:{"-v","--verbose"}:{counted-boolean}:[countmax="3",warnonexceedingmax]</p>
-
-<p>The option-types <b><i>string</i></b>, <b><i>int</i></b>,
-and <b><i>float</i></b> are self-explanatory.  
-
-<p>The option-type <b><i>string-regexp</i></b> enables to specify a
-regular expression limiting the strings that the user may write on the
-command line as a value. The option-type <b><i>string-enum</i></b> is
-a restricted version of <i>string-regexp</i> for which we can specify
-a finite number of string values. These values are specified as a
-comma-separated list. If one of these values is an empty string, the
-user may decide not to provide a value.
- </p>
-
-<p>The option-type <b><i>file</b></i>  accepts a file-name as an argument and its
-properties can be used to require the file's (non)existence and
-whether is must or must not be a directory.</p>
-
-<p>The option-type <b><i>list</i></b> is an abstract predecessor for
-options which the end-user several values on the command-line. These
-values are separated according to the regular expression given by the
-property <i>splitter</i> (it is "," if not specified). The
-option-types
-<b><i>string-list</i></b> and
-<b><i>file-list</i></b> are list of string and lists, respectively.
-</p>
-
-
-<I CLASS="sans"></I><BR><P></P>
-<DIV ALIGN="CENTER"><A NAME="618"></A>
-<TABLE>
-<CAPTION><a name="OptTable"><STRONG>Table 1:</STRONG></a>
-Built-in option types and properties. Abstract types are typeset in <SPAN  CLASS="textit">italics</SPAN>. <i>T</i>
- is the type of the concrete option's value. </CAPTION>
-<TR><TD>  <DIV ALIGN="CENTER">
-
-</DIV>  <TABLE CELLPADDING=3 BORDER="1">
-<TR>
-<th ALIGN="LEFT">Name</th>
-<th ALIGN="LEFT">Inherits from</th>
-<th ALIGN="LEFT">Java type</th>
-<th ALIGN="LEFT">Properties</th>
-</TR>
-<TR><TD ALIGN="LEFT"><SPAN  CLASS="textit">basic</SPAN></TD>
-<TD ALIGN="LEFT">None</TD>
-<TD ALIGN="LEFT"> <i>T</i>
-</TD>
-<TD ALIGN="LEFT">default[T], suffixregexp[string]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">boolean</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><i>boolean</i>
-</TD>
-<TD ALIGN="LEFT">allowarg[boolean]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">counted-boolean</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><i>int</i>
-</TD>
-<TD ALIGN="LEFT">countstart[int], countmax[int],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">warnonexceedingmax[boolean],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">erroronexceedingmax[boolean]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">string</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><i>String</i>
-</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-</TR>
-<TR><TD ALIGN="LEFT">string-regexp</TD>
-<TD ALIGN="LEFT">string</TD>
-<TD ALIGN="LEFT"><i>String</i>
-</TD>
-<TD ALIGN="LEFT">regexp[string]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">string-enum</TD>
-<TD ALIGN="LEFT">string</TD>
-<TD ALIGN="LEFT"><i>String</i>
-</TD>
-<TD ALIGN="LEFT">choices[string], casesensitive[boolean]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">int</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT">int</TD>
-<TD ALIGN="LEFT">minvalue[int], maxvalue[int]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">float</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><i>float</i>
-</TD>
-<TD ALIGN="LEFT">minvalue[float], maxvalue[float]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">file</TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><i>float</i>
-</TD>
-<TD ALIGN="LEFT">canexist[boolean], mustexist[boolean],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">canbedir[boolean], mustbedir[boolean],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">allowdash[boolean]</TD>
-</TR>
-<TR><TD ALIGN="LEFT"><SPAN  CLASS="textit">list</SPAN></TD>
-<TD ALIGN="LEFT">basic</TD>
-<TD ALIGN="LEFT"><!-- MATH
+<table cellpadding="3" border="1">
+<tr>
+<th>Name</th>
+<th>Inherits from</th>
+<th>Java type</th>
+<th>Properties</th>
+</tr>
+<tr><td><span  class="textit">basic</span></td>
+<td>None</td>
+<td> <i>T</i>
+</td>
+<td>default[T], suffixregexp[string]</td>
+</tr>
+<tr><td>boolean</td>
+<td>basic</td>
+<td><i>boolean</i>
+</td>
+<td>allowarg[boolean]</td>
+</tr>
+<tr><td>counted-boolean</td>
+<td>basic</td>
+<td><i>int</i>
+</td>
+<td>countstart[int], countmax[int],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>warnonexceedingmax[boolean],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>erroronexceedingmax[boolean]</td>
+</tr>
+<tr><td>string</td>
+<td>basic</td>
+<td><i>String</i>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>string-regexp</td>
+<td>string</td>
+<td><i>String</i>
+</td>
+<td>regexp[string]</td>
+</tr>
+<tr><td>string-enum</td>
+<td>string</td>
+<td><i>String</i>
+</td>
+<td>choices[string], casesensitive[boolean]</td>
+</tr>
+<tr><td>int</td>
+<td>basic</td>
+<td>int</td>
+<td>minvalue[int], maxvalue[int]</td>
+</tr>
+<tr><td>float</td>
+<td>basic</td>
+<td><i>float</i>
+</td>
+<td>minvalue[float], maxvalue[float]</td>
+</tr>
+<tr><td>file</td>
+<td>basic</td>
+<td><i>float</i>
+</td>
+<td>canexist[boolean], mustexist[boolean],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>canbedir[boolean], mustbedir[boolean],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>allowdash[boolean]</td>
+</tr>
+<tr><td><span class="textit">list</span></td>
+<td>basic</td>
+<td><!-- MATH
  $List\langle T \rangle$
  -->
 <i>List&lt;T&gt;</i>
-<I></i>
-</TD>
-<TD ALIGN="LEFT">allowmultiple[boolean], splitter[string]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">string-list</TD>
-<TD ALIGN="LEFT">list</TD>
-<TD ALIGN="LEFT"><!-- MATH
+</td>
+<td>allowmultiple[boolean], splitter[string]</td>
+</tr>
+<tr><td>string-list</td>
+<td>list</td>
+<td><!-- MATH
  $List\langle String \rangle$
  -->
 <i>List&lt;String&gt;</i>
-</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-</TR>
-<TR><TD ALIGN="LEFT">file-list</TD>
-<TD ALIGN="LEFT">list</TD>
-<TD ALIGN="LEFT"><!-- MATH
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>file-list</td>
+<td>list</td>
+<td><!-- MATH
  $List\langle File \rangle$
  -->
 <i>List&lt;File&gt;</i>
-</TD>
-<TD ALIGN="LEFT">canexist[boolean], mustexist[boolean],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">canbedir[boolean], mustbedir[boolean],</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">allowdash[boolean]</TD>
-</TR>
-<TR><TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-<TD ALIGN="LEFT">&nbsp;</TD>
-</TR>
-</TABLE>
+</td>
+<td>canexist[boolean], mustexist[boolean],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>canbedir[boolean], mustbedir[boolean],</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>allowdash[boolean]</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
   
-  <A NAME="tbl:builtin-types"></A></TD></TR>
-</TABLE>
-</DIV><P></P><BR><I CLASS="sans"></I>
-<P>
+<a name="tbl:builtin-types"></a></td></tr>
+</table>
 
 
 <h1>API</h1>

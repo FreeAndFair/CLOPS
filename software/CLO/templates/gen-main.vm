@@ -11,6 +11,7 @@ public class Main {
   
   public static void main(String[] args) throws Exception {
     CLOLogger.setLogLevel(Level.FINE);
+    ie.ucd.clops.runtime.rules.RuleStore.TRANSITIVE_FLYRULES = $info.getTransitive_Flyrules();  
     ${parserName}Parser parser = new ${parserName}Parser();
     boolean success = parser.parse(args);
     if (success) {

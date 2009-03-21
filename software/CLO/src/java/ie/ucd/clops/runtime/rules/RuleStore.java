@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import java.util.Set;
+import java.util.HashSet;
 /**
  * 
  * @author Fintan
  *
  */
 public class RuleStore {
+  public static boolean TRANSITIVE_FLYRULES  = false;
 
   private final Map<String,List<FlyRule>> optionIdentifierToFlyRuleMap;
   //Other data structures for normal rules...
@@ -55,7 +58,7 @@ public class RuleStore {
     return getFlyRulesForOption(option.getIdentifier());
   }
   
-  public void applyFlyRules(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+  public void applyFlyRulesTraditional(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
     List<FlyRule> rules = getFlyRulesForOption(matchedOption);
     if (rules != null) {
       CLOLogger.getLogger().log(Level.FINE, "Rules for " + matchedOption);
@@ -64,6 +67,63 @@ public class RuleStore {
         rule.applyRule(optionStore);
       }          
     }
+  }
+
+  public void applyFlyRules(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+    if (TRANSITIVE_FLYRULES) {
+      applyFlyRulesTransitive(matchedOption, optionStore);      
+    }
+    else {
+      applyFlyRulesTraditional(matchedOption, optionStore);
+    }
+  }
+
+  public void applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+    Set<Option> triggers = new HashSet<Option>(1);
+    triggers.add(matchedOption); matchedOption=null;
+
+    while (!triggers.isEmpty()) {
+      Option trigger = triggers.iterator().next();
+      triggers.remove(trigger);
+
+      CLOLogger.getLogger().log(Level.FINE, "FLY-rule trigger: " + trigger);
+
+      List<FlyRule> rules = getFlyRulesForOption(trigger);
+      if (rules != null) {
+        for (FlyRule rule : rules) {
+          CLOLogger.getLogger().log(Level.FINE, "Rule: " + rule);
+
+          Map<String, Object> oldVals = getVals(optionStore, rule.getAffectedOptions());
+          CLOLogger.getLogger().log(Level.FINE, "Affected opts: " + rule.getAffectedOptions());
+
+          if (rule.applyRule(optionStore)) {
+            for (String oId : rule.getAffectedOptions()) {
+              Option o = optionStore.getOptionByIdentifier(oId);
+              if (!isSame(oldVals.get(oId), o.hasValue() ? o.getValue() : null)) {
+                triggers.add(o);
+              } else {
+                CLOLogger.getLogger().log(Level.FINE, "Affected "  + o + " stayed the same");
+              }
+            }
+          }
+        }          
+      }
+    }
+  }
+
+  private static boolean isSame(Object o1, Object o2) {
+    if (o1 == null) return o2 == null;
+    if (o2 == null) return false;
+    return o1.equals(o2);
+  }
+
+  private Map<String, Object> getVals(OptionStore optionStore, java.util.Collection<String> opts) {
+    HashMap<String, Object> vals = new HashMap<String, Object>(opts.size());
+    for (String oId : opts) {
+      Option o = optionStore.getOptionByIdentifier(oId);
+      vals.put(oId, o.hasValue() ? o.getValue() : null);
+    }
+    return vals; 
   }
   
   public void applyOverrideRules(OptionStore optionStore) throws InvalidOptionValueException {

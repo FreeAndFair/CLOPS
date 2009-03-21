@@ -56,7 +56,7 @@ public class CodeGenerator extends DocumentGenerator {
   private static String OP_STORE_TEMPLATE = TEMPLATE_BASE + "gen-op-store.vm";
   private static String RULE_STORE_TEMPLATE = TEMPLATE_BASE + "gen-rule-store.vm";
   private static String MAIN_TEMPLATE = TEMPLATE_BASE + "gen-main.vm";
-  
+
   public static void createCode(DSLInformation dslInfo, File outputDir, boolean genTest) {
     dslInfo.processPlaceholders();
     String parserName = dslInfo.getParserName();

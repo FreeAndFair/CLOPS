@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public class DSLInformation {
 
+  public boolean TRANSITIVE_FLYRULES;
+
   private final List<OptionDescription> optionDescriptions;
   private final Map<String,OptionDescription> optionIdDescriptionMap;
   private final List<OptionGroupDescription> optionGroupDescriptions;
@@ -35,7 +37,9 @@ public class DSLInformation {
     parserName = "";
     packageName = "";
   }
-  
+
+  public boolean getTransitive_Flyrules() { return TRANSITIVE_FLYRULES; }
+
   public String getFormatString() {
     return formatString;
   }

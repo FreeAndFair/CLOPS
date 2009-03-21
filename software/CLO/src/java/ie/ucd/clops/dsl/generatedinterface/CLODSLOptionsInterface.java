@@ -143,6 +143,23 @@ public interface CLODSLOptionsInterface {
   boolean getverbose();
   
 
+// Option transitiveFlyRules. 
+// Aliases: [-tfr, --transitive-fly-rules]
+
+  /**
+   * @return true if the option transitiveFlyRules has been used
+   * in the command line.
+   */
+  boolean istransitiveFlyRulesSet();
+  
+  /**
+   * Get the value of {@code Option} transitiveFlyRules.
+   * @return the value of the option transitiveFlyRules if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean gettransitiveFlyRules();
+  
+
 // Option input. 
 // Aliases: []
 

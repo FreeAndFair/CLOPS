@@ -64,7 +64,7 @@ public class Main {
     if (options.isverboseSet() && options.getverbose()) {
       CLOLogger.setLogLevel(Level.FINE);
     }
-    
+
     //No need to check if each of these are set, as this is enforced by the parser, validity checker, etc.
     File inputFile = options.getinput();
     File outputDir = options.getoutput();
@@ -82,6 +82,10 @@ public class Main {
 
       if (parser.isValidParse()) {
         CLOLogger.getLogger().log(Level.INFO, "Successfully parsed dsl file!");
+
+        parser.getDslInformation().TRANSITIVE_FLYRULES =
+          options.istransitiveFlyRulesSet() &&  options.gettransitiveFlyRules();
+
 
         //Make sure no newlines in the format string. This should probably be done whilst processing the DSL
         parser.getDslInformation().setFormatString(parser.getDslInformation().getFormatString().replaceAll("\\n", " "));

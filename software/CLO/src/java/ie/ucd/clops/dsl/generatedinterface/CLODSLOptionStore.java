@@ -14,6 +14,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final ie.ucd.clops.runtime.options.StringEnumOption gen_docs_builtinOG;
   private final ie.ucd.clops.runtime.options.FileOption gen_docs_customOG;
   private final ie.ucd.clops.runtime.options.BooleanOption verboseOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption transitiveFlyRulesOG;
   private final ie.ucd.clops.runtime.options.FileOption inputOG;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
@@ -53,6 +54,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(verboseOG);
     verboseOG.setProperty("default", "false");
     verboseOG.setProperty("description", "Print debugging messages.");
+    transitiveFlyRulesOG = new ie.ucd.clops.runtime.options.BooleanOption("transitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
+    addOption(transitiveFlyRulesOG);
+    transitiveFlyRulesOG.setProperty("default", "false");
+    transitiveFlyRulesOG.setProperty("description", "Fly rules will applied transtiviely.");
     inputOG = new ie.ucd.clops.runtime.options.FileOption("input", "");
     addOption(inputOG);
     inputOG.setProperty("between", "");
@@ -75,6 +80,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     all_argsOG.addOptionOrGroup(gen_docs_builtinOG);
     all_argsOG.addOptionOrGroup(gen_docs_customOG);
     all_argsOG.addOptionOrGroup(verboseOG);
+    all_argsOG.addOptionOrGroup(transitiveFlyRulesOG);
   }
   
 // Option output.
@@ -299,6 +305,34 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public ie.ucd.clops.runtime.options.BooleanOption getverboseOption() {
     return verboseOG;
+  }
+  
+// Option transitiveFlyRules.
+// Aliases: [-tfr, --transitive-fly-rules]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean istransitiveFlyRulesSet() {
+    return transitiveFlyRulesOG.hasValue();
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean gettransitiveFlyRules() {
+    return transitiveFlyRulesOG.getValue();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getRawtransitiveFlyRules() {
+    return transitiveFlyRulesOG.getRawValue();
+  }
+  
+  public ie.ucd.clops.runtime.options.BooleanOption gettransitiveFlyRulesOption() {
+    return transitiveFlyRulesOG;
   }
   
 // Option input.

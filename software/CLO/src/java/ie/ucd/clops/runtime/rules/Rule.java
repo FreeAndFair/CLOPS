@@ -30,13 +30,26 @@ public abstract class Rule {
   public Trigger getTrigger() {
     return trigger;
   }
-  
-  public void applyRule(OptionStore optionStore) throws InvalidOptionValueException {
+
+  /** Apply this rule to the given option store.
+   *@param optionStore the option store on which evaluate the condition and to affect
+   *@return true iff the rule fired
+   */
+  public boolean applyRule(OptionStore optionStore) throws InvalidOptionValueException {
     if (condition.evaluate(optionStore)) {
       for (Action<?> action : actions) {
         action.perform(optionStore);
       }
+      return true;
+    } else {
+      return false;
     }
   }
-  
+
+  /** Returns a list of options that get affected by this rule, if fired. */
+  public java.util.Set<String> getAffectedOptions() {
+       java.util.Set<String> retv = new java.util.HashSet<String>(actions.size());
+       for (Action a : actions) retv.add(a.getAffectedOption());
+       return retv;
+   }  
 }

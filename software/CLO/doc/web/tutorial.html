@@ -456,11 +456,11 @@ certain conditions hold.</p>
 
 <pre class="prettyprint">
 VALIDITY::
-  {$(Create?) && $(Extract?)}: 
+  {$(Create?) &amp;&amp; $(Extract?)}: 
     "You can't create and extract at the same time";
-  {$(Gzip?) && $(BzipTwo?)}: 
+  {$(Gzip?) &amp;&amp; $(BzipTwo?)}: 
     "You can't use gzip and bzip2 at the same time";
-  {!$(Create?) && !$(Extract?)}: 
+  {!$(Create?) &amp;&amp; !$(Extract?)}: 
     "Should I create an archive or extract from one?";
 </pre>
 

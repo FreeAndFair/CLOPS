@@ -20,7 +20,7 @@ ARGS::
 	bytes:{"-n","-c","--bytes"}:{int}
 	follow:{"-f","--follow"}
 	Follow:{"-F"}
-	lines:{"-","-n","--lines"}:{int}:[suffixregexp="([1-9]+)\\00",minvalue="0",default="10"]
+	lines:{"-","-n","--lines"}:{int}:[suffixregexp="([0-9]+)\0",minvalue="0",default="10"]
 	max_unchanged_stats:{"--max-unchanged-stats"}:{int}
 	pid:{"--pid"}:{int}:[minvalue="0",maxvalue="65535"]
 	quiet:{"-q","--quiet","--silent"}
@@ -59,9 +59,4 @@ FLY::
 	Follow -> retry:={true};
 	verbose -> header_mode:={"always"};
 	quiet -> header_mode:={"never"};
-
-OVERRIDES::
-
-VALIDITY::
-{true} : "this is a string";
 

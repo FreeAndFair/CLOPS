@@ -101,7 +101,11 @@ public class GenericCLParser {
         Option<?> newMatchedOption = transition.getMatchingOption(argumentString, i);
         if (newMatchedOption != null) {
           //We cannot match on two different Options
-          assert matchedOption == null || matchedOption == newMatchedOption;
+          if (matchedOption != null && matchedOption != newMatchedOption) {
+            CLOLogger.getLogger().log(Level.SEVERE, "Matched two options: " 
+              + matchedOption + " and " + newMatchedOption);
+            return false;
+          }
 
           matchedOption = newMatchedOption;
           matches.add(transition);
@@ -109,7 +113,8 @@ public class GenericCLParser {
       }
 
 
-      if (matchedOption == null) {//If no  match was found
+      if (matchedOption == null) {  
+        // If no  match was found
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
         return false;
       } else {

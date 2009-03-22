@@ -30,11 +30,12 @@ ARGS::
 	version:{"--version"}
 	header_mode:{}:{string-enum}:[choices="multiple_files,always,never",default="multiple_files"]
 	follow_x:{}:{string-enum}:[choices="nofollow,name,descriptor",default="nofollow"]
-
+	files:{}:{file-list}:[between="", allowMultiple="false"]
+	dashfiles:{}:{file-list}:[between="", allowMultiple="false", allowDash="true"]
+	dashdash:{"--"}
 
 FORMAT::
-
-	option*;
+	(option | files)* (dashdash dashfiles*)?;
 
 WHERE::
 

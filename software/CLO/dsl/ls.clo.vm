@@ -217,10 +217,13 @@ ARGS::
 
        version:{"--version"}:"output version information and exit"
 
+       Files: {}: {file-list}: [between="", allowMultiple="false"]
+       DashFiles: {}: {file-list}: [between="", allowMultiple="false", allowDash="true"]
+       DashDash: {"--"}
 
 FORMAT::
 
-  allOpts*;
+  (allOpts | Files)* (DashDash DashFiles*)?;
 
 WHERE::
  allOpts: 

@@ -15,9 +15,9 @@ ARGS::
            
   Output:{"-o"}:{file}
   		: "The output directory." 
-  Map:{"-m", "--map"} 
+  Map:{"-m", "--map"}:[default="false"]
   		: "To have the map implementation."
-  List:{"-l", "--list"} 
+  List:{"-l", "--list"}:[default="false"]
   		: "To have the list implementation." 
   Lib:{"-lib"}  
   		: "Enables the java.lang library generation. 

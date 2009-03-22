@@ -23,11 +23,11 @@ ARGS::
   ShortArchiveValue: {}: {file}: [between="\0"]
 
 FORMAT::
-  (ShortOption* ShortArchive ShortOption* ShortArchiveValue (LongOption | File)*
-| (ShortOption* LongOption* Archive (LongOption | File)*));
+  (ShortOption* ShortArchive ShortOption* ShortArchiveValue Long*
+| (ShortOption* Long* Archive Long*));
 
 WHERE::
-  LongOption: Create | Extract | BzipTwo | Gzip;
+  Long: Create | Extract | BzipTwo | Gzip | File;
   ShortOption: ShortCreate | ShortExtract | ShortBzipTwo | ShortGzip;
 
 FLY::

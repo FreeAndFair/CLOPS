@@ -96,6 +96,10 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     }
   }
 
+  @Override public String getMatchingValueString() {
+    return match.group(2);
+  }
+
   private void updateSuffix() {
     setMatchingSuffix(
       "(?:" + between + "(" + argumentShape + "))?" + SEP);

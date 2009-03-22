@@ -99,6 +99,10 @@ public class CountedBooleanOption extends BasicOption<Integer> {
     }
   }
 
+  public String getMatchingValueString() {
+    return match.group(3);
+  }
+
   public void set(Integer value) throws InvalidOptionValueException {
     if (value > countMax) {
       if (errorOnExceedingMax) {

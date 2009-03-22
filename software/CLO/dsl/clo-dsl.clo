@@ -32,6 +32,8 @@ verbose:{"-v","--verbose"}:[default="false"]
  
 transitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
   :"Fly rules will applied transitively."
+InfiniteLookahead: {"-oo", "--infinite-lookahead"}:[default="false"]
+  :"The command line parser will try harder."
 
 input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input file."

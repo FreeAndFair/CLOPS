@@ -1,8 +1,10 @@
 package ie.ucd.clops.runtime.parser;
 
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException;
 import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
+import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.rules.RuleStore;
 
@@ -36,7 +38,8 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public boolean parse(String[] args) {
+  public boolean parse(String[] args) 
+  throws AutomatonException, InvalidOptionValueException {
     return parse(new GenericCLParser(), args);
   }
   
@@ -46,9 +49,12 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not.
    */
-  public boolean parse(GenericCLParser parser, String[] args) {
+  // TODO(rgrig): I think this should throw exceptions rather than log them.
+  public boolean parse(GenericCLParser parser, String[] args) 
+  throws AutomatonException, InvalidOptionValueException {
     try {
       return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      //return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
     } catch (IllegalCharacterException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
       return false;

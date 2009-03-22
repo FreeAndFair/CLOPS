@@ -11,7 +11,9 @@ import ie.ucd.clops.runtime.parser.ProcessingResult;
  * @author Mikolas Janota
  * @author Fintan
  *
+ *
  */
+// TODO(rgrig): Why doesn't this inherit from OneArgumentOption?
 public class BooleanOption extends BasicOption<Boolean> {
   private static final String ALLOWARG = "allowarg";
 
@@ -56,6 +58,10 @@ public class BooleanOption extends BasicOption<Boolean> {
     }
   }
 
+  public String getMatchingValueString() {
+    return match.groupCount() >= 3? match.group(3) : null;
+  }
+
   private boolean validValueString(String valueString) {
     return 
       allowArg ? valueString.equalsIgnoreCase("true") || valueString.equalsIgnoreCase("false")
@@ -73,13 +79,11 @@ public class BooleanOption extends BasicOption<Boolean> {
 
   @Override
   public Boolean convertStringToValue(String valueString) throws InvalidOptionValueException {
-    if (valueString == null) {
-      throw new InvalidOptionValueException("null provided as value.");
-    }
     if (!allowArg) {
-      if (valueString != "") throw new InvalidOptionValueException("No argument allowed.");
+      if (valueString != null) throw new InvalidOptionValueException("No argument allowed.");
       else return new Boolean(true);
     } else {
+      if (valueString == null) valueString = "true";
       if (validValueString(valueString)) {
         return Boolean.valueOf(valueString);
       } else {

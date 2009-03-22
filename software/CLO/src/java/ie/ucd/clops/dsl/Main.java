@@ -35,7 +35,7 @@ public class Main {
    *  See also the target update-dslcli in the build file.
    *  @param args the arguments to the program.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     try {
       CLODSLParser parser = new CLODSLParser();
       boolean success = parser.parse(args);

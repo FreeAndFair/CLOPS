@@ -14,15 +14,10 @@ import java.util.Collection;
 public interface Option<T> extends IMatchable {
 
   /**
-   * Match this option against the arguments starting at the given offset.
-   * Returns a {@code ProcessingResult} indicating whether there was an error in the processing.
-   * If there was an error, an error message is contained in the ProcessingResult.
-   * If the processing was successful, the {@code ProcessingResult} indicates how many arguments
-   * were consumed.
-   * @return a {@code ProcessingResult} indicating the result of this processing
+   * Deprecated: Use {@code getMatchingValueString} and {@code
+   * setFromString} directly.
    */
-  //@ requires 0 <= offset && offset < args.length;
-  ProcessingResult process();
+  @Deprecated ProcessingResult process();
 
   /**
    * Does this Option have a value?
@@ -90,4 +85,7 @@ public interface Option<T> extends IMatchable {
 
   int getMatchLength();
 
+  /** Returns the string that should determine the value of the option,
+   * according to the last successful match operation. */
+  String getMatchingValueString();
 }

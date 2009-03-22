@@ -42,10 +42,8 @@ public class Automaton<T> {
 	/** List of active states.
 	 * The list is updated every step. */
 	ArrayList<State<T>> /*@ non_null @*/ arr;
-	/** Backup of active states.
-	 * The backup is used for error reporting only. */
-  //Not currently used!
-	//ArrayList<State<T>> /*@ non_null @*/ arr_backup; 
+	/** Backup of active states. Used for backtracking. */
+	Stack<ArrayList<State<T>>> arr_backup; 
 
 
 	/*
@@ -61,8 +59,8 @@ public class Automaton<T> {
 			throws RightOpenBracketException, LeftOpenBracketException,
 			OpenQuestionException, EmptyAlternativeException,
 			OpenStarException, OpenPlusException, EmptyFormatException {
-		arr = //arr_backup = 
-		  new ArrayList<State<T>>();
+		arr = new ArrayList<State<T>>();
+    arr_backup = new Stack<ArrayList<State<T>>>();
 		step_index = 1;
 		error = false;
 
@@ -293,10 +291,10 @@ public class Automaton<T> {
 			return false;
 
 		// Process next step, store states
+    arr_backup.push(arr);
 		ArrayList<State<T>> arr2 = new ArrayList<State<T>>();
 		for (State<T> s:arr)
 			follow( s, t, arr2);
-		//arr_backup = arr;
 		arr = arr2;
 
 		// Update step counter
@@ -308,6 +306,11 @@ public class Automaton<T> {
 
 		return !error;
 	}
+
+  /** Undo the last {@code nextStep()} call. */
+  public void previousStep() {
+    arr = arr_backup.pop();
+  }
 
 	/** Apply next step in automaton.
 	 * @param transition a transition label to process

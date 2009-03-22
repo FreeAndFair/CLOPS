@@ -14,25 +14,181 @@ import ie.ucd.clops.runtime.rules.RuleStore;
 
 import static ie.ucd.clops.runtime.options.IMatchable.SEP;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class parsing the command-line.
+ * Command line parser.
  *
  * @author Mikolas Janota
  * @author Fintan
  * @author Viliam Holub
  */
 public class GenericCLParser {
+  private static final Logger log = Logger.getLogger("ie.ucd.clops");
 
   public GenericCLParser() {}
+
+  /** 
+   * Represents a possible way to parse a piece of the command
+   * line. The {@code option} matches on the command line string
+   * starting at {@code startIndex}. A `parse' is a sequence of
+   * parse steps. `Applying a parse step' {@code s} means that we
+   * call {@code s.option.setValueFromString(s.optionValue)} (and
+   * the corresponding fly rules are applied).
+   */
+  static final private class ParseStep {
+    public Option<?> option;
+    public String optionValue;
+    public int optionMatchLength;
+
+    public ParseStep(Option<?> option) {
+      this.option = option;
+      optionMatchLength = option.getMatchLength();
+      optionValue = option.getMatchingValueString();
+    }
+
+    @Override public boolean equals(Object o) {
+      if (!(o instanceof ParseStep)) return false;
+      ParseStep t = (ParseStep)o;
+      if (optionMatchLength != t.optionMatchLength) return false;
+      if (option == null ^ t.option == null) return false;
+      if (optionValue == null ^ t.optionValue == null) return false;
+      return option.equals(t.option) && optionValue.equals(t.optionValue);
+    }
+
+    @Override public int hashCode() {
+      return 
+          optionMatchLength + 
+          (option == null? 0 : option.hashCode()) + 
+          (optionValue == null? 0 : optionValue.hashCode());
+    }
+  }
+
+  private HashSet<ArrayList<ParseStep>> parsingPossibilities;
+  private ArrayList<ParseStep> currentParse;
+  private OptionStore optionStore;
+  private RuleStore ruleStore;
+  private Automaton<IMatchable> automaton;
+  private String commandLine;
+
+  /** 
+   * If there is exactly one way to parse the command line
+   * then it parses the command line and returns {@code true},
+   * otherwise returns {@code false}. Errors in the DSL may cause
+   * this function to throw exception. Exceptions may also be
+   * thrown if options refuse to set their values from the given
+   * string.
+   *
+   * TODO(rgrig): The interface of this function should clearly
+   *    separate errors in the DSL from errors in the command line.
+   */
+  public boolean alternateParse(
+      String formatString, 
+      OptionStore optionStore,
+      RuleStore ruleStore,
+      String[] args) 
+  throws 
+      Tokenizer.IllegalCharacterException, 
+      Tokenizer.UnknownOptionException ,
+      AutomatonException,
+      InvalidOptionValueException
+  {
+    this.optionStore = optionStore;
+    this.ruleStore = ruleStore;
+    buildAutomaton(formatString);
+    buildCommandLine(args);
+
+    parsingPossibilities = new HashSet<ArrayList<ParseStep>>();
+    currentParse = new ArrayList<ParseStep>();
+
+    recursiveParse(0);
+    if (parsingPossibilities.size() != 1) {
+      log.fine("There are " + parsingPossibilities.size() + 
+          " parsing possibilities.");
+      return false;
+    }
+    applyParse(parsingPossibilities.iterator().next());
+    ruleStore.applyValidityRules(optionStore);
+    List<String> validityErrorList = 
+        ((CLOPSErrorOption)optionStore.getOptionByIdentifier(
+            CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
+    for (String error : validityErrorList)
+      log.fine(error);
+    return validityErrorList.isEmpty();
+  }
+
+  private void recursiveParse(int startIndex) {
+    if (startIndex == commandLine.length()) {
+      if (automaton.isAccepting())
+        parsingPossibilities.add(new ArrayList<ParseStep>(currentParse));
+      return;
+    }
+
+    Collection<IMatchable> possibleTransitions = 
+        automaton.availableTransitionsUnique();
+    Map<ParseStep, Set<IMatchable>> matches =
+        new HashMap<ParseStep, Set<IMatchable>>();
+    for (IMatchable t : possibleTransitions) {
+      Option<?> option = t.getMatchingOption(commandLine, startIndex);
+      if (option == null) continue;
+      ParseStep step = new ParseStep(option);
+      Set<IMatchable> transitions = matches.get(step);
+      if (transitions == null) {
+        transitions = new HashSet<IMatchable>();
+        matches.put(step, transitions);
+      }
+      transitions.add(t);
+    }
+    for (Map.Entry<ParseStep, Set<IMatchable>> e : matches.entrySet()) {
+      automaton.nextStep(e.getValue());
+      currentParse.add(e.getKey());
+      recursiveParse(startIndex + e.getKey().optionMatchLength);
+      currentParse.remove(currentParse.size() - 1);
+      automaton.previousStep();
+    }
+  }
+
+  private void applyParse(List<ParseStep> parse) 
+  throws InvalidOptionValueException {
+    for (ParseStep step : parse) {
+      step.option.setFromString(step.optionValue);
+      log.fine("Set option: " + step.option);
+      ruleStore.applyFlyRules(step.option, optionStore);
+    }
+    ruleStore.applyOverrideRules(optionStore);
+  }
+
+  private void buildAutomaton(String formatString) 
+  throws 
+      Tokenizer.IllegalCharacterException, 
+      Tokenizer.UnknownOptionException,
+      AutomatonException
+  {
+    List<Token<IMatchable>> tokens =
+      new Tokenizer().tokenize(formatString, optionStore);
+    automaton = new Automaton<IMatchable>(tokens);
+  }
+
+  private void buildCommandLine(String[] args) {
+    StringBuilder sb = new StringBuilder();
+    for (String a : args) {
+      sb.append(a);
+      sb.append(SEP);
+    }
+    commandLine = sb.toString();
+  }
+
 
   /**
    * Parse the given commandline.

@@ -34,19 +34,17 @@ public class TestGenericCLParser {
         gp = new GenericCLParser();
     }
 
-    @Test public void testArg() 
-        throws Tokenizer.UnknownOptionException, Tokenizer.IllegalCharacterException {
+    @Test public void testArg() throws Exception { 
         Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"xxxx"}));
     }
 
     @Test(expected=Tokenizer.UnknownOptionException.class) 
-        public void testParserUnknownOptionException2() 
-                          throws Tokenizer.UnknownOptionException, Tokenizer.IllegalCharacterException {
+        public void testParserUnknownOptionException2() throws Exception {
         Assert.assertFalse(gp.parse("xxx", os, flyStore, new String[] {"-boo"}));
     }
 
 
-    @Test public void testParse() throws Tokenizer.UnknownOptionException, Tokenizer.IllegalCharacterException {
+    @Test public void testParse() throws Exception {
         Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"})); // shouldn't parse
         Assert.assertTrue(gp.parse("bo2", os, flyStore, new String[] {"-boo"})); // should parse
         Assert.assertTrue(gp.parse("bo2?", os, flyStore, new String[] {"-boo"})); // should parse

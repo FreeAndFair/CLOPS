@@ -200,6 +200,7 @@ public class AutomatonTest {
         new TestInstance( "",               "(bo1|bo2)* bo3", new Option[] {bo2}, "bo2 bo1 bo3 "),
         new TestInstance( "",               "(bo1|bo2)* bo3", new Option[] {bo3}, "accepting"),
         new TestInstance( "",               "(bo1|bo2)* bo3", new Option[] {bo1, bo2, bo3}, "accepting"),
+        new TestInstance( "Star(4)",        "bo1* bo1", new Option[] {bo1, bo1}, "bo1 bo1 accepting"),
 
         new TestInstance( "Plus(1)       ", "bo1+", new Option[] {}, "bo1 "),
         new TestInstance( "",               "bo1+", new Option[] {bo1}, "bo1 accepting"),

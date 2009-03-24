@@ -60,7 +60,7 @@ public class Automaton<T> {
 			OpenQuestionException, EmptyAlternativeException,
 			OpenStarException, OpenPlusException, EmptyFormatException {
 		arr = new ArrayList<State<T>>();
-    arr_backup = new Stack<ArrayList<State<T>>>();
+		arr_backup = new Stack<ArrayList<State<T>>>();
 		step_index = 1;
 		error = false;
 
@@ -213,7 +213,7 @@ public class Automaton<T> {
 		State<T> s = new State<T>( StateType.END, null, null, null);
 		Fragment<T> fin = fragments.pop();
 		fin.assignNext( s);
-		
+
 		assert fragments.isEmpty();
 
 		// Write start state
@@ -250,8 +250,6 @@ public class Automaton<T> {
 	private void addSuccessors(
 			/*@ non_null @*/ State<T> state,
 			/*@ non_null @*/List<State<T>> successors) {
-		if (state.state_index == step_index)
-			return;
 		addSuccessors2( state.next1, successors);
 		addSuccessors2( state.next2, successors);
 		state.state_index = step_index;
@@ -291,7 +289,7 @@ public class Automaton<T> {
 			return false;
 
 		// Process next step, store states
-    arr_backup.push(arr);
+		arr_backup.push(arr);
 		ArrayList<State<T>> arr2 = new ArrayList<State<T>>();
 		for (State<T> s:arr)
 			follow( s, t, arr2);
@@ -307,10 +305,10 @@ public class Automaton<T> {
 		return !error;
 	}
 
-  /** Undo the last {@code nextStep()} call. */
-  public void previousStep() {
-    arr = arr_backup.pop();
-  }
+	/** Undo the last {@code nextStep()} call. */
+	public void previousStep() {
+		arr = arr_backup.pop();
+	}
 
 	/** Apply next step in automaton.
 	 * @param transition a transition label to process

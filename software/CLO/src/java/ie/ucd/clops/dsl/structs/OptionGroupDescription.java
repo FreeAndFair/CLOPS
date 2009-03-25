@@ -19,7 +19,7 @@ public class OptionGroupDescription {
   }
 
   public void addChild(String child) {
-    children.add(child);
+    children.add(child.replaceAll("-", "_"));
   }
 
   /**

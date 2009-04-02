@@ -179,7 +179,7 @@
       <!-- this should probably use the -b option and -d should produce a file -->
       <!-- corresponding to the input file -->
       <arg value="-v"/>
-      <arg value="-d=./test/o.html"/>
+      <arg value="-d=./test/"/>
       <arg value="-c"/>
       <arg value="./templates/html.vm"/> 
       <arg value="-o"/>

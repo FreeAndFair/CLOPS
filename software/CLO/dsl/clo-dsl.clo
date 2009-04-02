@@ -19,7 +19,7 @@ gen_test:{"-t","--test"}
 option_factory:{"-of","--option-factory"}:{string}
   :"Use this option factory instead of the default. Must be a fully qualified class name."
 
-gen_docs:{"-d","--docs"}:{file}:[canBeDir="false"]
+gen_docs:{"-d","--docs"}:{file}
   :"Generate documentation and write it to the given output file."
 gen_docs_builtin:{"-b","--built-in"}:{string-enum}:[choices="html,txt"]
   :"Use a built-in template for documentation generation."

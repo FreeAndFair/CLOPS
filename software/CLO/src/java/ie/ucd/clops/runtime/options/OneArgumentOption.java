@@ -102,6 +102,6 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   private void updateSuffix() {
     setMatchingSuffix(
-      "(?:" + between + "(" + argumentShape + "))?" + SEP);
+      between + "(" + argumentShape + ")" + SEP);
   }
 }

@@ -15,6 +15,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final ie.ucd.clops.runtime.options.FileOption gen_docs_customOG;
   private final ie.ucd.clops.runtime.options.BooleanOption verboseOG;
   private final ie.ucd.clops.runtime.options.BooleanOption transitiveFlyRulesOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption InfiniteLookaheadOG;
   private final ie.ucd.clops.runtime.options.FileOption inputOG;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
@@ -39,7 +40,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     option_factoryOG.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
     gen_docsOG = new ie.ucd.clops.runtime.options.FileOption("gen_docs", "(?:-d)|(?:--docs)");
     addOption(gen_docsOG);
-    gen_docsOG.setProperty("canBeDir", "false");
     gen_docsOG.setProperty("description", "Generate documentation and write it to the given output file.");
     gen_docs_builtinOG = new ie.ucd.clops.runtime.options.StringEnumOption("gen_docs_builtin", "(?:-b)|(?:--built-in)");
     addOption(gen_docs_builtinOG);
@@ -57,7 +57,11 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     transitiveFlyRulesOG = new ie.ucd.clops.runtime.options.BooleanOption("transitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
     addOption(transitiveFlyRulesOG);
     transitiveFlyRulesOG.setProperty("default", "false");
-    transitiveFlyRulesOG.setProperty("description", "Fly rules will applied transtiviely.");
+    transitiveFlyRulesOG.setProperty("description", "Fly rules will applied transitively.");
+    InfiniteLookaheadOG = new ie.ucd.clops.runtime.options.BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
+    addOption(InfiniteLookaheadOG);
+    InfiniteLookaheadOG.setProperty("default", "false");
+    InfiniteLookaheadOG.setProperty("description", "The command line parser will try harder.");
     inputOG = new ie.ucd.clops.runtime.options.FileOption("input", "");
     addOption(inputOG);
     inputOG.setProperty("between", "");
@@ -333,6 +337,34 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public ie.ucd.clops.runtime.options.BooleanOption gettransitiveFlyRulesOption() {
     return transitiveFlyRulesOG;
+  }
+  
+// Option InfiniteLookahead.
+// Aliases: [-oo, --infinite-lookahead]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isInfiniteLookaheadSet() {
+    return InfiniteLookaheadOG.hasValue();
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getInfiniteLookahead() {
+    return InfiniteLookaheadOG.getValue();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getRawInfiniteLookahead() {
+    return InfiniteLookaheadOG.getRawValue();
+  }
+  
+  public ie.ucd.clops.runtime.options.BooleanOption getInfiniteLookaheadOption() {
+    return InfiniteLookaheadOG;
   }
   
 // Option input.

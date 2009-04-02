@@ -20,9 +20,10 @@ public abstract class AbstractSpecificCLParser {
    * @return the format string.
    */
   public abstract String getFormatString();
-  
+
   /**
-   * Get the {@link OptionStore} containing the option instances for this parser.
+   * Get the {@link OptionStore} containing the option instances
+   * for this parser.
    * @return the option store.
    */
   public abstract OptionStore getOptionStore();
@@ -53,7 +54,7 @@ public abstract class AbstractSpecificCLParser {
   public boolean parse(GenericCLParser parser, String[] args) 
   throws AutomatonException, InvalidOptionValueException {
     try {
-      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
       //return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
     } catch (IllegalCharacterException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
@@ -63,5 +64,4 @@ public abstract class AbstractSpecificCLParser {
       return false;
     }
   }
-  
 }

@@ -1,4 +1,4 @@
-<project name="CLO" default="compile" basedir=".">
+<project name="CLO" default="test-parser" basedir=".">
   <description>CLO Build File</description>
 
   <property name="src" location="src"/>

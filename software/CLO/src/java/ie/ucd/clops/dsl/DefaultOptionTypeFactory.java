@@ -55,7 +55,8 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
     OptionType type = optionTypeMap.get(optionType);
     if (type != null) {
       return type;
-    } else {
+    } 
+    else {
       throw new UnknownOptionTypeException("Unknown option type: " + optionType);
     }
   }

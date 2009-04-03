@@ -1,5 +1,6 @@
 package ie.ucd.clops.util;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -77,6 +78,15 @@ public class StringUtil {
       result.add("\"\"");
     }
     return result;
+  }
+  
+  public static List<String> mkList(String choices) {
+    final String[] arr = choices.split(",");
+    final List<String> res = new ArrayList<String>();
+    for (String s:arr) {
+      res.add(s.trim());
+    }
+    return res;
   }
 
 }

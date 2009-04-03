@@ -29,7 +29,7 @@ public class DSLInformation {
   
   public DSLInformation() {
     optionDescriptions = new LinkedList<OptionDescription>();
-    optionIdDescriptionMap = new HashMap<String,OptionDescription>();
+    optionIdDescriptionMap = new HashMap<String, OptionDescription>();
     optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
     flyRuleDescriptions = new LinkedList<FlyRuleDescription>();
     overrideRuleDescriptions = new LinkedList<OverrideRuleDescription>();

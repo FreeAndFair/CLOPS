@@ -57,7 +57,8 @@ public class StringEnumOption extends StringOption {
   public Collection<String> getAcceptedPropertyNames() {
     return getStaticAcceptedPropertyNames();
   }
-
+  
+  
   @Override
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {

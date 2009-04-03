@@ -18,7 +18,7 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
   public $info.getParserName()OptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
 
     //Options
-#foreach($desc in $info.getOptionDescriptions())
+#foreach($desc in $info. ptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
     ${id}OG = new $type.getOptionTypeClass()("$id", "$OptionType.unifyRegexps($desc.getPrefixRegexps())");

@@ -24,12 +24,32 @@ public interface $info.getParserName()OptionsInterface {
    */
   boolean is$desc.getIdentifier()Set();
   
-  /**
+  
+  
+  #set($typename = $type.getOptionValueTypeClass())
+  #if( "$type.getTypeDescriptionString()" == "string-enum")
+    #set ($choices=$desc.getPropertyValue("choices"))
+    #set ($list = $StringUtil.mkList($choices))
+##    #set ($typename =  "$desc.getIdentifier()Enum")
+##enum  $typename {
+##  $desc.getPropertyValue("choices");
+##  public static $typename get(String s) {
+##	     #foreach($val in $list)
+##	       if (${val}.toString().equals(s)) {
+##	         return $val;
+##	       }
+##	     #end
+##	     return null;
+##	   }
+##	}
+	
+  #end
+  /** $type.getTypeDescriptionString()
    * Get the value of {@code Option} $desc.getIdentifier().
    * @return the value of the option $desc.getIdentifier() if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  $type.getOptionValueTypeClass() get$desc.getIdentifier()();
+  $typename get$desc.getIdentifier()();
   
 #end
 }

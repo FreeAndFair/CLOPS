@@ -75,7 +75,8 @@ public class Main {
     
     CLOParser parser = null;
     try {
-      CLOLexer lexer = new CLOLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
+      CLOLexer lexer = 
+        new CLOLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
       parser = new CLOParser(new CommonTokenStream(lexer));
 
       parser.prog();
@@ -87,7 +88,8 @@ public class Main {
           options.istransitiveFlyRulesSet() &&  options.gettransitiveFlyRules();
 
 
-        //Make sure no newlines in the format string. This should probably be done whilst processing the DSL
+        /* Make sure no newlines in the format string. 
+           This should probably be done whilst processing the DSL */
         parser.getDslInformation().setFormatString(parser.getDslInformation().getFormatString().replaceAll("\\n", " "));
         
         //Override package name from commandline
@@ -128,15 +130,19 @@ public class Main {
       } else {
         CLOLogger.getLogger().log(Level.SEVERE, "Did not parse successfully.");
         if (parser.getCustomErrorMessage() != null) {
-          CLOLogger.getLogger().log(Level.SEVERE, parser.getCustomErrorMessage());
+          CLOLogger.getLogger().log(Level.SEVERE, 
+        		  parser.getCustomErrorMessage());
         }
       }
       
     } catch (FileNotFoundException e) {
       //Shouldn't really happen as we check this in the Option
-      CLOLogger.getLogger().log(Level.SEVERE, "Input file not found: " + inputFile);
+      CLOLogger.getLogger().log(Level.SEVERE, 
+                                "Input file not found: " + inputFile);
     } catch (IOException e) {
-      CLOLogger.getLogger().log(Level.SEVERE, "I/O error whilst processing input file: " + inputFile);
+      CLOLogger.getLogger().log(Level.SEVERE, 
+                                "I/O error whilst processing input file: " 
+                                + inputFile);
     } catch (RecognitionException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Caught recognition error");
       if (parser.getCustomErrorMessage() != null) {
@@ -150,11 +156,12 @@ public class Main {
   }
   
   /** 
-   * Instantiate the {@code OptionTypeFactory} with a given class. The provided class must be present on the 
-   * classpath.
-   * @param factoryName the fully qualified name of the class that is to be used as a {@code OptionTypeFactory} 
+   * Instantiate the {@code OptionTypeFactory} with a given class. 
+   * The provided class must be present on the classpath.
+   * @param factoryName the fully qualified name of the class 
+   * that is to be used as a {@code OptionTypeFactory} 
    */
-  private static void setOptionTypeFactory(String factoryName) {
+  private static void setOptionTypeFactory(final String factoryName) {
     try {
       Class<?> c = Class.forName(factoryName);
 
@@ -170,13 +177,19 @@ public class Main {
       return;
       
     } catch (ClassNotFoundException e) {
-      CLOLogger.getLogger().log(Level.WARNING, "No class on classpath with name " + factoryName);
+      CLOLogger.getLogger().log(Level.WARNING, 
+                                "No class on classpath with name " 
+                                + factoryName);
     } catch (IllegalArgumentException e) {
-      CLOLogger.getLogger().log(Level.WARNING, "An error occurred when loading the factory " + factoryName);
+      CLOLogger.getLogger().log(Level.WARNING, 
+                                "An error occurred when loading the factory " 
+                                + factoryName);
     } catch (InstantiationException e) {
-      CLOLogger.getLogger().log(Level.WARNING, "An error occurred when loading the factory " + factoryName);
+      CLOLogger.getLogger().log(Level.WARNING, 
+                                "An error occurred when loading the factory " + factoryName);
     } catch (IllegalAccessException e) {
-      CLOLogger.getLogger().log(Level.WARNING, "An error occurred when loading the factory " + factoryName);
+      CLOLogger.getLogger().log(Level.WARNING, 
+                                "An error occurred when loading the factory " + factoryName);
     } catch (InvocationTargetException e) {
       CLOLogger.getLogger().log(Level.WARNING, "An error occurred when loading the factory " + factoryName);
     } catch (ClassCastException e) {

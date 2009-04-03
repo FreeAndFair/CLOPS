@@ -42,16 +42,6 @@ public class CodeGenerator extends DocumentGenerator {
     super(info);
   }
 
-  // TODO: need review
-  @Override
-  public VelocityContext createContext(final DSLInformation information) {
-    VelocityContext context = super.createContext(information);
-    context.put("OptionType", CodeGenerator.class);
-    context.put("CLOPSErrorOption", CLOPSErrorOption.class);
-    context.put("OptionType", OptionType.class);
-    context.put("CodeGenerator", CodeGenerator.class);
-    return context;
-  }
 
   /**
    * Creates the codes for the option parser using the templates.

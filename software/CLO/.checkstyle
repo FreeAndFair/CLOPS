@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fileset-config file-format-version="1.2.0" simple-config="true">
-    <fileset name="all" enabled="true" check-config-name="Sun Checks (Eclipse)" local="false">
+    <local-check-config name="CLOPS checkstyle" location="src/checkstyle.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <fileset name="all" enabled="true" check-config-name="CLOPS checkstyle" local="true">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
+    <filter name="FilesFromPackage" enabled="false">
+        <filter-data value="src/java/ie/ucd/clops/dsl/generatedinterface"/>
+        <filter-data value="src/java/ie/ucd/clops/dsl/parser"/>
+        <filter-data value="src/java/ie/ucd/clops/runtime/parser"/>
+    </filter>
 </fileset-config>

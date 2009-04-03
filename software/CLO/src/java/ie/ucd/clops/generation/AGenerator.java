@@ -14,8 +14,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.options.CLOPSErrorOption;
+import ie.ucd.clops.util.StringUtil;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -69,7 +73,16 @@ public abstract class AGenerator {
    * @param infos the informations gathered by the parsing of the dsl.
    * @return Context for DSL information
    */
-  public abstract VelocityContext createContext(final DSLInformation infos);
+  public VelocityContext createContext(final DSLInformation infos) {
+    final VelocityContext ctxt = new VelocityContext();
+    ctxt.put("info", infos);
+    ctxt.put("StringUtil", StringUtil.class);
+    ctxt.put("BasicOptionDescription", BasicOptionDescription.class);
+    ctxt.put("CLOPSErrorOption", CLOPSErrorOption.class);
+    ctxt.put("OptionType", OptionType.class);
+    ctxt.put("CodeGenerator", CodeGenerator.class);
+    return ctxt;
+  }
 
   /**
    * Produces java String constant containing a given String
@@ -78,8 +91,8 @@ public abstract class AGenerator {
    * TODO: move to String util
    */
   public static List<String> quoteMultilineString(final String s) {
-    String[] lines = s.split("\n");
-    List<String> result = new LinkedList<String>();
+    final String[] lines = s.split("\n");
+    final List<String> result = new LinkedList<String>();
 
     for (String line : lines) {
       line = line.trim();

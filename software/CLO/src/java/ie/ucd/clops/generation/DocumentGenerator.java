@@ -29,17 +29,4 @@ public class DocumentGenerator extends AGenerator {
     super(info);
   }
 
-  /**
-   * Define the context for document generation.
-   *
-   * @return Context for DSL information
-   */
-  //TODO: need review
-  public VelocityContext createContext(final DSLInformation info) {
-    final VelocityContext context = new VelocityContext();
-    context.put("info", info);
-    context.put("StringUtil", StringUtil.class);
-    context.put("BasicOptionDescription", BasicOptionDescription.class);
-    return context;
-  }
 }

@@ -1,14 +1,10 @@
 package ie.ucd.clops.generation;
 
-import ie.ucd.clops.dsl.OptionType;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 
 import java.io.File;
 import java.util.logging.Level;
-
-import org.apache.velocity.VelocityContext;
 
 /**
  * A class used to generate java code from a DSL.
@@ -53,7 +49,7 @@ public class CodeGenerator extends DocumentGenerator {
                                 final File output, final boolean genTest) {
     info.processPlaceholders();
     try {
-      CodeGenerator codeGen = new CodeGenerator(info);
+      final CodeGenerator codeGen = new CodeGenerator(info);
 
       codeGen.generate(output, PARSER_TEMPLATE, "Code generation");
       codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
@@ -63,11 +59,11 @@ public class CodeGenerator extends DocumentGenerator {
       if (genTest) {
         codeGen.generate(output, MAIN_TEMPLATE, "Code generation");
       }
-
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       CLOLogger.getLogger().log(Level.SEVERE,
-                                "Something went wrong with code generation. "
-                                + e);
+                                "Something went wrong with code generation. " +
+                                e);
     }
   }
 

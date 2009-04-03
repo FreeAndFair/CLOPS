@@ -27,7 +27,7 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     ${id}OG.setProperty("$pair.first", "$pair.second");
 #end
 #if( "$!desc.getDescription()" != "" )
-#set( $lines = $CodeGenerator.quoteMultilineString($desc.getDescription()) )
+#set( $lines = $StringUtil.quoteMultilineString($desc.getDescription()) )
 #if( $lines.size() == 1 ) 
     ${id}OG.setProperty("description", "$desc.getDescription()");
 #else

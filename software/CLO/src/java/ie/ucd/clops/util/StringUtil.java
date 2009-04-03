@@ -55,5 +55,28 @@ public class StringUtil {
     System.out.println("After: " + sb.toString());
     return sb.toString();
   }
+  
+
+  /**
+   * Produces java String constant containing a given String
+   * that may contain newlines.
+   * @param s
+   */
+  public static List<String> quoteMultilineString(final String s) {
+    final String[] lines = s.split("\n");
+    final List<String> result = new LinkedList<String>();
+
+    for (String line : lines) {
+      line = line.trim();
+      if (line.equals("")) {
+        continue;
+      }
+      result.add(line);
+    }
+    if (result.size() == 0) {
+      result.add("\"\"");
+    }
+    return result;
+  }
 
 }

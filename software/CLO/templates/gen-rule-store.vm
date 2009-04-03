@@ -129,7 +129,7 @@ public class ${parserName}RuleStore extends RuleStore {
      */
     public List<String> evaluate(final OptionStore optionStore) {
 #if ( "$!valrule.getExplanation()" != "" )
-#set( $lines = $CodeGenerator.quoteMultilineString($valrule.getExplanation()) )
+#set( $lines = $StringUtil.quoteMultilineString($valrule.getExplanation()) )
 #if( $lines.size() == 1 ) 
       return Arrays.asList("$valrule.getExplanation()");
 #else

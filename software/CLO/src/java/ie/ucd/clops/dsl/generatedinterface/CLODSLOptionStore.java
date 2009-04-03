@@ -7,12 +7,13 @@ import ie.ucd.clops.runtime.options.OptionStore;
 public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInterface {
 
   private final ie.ucd.clops.runtime.options.FileOption outputOG;
-  private final ie.ucd.clops.runtime.options.StringOption output_packageOG;
   private final ie.ucd.clops.runtime.options.BooleanOption gen_testOG;
+  private final ie.ucd.clops.runtime.options.StringOption output_packageOG;
   private final ie.ucd.clops.runtime.options.StringOption option_factoryOG;
-  private final ie.ucd.clops.runtime.options.FileOption gen_docsOG;
-  private final ie.ucd.clops.runtime.options.StringEnumOption gen_docs_builtinOG;
-  private final ie.ucd.clops.runtime.options.FileOption gen_docs_customOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption gen_docsOG;
+  private final ie.ucd.clops.runtime.options.StringEnumOption gen_builtinOG;
+  private final ie.ucd.clops.runtime.options.FileListOption gen_customOG;
+  private final ie.ucd.clops.runtime.options.FileOption gen_targetOG;
   private final ie.ucd.clops.runtime.options.BooleanOption verboseOG;
   private final ie.ucd.clops.runtime.options.BooleanOption transitiveFlyRulesOG;
   private final ie.ucd.clops.runtime.options.BooleanOption InfiniteLookaheadOG;
@@ -27,29 +28,32 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     outputOG.setProperty("mustExist", "true");
     outputOG.setProperty("mustbedir", "true");
     outputOG.setProperty("default", ".");
-    outputOG.setProperty("description", "Output directory for generated files.");
+    outputOG.setProperty("description", "Output directory for generated Java files.");
+    gen_testOG = new ie.ucd.clops.runtime.options.BooleanOption("gen_test", "(?:-m)|(?:--main)");
+    addOption(gen_testOG);
+    gen_testOG.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
     output_packageOG = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
     addOption(output_packageOG);
     output_packageOG.setProperty("stripquotesifpresent", "true");
     output_packageOG.setProperty("description", "Output package. If left empty the default package is used.");
-    gen_testOG = new ie.ucd.clops.runtime.options.BooleanOption("gen_test", "(?:-t)|(?:--test)");
-    addOption(gen_testOG);
-    gen_testOG.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
     option_factoryOG = new ie.ucd.clops.runtime.options.StringOption("option_factory", "(?:-of)|(?:--option-factory)");
     addOption(option_factoryOG);
     option_factoryOG.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
-    gen_docsOG = new ie.ucd.clops.runtime.options.FileOption("gen_docs", "(?:-d)|(?:--docs)");
+    gen_docsOG = new ie.ucd.clops.runtime.options.BooleanOption("gen_docs", "(?:-d)|(?:--docs)");
     addOption(gen_docsOG);
-    gen_docsOG.setProperty("description", "Generate documentation and write it to the given output file.");
-    gen_docs_builtinOG = new ie.ucd.clops.runtime.options.StringEnumOption("gen_docs_builtin", "(?:-b)|(?:--built-in)");
-    addOption(gen_docs_builtinOG);
-    gen_docs_builtinOG.setProperty("choices", "html,txt");
-    gen_docs_builtinOG.setProperty("description", "Use a built-in template for documentation generation.");
-    gen_docs_customOG = new ie.ucd.clops.runtime.options.FileOption("gen_docs_custom", "(?:-c)|(?:--custom)");
-    addOption(gen_docs_customOG);
-    gen_docs_customOG.setProperty("mustExist", "true");
-    gen_docs_customOG.setProperty("canBeDir", "false");
-    gen_docs_customOG.setProperty("description", "Use a custom template for documentation generation.");
+    gen_docsOG.setProperty("description", "Use a default documentation template for generation.");
+    gen_builtinOG = new ie.ucd.clops.runtime.options.StringEnumOption("gen_builtin", "(?:-b)|(?:--built-in)");
+    addOption(gen_builtinOG);
+    gen_builtinOG.setProperty("choices", "htmldev,html,manpage,usage,help");
+    gen_builtinOG.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
+    gen_customOG = new ie.ucd.clops.runtime.options.FileListOption("gen_custom", "(?:-c)|(?:--custom)");
+    addOption(gen_customOG);
+    gen_customOG.setProperty("mustExist", "true");
+    gen_customOG.setProperty("canBeDir", "false");
+    gen_customOG.setProperty("description", "Use custom templates for generation.");
+    gen_targetOG = new ie.ucd.clops.runtime.options.FileOption("gen_target", "(?:-t)|(?:--target)");
+    addOption(gen_targetOG);
+    gen_targetOG.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
     verboseOG = new ie.ucd.clops.runtime.options.BooleanOption("verbose", "(?:-v)|(?:--verbose)");
     addOption(verboseOG);
     verboseOG.setProperty("default", "false");
@@ -75,16 +79,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     //Option groups
     final OptionGroup all_argsOG = new OptionGroup("all_args");
     addOptionGroup(all_argsOG);
+    final OptionGroup TemplatesOG = new OptionGroup("Templates");
+    addOptionGroup(TemplatesOG);
     //Setup groupings
     all_argsOG.addOptionOrGroup(outputOG);
     all_argsOG.addOptionOrGroup(output_packageOG);
     all_argsOG.addOptionOrGroup(option_factoryOG);
     all_argsOG.addOptionOrGroup(gen_testOG);
-    all_argsOG.addOptionOrGroup(gen_docsOG);
-    all_argsOG.addOptionOrGroup(gen_docs_builtinOG);
-    all_argsOG.addOptionOrGroup(gen_docs_customOG);
     all_argsOG.addOptionOrGroup(verboseOG);
     all_argsOG.addOptionOrGroup(transitiveFlyRulesOG);
+    all_argsOG.addOptionOrGroup(TemplatesOG);
+    TemplatesOG.addOptionOrGroup(gen_docsOG);
+    TemplatesOG.addOptionOrGroup(gen_builtinOG);
+    TemplatesOG.addOptionOrGroup(gen_customOG);
+    TemplatesOG.addOptionOrGroup(gen_targetOG);
   }
   
 // Option output.
@@ -115,6 +123,34 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return outputOG;
   }
   
+// Option gen_test.
+// Aliases: [-m, --main]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isgen_testSet() {
+    return gen_testOG.hasValue();
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getgen_test() {
+    return gen_testOG.getValue();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean getRawgen_test() {
+    return gen_testOG.getRawValue();
+  }
+  
+  public ie.ucd.clops.runtime.options.BooleanOption getgen_testOption() {
+    return gen_testOG;
+  }
+  
 // Option output_package.
 // Aliases: [-p, --package]
   
@@ -141,34 +177,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public ie.ucd.clops.runtime.options.StringOption getoutput_packageOption() {
     return output_packageOG;
-  }
-  
-// Option gen_test.
-// Aliases: [-t, --test]
-  
-  /**
-   * {@inheritDoc}
-   */
-  public boolean isgen_testSet() {
-    return gen_testOG.hasValue();
-  }
-  
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getgen_test() {
-    return gen_testOG.getValue();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getRawgen_test() {
-    return gen_testOG.getRawValue();
-  }
-  
-  public ie.ucd.clops.runtime.options.BooleanOption getgen_testOption() {
-    return gen_testOG;
   }
   
 // Option option_factory.
@@ -212,75 +220,103 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   /**
    * {@inheritDoc}
    */
-  public java.io.File getgen_docs() {
+  public boolean getgen_docs() {
     return gen_docsOG.getValue();
   }
 
   /**
    * {@inheritDoc}
    */
-  public java.io.File getRawgen_docs() {
+  public boolean getRawgen_docs() {
     return gen_docsOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getgen_docsOption() {
+  public ie.ucd.clops.runtime.options.BooleanOption getgen_docsOption() {
     return gen_docsOG;
   }
   
-// Option gen_docs_builtin.
+// Option gen_builtin.
 // Aliases: [-b, --built-in]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_docs_builtinSet() {
-    return gen_docs_builtinOG.hasValue();
+  public boolean isgen_builtinSet() {
+    return gen_builtinOG.hasValue();
   }
   
   /**
    * {@inheritDoc}
    */
-  public String getgen_docs_builtin() {
-    return gen_docs_builtinOG.getValue();
+  public String getgen_builtin() {
+    return gen_builtinOG.getValue();
   }
 
   /**
    * {@inheritDoc}
    */
-  public String getRawgen_docs_builtin() {
-    return gen_docs_builtinOG.getRawValue();
+  public String getRawgen_builtin() {
+    return gen_builtinOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringEnumOption getgen_docs_builtinOption() {
-    return gen_docs_builtinOG;
+  public ie.ucd.clops.runtime.options.StringEnumOption getgen_builtinOption() {
+    return gen_builtinOG;
   }
   
-// Option gen_docs_custom.
+// Option gen_custom.
 // Aliases: [-c, --custom]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_docs_customSet() {
-    return gen_docs_customOG.hasValue();
+  public boolean isgen_customSet() {
+    return gen_customOG.hasValue();
   }
   
   /**
    * {@inheritDoc}
    */
-  public java.io.File getgen_docs_custom() {
-    return gen_docs_customOG.getValue();
+  public java.util.List<java.io.File> getgen_custom() {
+    return gen_customOG.getValue();
   }
 
   /**
    * {@inheritDoc}
    */
-  public java.io.File getRawgen_docs_custom() {
-    return gen_docs_customOG.getRawValue();
+  public java.util.List<java.io.File> getRawgen_custom() {
+    return gen_customOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getgen_docs_customOption() {
-    return gen_docs_customOG;
+  public ie.ucd.clops.runtime.options.FileListOption getgen_customOption() {
+    return gen_customOG;
+  }
+  
+// Option gen_target.
+// Aliases: [-t, --target]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isgen_targetSet() {
+    return gen_targetOG.hasValue();
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public java.io.File getgen_target() {
+    return gen_targetOG.getValue();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public java.io.File getRawgen_target() {
+    return gen_targetOG.getRawValue();
+  }
+  
+  public ie.ucd.clops.runtime.options.FileOption getgen_targetOption() {
+    return gen_targetOG;
   }
   
 // Option verbose.

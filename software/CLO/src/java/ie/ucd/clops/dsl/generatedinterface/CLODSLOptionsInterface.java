@@ -24,6 +24,23 @@ public interface CLODSLOptionsInterface {
   java.io.File getoutput();
   
 
+// Option gen_test. 
+// Aliases: [-m, --main]
+
+  /**
+   * @return true if the option gen_test has been used
+   * in the command line.
+   */
+  boolean isgen_testSet();
+  
+  /**
+   * Get the value of {@code Option} gen_test.
+   * @return the value of the option gen_test if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getgen_test();
+  
+
 // Option output_package. 
 // Aliases: [-p, --package]
 
@@ -39,23 +56,6 @@ public interface CLODSLOptionsInterface {
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
   String getoutput_package();
-  
-
-// Option gen_test. 
-// Aliases: [-t, --test]
-
-  /**
-   * @return true if the option gen_test has been used
-   * in the command line.
-   */
-  boolean isgen_testSet();
-  
-  /**
-   * Get the value of {@code Option} gen_test.
-   * @return the value of the option gen_test if it has been set
-   * using the arguments. Throws an {@code IllegalStateException} otherwise.
-   */ 
-  boolean getgen_test();
   
 
 // Option option_factory. 
@@ -89,41 +89,58 @@ public interface CLODSLOptionsInterface {
    * @return the value of the option gen_docs if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.io.File getgen_docs();
+  boolean getgen_docs();
   
 
-// Option gen_docs_builtin. 
+// Option gen_builtin. 
 // Aliases: [-b, --built-in]
 
   /**
-   * @return true if the option gen_docs_builtin has been used
+   * @return true if the option gen_builtin has been used
    * in the command line.
    */
-  boolean isgen_docs_builtinSet();
+  boolean isgen_builtinSet();
   
   /**
-   * Get the value of {@code Option} gen_docs_builtin.
-   * @return the value of the option gen_docs_builtin if it has been set
+   * Get the value of {@code Option} gen_builtin.
+   * @return the value of the option gen_builtin if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  String getgen_docs_builtin();
+  String getgen_builtin();
   
 
-// Option gen_docs_custom. 
+// Option gen_custom. 
 // Aliases: [-c, --custom]
 
   /**
-   * @return true if the option gen_docs_custom has been used
+   * @return true if the option gen_custom has been used
    * in the command line.
    */
-  boolean isgen_docs_customSet();
+  boolean isgen_customSet();
   
   /**
-   * Get the value of {@code Option} gen_docs_custom.
-   * @return the value of the option gen_docs_custom if it has been set
+   * Get the value of {@code Option} gen_custom.
+   * @return the value of the option gen_custom if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.io.File getgen_docs_custom();
+  java.util.List<java.io.File> getgen_custom();
+  
+
+// Option gen_target. 
+// Aliases: [-t, --target]
+
+  /**
+   * @return true if the option gen_target has been used
+   * in the command line.
+   */
+  boolean isgen_targetSet();
+  
+  /**
+   * Get the value of {@code Option} gen_target.
+   * @return the value of the option gen_target if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  java.io.File getgen_target();
   
 
 // Option verbose. 

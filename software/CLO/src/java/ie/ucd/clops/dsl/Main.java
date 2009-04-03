@@ -5,6 +5,7 @@ import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
 import ie.ucd.clops.dsl.parser.CLOLexer;
 import ie.ucd.clops.dsl.parser.CLOParser;
+import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.generation.CodeGenerator;
 import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
@@ -65,9 +66,10 @@ public class Main {
       CLOLogger.setLogLevel(Level.FINE);
     }
 
-    //No need to check if each of these are set, as this is enforced by the parser, validity checker, etc.
-    File inputFile = options.getinput();
-    File outputDir = options.getoutput();
+    /* No need to check if each of these are set, as this is 
+       enforced by the parser, validity checker, etc. */
+    final File inputFile = options.getinput();
+    final File outputDir = options.getoutput();
     
     if (options.isoption_factorySet()) {
       setOptionTypeFactory(options.getoption_factory());
@@ -75,86 +77,96 @@ public class Main {
     
     CLOParser parser = null;
     try {
-      CLOLexer lexer = 
+      final CLOLexer lexer = 
         new CLOLexer(new ANTLRInputStream(new FileInputStream(inputFile)));
       parser = new CLOParser(new CommonTokenStream(lexer));
 
       parser.prog();
-
+      final DSLInformation infos = parser.getDslInformation();
+      
       if (parser.isValidParse()) {
         CLOLogger.getLogger().log(Level.INFO, "Successfully parsed dsl file!");
-
-        parser.getDslInformation().TRANSITIVE_FLYRULES =
+        infos.TRANSITIVE_FLYRULES =
           options.istransitiveFlyRulesSet() &&  options.gettransitiveFlyRules();
 
 
         /* Make sure no newlines in the format string. 
            This should probably be done whilst processing the DSL */
-        parser.getDslInformation().setFormatString(parser.getDslInformation().getFormatString().replaceAll("\\n", " "));
+        infos.setFormatString(infos.getFormatString().replaceAll("\\n", " "));
         
         //Override package name from commandline
         if (options.isoutput_packageSet()) {
-          parser.getDslInformation().setPackageName(options.getoutput_package());
+          infos.setPackageName(options.getoutput_package());
         }
         
         if (options.isoutputSet()) {
-          boolean genTest = options.isgen_testSet() && options.getgen_test();
+          final boolean genTest = options.isgen_testSet() && options.getgen_test();
           CodeGenerator.createCode(parser.getDslInformation(), outputDir, genTest);
-          CLOLogger.getLogger().log(Level.INFO, "Created code in " + outputDir.getAbsolutePath());
+          CLOLogger.getLogger().log(Level.INFO, 
+                                    "Created code in " + outputDir.getAbsolutePath());
         }        
       
-        if (options.isgen_docsSet()) {
-          DocumentGenerator documentation = 
-        	  new DocumentGenerator(parser.getDslInformation());
-          File outputFile = options.getgen_docs();
+        if (options.isgen_docsSet() || 
+            options.isgen_builtinSet() || 
+            options.isgen_customSet()) {
+          // we are doing some template generation
+          
+          final DocumentGenerator docs = 
+            new DocumentGenerator(parser.getDslInformation());
+          final File output = getTemplateTarget(options);
+          
           // Generate Documentation
-          String explanation = "Document generation";
-          if (options.isgen_docs_customSet()) {
-            File template = options.getgen_docs_custom();
-            documentation.generate(outputFile, template.getAbsolutePath(), explanation);
-          } else if (options.isgen_docs_builtinSet()) {
-            String templateLoc = null;
-            if (options.getgen_docs_builtin().equalsIgnoreCase("txt")) {
-              templateLoc = DocumentGenerator.HELP_TEMPLATE; 
-            } else if (options.getgen_docs_builtin().equalsIgnoreCase("html")) {
-              templateLoc = DocumentGenerator.HTML_TEMPLATE;
-            }
-            if (templateLoc != null) {
-                //TODO templateLoc should be an absolute path
-              documentation.generate(outputFile, templateLoc, explanation);
-            }
+          if (options.isgen_docsSet()) {
+            docs.generateDefault(output);
+          }
+          if (options.isgen_builtinSet()) {
+            docs.generateBuiltin(output, options.getgen_builtin());
+          }
+          if (options.isgen_customSet()) {
+            docs.generateCustom(output, options.getgen_custom());
           }
         }
         
         return true;
-      } else {
+      } 
+      else {
         CLOLogger.getLogger().log(Level.SEVERE, "Did not parse successfully.");
         if (parser.getCustomErrorMessage() != null) {
           CLOLogger.getLogger().log(Level.SEVERE, 
-        		  parser.getCustomErrorMessage());
+                                    parser.getCustomErrorMessage());
         }
-      }
-      
-    } catch (FileNotFoundException e) {
+      }      
+    } 
+    catch (FileNotFoundException e) {
       //Shouldn't really happen as we check this in the Option
       CLOLogger.getLogger().log(Level.SEVERE, 
                                 "Input file not found: " + inputFile);
-    } catch (IOException e) {
+    } 
+    catch (IOException e) {
       CLOLogger.getLogger().log(Level.SEVERE, 
-                                "I/O error whilst processing input file: " 
-                                + inputFile);
-    } catch (RecognitionException e) {
+                                "I/O error whilst processing input file: " + 
+                                inputFile);
+    }
+    catch (RecognitionException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Caught recognition error");
       if (parser.getCustomErrorMessage() != null) {
         CLOLogger.getLogger().log(Level.SEVERE, parser.getCustomErrorMessage());
       }
-    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+    }
+    catch (Exception e) {
+      // if all else fails
+      e.printStackTrace();
+    }
     return false;
   }
   
+  private static File getTemplateTarget(CLODSLOptionsInterface options) {
+    if (options.isgen_targetSet()) {
+      return options.getgen_target();
+    }
+    return new File("");
+  }
+
   /** 
    * Instantiate the {@code OptionTypeFactory} with a given class. 
    * The provided class must be present on the classpath.

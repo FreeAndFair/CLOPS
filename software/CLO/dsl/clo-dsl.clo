@@ -8,23 +8,30 @@ PACKAGE::
 ARGS::
 
 output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]
-  :"Output directory for generated files."
+  :"Output directory for generated Java files."
+gen_test:{"-m","--main"}
+  :"Generate a Main class with a main method for rapid testing/debugging."
+  
+  
 //Strip quotes so we can write -p="" or -p "" for default package.
 output_package:{"-p","--package"}:{string}:[stripquotesifpresent]
   :"Output package. If left empty the default package is used."
-gen_test:{"-t","--test"}
-  :"Generate a Main class with a main method for rapid testing/debugging."
 
 //option_factory should probably be a regular expression (for qualified java class names).
 option_factory:{"-of","--option-factory"}:{string}
   :"Use this option factory instead of the default. Must be a fully qualified class name."
 
-gen_docs:{"-d","--docs"}:{file}
-  :"Generate documentation and write it to the given output file."
-gen_docs_builtin:{"-b","--built-in"}:{string-enum}:[choices="html,txt"]
-  :"Use a built-in template for documentation generation."
-gen_docs_custom:{"-c","--custom"}:{file}:[mustExist,canBeDir="false"]
-  :"Use a custom template for documentation generation."
+
+
+  
+gen_docs:{"-d","--docs"}
+  :"Use a default documentation template for generation."
+gen_builtin:{"-b","--built-in"}:{string-enum}:[choices="htmldev,html,manpage,usage,help"]
+  :"Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage)."
+gen_custom:{"-c","--custom"}:{file-list}:[mustExist,canBeDir="false"]
+  :"Use custom templates for generation."
+gen_target:{"-t", "--target"}:{file}
+  :"Specify the target directory / or the target file for the generation from some templates."
   
 verbose:{"-v","--verbose"}:[default="false"]
   :"Print debugging messages."
@@ -50,13 +57,11 @@ WHERE::
 all_args:    output 
           OR output_package 
           OR option_factory 
-          OR gen_test 
-          OR gen_docs
-          OR gen_docs_builtin
-          OR gen_docs_custom
-          OR verbose
+          OR gen_test OR verbose
           OR transitiveFlyRules
-         ;
+          OR Templates 
+          ;
+Templates: gen_docs | gen_builtin | gen_custom | gen_target;
 
 FLY::
 
@@ -64,20 +69,20 @@ OVERRIDES::
 
 VALIDITY::
 
-{ !$(output?) } : "output not set";
+{ !$(output?) } : "The output should always be set to a valid value";
 
-exclusive : gen_docs_builtin, gen_docs_custom   
-          : "Only one type of documentation template may be used." 
-          ;
+//exclusive : gen_docs_builtin, gen_docs_custom   
+//          : "Only one type of documentation template may be used." 
+//          ;
 
-requires : gen_docs => gen_docs_builtin || gen_docs_custom 
-         : "You must specify the documentation type to generate."
-         ;
+//requires : gen_docs => gen_docs_builtin || gen_docs_custom 
+//         : "You must specify the documentation type to generate."
+//         ;
          
-requires : gen_docs_builtin => gen_docs
-         : "--built-in cannot be used without --docs"
-         ;
+//requires : gen_docs_builtin => gen_docs
+//         : "--built-in cannot be used without --docs"
+//         ;
          
-requires : gen_docs_custom => gen_docs
-         : "--custom cannot be used without --docs"
-         ;
+//requires : gen_docs_custom => gen_docs
+//         : "--custom cannot be used without --docs"
+//         ;

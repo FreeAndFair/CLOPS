@@ -13,8 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,7 +92,7 @@ public abstract class AGenerator {
    *   requires velocity.resourceExists(templateName);
    * </JML>
    */
-  public final void generate(final File output,
+  protected final void generate(final File output,
                        final String templateFileName,
                        final String explanationText) {
     String templateFile;

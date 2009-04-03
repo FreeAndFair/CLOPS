@@ -14,6 +14,7 @@ Description: $!option.Description
 Option Groups
 =============
 
+##! ${info.ParserName}_help.txt
 #foreach($group in $information.getOptionGroupDescriptions())
 Group: $group.Identifier
 #foreach($child in $group.getChildren())

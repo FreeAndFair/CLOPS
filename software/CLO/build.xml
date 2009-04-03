@@ -179,13 +179,16 @@
       <!-- this should probably use the -b option and -d should produce a file -->
       <!-- corresponding to the input file -->
       <arg value="-v"/>
-      <arg value="-d=./test/"/>
+      <arg value="-d"/>
+      <arg value="-t=./test/"/>
       <arg value="-c"/>
-      <arg value="./templates/html.vm"/> 
+      <arg value="./templates/usage.vm"/> 
+      <arg value="-b"/>
+      <arg value="htmldev"/> 
       <arg value="-o"/>
       <arg value="${temp-test}"/>
     	<arg value='-p=""'/>
-    	<arg value="-t"/>
+    	<arg value="-m"/>
       <arg value="${test-file}"/>
       <arg value="-tfr=${TFR}"/>
     </java>

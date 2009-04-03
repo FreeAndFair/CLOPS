@@ -87,10 +87,7 @@ public interface OptionDescription {
    */
   void setDescription(String description);
   
-  /**
-   * Get the Option's textual description.
-   * @return
-   */
+  /** Get the Option's textual description. */
   String getDescription();
   
   List<String> getAliases();

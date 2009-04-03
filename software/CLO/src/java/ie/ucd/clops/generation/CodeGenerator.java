@@ -1,6 +1,5 @@
-package ie.ucd.clops.codegeneration;
+package ie.ucd.clops.generation;
 
-import ie.ucd.clops.documentation.DocumentGenerator;
 import ie.ucd.clops.dsl.OptionType;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.logging.CLOLogger;

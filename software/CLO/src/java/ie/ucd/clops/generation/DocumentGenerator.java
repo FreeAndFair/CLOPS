@@ -1,6 +1,5 @@
-package ie.ucd.clops.documentation;
+package ie.ucd.clops.generation;
 
-import ie.ucd.clops.codegeneration.AGenerator;
 import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.util.StringUtil;

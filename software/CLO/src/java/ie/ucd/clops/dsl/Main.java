@@ -1,12 +1,12 @@
 package ie.ucd.clops.dsl;
 
-import ie.ucd.clops.codegeneration.CodeGenerator;
-import ie.ucd.clops.documentation.DocumentGenerator;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
 import ie.ucd.clops.dsl.parser.CLOLexer;
 import ie.ucd.clops.dsl.parser.CLOParser;
+import ie.ucd.clops.generation.CodeGenerator;
+import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 

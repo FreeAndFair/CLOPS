@@ -1,4 +1,4 @@
-package ie.ucd.clops.codegeneration;
+package ie.ucd.clops.generation;
 
 import java.io.File;
 import java.io.FileNotFoundException;

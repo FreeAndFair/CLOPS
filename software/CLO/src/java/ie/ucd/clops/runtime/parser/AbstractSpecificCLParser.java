@@ -54,7 +54,7 @@ public abstract class AbstractSpecificCLParser {
   public boolean parse(GenericCLParser parser, String[] args) 
   throws AutomatonException, InvalidOptionValueException {
     try {
-      return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
       //return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
     } catch (IllegalCharacterException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);

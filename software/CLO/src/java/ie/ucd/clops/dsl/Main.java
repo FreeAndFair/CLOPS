@@ -102,7 +102,8 @@ public class Main {
         }        
       
         if (options.isgen_docsSet()) {
-          DocumentGenerator documentation = new DocumentGenerator(parser.getDslInformation());
+          DocumentGenerator documentation = 
+        	  new DocumentGenerator(parser.getDslInformation());
           File outputFile = options.getgen_docs();
           // Generate Documentation
           String explanation = "Document generation";

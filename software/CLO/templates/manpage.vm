@@ -1,3 +1,4 @@
+##! ${info.ParserName}.5
 #set($parserName = $info.getParserName())
 .TH "$parserName" 1
 .SH NAME

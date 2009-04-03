@@ -1,4 +1,4 @@
-##! ${info.ParserName}Usage.html
+##! ${info.ParserName}DevUsage.html
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -152,9 +152,19 @@
   The following section contains validity rules, rules that specify how the
   arguments should be composed.
   <table>
+  <tr><td><b>Rule:</b></td>
+	  <td></td>
+	  <td><b>Exact check:</b></td></tr>
   #foreach($rule in $validityRules)
     <tr>
     <td><div id="validity-explanation">$!rule.getExplanation()</div></td>
+    <td>
+      #foreach($assignment in $rule.getAssignments())
+        Assignment: $!assignment.OptionIdentifier = $!assignment.Value
+      #end
+    </td>
+    <td><div id="validity-cond">$!rule.getConditionDescription()</div>
+        </td>
 	</tr>
   #end
   </table>
@@ -175,6 +185,38 @@
 #end
 
 
+<h2><a name="help">Code of the help message:</a></h2>
+<div id="code">
+#foreach($group in $info.getOptionGroupDescriptions())
+String help$group.Identifier = 
+"$group.Identifier options\n" + <br/>
+#foreach($child in $group.getChildren())
+ #set($option =  $info.getOptionDescriptionForIdentifier($!child))
+ &nbsp; &nbsp; &nbsp; &nbsp;
+ "
+  #if($option.getAliases().size() == 0)
+       #if( $option.getType().getType() != 0 )
+           &lt;$option.getType().getTypeDescriptionString()&gt;
+       #end
+     #end
+     #foreach($alias in $option.getAliases())
+       $alias
+      
+       #if( $option.getType().getType() != 0 )
+           &lt;$option.getType().getTypeDescriptionString()&gt;
+       #end
+       #if($velocityCount != $option.getAliases().size()),
+                           #else #end
+       
+     #end" +
+     <br/>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+     "$!option.Description\n"#if($velocityCount != $group.getChildren().size()) +
+                           #else;<br/>#end
+     <br/> 
+  #end
+#end
+</div>
 
 </div>
 </body>

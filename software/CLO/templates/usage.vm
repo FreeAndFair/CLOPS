@@ -1,3 +1,4 @@
+##! ${info.ParserName}_usage.txt
 ## usage.vm
 $info.ParserName
 

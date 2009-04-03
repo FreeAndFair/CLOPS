@@ -1,3 +1,4 @@
+##! ${info.getParserName()}OptionsInterface.java
 #if( "$!info.getPackageName()" != "" ) 
 package $info.getPackageName();
 

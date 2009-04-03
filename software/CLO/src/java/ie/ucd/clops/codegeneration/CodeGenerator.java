@@ -7,8 +7,6 @@ import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.apache.velocity.VelocityContext;
@@ -20,12 +18,34 @@ import org.apache.velocity.VelocityContext;
  */
 public class CodeGenerator extends DocumentGenerator {
 
-  public CodeGenerator(DSLInformation information) throws Exception {
-    super(information);
+  /** the template to generate the parser: templates/gen-parser.vm. */
+  private static final String PARSER_TEMPLATE =
+    TEMPLATE_BASE + "gen-parser.vm";
+  /** the template to generate the interface: templates/gen-interface.vm. */
+  private static final String OP_INTERFACE_TEMPLATE =
+    TEMPLATE_BASE + "gen-interface.vm";
+  /** the template to generate the option store: templates/gen-op-store.vm. */
+  private static final String OP_STORE_TEMPLATE =
+    TEMPLATE_BASE + "gen-op-store.vm";
+  /** the template to generate the rules store: templates/gen-rule-store.vm. */
+  private static final String RULE_STORE_TEMPLATE =
+    TEMPLATE_BASE + "gen-rule-store.vm";
+  /** the template to generate the main: templates/gen-main.vm. */
+  private static final String MAIN_TEMPLATE =
+    TEMPLATE_BASE + "gen-main.vm";
+
+  /**
+   * Creates a code generator from the collected informations.
+   * @param info the infos from the DSL
+   * @throws Exception in case the initialisation of Velocity fails
+   */
+  public CodeGenerator(final DSLInformation info) throws Exception {
+    super(info);
   }
 
+  // TODO: need review
   @Override
-  protected VelocityContext createContext(DSLInformation information) {
+  public VelocityContext createContext(final DSLInformation information) {
     VelocityContext context = super.createContext(information);
     context.put("OptionType", CodeGenerator.class);
     context.put("CLOPSErrorOption", CLOPSErrorOption.class);
@@ -34,54 +54,31 @@ public class CodeGenerator extends DocumentGenerator {
     return context;
   }
 
-  /** Produces java String constant containing a given String that may contain newlines.*/
-  public static List<String> quoteMultilineString(String s) {
-    String[] lines = s.split("\n");
-    List<String> result = new LinkedList<String>();
+  /**
+   * Creates the codes for the option parser using the templates.
+   * @param info the informations collected by the parsing of the dsl
+   * @param output the output directory for the files
+   * @param genTest true if the main file has to be generated
+   */
+  public static void createCode(final DSLInformation info,
+                                final File output, final boolean genTest) {
+    info.processPlaceholders();
+    try {
+      CodeGenerator codeGen = new CodeGenerator(info);
 
-    for (String line : lines) {
-      line = line.trim();
-      if (line.equals("")) continue;
-      result.add(line);
-    }
-    if (result.size() == 0) {
-      result.add("\"\"");
-    }
-    return result;
-  }
+      codeGen.generate(output, PARSER_TEMPLATE, "Code generation");
+      codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
+      codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
+      codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
 
-  private static final String TEMPLATE_BASE = "templates/";
-  private static String PARSER_TEMPLATE = TEMPLATE_BASE + "gen-parser.vm";
-  private static String OP_INTERFACE_TEMPLATE = TEMPLATE_BASE + "gen-interface.vm";
-  private static String OP_STORE_TEMPLATE = TEMPLATE_BASE + "gen-op-store.vm";
-  private static String RULE_STORE_TEMPLATE = TEMPLATE_BASE + "gen-rule-store.vm";
-  private static String MAIN_TEMPLATE = TEMPLATE_BASE + "gen-main.vm";
-
-  public static void createCode(DSLInformation dslInfo, File outputDir, boolean genTest) {
-    dslInfo.processPlaceholders();
-    String parserName = dslInfo.getParserName();
-    try {      
-      CodeGenerator codeGen = new CodeGenerator(dslInfo);
-      
-      File parserFile = new File(outputDir.getPath() + '/' + parserName + "Parser.java");
-      codeGen.generate(parserFile, PARSER_TEMPLATE, "Code generation");
-      
-      File opInterfaceFile = new File(outputDir.getPath() + '/' + parserName + "OptionsInterface.java");
-      codeGen.generate(opInterfaceFile, OP_INTERFACE_TEMPLATE, "Code generation");
-      
-      File opStoreFile = new File(outputDir.getPath() + '/' + parserName + "OptionStore.java");
-      codeGen.generate(opStoreFile, OP_STORE_TEMPLATE, "Code generation");
-      
-      File ruleStoreFile = new File(outputDir.getPath() + '/' + parserName + "RuleStore.java");
-      codeGen.generate(ruleStoreFile, RULE_STORE_TEMPLATE, "Code generation");
-      
       if (genTest) {
-        File mainFile = new File(outputDir.getPath() + '/' + "Main.java");
-        codeGen.generate(mainFile, MAIN_TEMPLATE, "Code generation");
+        codeGen.generate(output, MAIN_TEMPLATE, "Code generation");
       }
-      
+
     } catch (Exception e) {
-      CLOLogger.getLogger().log(Level.SEVERE, "Something went wrong with code generation. " + e);
+      CLOLogger.getLogger().log(Level.SEVERE,
+                                "Something went wrong with code generation. "
+                                + e);
     }
   }
 

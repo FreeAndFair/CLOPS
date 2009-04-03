@@ -1,3 +1,4 @@
+##! ${info.getParserName()}RuleStore.java
 #if( "$!info.getPackageName()" != "" ) 
 package $info.getPackageName();
 

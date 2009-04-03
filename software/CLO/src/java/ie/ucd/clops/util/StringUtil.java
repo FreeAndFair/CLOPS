@@ -11,9 +11,9 @@ public class StringUtil {
     StringTokenizer st = new StringTokenizer(s); //Split the string to words
     StringBuilder sb = new StringBuilder();
 
-    while(st.hasMoreTokens()) {
+    while (st.hasMoreTokens()) {
       String next = st.nextToken(); //Next word
-      if(sb.length() + next.length() > length) {
+      if (sb.length() + next.length() > length) {
 
         //Handle next.length() > length
         if (sb.length() == 0) {
@@ -22,7 +22,7 @@ public class StringUtil {
           //No need to reset builder
         } else {
           //Remove trailing space
-          sb.deleteCharAt(sb.length()-1);
+          sb.deleteCharAt(sb.length() - 1);
           parts.add(sb.toString());
           sb = new StringBuilder();
         }
@@ -34,13 +34,13 @@ public class StringUtil {
 
     //Add last part
     if (sb.length() > 0) {
-      sb.deleteCharAt(sb.length()-1);
+      sb.deleteCharAt(sb.length() - 1);
       parts.add(sb.toString());
     }
 
     return parts;
   }
-  
+
   public static String convertAliasesForManpage(List<String> aliases) {
     System.out.println("Before: " + aliases);
     StringBuilder sb = new StringBuilder();
@@ -49,11 +49,11 @@ public class StringUtil {
       sb.append(", ");
     }
     if (sb.length() > 1) {
-      sb.delete(sb.length()-2, sb.length());
+      sb.delete(sb.length() - 2, sb.length());
     }
-    
+
     System.out.println("After: " + sb.toString());
     return sb.toString();
   }
-  
+
 }

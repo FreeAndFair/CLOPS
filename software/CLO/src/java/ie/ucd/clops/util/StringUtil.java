@@ -8,12 +8,12 @@ import java.util.StringTokenizer;
 public class StringUtil {
 
   public static List<String> splitToLength(String s, int length) {
-    List<String> parts = new LinkedList<String>(); //The list of parts
-    StringTokenizer st = new StringTokenizer(s); //Split the string to words
+    final List<String> parts = new LinkedList<String>(); //The list of parts
+    final StringTokenizer st = new StringTokenizer(s); //Split the string to words
     StringBuilder sb = new StringBuilder();
 
     while (st.hasMoreTokens()) {
-      String next = st.nextToken(); //Next word
+      final String next = st.nextToken(); //Next word
       if (sb.length() + next.length() > length) {
 
         //Handle next.length() > length
@@ -21,7 +21,8 @@ public class StringUtil {
           //Just add it anyway
           parts.add(next);
           //No need to reset builder
-        } else {
+        } 
+        else {
           //Remove trailing space
           sb.deleteCharAt(sb.length() - 1);
           parts.add(sb.toString());
@@ -44,7 +45,7 @@ public class StringUtil {
 
   public static String convertAliasesForManpage(List<String> aliases) {
     System.out.println("Before: " + aliases);
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     for (String alias : aliases) {
       sb.append(alias.replace("-", "\\-").replace("\\\\?", "?"));
       sb.append(", ");
@@ -80,8 +81,13 @@ public class StringUtil {
     return result;
   }
   
-  public static List<String> mkList(String choices) {
-    final String[] arr = choices.split(",");
+  /**
+   * Make a java list out of comma separated list of string.
+   * @param list the list to parse of the form "a,b,c,d"
+   * @return a java list ["a", "b", "c", "d"]
+   */
+  public static List<String> mkList(final String list) {
+    final String[] arr = list.split(",");
     final List<String> res = new ArrayList<String>();
     for (String s:arr) {
       res.add(s.trim());

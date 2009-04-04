@@ -1,10 +1,8 @@
 package ie.ucd.clops.generation;
 
 import ie.ucd.clops.dsl.structs.DSLInformation;
-import ie.ucd.clops.logging.CLOLogger;
 
 import java.io.File;
-import java.util.logging.Level;
 
 /**
  * A class used to generate java code from a DSL.
@@ -41,29 +39,19 @@ public class CodeGenerator extends DocumentGenerator {
 
   /**
    * Creates the codes for the option parser using the templates.
-   * @param info the informations collected by the parsing of the dsl
    * @param output the output directory for the files
    * @param genTest true if the main file has to be generated
    */
-  public static void createCode(final DSLInformation info,
-                                final File output, final boolean genTest) {
-    info.processPlaceholders();
-    try {
-      final CodeGenerator codeGen = new CodeGenerator(info);
+  public void createCode(final File output, final boolean genTest) {
+    final CodeGenerator codeGen = this;
 
-      codeGen.generate(output, PARSER_TEMPLATE, "Code generation");
-      codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
-      codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
-      codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
+    codeGen.generate(output, PARSER_TEMPLATE, "Code generation");
+    codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
+    codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
+    codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
 
-      if (genTest) {
-        codeGen.generate(output, MAIN_TEMPLATE, "Code generation");
-      }
-    }
-    catch (Exception e) {
-      CLOLogger.getLogger().log(Level.SEVERE,
-                                "Something went wrong with code generation. " +
-                                e);
+    if (genTest) {
+      codeGen.generate(output, MAIN_TEMPLATE, "Code generation");
     }
   }
 

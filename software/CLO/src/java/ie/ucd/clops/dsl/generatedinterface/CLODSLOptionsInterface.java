@@ -7,174 +7,216 @@ package ie.ucd.clops.dsl.generatedinterface;
 public interface CLODSLOptionsInterface {
 
 
-// Option output. 
+// Option Output. 
 // Aliases: [-o, --output]
 
   /**
-   * @return true if the option output has been used
+   * @return true if the option Output has been used
    * in the command line.
    */
-  boolean isoutputSet();
+  boolean isOutputSet();
   
-  /**
-   * Get the value of {@code Option} output.
-   * @return the value of the option output if it has been set
+  
+  
+      /** file
+   * Get the value of {@code Option} Output.
+   * @return the value of the option Output if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.io.File getoutput();
+  java.io.File getOutput();
   
 
-// Option gen_test. 
+// Option Test. 
 // Aliases: [-m, --main]
 
   /**
-   * @return true if the option gen_test has been used
+   * @return true if the option Test has been used
    * in the command line.
    */
-  boolean isgen_testSet();
+  boolean isTestSet();
   
-  /**
-   * Get the value of {@code Option} gen_test.
-   * @return the value of the option gen_test if it has been set
+  
+  
+      /** boolean
+   * Get the value of {@code Option} Test.
+   * @return the value of the option Test if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  boolean getgen_test();
+  boolean getTest();
   
 
-// Option output_package. 
+// Option OutputPackage. 
 // Aliases: [-p, --package]
 
   /**
-   * @return true if the option output_package has been used
+   * @return true if the option OutputPackage has been used
    * in the command line.
    */
-  boolean isoutput_packageSet();
+  boolean isOutputPackageSet();
   
-  /**
-   * Get the value of {@code Option} output_package.
-   * @return the value of the option output_package if it has been set
+  
+  
+      /** string
+   * Get the value of {@code Option} OutputPackage.
+   * @return the value of the option OutputPackage if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  String getoutput_package();
+  String getOutputPackage();
   
 
-// Option option_factory. 
+// Option OptionFactory. 
 // Aliases: [-of, --option-factory]
 
   /**
-   * @return true if the option option_factory has been used
+   * @return true if the option OptionFactory has been used
    * in the command line.
    */
-  boolean isoption_factorySet();
+  boolean isOptionFactorySet();
   
-  /**
-   * Get the value of {@code Option} option_factory.
-   * @return the value of the option option_factory if it has been set
+  
+  
+      /** string
+   * Get the value of {@code Option} OptionFactory.
+   * @return the value of the option OptionFactory if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  String getoption_factory();
+  String getOptionFactory();
   
 
-// Option gen_docs. 
+// Option Docs. 
 // Aliases: [-d, --docs]
 
   /**
-   * @return true if the option gen_docs has been used
+   * @return true if the option Docs has been used
    * in the command line.
    */
-  boolean isgen_docsSet();
+  boolean isDocsSet();
   
-  /**
-   * Get the value of {@code Option} gen_docs.
-   * @return the value of the option gen_docs if it has been set
+  
+  
+      /** boolean
+   * Get the value of {@code Option} Docs.
+   * @return the value of the option Docs if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  boolean getgen_docs();
+  boolean getDocs();
   
 
-// Option gen_builtin. 
+// Option Builtin. 
 // Aliases: [-b, --built-in]
 
   /**
-   * @return true if the option gen_builtin has been used
+   * @return true if the option Builtin has been used
    * in the command line.
    */
-  boolean isgen_builtinSet();
+  boolean isBuiltinSet();
   
-  /**
-   * Get the value of {@code Option} gen_builtin.
-   * @return the value of the option gen_builtin if it has been set
+  
+  
+    enum  Builtin {
+  htmldev,html,manpage,usage,help;
+  public static Builtin get(String s) {
+	     	       if (htmldev.toString().equals(s)) {
+	         return htmldev;
+	       }
+	     	       if (html.toString().equals(s)) {
+	         return html;
+	       }
+	     	       if (manpage.toString().equals(s)) {
+	         return manpage;
+	       }
+	     	       if (usage.toString().equals(s)) {
+	         return usage;
+	       }
+	     	       if (help.toString().equals(s)) {
+	         return help;
+	       }
+	     	     return null;
+	   }
+	}
+	
+    /** string-enum
+   * Get the value of {@code Option} Builtin.
+   * @return the value of the option Builtin if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  String getgen_builtin();
+  Builtin getBuiltin();
   
 
-// Option gen_custom. 
+// Option Custom. 
 // Aliases: [-c, --custom]
 
   /**
-   * @return true if the option gen_custom has been used
+   * @return true if the option Custom has been used
    * in the command line.
    */
-  boolean isgen_customSet();
+  boolean isCustomSet();
   
-  /**
-   * Get the value of {@code Option} gen_custom.
-   * @return the value of the option gen_custom if it has been set
+  
+  
+      /** file-list
+   * Get the value of {@code Option} Custom.
+   * @return the value of the option Custom if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.util.List<java.io.File> getgen_custom();
+  java.util.List<java.io.File> getCustom();
   
 
-// Option gen_target. 
+// Option Target. 
 // Aliases: [-t, --target]
 
   /**
-   * @return true if the option gen_target has been used
+   * @return true if the option Target has been used
    * in the command line.
    */
-  boolean isgen_targetSet();
+  boolean isTargetSet();
   
-  /**
-   * Get the value of {@code Option} gen_target.
-   * @return the value of the option gen_target if it has been set
+  
+  
+      /** file
+   * Get the value of {@code Option} Target.
+   * @return the value of the option Target if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.io.File getgen_target();
+  java.io.File getTarget();
   
 
-// Option verbose. 
+// Option Verbose. 
 // Aliases: [-v, --verbose]
 
   /**
-   * @return true if the option verbose has been used
+   * @return true if the option Verbose has been used
    * in the command line.
    */
-  boolean isverboseSet();
+  boolean isVerboseSet();
   
-  /**
-   * Get the value of {@code Option} verbose.
-   * @return the value of the option verbose if it has been set
+  
+  
+      /** boolean
+   * Get the value of {@code Option} Verbose.
+   * @return the value of the option Verbose if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  boolean getverbose();
+  boolean getVerbose();
   
 
-// Option transitiveFlyRules. 
+// Option TransitiveFlyRules. 
 // Aliases: [-tfr, --transitive-fly-rules]
 
   /**
-   * @return true if the option transitiveFlyRules has been used
+   * @return true if the option TransitiveFlyRules has been used
    * in the command line.
    */
-  boolean istransitiveFlyRulesSet();
+  boolean isTransitiveFlyRulesSet();
   
-  /**
-   * Get the value of {@code Option} transitiveFlyRules.
-   * @return the value of the option transitiveFlyRules if it has been set
+  
+  
+      /** boolean
+   * Get the value of {@code Option} TransitiveFlyRules.
+   * @return the value of the option TransitiveFlyRules if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  boolean gettransitiveFlyRules();
+  boolean getTransitiveFlyRules();
   
 
 // Option InfiniteLookahead. 
@@ -186,7 +228,9 @@ public interface CLODSLOptionsInterface {
    */
   boolean isInfiniteLookaheadSet();
   
-  /**
+  
+  
+      /** boolean
    * Get the value of {@code Option} InfiniteLookahead.
    * @return the value of the option InfiniteLookahead if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
@@ -194,20 +238,22 @@ public interface CLODSLOptionsInterface {
   boolean getInfiniteLookahead();
   
 
-// Option input. 
+// Option Input. 
 // Aliases: []
 
   /**
-   * @return true if the option input has been used
+   * @return true if the option Input has been used
    * in the command line.
    */
-  boolean isinputSet();
+  boolean isInputSet();
   
-  /**
-   * Get the value of {@code Option} input.
-   * @return the value of the option input if it has been set
+  
+  
+      /** file
+   * Get the value of {@code Option} Input.
+   * @return the value of the option Input if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  java.io.File getinput();
+  java.io.File getInput();
   
 }

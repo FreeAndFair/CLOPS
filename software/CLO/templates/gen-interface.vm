@@ -30,18 +30,18 @@ public interface $info.getParserName()OptionsInterface {
   #if( "$type.getTypeDescriptionString()" == "string-enum")
     #set ($choices=$desc.getPropertyValue("choices"))
     #set ($list = $StringUtil.mkList($choices))
-##    #set ($typename =  "$desc.getIdentifier()Enum")
-##enum  $typename {
-##  $desc.getPropertyValue("choices");
-##  public static $typename get(String s) {
-##	     #foreach($val in $list)
-##	       if (${val}.toString().equals(s)) {
-##	         return $val;
-##	       }
-##	     #end
-##	     return null;
-##	   }
-##	}
+    #set ($typename =  "$desc.getIdentifier()")
+enum  $typename {
+  $desc.getPropertyValue("choices");
+  public static $typename get(String s) {
+	     #foreach($val in $list)
+	       if (${val}.toString().equals(s)) {
+	         return $val;
+	       }
+	     #end
+	     return null;
+	   }
+	}
 	
   #end
   /** $type.getTypeDescriptionString()

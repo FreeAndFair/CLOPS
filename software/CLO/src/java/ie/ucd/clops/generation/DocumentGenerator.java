@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface.Builtin;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 
 /**
@@ -23,7 +24,7 @@ public class DocumentGenerator extends AGenerator {
   /** Explanation for the error message: "Document generation". */
   public static final String EXPLANATION = "Document generation";
   public static String keys [] = {"htmldev", "html", "manpage", "usage", "help"};
-  private final HashMap<String, String> templateLib = new HashMap<String, String>();;
+  private final HashMap<Builtin, String> templateLib = new HashMap<Builtin, String>();;
 
   /**
    * Creates a document generator from the collected informations.
@@ -37,21 +38,22 @@ public class DocumentGenerator extends AGenerator {
 
 
   private void init() {
-    templateLib.put("htmldev", TEMPLATE_BASE + "htmldev.vm");
-    templateLib.put("html", TEMPLATE_BASE + "html.vm");
-    templateLib.put("manpage", TEMPLATE_BASE + "manpage.vm");
-    templateLib.put("usage", TEMPLATE_BASE + "usage.vm");
-    templateLib.put("help", TEMPLATE_BASE + "help.vm");
+    templateLib.put(Builtin.htmldev, TEMPLATE_BASE + "htmldev.vm");
+    templateLib.put(Builtin.html, TEMPLATE_BASE + "html.vm");
+    templateLib.put(Builtin.manpage, TEMPLATE_BASE + "manpage.vm");
+    templateLib.put(Builtin.usage, TEMPLATE_BASE + "usage.vm");
+    templateLib.put(Builtin.help, TEMPLATE_BASE + "help.vm");
   }
 
 
   public void generateDefault(File output) {
-    generate(output, templateLib.get("html"), EXPLANATION);
+    generate(output, templateLib.get(Builtin.html), EXPLANATION);
     
   }
 
-  public void generateBuiltin(File output, String builtin) {
-    generate(output, templateLib.get(builtin.toLowerCase()), EXPLANATION);
+  public void generateBuiltin(File output, Builtin builtin) {
+    System.out.println(builtin);
+    generate(output, templateLib.get(builtin), EXPLANATION);
   }
 
 

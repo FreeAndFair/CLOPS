@@ -34,7 +34,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public Boolean evaluate(final OptionStore optionStore) {
-      return !((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("output")).hasValue();
+      return !((ie.ucd.clops.runtime.options.FileOption)optionStore.getOptionByIdentifier("Output")).hasValue();
     }
   }
     
@@ -43,7 +43,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public List<String> evaluate(final OptionStore optionStore) {
-      return Arrays.asList("output not set");
+      return Arrays.asList("The output should always be set to a valid value");
     }
   }
   

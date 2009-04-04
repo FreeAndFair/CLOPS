@@ -6,72 +6,72 @@ import ie.ucd.clops.runtime.options.OptionStore;
 
 public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInterface {
 
-  private final ie.ucd.clops.runtime.options.FileOption outputOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption gen_testOG;
-  private final ie.ucd.clops.runtime.options.StringOption output_packageOG;
-  private final ie.ucd.clops.runtime.options.StringOption option_factoryOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption gen_docsOG;
-  private final ie.ucd.clops.runtime.options.StringEnumOption gen_builtinOG;
-  private final ie.ucd.clops.runtime.options.FileListOption gen_customOG;
-  private final ie.ucd.clops.runtime.options.FileOption gen_targetOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption verboseOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption transitiveFlyRulesOG;
+  private final ie.ucd.clops.runtime.options.FileOption OutputOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption TestOG;
+  private final ie.ucd.clops.runtime.options.StringOption OutputPackageOG;
+  private final ie.ucd.clops.runtime.options.StringOption OptionFactoryOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption DocsOG;
+  private final ie.ucd.clops.runtime.options.StringEnumOption BuiltinOG;
+  private final ie.ucd.clops.runtime.options.FileListOption CustomOG;
+  private final ie.ucd.clops.runtime.options.FileOption TargetOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption VerboseOG;
+  private final ie.ucd.clops.runtime.options.BooleanOption TransitiveFlyRulesOG;
   private final ie.ucd.clops.runtime.options.BooleanOption InfiniteLookaheadOG;
-  private final ie.ucd.clops.runtime.options.FileOption inputOG;
+  private final ie.ucd.clops.runtime.options.FileOption InputOG;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
   public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
 
     //Options
-    outputOG = new ie.ucd.clops.runtime.options.FileOption("output", "(?:-o)|(?:--output)");
-    addOption(outputOG);
-    outputOG.setProperty("mustExist", "true");
-    outputOG.setProperty("mustbedir", "true");
-    outputOG.setProperty("default", ".");
-    outputOG.setProperty("description", "Output directory for generated Java files.");
-    gen_testOG = new ie.ucd.clops.runtime.options.BooleanOption("gen_test", "(?:-m)|(?:--main)");
-    addOption(gen_testOG);
-    gen_testOG.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
-    output_packageOG = new ie.ucd.clops.runtime.options.StringOption("output_package", "(?:-p)|(?:--package)");
-    addOption(output_packageOG);
-    output_packageOG.setProperty("stripquotesifpresent", "true");
-    output_packageOG.setProperty("description", "Output package. If left empty the default package is used.");
-    option_factoryOG = new ie.ucd.clops.runtime.options.StringOption("option_factory", "(?:-of)|(?:--option-factory)");
-    addOption(option_factoryOG);
-    option_factoryOG.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
-    gen_docsOG = new ie.ucd.clops.runtime.options.BooleanOption("gen_docs", "(?:-d)|(?:--docs)");
-    addOption(gen_docsOG);
-    gen_docsOG.setProperty("description", "Use a default documentation template for generation.");
-    gen_builtinOG = new ie.ucd.clops.runtime.options.StringEnumOption("gen_builtin", "(?:-b)|(?:--built-in)");
-    addOption(gen_builtinOG);
-    gen_builtinOG.setProperty("choices", "htmldev,html,manpage,usage,help");
-    gen_builtinOG.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
-    gen_customOG = new ie.ucd.clops.runtime.options.FileListOption("gen_custom", "(?:-c)|(?:--custom)");
-    addOption(gen_customOG);
-    gen_customOG.setProperty("mustExist", "true");
-    gen_customOG.setProperty("canBeDir", "false");
-    gen_customOG.setProperty("description", "Use custom templates for generation.");
-    gen_targetOG = new ie.ucd.clops.runtime.options.FileOption("gen_target", "(?:-t)|(?:--target)");
-    addOption(gen_targetOG);
-    gen_targetOG.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
-    verboseOG = new ie.ucd.clops.runtime.options.BooleanOption("verbose", "(?:-v)|(?:--verbose)");
-    addOption(verboseOG);
-    verboseOG.setProperty("default", "false");
-    verboseOG.setProperty("description", "Print debugging messages.");
-    transitiveFlyRulesOG = new ie.ucd.clops.runtime.options.BooleanOption("transitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
-    addOption(transitiveFlyRulesOG);
-    transitiveFlyRulesOG.setProperty("default", "false");
-    transitiveFlyRulesOG.setProperty("description", "Fly rules will applied transitively.");
+    OutputOG = new ie.ucd.clops.runtime.options.FileOption("Output", "(?:-o)|(?:--output)");
+    addOption(OutputOG);
+    OutputOG.setProperty("mustExist", "true");
+    OutputOG.setProperty("mustbedir", "true");
+    OutputOG.setProperty("default", ".");
+    OutputOG.setProperty("description", "Output directory for generated Java files.");
+    TestOG = new ie.ucd.clops.runtime.options.BooleanOption("Test", "(?:-m)|(?:--main)");
+    addOption(TestOG);
+    TestOG.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
+    OutputPackageOG = new ie.ucd.clops.runtime.options.StringOption("OutputPackage", "(?:-p)|(?:--package)");
+    addOption(OutputPackageOG);
+    OutputPackageOG.setProperty("stripquotesifpresent", "true");
+    OutputPackageOG.setProperty("description", "Output package. If left empty the default package is used.");
+    OptionFactoryOG = new ie.ucd.clops.runtime.options.StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
+    addOption(OptionFactoryOG);
+    OptionFactoryOG.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
+    DocsOG = new ie.ucd.clops.runtime.options.BooleanOption("Docs", "(?:-d)|(?:--docs)");
+    addOption(DocsOG);
+    DocsOG.setProperty("description", "Use a default documentation template for generation.");
+    BuiltinOG = new ie.ucd.clops.runtime.options.StringEnumOption("Builtin", "(?:-b)|(?:--built-in)");
+    addOption(BuiltinOG);
+    BuiltinOG.setProperty("choices", "htmldev,html,manpage,usage,help");
+    BuiltinOG.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
+    CustomOG = new ie.ucd.clops.runtime.options.FileListOption("Custom", "(?:-c)|(?:--custom)");
+    addOption(CustomOG);
+    CustomOG.setProperty("mustExist", "true");
+    CustomOG.setProperty("canBeDir", "false");
+    CustomOG.setProperty("description", "Use custom templates for generation.");
+    TargetOG = new ie.ucd.clops.runtime.options.FileOption("Target", "(?:-t)|(?:--target)");
+    addOption(TargetOG);
+    TargetOG.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
+    VerboseOG = new ie.ucd.clops.runtime.options.BooleanOption("Verbose", "(?:-v)|(?:--verbose)");
+    addOption(VerboseOG);
+    VerboseOG.setProperty("default", "false");
+    VerboseOG.setProperty("description", "Print debugging messages.");
+    TransitiveFlyRulesOG = new ie.ucd.clops.runtime.options.BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
+    addOption(TransitiveFlyRulesOG);
+    TransitiveFlyRulesOG.setProperty("default", "false");
+    TransitiveFlyRulesOG.setProperty("description", "Fly rules will applied transitively.");
     InfiniteLookaheadOG = new ie.ucd.clops.runtime.options.BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
     addOption(InfiniteLookaheadOG);
     InfiniteLookaheadOG.setProperty("default", "false");
     InfiniteLookaheadOG.setProperty("description", "The command line parser will try harder.");
-    inputOG = new ie.ucd.clops.runtime.options.FileOption("input", "");
-    addOption(inputOG);
-    inputOG.setProperty("between", "");
-    inputOG.setProperty("mustExist", "true");
-    inputOG.setProperty("canbedir", "false");
-    inputOG.setProperty("description", "Input file.");
+    InputOG = new ie.ucd.clops.runtime.options.FileOption("Input", "");
+    addOption(InputOG);
+    InputOG.setProperty("between", "");
+    InputOG.setProperty("mustExist", "true");
+    InputOG.setProperty("canbedir", "false");
+    InputOG.setProperty("description", "Input file.");
   
     CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
     addOption(CLOPSERROROPTION);
@@ -82,297 +82,308 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     final OptionGroup TemplatesOG = new OptionGroup("Templates");
     addOptionGroup(TemplatesOG);
     //Setup groupings
-    all_argsOG.addOptionOrGroup(outputOG);
-    all_argsOG.addOptionOrGroup(output_packageOG);
-    all_argsOG.addOptionOrGroup(option_factoryOG);
-    all_argsOG.addOptionOrGroup(gen_testOG);
-    all_argsOG.addOptionOrGroup(verboseOG);
-    all_argsOG.addOptionOrGroup(transitiveFlyRulesOG);
+    all_argsOG.addOptionOrGroup(OutputOG);
+    all_argsOG.addOptionOrGroup(OutputPackageOG);
+    all_argsOG.addOptionOrGroup(OptionFactoryOG);
+    all_argsOG.addOptionOrGroup(TestOG);
+    all_argsOG.addOptionOrGroup(VerboseOG);
+    all_argsOG.addOptionOrGroup(TransitiveFlyRulesOG);
     all_argsOG.addOptionOrGroup(TemplatesOG);
-    TemplatesOG.addOptionOrGroup(gen_docsOG);
-    TemplatesOG.addOptionOrGroup(gen_builtinOG);
-    TemplatesOG.addOptionOrGroup(gen_customOG);
-    TemplatesOG.addOptionOrGroup(gen_targetOG);
+    TemplatesOG.addOptionOrGroup(DocsOG);
+    TemplatesOG.addOptionOrGroup(BuiltinOG);
+    TemplatesOG.addOptionOrGroup(CustomOG);
+    TemplatesOG.addOptionOrGroup(TargetOG);
   }
   
-// Option output.
+// Option Output.
 // Aliases: [-o, --output]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isoutputSet() {
-    return outputOG.hasValue();
+  public boolean isOutputSet() {
+    return OutputOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public java.io.File getoutput() {
-    return outputOG.getValue();
-  }
+  public java.io.File getOutput() {
+        return OutputOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public java.io.File getRawoutput() {
-    return outputOG.getRawValue();
+  public java.io.File getRawOutput() {
+    return OutputOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getoutputOption() {
-    return outputOG;
+  public ie.ucd.clops.runtime.options.FileOption getOutputOption() {
+    return OutputOG;
   }
   
-// Option gen_test.
+// Option Test.
 // Aliases: [-m, --main]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_testSet() {
-    return gen_testOG.hasValue();
+  public boolean isTestSet() {
+    return TestOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public boolean getgen_test() {
-    return gen_testOG.getValue();
-  }
+  public boolean getTest() {
+        return TestOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public boolean getRawgen_test() {
-    return gen_testOG.getRawValue();
+  public boolean getRawTest() {
+    return TestOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getgen_testOption() {
-    return gen_testOG;
+  public ie.ucd.clops.runtime.options.BooleanOption getTestOption() {
+    return TestOG;
   }
   
-// Option output_package.
+// Option OutputPackage.
 // Aliases: [-p, --package]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isoutput_packageSet() {
-    return output_packageOG.hasValue();
+  public boolean isOutputPackageSet() {
+    return OutputPackageOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public String getoutput_package() {
-    return output_packageOG.getValue();
-  }
+  public String getOutputPackage() {
+        return OutputPackageOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public String getRawoutput_package() {
-    return output_packageOG.getRawValue();
+  public String getRawOutputPackage() {
+    return OutputPackageOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringOption getoutput_packageOption() {
-    return output_packageOG;
+  public ie.ucd.clops.runtime.options.StringOption getOutputPackageOption() {
+    return OutputPackageOG;
   }
   
-// Option option_factory.
+// Option OptionFactory.
 // Aliases: [-of, --option-factory]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isoption_factorySet() {
-    return option_factoryOG.hasValue();
+  public boolean isOptionFactorySet() {
+    return OptionFactoryOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public String getoption_factory() {
-    return option_factoryOG.getValue();
-  }
+  public String getOptionFactory() {
+        return OptionFactoryOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public String getRawoption_factory() {
-    return option_factoryOG.getRawValue();
+  public String getRawOptionFactory() {
+    return OptionFactoryOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringOption getoption_factoryOption() {
-    return option_factoryOG;
+  public ie.ucd.clops.runtime.options.StringOption getOptionFactoryOption() {
+    return OptionFactoryOG;
   }
   
-// Option gen_docs.
+// Option Docs.
 // Aliases: [-d, --docs]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_docsSet() {
-    return gen_docsOG.hasValue();
+  public boolean isDocsSet() {
+    return DocsOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public boolean getgen_docs() {
-    return gen_docsOG.getValue();
-  }
+  public boolean getDocs() {
+        return DocsOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public boolean getRawgen_docs() {
-    return gen_docsOG.getRawValue();
+  public boolean getRawDocs() {
+    return DocsOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getgen_docsOption() {
-    return gen_docsOG;
+  public ie.ucd.clops.runtime.options.BooleanOption getDocsOption() {
+    return DocsOG;
   }
   
-// Option gen_builtin.
+// Option Builtin.
 // Aliases: [-b, --built-in]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_builtinSet() {
-    return gen_builtinOG.hasValue();
+  public boolean isBuiltinSet() {
+    return BuiltinOG.hasValue();
   }
   
+     	
+    
   /**
    * {@inheritDoc}
    */
-  public String getgen_builtin() {
-    return gen_builtinOG.getValue();
-  }
+  public Builtin getBuiltin() {
+       return Builtin.get(BuiltinOG.getValue());
+     }
 
   /**
    * {@inheritDoc}
    */
-  public String getRawgen_builtin() {
-    return gen_builtinOG.getRawValue();
+  public String getRawBuiltin() {
+    return BuiltinOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringEnumOption getgen_builtinOption() {
-    return gen_builtinOG;
+  public ie.ucd.clops.runtime.options.StringEnumOption getBuiltinOption() {
+    return BuiltinOG;
   }
   
-// Option gen_custom.
+// Option Custom.
 // Aliases: [-c, --custom]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_customSet() {
-    return gen_customOG.hasValue();
+  public boolean isCustomSet() {
+    return CustomOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public java.util.List<java.io.File> getgen_custom() {
-    return gen_customOG.getValue();
-  }
+  public java.util.List<java.io.File> getCustom() {
+        return CustomOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public java.util.List<java.io.File> getRawgen_custom() {
-    return gen_customOG.getRawValue();
+  public java.util.List<java.io.File> getRawCustom() {
+    return CustomOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileListOption getgen_customOption() {
-    return gen_customOG;
+  public ie.ucd.clops.runtime.options.FileListOption getCustomOption() {
+    return CustomOG;
   }
   
-// Option gen_target.
+// Option Target.
 // Aliases: [-t, --target]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isgen_targetSet() {
-    return gen_targetOG.hasValue();
+  public boolean isTargetSet() {
+    return TargetOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public java.io.File getgen_target() {
-    return gen_targetOG.getValue();
-  }
+  public java.io.File getTarget() {
+        return TargetOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public java.io.File getRawgen_target() {
-    return gen_targetOG.getRawValue();
+  public java.io.File getRawTarget() {
+    return TargetOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getgen_targetOption() {
-    return gen_targetOG;
+  public ie.ucd.clops.runtime.options.FileOption getTargetOption() {
+    return TargetOG;
   }
   
-// Option verbose.
+// Option Verbose.
 // Aliases: [-v, --verbose]
   
   /**
    * {@inheritDoc}
    */
-  public boolean isverboseSet() {
-    return verboseOG.hasValue();
+  public boolean isVerboseSet() {
+    return VerboseOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public boolean getverbose() {
-    return verboseOG.getValue();
-  }
+  public boolean getVerbose() {
+        return VerboseOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public boolean getRawverbose() {
-    return verboseOG.getRawValue();
+  public boolean getRawVerbose() {
+    return VerboseOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getverboseOption() {
-    return verboseOG;
+  public ie.ucd.clops.runtime.options.BooleanOption getVerboseOption() {
+    return VerboseOG;
   }
   
-// Option transitiveFlyRules.
+// Option TransitiveFlyRules.
 // Aliases: [-tfr, --transitive-fly-rules]
   
   /**
    * {@inheritDoc}
    */
-  public boolean istransitiveFlyRulesSet() {
-    return transitiveFlyRulesOG.hasValue();
+  public boolean isTransitiveFlyRulesSet() {
+    return TransitiveFlyRulesOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public boolean gettransitiveFlyRules() {
-    return transitiveFlyRulesOG.getValue();
-  }
+  public boolean getTransitiveFlyRules() {
+        return TransitiveFlyRulesOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public boolean getRawtransitiveFlyRules() {
-    return transitiveFlyRulesOG.getRawValue();
+  public boolean getRawTransitiveFlyRules() {
+    return TransitiveFlyRulesOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption gettransitiveFlyRulesOption() {
-    return transitiveFlyRulesOG;
+  public ie.ucd.clops.runtime.options.BooleanOption getTransitiveFlyRulesOption() {
+    return TransitiveFlyRulesOG;
   }
   
 // Option InfiniteLookahead.
@@ -385,12 +396,13 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return InfiniteLookaheadOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
   public boolean getInfiniteLookahead() {
-    return InfiniteLookaheadOG.getValue();
-  }
+        return InfiniteLookaheadOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
@@ -403,32 +415,33 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return InfiniteLookaheadOG;
   }
   
-// Option input.
+// Option Input.
 // Aliases: []
   
   /**
    * {@inheritDoc}
    */
-  public boolean isinputSet() {
-    return inputOG.hasValue();
+  public boolean isInputSet() {
+    return InputOG.hasValue();
   }
   
+       
   /**
    * {@inheritDoc}
    */
-  public java.io.File getinput() {
-    return inputOG.getValue();
-  }
+  public java.io.File getInput() {
+        return InputOG.getValue();
+     }
 
   /**
    * {@inheritDoc}
    */
-  public java.io.File getRawinput() {
-    return inputOG.getRawValue();
+  public java.io.File getRawInput() {
+    return InputOG.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getinputOption() {
-    return inputOG;
+  public ie.ucd.clops.runtime.options.FileOption getInputOption() {
+    return InputOG;
   }
   
 }

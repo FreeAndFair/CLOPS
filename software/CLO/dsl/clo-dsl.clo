@@ -49,12 +49,12 @@ FORMAT::
 
 //Currently enforcing presence of these options through this format.
 //When we have validity up and running this will not be necessary
-  all_args* Input all_args*
+  AllArgs* Input AllArgs*
 ;
 
 WHERE::
 
-all_args:    Output 
+AllArgs:    Output 
           OR OutputPackage 
           OR OptionFactory 
           OR Test OR Verbose

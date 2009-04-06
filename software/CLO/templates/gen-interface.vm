@@ -3,6 +3,10 @@
 package $info.getPackageName();
 
 #end
+#foreach($import in $info.getImports())
+import $import;
+#end
+
 /**
  * The interface used to handle the options on the user side.
  * @author The CLOPS team (kind@ucd.ie)
@@ -23,28 +27,38 @@ public interface $info.getParserName()OptionsInterface {
    * in the command line.
    */
   boolean is$desc.getIdentifier()Set();
-  
-  
-  
-  #set($typename = $type.getOptionValueTypeClass())
+  #set($typename = ${info.getValueTypeClass($desc)})
   #if( "$type.getTypeDescriptionString()" == "string-enum")
-    #set ($choices=$desc.getPropertyValue("choices"))
-    #set ($list = $StringUtil.mkList($choices))
-    #set ($typename =  "$desc.getIdentifier()")
-enum  $typename {
-  $desc.getPropertyValue("choices");
-  public static $typename get(String s) {
-	     #foreach($val in $list)
-	       if (${val}.toString().equals(s)) {
-	         return $val;
-	       }
-	     #end
-	     return null;
-	   }
-	}
-	
+  #set ($choices=$desc.getPropertyValue("choices")) 
+  #set ($list = $StringUtil.mkList($choices)) 
+  #set ($typename =  "$desc.getIdentifier()")
+  #set ($options =  ${desc.getPropertyValue("choices").replaceAll(",", ", ").replaceAll(", +", ", ")})
+
+  /**
+   * The enumeration type used to represent the string enum option.
+   */
+  enum  $typename {
+    ${options};
+    
+    /**
+     * Returns the option in the enum form from the given
+     * String.
+     * @param s one of the following string: [$options]
+     * @return a valid $typename member.
+     */
+    public static $typename get(final String s) {
+      $typename res = null;#foreach($val in $list)
+      
+      if (${val}.toString().equals(s)) {
+        res = $val;
+      }#end
+      
+      return res;
+    }
+  }
   #end
-  /** $type.getTypeDescriptionString()
+
+  /**
    * Get the value of {@code Option} $desc.getIdentifier().
    * @return the value of the option $desc.getIdentifier() if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.

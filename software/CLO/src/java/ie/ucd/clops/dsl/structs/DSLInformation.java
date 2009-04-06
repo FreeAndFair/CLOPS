@@ -2,9 +2,11 @@ package ie.ucd.clops.dsl.structs;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Simple AST-like datastructure for storing the information gathered
@@ -114,6 +116,67 @@ public class DSLInformation {
     return validityRuleDescriptions;
   }
   
+  
+  public Set<String> getImports() {
+    for (OptionDescription od: getOptionDescriptions()) {
+      // we check everything' s there
+      String clzz = od.getType().getOptionTypeClass();
+      getShortClassName(clzz);
+      clzz = od.getType().getOptionValueTypeClass();
+      getShortClassName(clzz);
+    }
+    return lngClzz;
+  }
+  
+  final Map<String, String> clzzShrt = new HashMap<String, String>();
+  final Set<String> shrtz = new HashSet<String>();
+  final Set<String> lngClzz = new HashSet<String>();
+  
+  private String getShortClassName(String clzz) {
+    String shrt = clzzShrt.get(clzz);
+    if (shrt != null) {
+      return shrt;
+    }
+    final int generics = clzz.lastIndexOf('<');
+    String genfree = clzz;
+    if (generics > 0) {
+      genfree = clzz.substring(0, generics);
+    }
+    shrt = clzz.substring(genfree.lastIndexOf('.') + 1);
+    if (shrtz.contains(shrt)) {
+      shrt = clzz;
+      clzzShrt.put(clzz, clzz);
+    }
+    else {
+
+      clzzShrt.put(clzz, shrt);
+      if (!isPrimitive(clzz) && !isJavaLang(clzz)) {
+        if (generics > 0) {
+          clzz = clzz.substring(0, generics);
+        }
+        lngClzz.add(clzz);
+      }
+      shrtz.add(shrt);
+      
+    }
+    return shrt;
+  }
+
+  public String getTypeClass(OptionDescription od) {
+    return getShortClassName(od.getType().getOptionTypeClass());
+  }
+  public String getValueTypeClass(OptionDescription od) {
+    return getShortClassName(od.getType().getOptionValueTypeClass());
+  }
+  
+  private boolean isJavaLang(String clzz) {
+    return clzz.startsWith("java.lang") || clzz.equals("String");
+  }
+
+  private boolean isPrimitive(String clzz) {
+    return clzz.equals("boolean");
+  }
+
   public void processPlaceholders() {
     for (RuleDescription rule : flyRuleDescriptions) rule.processPlaceHolders(this);
     for (RuleDescription rule : overrideRuleDescriptions) rule.processPlaceHolders(this);

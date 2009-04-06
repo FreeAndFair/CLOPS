@@ -6,32 +6,36 @@ package $info.getPackageName();
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+#foreach($import in $info.getImports())
+import $import;
+#end
 
 public class $info.getParserName()OptionStore extends OptionStore implements $info.getParserName()OptionsInterface {
 
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
-  private final $type.getOptionTypeClass() $desc.getIdentifier()OG;
+  private final ${info.getTypeClass($desc)} og$desc.getIdentifier();
 #end
   private final CLOPSErrorOption CLOPSERROROPTION;
 
-  public $info.getParserName()OptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
+  public $info.getParserName()OptionStore() throws InvalidOptionPropertyValueException {
 
     //Options
 #foreach($desc in $info.getOptionDescriptions())
 #set($type = $desc.getType())
 #set($id = $desc.getIdentifier())
-    ${id}OG = new $type.getOptionTypeClass()("$id", "$OptionType.unifyRegexps($desc.getPrefixRegexps())");
-    addOption(${id}OG);
+    og${id} = new ${info.getTypeClass($desc)}("$id", "$OptionType.unifyRegexps($desc.getPrefixRegexps())");
+    addOption(og${id});
 #foreach($pair in $desc.getProperties())
-    ${id}OG.setProperty("$pair.first", "$pair.second");
+    og${id}.setProperty("$pair.first", "$pair.second");
 #end
 #if( "$!desc.getDescription()" != "" )
 #set( $lines = $StringUtil.quoteMultilineString($desc.getDescription()) )
 #if( $lines.size() == 1 ) 
-    ${id}OG.setProperty("description", "$desc.getDescription()");
+    og${id}.setProperty("description", "$desc.getDescription()");
 #else
-    ${id}OG.setProperty("description", 
+    og${id}.setProperty("description", 
       #foreach( $line in $lines )"${line}"#if($velocityCount != $lines.size()) +
       #else);
 #end
@@ -46,14 +50,14 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     //Option groups
 #foreach($desc in $info.getOptionGroupDescriptions())
 #set($id = $desc.getIdentifier())
-    final OptionGroup ${id}OG = new OptionGroup("$id");
-    addOptionGroup(${id}OG);
+    final OptionGroup og${id} = new OptionGroup("$id");
+    addOptionGroup(og${id});
 #end
     //Setup groupings
 #foreach($desc in $info.getOptionGroupDescriptions())
 #foreach($child in $desc.getChildren())
 #set($id = $desc.getIdentifier())
-    ${id}OG.addOptionOrGroup(${child}OG);
+    og${id}.addOptionOrGroup(og${child});
 #end
 #end
   }
@@ -70,35 +74,30 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
    * {@inheritDoc}
    */
   public boolean is${id}Set() {
-    return ${id}OG.hasValue();
+    return og${id}.hasValue();
   }
   
-   #set($typename = $type.getOptionValueTypeClass())
+   #set($typename = $info.getValueTypeClass($desc))
   #if( "$type.getTypeDescriptionString()" == "string-enum")
     #set ($typename =  "$desc.getIdentifier()")
-	
+
   #end
   
-  /**
-   * {@inheritDoc}
-   */
-  public $typename get${id}() {
-   #if( "$type.getTypeDescriptionString()" == "string-enum")
-    return ${typename}.get(${id}OG.getValue());
-   #else
-     return ${id}OG.getValue();
-   #end
+  /** {@inheritDoc} */
+  public $typename get${id}() {#if( "$type.getTypeDescriptionString()" == "string-enum")
+  
+    return ${typename}.get(og${id}.getValue()); 
+#else
+    return og${id}.getValue(); #end
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public $type.getOptionValueTypeClass() getRaw${id}() {
-    return ${id}OG.getRawValue();
+  /** {@inheritDoc} */
+  public ${info.getValueTypeClass($desc)} getRaw${id}() {
+    return og${id}.getRawValue();
   }
   
-  public $type.getOptionTypeClass() get${id}Option() {
-    return ${id}OG;
+  public ${info.getTypeClass($desc)} get${id}Option() {
+    return og${id};
   }
   
 #end

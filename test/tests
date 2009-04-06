@@ -4,4 +4,23 @@ valid: {-h}
 valid: {--help}
 invalid: {-k}
 
+file: dsl/clo-dsl.clo
+name: CLODSL
+valid: {${existing-file}}
+invalid: {${non-existant-file}}
+valid: {${existing-file} -o ${existing-dir}}
+invalid: {${existing-file} -o ${existing-file}} //Must be dir
+//(below) long example using most of the options
+valid: {${existing-file} -m -p= -of OptionFac -d -b=html --custom=${existing-file} --target={$existing-dir} -v -tfr -oo}
+invalid: {-ggg}
+invalid: {${existing-file} -ggg}
 
+file: dsl/toy.clo
+name: toy
+invalid: {${existing-file}}
+invalid: {${existing-file} ${existing-file}}
+valid: {-i ${existing-file} -o ${non-existant-file}}
+valid: {-i ${existing-file} -o ${existing-file}}
+valid: {-i ${existing-file} -o ${existing-dir}}
+invalid: {-o ${existing-file} -i ${existing-dir}}
+invalid: {-i ${non-existant-file} -o ${existing-dir}}

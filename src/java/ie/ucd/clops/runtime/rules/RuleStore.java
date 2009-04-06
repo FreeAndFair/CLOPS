@@ -79,11 +79,11 @@ public class RuleStore {
   }
 
   public void applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
-    Set<Option> triggers = new HashSet<Option>(1);
+    Set<Option<?>> triggers = new HashSet<Option<?>>(1);
     triggers.add(matchedOption); matchedOption=null;
 
     while (!triggers.isEmpty()) {
-      Option trigger = triggers.iterator().next();
+      Option<?> trigger = triggers.iterator().next();
       triggers.remove(trigger);
 
       CLOLogger.getLogger().log(Level.FINE, "FLY-rule trigger: " + trigger);
@@ -98,7 +98,7 @@ public class RuleStore {
 
           if (rule.applyRule(optionStore)) {
             for (String oId : rule.getAffectedOptions()) {
-              Option o = optionStore.getOptionByIdentifier(oId);
+              Option<?> o = optionStore.getOptionByIdentifier(oId);
               if (!isSame(oldVals.get(oId), o.hasValue() ? o.getValue() : null)) {
                 triggers.add(o);
               } else {
@@ -120,7 +120,7 @@ public class RuleStore {
   private Map<String, Object> getVals(OptionStore optionStore, java.util.Collection<String> opts) {
     HashMap<String, Object> vals = new HashMap<String, Object>(opts.size());
     for (String oId : opts) {
-      Option o = optionStore.getOptionByIdentifier(oId);
+      Option<?> o = optionStore.getOptionByIdentifier(oId);
       vals.put(oId, o.hasValue() ? o.getValue() : null);
     }
     return vals; 

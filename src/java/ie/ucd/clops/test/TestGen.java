@@ -5,6 +5,7 @@ import ie.ucd.clops.dsl.Main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -49,7 +50,7 @@ public class TestGen {
       fis.close();
       
       runTests(tests, outputDir);
-      
+      tests = processFileTags(tests, outputDir);
       generateUnitTests(tests, outputDir);
       
     } catch (IOException ioe) {
@@ -57,6 +58,35 @@ public class TestGen {
     } catch (RecognitionException re) {
       re.printStackTrace();
     }
+  }
+
+  //Replace the file tags with actual paths.
+  private static List<TestSet> processFileTags(List<TestSet> tests, String outputDir) throws IOException {
+    File existingFile = new File(outputDir + File.separator + "existing.file");
+    existingFile.createNewFile();
+    String existingFileString = existingFile.getPath();
+    File existingDir = new File(outputDir + File.separator + "existing.dir");
+    existingDir.mkdir();
+    String existingDirString = existingDir.getPath();
+    
+    String nonExistantFile = outputDir + File.separator + "asfdshjk.sdfasd";
+    
+    List<TestSet> processedTests = new ArrayList<TestSet>(tests.size());
+    for (TestSet set : tests) {
+      List<TestCase> processedTestCases = new ArrayList<TestCase>(set.getCases().size());
+      for (TestCase testCase : set.getCases()) {
+        processedTestCases.add(new TestCase(testCase.getCondition(), 
+            processInputString(testCase.getTestInput(), existingFileString, existingDirString, nonExistantFile)));
+      }
+      processedTests.add(new TestSet(set.getFilePath(), set.getName(), processedTestCases));
+    }
+    return processedTests;
+  }
+  
+  private static String processInputString(String input, String existingFile, String existingDir, String nonExistantFile) {
+    return input.replaceAll("\\$\\{existing-file\\}", existingFile)
+                .replaceAll("\\$\\{existing-dir\\}", existingDir)
+                .replaceAll("\\$\\{non-existant-file\\}", nonExistantFile);
   }
 
   private static void generateUnitTests(List<TestSet> tests, String outputDir) {

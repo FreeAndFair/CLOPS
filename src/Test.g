@@ -104,7 +104,7 @@ LINE_COMMENT  :  COMMENT_START (options {greedy=false;} : .)* NEWLINE
               ;
 
 fragment
-COMMENT_START  : '--'
+COMMENT_START  : '//'
                ;
 
 fragment

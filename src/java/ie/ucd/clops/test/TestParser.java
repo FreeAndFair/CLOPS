@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /home/fintan/workspace/clops/src/Test.g 2009-04-06 18:14:14
+// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /Users/fintan/workspace/clops/src/Test.g 2009-04-07 00:26:21
 
   package ie.ucd.clops.test;
   
@@ -50,12 +50,12 @@ public class TestParser extends Parser {
         
 
     public String[] getTokenNames() { return TestParser.tokenNames; }
-    public String getGrammarFileName() { return "/home/fintan/workspace/clops/src/Test.g"; }
+    public String getGrammarFileName() { return "/Users/fintan/workspace/clops/src/Test.g"; }
 
 
 
     // $ANTLR start "tests"
-    // /home/fintan/workspace/clops/src/Test.g:14:1: tests returns [List<TestSet> testSets] : ( test_set )+ EOF ;
+    // /Users/fintan/workspace/clops/src/Test.g:14:1: tests returns [List<TestSet> testSets] : ( test_set )+ EOF ;
     public final List<TestSet> tests() throws RecognitionException {
         List<TestSet> testSets = null;
 
@@ -63,11 +63,11 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:14:39: ( ( test_set )+ EOF )
-            // /home/fintan/workspace/clops/src/Test.g:15:3: ( test_set )+ EOF
+            // /Users/fintan/workspace/clops/src/Test.g:14:39: ( ( test_set )+ EOF )
+            // /Users/fintan/workspace/clops/src/Test.g:15:3: ( test_set )+ EOF
             {
              testSets = new LinkedList<TestSet>(); 
-            // /home/fintan/workspace/clops/src/Test.g:16:3: ( test_set )+
+            // /Users/fintan/workspace/clops/src/Test.g:16:3: ( test_set )+
             int cnt1=0;
             loop1:
             do {
@@ -81,7 +81,7 @@ public class TestParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:17:5: test_set
+            	    // /Users/fintan/workspace/clops/src/Test.g:17:5: test_set
             	    {
             	    pushFollow(FOLLOW_test_set_in_tests42);
             	    test_set1=test_set();
@@ -119,7 +119,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_set"
-    // /home/fintan/workspace/clops/src/Test.g:22:1: test_set returns [TestSet set] : test_file test_name test_cases ;
+    // /Users/fintan/workspace/clops/src/Test.g:22:1: test_set returns [TestSet set] : test_file test_name test_cases ;
     public final TestSet test_set() throws RecognitionException {
         TestSet set = null;
 
@@ -131,8 +131,8 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:22:31: ( test_file test_name test_cases )
-            // /home/fintan/workspace/clops/src/Test.g:23:3: test_file test_name test_cases
+            // /Users/fintan/workspace/clops/src/Test.g:22:31: ( test_file test_name test_cases )
+            // /Users/fintan/workspace/clops/src/Test.g:23:3: test_file test_name test_cases
             {
             pushFollow(FOLLOW_test_file_in_test_set68);
             test_file2=test_file();
@@ -166,7 +166,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_cases"
-    // /home/fintan/workspace/clops/src/Test.g:29:1: test_cases returns [List<TestCase> cases] : ( test_case )+ ;
+    // /Users/fintan/workspace/clops/src/Test.g:29:1: test_cases returns [List<TestCase> cases] : ( test_case )+ ;
     public final List<TestCase> test_cases() throws RecognitionException {
         List<TestCase> cases = null;
 
@@ -174,11 +174,11 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:29:42: ( ( test_case )+ )
-            // /home/fintan/workspace/clops/src/Test.g:30:3: ( test_case )+
+            // /Users/fintan/workspace/clops/src/Test.g:29:42: ( ( test_case )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:30:3: ( test_case )+
             {
              cases = new LinkedList<TestCase>(); 
-            // /home/fintan/workspace/clops/src/Test.g:31:3: ( test_case )+
+            // /Users/fintan/workspace/clops/src/Test.g:31:3: ( test_case )+
             int cnt2=0;
             loop2:
             do {
@@ -192,7 +192,7 @@ public class TestParser extends Parser {
 
                 switch (alt2) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:32:4: test_case
+            	    // /Users/fintan/workspace/clops/src/Test.g:32:4: test_case
             	    {
             	    pushFollow(FOLLOW_test_case_in_test_cases104);
             	    test_case5=test_case();
@@ -229,7 +229,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_case"
-    // /home/fintan/workspace/clops/src/Test.g:36:1: test_case returns [TestCase testCase] : condition ':' test_input ;
+    // /Users/fintan/workspace/clops/src/Test.g:36:1: test_case returns [TestCase testCase] : condition ':' test_input ;
     public final TestCase test_case() throws RecognitionException {
         TestCase testCase = null;
 
@@ -239,8 +239,8 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:36:38: ( condition ':' test_input )
-            // /home/fintan/workspace/clops/src/Test.g:37:3: condition ':' test_input
+            // /Users/fintan/workspace/clops/src/Test.g:36:38: ( condition ':' test_input )
+            // /Users/fintan/workspace/clops/src/Test.g:37:3: condition ':' test_input
             {
             pushFollow(FOLLOW_condition_in_test_case126);
             condition6=condition();
@@ -270,12 +270,12 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "condition"
-    // /home/fintan/workspace/clops/src/Test.g:42:1: condition returns [boolean b] : ( ( 'valid' ) | ( 'invalid' ) );
+    // /Users/fintan/workspace/clops/src/Test.g:42:1: condition returns [boolean b] : ( ( 'valid' ) | ( 'invalid' ) );
     public final boolean condition() throws RecognitionException {
         boolean b = false;
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:42:30: ( ( 'valid' ) | ( 'invalid' ) )
+            // /Users/fintan/workspace/clops/src/Test.g:42:30: ( ( 'valid' ) | ( 'invalid' ) )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -293,10 +293,10 @@ public class TestParser extends Parser {
             }
             switch (alt3) {
                 case 1 :
-                    // /home/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
                     {
-                    // /home/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
-                    // /home/fintan/workspace/clops/src/Test.g:43:7: 'valid'
+                    // /Users/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:43:7: 'valid'
                     {
                     match(input,15,FOLLOW_15_in_condition154); 
                      b = true; 
@@ -307,10 +307,10 @@ public class TestParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
                     {
-                    // /home/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
-                    // /home/fintan/workspace/clops/src/Test.g:44:7: 'invalid'
+                    // /Users/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:44:7: 'invalid'
                     {
                     match(input,16,FOLLOW_16_in_condition166); 
                      b = false; 
@@ -335,7 +335,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_file"
-    // /home/fintan/workspace/clops/src/Test.g:47:1: test_file returns [String path] : 'file' ':' file ;
+    // /Users/fintan/workspace/clops/src/Test.g:47:1: test_file returns [String path] : 'file' ':' file ;
     public final String test_file() throws RecognitionException {
         String path = null;
 
@@ -343,8 +343,8 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:47:32: ( 'file' ':' file )
-            // /home/fintan/workspace/clops/src/Test.g:48:3: 'file' ':' file
+            // /Users/fintan/workspace/clops/src/Test.g:47:32: ( 'file' ':' file )
+            // /Users/fintan/workspace/clops/src/Test.g:48:3: 'file' ':' file
             {
             match(input,17,FOLLOW_17_in_test_file186); 
             match(input,14,FOLLOW_14_in_test_file188); 
@@ -370,15 +370,15 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_input"
-    // /home/fintan/workspace/clops/src/Test.g:52:1: test_input returns [String testInput] : b= UNCHECKED_CODE_BLOCK ;
+    // /Users/fintan/workspace/clops/src/Test.g:52:1: test_input returns [String testInput] : b= UNCHECKED_CODE_BLOCK ;
     public final String test_input() throws RecognitionException {
         String testInput = null;
 
         Token b=null;
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:52:38: (b= UNCHECKED_CODE_BLOCK )
-            // /home/fintan/workspace/clops/src/Test.g:53:3: b= UNCHECKED_CODE_BLOCK
+            // /Users/fintan/workspace/clops/src/Test.g:52:38: (b= UNCHECKED_CODE_BLOCK )
+            // /Users/fintan/workspace/clops/src/Test.g:53:3: b= UNCHECKED_CODE_BLOCK
             {
             b=(Token)match(input,UNCHECKED_CODE_BLOCK,FOLLOW_UNCHECKED_CODE_BLOCK_in_test_input211); 
              testInput = (b!=null?b.getText():null); 
@@ -398,7 +398,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_name"
-    // /home/fintan/workspace/clops/src/Test.g:57:1: test_name returns [String name] : 'name' ':' filestring ;
+    // /Users/fintan/workspace/clops/src/Test.g:57:1: test_name returns [String name] : 'name' ':' filestring ;
     public final String test_name() throws RecognitionException {
         String name = null;
 
@@ -406,8 +406,8 @@ public class TestParser extends Parser {
 
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:57:32: ( 'name' ':' filestring )
-            // /home/fintan/workspace/clops/src/Test.g:58:3: 'name' ':' filestring
+            // /Users/fintan/workspace/clops/src/Test.g:57:32: ( 'name' ':' filestring )
+            // /Users/fintan/workspace/clops/src/Test.g:58:3: 'name' ':' filestring
             {
             match(input,18,FOLLOW_18_in_test_name231); 
             match(input,14,FOLLOW_14_in_test_name233); 
@@ -435,21 +435,21 @@ public class TestParser extends Parser {
     };
 
     // $ANTLR start "file"
-    // /home/fintan/workspace/clops/src/Test.g:63:1: file : filestring ( '/' filestring )* ;
+    // /Users/fintan/workspace/clops/src/Test.g:63:1: file : filestring ( '/' filestring )* ;
     public final TestParser.file_return file() throws RecognitionException {
         TestParser.file_return retval = new TestParser.file_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:63:6: ( filestring ( '/' filestring )* )
-            // /home/fintan/workspace/clops/src/Test.g:63:8: filestring ( '/' filestring )*
+            // /Users/fintan/workspace/clops/src/Test.g:63:6: ( filestring ( '/' filestring )* )
+            // /Users/fintan/workspace/clops/src/Test.g:63:8: filestring ( '/' filestring )*
             {
             pushFollow(FOLLOW_filestring_in_file251);
             filestring();
 
             state._fsp--;
 
-            // /home/fintan/workspace/clops/src/Test.g:63:19: ( '/' filestring )*
+            // /Users/fintan/workspace/clops/src/Test.g:63:19: ( '/' filestring )*
             loop4:
             do {
                 int alt4=2;
@@ -462,7 +462,7 @@ public class TestParser extends Parser {
 
                 switch (alt4) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:63:20: '/' filestring
+            	    // /Users/fintan/workspace/clops/src/Test.g:63:20: '/' filestring
             	    {
             	    match(input,19,FOLLOW_19_in_file254); 
             	    pushFollow(FOLLOW_filestring_in_file256);
@@ -499,13 +499,13 @@ public class TestParser extends Parser {
     };
 
     // $ANTLR start "filestring"
-    // /home/fintan/workspace/clops/src/Test.g:66:1: filestring : ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' );
+    // /Users/fintan/workspace/clops/src/Test.g:66:1: filestring : ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' );
     public final TestParser.filestring_return filestring() throws RecognitionException {
         TestParser.filestring_return retval = new TestParser.filestring_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/fintan/workspace/clops/src/Test.g:66:13: ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' )
+            // /Users/fintan/workspace/clops/src/Test.g:66:13: ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' )
             int alt6=3;
             switch ( input.LA(1) ) {
             case ALPHANUMERIC:
@@ -532,10 +532,10 @@ public class TestParser extends Parser {
 
             switch (alt6) {
                 case 1 :
-                    // /home/fintan/workspace/clops/src/Test.g:66:17: ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )*
+                    // /Users/fintan/workspace/clops/src/Test.g:66:17: ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )*
                     {
                     match(input,ALPHANUMERIC,FOLLOW_ALPHANUMERIC_in_filestring275); 
-                    // /home/fintan/workspace/clops/src/Test.g:66:30: ( ALPHANUMERIC | '-' | '_' | '.' )*
+                    // /Users/fintan/workspace/clops/src/Test.g:66:30: ( ALPHANUMERIC | '-' | '_' | '.' )*
                     loop5:
                     do {
                         int alt5=2;
@@ -548,7 +548,7 @@ public class TestParser extends Parser {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // /home/fintan/workspace/clops/src/Test.g:
+                    	    // /Users/fintan/workspace/clops/src/Test.g:
                     	    {
                     	    if ( input.LA(1)==ALPHANUMERIC||(input.LA(1)>=20 && input.LA(1)<=22) ) {
                     	        input.consume();
@@ -572,14 +572,14 @@ public class TestParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/fintan/workspace/clops/src/Test.g:67:17: '.'
+                    // /Users/fintan/workspace/clops/src/Test.g:67:17: '.'
                     {
                     match(input,22,FOLLOW_22_in_filestring312); 
 
                     }
                     break;
                 case 3 :
-                    // /home/fintan/workspace/clops/src/Test.g:68:17: '..'
+                    // /Users/fintan/workspace/clops/src/Test.g:68:17: '..'
                     {
                     match(input,23,FOLLOW_23_in_filestring330); 
 
@@ -602,13 +602,13 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "integer"
-    // /home/fintan/workspace/clops/src/Test.g:71:1: integer : ( DIGIT )+ ;
+    // /Users/fintan/workspace/clops/src/Test.g:71:1: integer : ( DIGIT )+ ;
     public final void integer() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:71:10: ( ( DIGIT )+ )
-            // /home/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
+            // /Users/fintan/workspace/clops/src/Test.g:71:10: ( ( DIGIT )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
             {
-            // /home/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
+            // /Users/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -622,7 +622,7 @@ public class TestParser extends Parser {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:71:12: DIGIT
+            	    // /Users/fintan/workspace/clops/src/Test.g:71:12: DIGIT
             	    {
             	    match(input,DIGIT,FOLLOW_DIGIT_in_integer352); 
 

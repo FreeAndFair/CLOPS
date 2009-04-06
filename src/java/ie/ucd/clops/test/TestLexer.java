@@ -1,4 +1,4 @@
-// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /home/fintan/workspace/clops/src/Test.g 2009-04-06 18:14:14
+// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /Users/fintan/workspace/clops/src/Test.g 2009-04-07 00:26:21
 
   package ie.ucd.clops.test;
 
@@ -42,15 +42,15 @@ public class TestLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "/home/fintan/workspace/clops/src/Test.g"; }
+    public String getGrammarFileName() { return "/Users/fintan/workspace/clops/src/Test.g"; }
 
     // $ANTLR start "T__14"
     public final void mT__14() throws RecognitionException {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:7:7: ( ':' )
-            // /home/fintan/workspace/clops/src/Test.g:7:9: ':'
+            // /Users/fintan/workspace/clops/src/Test.g:7:7: ( ':' )
+            // /Users/fintan/workspace/clops/src/Test.g:7:9: ':'
             {
             match(':'); 
 
@@ -69,8 +69,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:8:7: ( 'valid' )
-            // /home/fintan/workspace/clops/src/Test.g:8:9: 'valid'
+            // /Users/fintan/workspace/clops/src/Test.g:8:7: ( 'valid' )
+            // /Users/fintan/workspace/clops/src/Test.g:8:9: 'valid'
             {
             match("valid"); 
 
@@ -90,8 +90,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:9:7: ( 'invalid' )
-            // /home/fintan/workspace/clops/src/Test.g:9:9: 'invalid'
+            // /Users/fintan/workspace/clops/src/Test.g:9:7: ( 'invalid' )
+            // /Users/fintan/workspace/clops/src/Test.g:9:9: 'invalid'
             {
             match("invalid"); 
 
@@ -111,8 +111,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:10:7: ( 'file' )
-            // /home/fintan/workspace/clops/src/Test.g:10:9: 'file'
+            // /Users/fintan/workspace/clops/src/Test.g:10:7: ( 'file' )
+            // /Users/fintan/workspace/clops/src/Test.g:10:9: 'file'
             {
             match("file"); 
 
@@ -132,8 +132,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:11:7: ( 'name' )
-            // /home/fintan/workspace/clops/src/Test.g:11:9: 'name'
+            // /Users/fintan/workspace/clops/src/Test.g:11:7: ( 'name' )
+            // /Users/fintan/workspace/clops/src/Test.g:11:9: 'name'
             {
             match("name"); 
 
@@ -153,8 +153,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:12:7: ( '/' )
-            // /home/fintan/workspace/clops/src/Test.g:12:9: '/'
+            // /Users/fintan/workspace/clops/src/Test.g:12:7: ( '/' )
+            // /Users/fintan/workspace/clops/src/Test.g:12:9: '/'
             {
             match('/'); 
 
@@ -173,8 +173,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:13:7: ( '-' )
-            // /home/fintan/workspace/clops/src/Test.g:13:9: '-'
+            // /Users/fintan/workspace/clops/src/Test.g:13:7: ( '-' )
+            // /Users/fintan/workspace/clops/src/Test.g:13:9: '-'
             {
             match('-'); 
 
@@ -193,8 +193,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:14:7: ( '_' )
-            // /home/fintan/workspace/clops/src/Test.g:14:9: '_'
+            // /Users/fintan/workspace/clops/src/Test.g:14:7: ( '_' )
+            // /Users/fintan/workspace/clops/src/Test.g:14:9: '_'
             {
             match('_'); 
 
@@ -213,8 +213,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:15:7: ( '.' )
-            // /home/fintan/workspace/clops/src/Test.g:15:9: '.'
+            // /Users/fintan/workspace/clops/src/Test.g:15:7: ( '.' )
+            // /Users/fintan/workspace/clops/src/Test.g:15:9: '.'
             {
             match('.'); 
 
@@ -233,8 +233,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:16:7: ( '..' )
-            // /home/fintan/workspace/clops/src/Test.g:16:9: '..'
+            // /Users/fintan/workspace/clops/src/Test.g:16:7: ( '..' )
+            // /Users/fintan/workspace/clops/src/Test.g:16:9: '..'
             {
             match(".."); 
 
@@ -254,8 +254,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = UNCHECKED_CODE_BLOCK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:74:23: ( UNCHECKED_CODE )
-            // /home/fintan/workspace/clops/src/Test.g:75:3: UNCHECKED_CODE
+            // /Users/fintan/workspace/clops/src/Test.g:74:23: ( UNCHECKED_CODE )
+            // /Users/fintan/workspace/clops/src/Test.g:75:3: UNCHECKED_CODE
             {
             mUNCHECKED_CODE(); 
              setText(getText().substring(1, getText().length()-1).trim()); 
@@ -273,11 +273,11 @@ public class TestLexer extends Lexer {
     // $ANTLR start "UNCHECKED_CODE"
     public final void mUNCHECKED_CODE() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:79:16: ( '{' ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )* '}' )
-            // /home/fintan/workspace/clops/src/Test.g:80:3: '{' ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )* '}'
+            // /Users/fintan/workspace/clops/src/Test.g:79:16: ( '{' ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )* '}' )
+            // /Users/fintan/workspace/clops/src/Test.g:80:3: '{' ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )* '}'
             {
             match('{'); 
-            // /home/fintan/workspace/clops/src/Test.g:81:3: ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )*
+            // /Users/fintan/workspace/clops/src/Test.g:81:3: ( options {greedy=false; k=2; } : UNCHECKED_CODE | . )*
             loop1:
             do {
                 int alt1=3;
@@ -296,14 +296,14 @@ public class TestLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:82:5: UNCHECKED_CODE
+            	    // /Users/fintan/workspace/clops/src/Test.g:82:5: UNCHECKED_CODE
             	    {
             	    mUNCHECKED_CODE(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/fintan/workspace/clops/src/Test.g:83:5: .
+            	    // /Users/fintan/workspace/clops/src/Test.g:83:5: .
             	    {
             	    matchAny(); 
 
@@ -330,8 +330,8 @@ public class TestLexer extends Lexer {
         try {
             int _type = ALPHANUMERIC;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:88:15: ( ALPHA | DIGIT )
-            // /home/fintan/workspace/clops/src/Test.g:
+            // /Users/fintan/workspace/clops/src/Test.g:88:15: ( ALPHA | DIGIT )
+            // /Users/fintan/workspace/clops/src/Test.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -356,8 +356,8 @@ public class TestLexer extends Lexer {
     // $ANTLR start "ALPHA"
     public final void mALPHA() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:92:8: ( 'A' .. 'Z' | 'a' .. 'z' )
-            // /home/fintan/workspace/clops/src/Test.g:
+            // /Users/fintan/workspace/clops/src/Test.g:92:8: ( 'A' .. 'Z' | 'a' .. 'z' )
+            // /Users/fintan/workspace/clops/src/Test.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -380,8 +380,8 @@ public class TestLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:96:8: ( '0' .. '9' )
-            // /home/fintan/workspace/clops/src/Test.g:96:10: '0' .. '9'
+            // /Users/fintan/workspace/clops/src/Test.g:96:8: ( '0' .. '9' )
+            // /Users/fintan/workspace/clops/src/Test.g:96:10: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -398,24 +398,24 @@ public class TestLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:99:10: ( ( LINE_COMMENT )+ )
-            // /home/fintan/workspace/clops/src/Test.g:99:13: ( LINE_COMMENT )+
+            // /Users/fintan/workspace/clops/src/Test.g:99:10: ( ( LINE_COMMENT )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:99:13: ( LINE_COMMENT )+
             {
-            // /home/fintan/workspace/clops/src/Test.g:99:13: ( LINE_COMMENT )+
+            // /Users/fintan/workspace/clops/src/Test.g:99:13: ( LINE_COMMENT )+
             int cnt2=0;
             loop2:
             do {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0=='-') ) {
+                if ( (LA2_0=='/') ) {
                     alt2=1;
                 }
 
 
                 switch (alt2) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:99:13: LINE_COMMENT
+            	    // /Users/fintan/workspace/clops/src/Test.g:99:13: LINE_COMMENT
             	    {
             	    mLINE_COMMENT(); 
 
@@ -446,11 +446,11 @@ public class TestLexer extends Lexer {
     // $ANTLR start "LINE_COMMENT"
     public final void mLINE_COMMENT() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:103:15: ( COMMENT_START ( options {greedy=false; } : . )* NEWLINE )
-            // /home/fintan/workspace/clops/src/Test.g:103:18: COMMENT_START ( options {greedy=false; } : . )* NEWLINE
+            // /Users/fintan/workspace/clops/src/Test.g:103:15: ( COMMENT_START ( options {greedy=false; } : . )* NEWLINE )
+            // /Users/fintan/workspace/clops/src/Test.g:103:18: COMMENT_START ( options {greedy=false; } : . )* NEWLINE
             {
             mCOMMENT_START(); 
-            // /home/fintan/workspace/clops/src/Test.g:103:32: ( options {greedy=false; } : . )*
+            // /Users/fintan/workspace/clops/src/Test.g:103:32: ( options {greedy=false; } : . )*
             loop3:
             do {
                 int alt3=2;
@@ -469,7 +469,7 @@ public class TestLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:103:59: .
+            	    // /Users/fintan/workspace/clops/src/Test.g:103:59: .
             	    {
             	    matchAny(); 
 
@@ -494,10 +494,10 @@ public class TestLexer extends Lexer {
     // $ANTLR start "COMMENT_START"
     public final void mCOMMENT_START() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:107:16: ( '--' )
-            // /home/fintan/workspace/clops/src/Test.g:107:18: '--'
+            // /Users/fintan/workspace/clops/src/Test.g:107:16: ( '//' )
+            // /Users/fintan/workspace/clops/src/Test.g:107:18: '//'
             {
-            match("--"); 
+            match("//"); 
 
 
             }
@@ -511,10 +511,10 @@ public class TestLexer extends Lexer {
     // $ANTLR start "NEWLINE"
     public final void mNEWLINE() throws RecognitionException {
         try {
-            // /home/fintan/workspace/clops/src/Test.g:111:10: ( ( '\\r' )? '\\n' )
-            // /home/fintan/workspace/clops/src/Test.g:111:13: ( '\\r' )? '\\n'
+            // /Users/fintan/workspace/clops/src/Test.g:111:10: ( ( '\\r' )? '\\n' )
+            // /Users/fintan/workspace/clops/src/Test.g:111:13: ( '\\r' )? '\\n'
             {
-            // /home/fintan/workspace/clops/src/Test.g:111:13: ( '\\r' )?
+            // /Users/fintan/workspace/clops/src/Test.g:111:13: ( '\\r' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -523,7 +523,7 @@ public class TestLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // /home/fintan/workspace/clops/src/Test.g:111:13: '\\r'
+                    // /Users/fintan/workspace/clops/src/Test.g:111:13: '\\r'
                     {
                     match('\r'); 
 
@@ -547,10 +547,10 @@ public class TestLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/fintan/workspace/clops/src/Test.g:114:13: ( ( ' ' | '\\n' | '\\r' | '\\t' )+ )
-            // /home/fintan/workspace/clops/src/Test.g:114:16: ( ' ' | '\\n' | '\\r' | '\\t' )+
+            // /Users/fintan/workspace/clops/src/Test.g:114:13: ( ( ' ' | '\\n' | '\\r' | '\\t' )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:114:16: ( ' ' | '\\n' | '\\r' | '\\t' )+
             {
-            // /home/fintan/workspace/clops/src/Test.g:114:16: ( ' ' | '\\n' | '\\r' | '\\t' )+
+            // /Users/fintan/workspace/clops/src/Test.g:114:16: ( ' ' | '\\n' | '\\r' | '\\t' )+
             int cnt5=0;
             loop5:
             do {
@@ -564,7 +564,7 @@ public class TestLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // /home/fintan/workspace/clops/src/Test.g:
+            	    // /Users/fintan/workspace/clops/src/Test.g:
             	    {
             	    if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -601,103 +601,103 @@ public class TestLexer extends Lexer {
     // $ANTLR end "WHITESPACE"
 
     public void mTokens() throws RecognitionException {
-        // /home/fintan/workspace/clops/src/Test.g:1:8: ( T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | UNCHECKED_CODE_BLOCK | ALPHANUMERIC | COMMENT | WHITESPACE )
+        // /Users/fintan/workspace/clops/src/Test.g:1:8: ( T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | UNCHECKED_CODE_BLOCK | ALPHANUMERIC | COMMENT | WHITESPACE )
         int alt6=14;
         alt6 = dfa6.predict(input);
         switch (alt6) {
             case 1 :
-                // /home/fintan/workspace/clops/src/Test.g:1:10: T__14
+                // /Users/fintan/workspace/clops/src/Test.g:1:10: T__14
                 {
                 mT__14(); 
 
                 }
                 break;
             case 2 :
-                // /home/fintan/workspace/clops/src/Test.g:1:16: T__15
+                // /Users/fintan/workspace/clops/src/Test.g:1:16: T__15
                 {
                 mT__15(); 
 
                 }
                 break;
             case 3 :
-                // /home/fintan/workspace/clops/src/Test.g:1:22: T__16
+                // /Users/fintan/workspace/clops/src/Test.g:1:22: T__16
                 {
                 mT__16(); 
 
                 }
                 break;
             case 4 :
-                // /home/fintan/workspace/clops/src/Test.g:1:28: T__17
+                // /Users/fintan/workspace/clops/src/Test.g:1:28: T__17
                 {
                 mT__17(); 
 
                 }
                 break;
             case 5 :
-                // /home/fintan/workspace/clops/src/Test.g:1:34: T__18
+                // /Users/fintan/workspace/clops/src/Test.g:1:34: T__18
                 {
                 mT__18(); 
 
                 }
                 break;
             case 6 :
-                // /home/fintan/workspace/clops/src/Test.g:1:40: T__19
+                // /Users/fintan/workspace/clops/src/Test.g:1:40: T__19
                 {
                 mT__19(); 
 
                 }
                 break;
             case 7 :
-                // /home/fintan/workspace/clops/src/Test.g:1:46: T__20
+                // /Users/fintan/workspace/clops/src/Test.g:1:46: T__20
                 {
                 mT__20(); 
 
                 }
                 break;
             case 8 :
-                // /home/fintan/workspace/clops/src/Test.g:1:52: T__21
+                // /Users/fintan/workspace/clops/src/Test.g:1:52: T__21
                 {
                 mT__21(); 
 
                 }
                 break;
             case 9 :
-                // /home/fintan/workspace/clops/src/Test.g:1:58: T__22
+                // /Users/fintan/workspace/clops/src/Test.g:1:58: T__22
                 {
                 mT__22(); 
 
                 }
                 break;
             case 10 :
-                // /home/fintan/workspace/clops/src/Test.g:1:64: T__23
+                // /Users/fintan/workspace/clops/src/Test.g:1:64: T__23
                 {
                 mT__23(); 
 
                 }
                 break;
             case 11 :
-                // /home/fintan/workspace/clops/src/Test.g:1:70: UNCHECKED_CODE_BLOCK
+                // /Users/fintan/workspace/clops/src/Test.g:1:70: UNCHECKED_CODE_BLOCK
                 {
                 mUNCHECKED_CODE_BLOCK(); 
 
                 }
                 break;
             case 12 :
-                // /home/fintan/workspace/clops/src/Test.g:1:91: ALPHANUMERIC
+                // /Users/fintan/workspace/clops/src/Test.g:1:91: ALPHANUMERIC
                 {
                 mALPHANUMERIC(); 
 
                 }
                 break;
             case 13 :
-                // /home/fintan/workspace/clops/src/Test.g:1:104: COMMENT
+                // /Users/fintan/workspace/clops/src/Test.g:1:104: COMMENT
                 {
                 mCOMMENT(); 
 
                 }
                 break;
             case 14 :
-                // /home/fintan/workspace/clops/src/Test.g:1:112: WHITESPACE
+                // /Users/fintan/workspace/clops/src/Test.g:1:112: WHITESPACE
                 {
                 mWHITESPACE(); 
 
@@ -711,18 +711,16 @@ public class TestLexer extends Lexer {
 
     protected DFA6 dfa6 = new DFA6(this);
     static final String DFA6_eotS =
-        "\2\uffff\4\13\1\uffff\1\22\1\uffff\1\24\13\uffff";
+        "\2\uffff\4\13\1\22\2\uffff\1\24\13\uffff";
     static final String DFA6_eofS =
         "\25\uffff";
     static final String DFA6_minS =
-        "\1\11\1\uffff\1\141\1\156\1\151\1\141\1\uffff\1\55\1\uffff\1\56"+
-        "\13\uffff";
+        "\1\11\1\uffff\1\141\1\156\1\151\1\141\1\57\2\uffff\1\56\13\uffff";
     static final String DFA6_maxS =
-        "\1\173\1\uffff\1\141\1\156\1\151\1\141\1\uffff\1\55\1\uffff\1\56"+
-        "\13\uffff";
+        "\1\173\1\uffff\1\141\1\156\1\151\1\141\1\57\2\uffff\1\56\13\uffff";
     static final String DFA6_acceptS =
-        "\1\uffff\1\1\4\uffff\1\6\1\uffff\1\10\1\uffff\1\13\1\14\1\16\1\2"+
-        "\1\3\1\4\1\5\1\15\1\7\1\12\1\11";
+        "\1\uffff\1\1\5\uffff\1\7\1\10\1\uffff\1\13\1\14\1\16\1\2\1\3\1\4"+
+        "\1\5\1\15\1\6\1\12\1\11";
     static final String DFA6_specialS =
         "\25\uffff}>";
     static final String[] DFA6_transitionS = {
@@ -734,8 +732,8 @@ public class TestLexer extends Lexer {
             "\1\16",
             "\1\17",
             "\1\20",
-            "",
             "\1\21",
+            "",
             "",
             "\1\23",
             "",

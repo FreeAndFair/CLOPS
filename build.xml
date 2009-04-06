@@ -201,7 +201,7 @@
     </javac>
   </target>
   
-  <target name="gen-unit-tests" depends="dist">
+  <target name="unit-tests" depends="dist">
     <echo message="Using ${unit-test-file}"/>
     <delete dir="${unit-test-dir}"/>
     <mkdir dir="${unit-test-dir}"/>
@@ -219,11 +219,13 @@
     </javac>    
     <junit fork="yes" printsummary="yes">
       <classpath>
-         <path refid="testdist.path"/>
-         <pathelement path="${lib}/junit-4.5.jar"/>
-         <pathelement path="${unit-test-dir}"/>
+        <path refid="testdist.path"/>
+        <pathelement path="${lib}/junit-4.5.jar"/>
+        <pathelement path="${unit-test-dir}"/>
       </classpath>
-      <test name="UnitTests" haltonfailure="no" outfile="result"/>
+      <test name="UnitTests" haltonfailure="no" outfile="${unit-test-dir}/result">
+      	<formatter type="plain"/>
+      </test>
     </junit>
   </target>
 

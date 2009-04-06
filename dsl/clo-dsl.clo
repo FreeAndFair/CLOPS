@@ -59,6 +59,7 @@ AllArgs:    Output
           OR OptionFactory 
           OR Test OR Verbose
           OR TransitiveFlyRules
+          OR InfiniteLookahead
           OR Templates 
           ;
 Templates: Docs | Builtin | Custom | Target;

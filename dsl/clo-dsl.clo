@@ -14,7 +14,7 @@ Test:{"-m","--main"}
   
   
 //Strip quotes so we can write -p="" or -p "" for default package.
-OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent]
+OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
   :"Output package. If left empty the default package is used."
 
 //option_factory should probably be a regular expression (for qualified java class names).

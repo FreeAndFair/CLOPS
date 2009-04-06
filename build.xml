@@ -10,6 +10,7 @@
   <property name="docs" location="doc"/>
   <property name="java-docs" location="${docs}/javadoc"/>
   <property name="dist"  location="dist"/>
+  <property name="astgen-dir" location="astgen"/>
   <property name="reports.tests" location="test-reports"/>
   <property name="lib"  location="lib"/>
   <property name="test" location="test"/>
@@ -19,6 +20,8 @@
   <property name="full-jar-name" value="clops"/>
   <property name="runtime-jar-name" value="clops-runtime"/>
   <property name="test-file" value="dsl/clo-dsl.clo"/>
+  <property name="unit-test-file" value="test/tests"/>
+  <property name="unit-test-dir" value="test/unittests"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
@@ -35,12 +38,12 @@
 
   <path id="antlr.path">
     <path refid="base.path"/>
-    <filelist dir="${lib}" files="antlr-3.1.1.jar"/>
+    <filelist dir="${lib}" files="antlr-3.1.3.jar"/>
   </path>
 
   <path id="runtime.path">
    <path refid="base.path"/>
-   <filelist dir="${lib}" files="antlr-3.1.1-runtime.jar"/>
+   <filelist dir="${lib}" files="antlr-runtime-3.1.3.jar"/>
   </path>
 	
   <path id="test.path">
@@ -51,7 +54,7 @@
 	<path id="testdist.path">
 	  <filelist dir="${dist}/lib">
 		  <file name="${full-jar-name}.jar"/>
-	  	<file name="antlr-3.1.1-runtime.jar"/>
+	  	<file name="antlr-runtime-3.1.3.jar"/>
 	  	<file name="velocity-1.6.1.jar"/>
 	  </filelist>
 	</path>
@@ -145,14 +148,14 @@
 
     <mkdir dir="${dist}/lib"/>
     <copy todir="${dist}/lib">
-    	<fileset dir="${lib}/" includes="antlr-3.1.1-runtime.jar,stringtemplate-3.2.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
+    	<fileset dir="${lib}/" includes="antlr-runtime-3.1.3.jar,stringtemplate-3.2.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
     </copy>
 		
     <jar jarfile="${dist}/lib/${runtime-jar-name}.jar">
       <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**"/>
       <fileset dir="." includes="templates/**"/>
       <manifest>
-        <attribute name="Class-Path" value="antlr-3.1.1-runtime.jar" />
+        <attribute name="Class-Path" value="antlr-runtime-3.1.3.jar" />
       </manifest>
     </jar>
 
@@ -161,7 +164,7 @@
       <fileset dir="." includes="templates/**"/>
       <manifest>
         <attribute name="Main-Class" value="ie.ucd.clops.dsl.Main" />
-        <attribute name="Class-Path" value="antlr-3.1.1-runtime.jar velocity-1.6.1-dep.jar velocity-1.6.1.jar" />
+        <attribute name="Class-Path" value="antlr-runtime-3.1.3.jar velocity-1.6.1-dep.jar velocity-1.6.1.jar" />
       </manifest>
     </jar>
 	  	
@@ -196,6 +199,32 @@
       <compilerarg value="-Xlint:all"/>
       <classpath refid="dist.path"/>
     </javac>
+  </target>
+  
+  <target name="gen-unit-tests" depends="dist">
+    <echo message="Using ${unit-test-file}"/>
+    <delete dir="${unit-test-dir}"/>
+    <mkdir dir="${unit-test-dir}"/>
+    <java fork="yes" classname="ie.ucd.clops.test.TestGen">
+      <classpath refid="testdist.path"/>
+      <arg value="${unit-test-file}"/>
+      <arg value="${unit-test-dir}"/>
+    </java>
+    <javac srcdir="${unit-test-dir}" destdir="${unit-test-dir}" target="${java-target-version}">
+      <compilerarg value="-Xlint:all"/>
+      <classpath>
+        <path refid="testdist.path"/>
+        <pathelement path="${lib}/junit-4.5.jar"/>
+      </classpath>
+    </javac>    
+    <junit fork="yes" printsummary="yes">
+      <classpath>
+         <path refid="testdist.path"/>
+         <pathelement path="${lib}/junit-4.5.jar"/>
+         <pathelement path="${unit-test-dir}"/>
+      </classpath>
+      <test name="UnitTests" haltonfailure="no" outfile="result"/>
+    </junit>
   </target>
 
   <target name="test-automaton" depends="compile" description="Automaton test">
@@ -251,6 +280,27 @@
        <param name="test-file" value="dsl/ls.clo"/>
        <param name="TFR" value="true"/>
      </antcall>
+  </target>
+
+  <target name="test-astgen" depends="init" description="generates AST">
+    <echo message="Running AST Gen"/>
+    <java fork="yes" dir="src/java/ie/ucd/clops/test" jar="lib/astgen.jar">
+      <arg value="-b"/>
+      <arg value="BaseAST"/>
+      <arg value="-Dpkg=ie.ucd.clops.test" />
+      <arg value="${astgen-dir}/Test.ag" />
+      <arg value="${astgen-dir}/tpl/normal_classes.tpl" />
+    </java>
+  </target>
+  
+  <target name="test-buildAntlr">
+    <echo message="Running antlr"/>
+    <java fork="yes" dir="${java-src}" classname="org.antlr.Tool">
+      <classpath refid="antlr.path" />
+      <arg value="-o"/>
+      <arg value="${src}/java/ie/ucd/clops/test"/>
+      <arg value="${src}/Test.g"/>
+    </java>
   </target>
 
 </project>

@@ -1,0 +1,23 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class UnitTests {
+
+#set($i=0)
+#foreach($testSet in $tests)
+#set($name=$testSet.getName())
+#foreach($testCase in $testSet.getCases())
+#set($i=$i+1)
+@Test 
+public void test${i}() throws Exception {
+#if($testCase.getCondition())
+  assertTrue(${name}Main.test("$testCase.getTestInput()".split("\\s+")));
+#else
+  assertFalse(${name}Main.test("$testCase.getTestInput()".split("\\s+")));
+#end
+}
+
+#end
+#end  
+
+}

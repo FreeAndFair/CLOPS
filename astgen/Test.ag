@@ -1,0 +1,4 @@
+
+TestSet = String! filePath, String! name, List<TestCase> cases;
+
+TestCase = Boolean! condition, String! testInput;

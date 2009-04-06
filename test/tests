@@ -1,0 +1,7 @@
+file: dsl/bico.clo
+name: Bico
+valid: {-h}
+valid: {--help}
+invalid: {-k}
+
+

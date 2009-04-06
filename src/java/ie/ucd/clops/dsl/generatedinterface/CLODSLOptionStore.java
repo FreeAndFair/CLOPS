@@ -3,96 +3,105 @@ package ie.ucd.clops.dsl.generatedinterface;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.StringEnumOption;
+import ie.ucd.clops.runtime.options.BooleanOption;
+import ie.ucd.clops.runtime.options.FileOption;
+import java.util.List;
+import java.io.File;
+import ie.ucd.clops.runtime.options.StringOption;
+import ie.ucd.clops.runtime.options.FileListOption;
 
 public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInterface {
 
-  private final ie.ucd.clops.runtime.options.FileOption OutputOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption TestOG;
-  private final ie.ucd.clops.runtime.options.StringOption OutputPackageOG;
-  private final ie.ucd.clops.runtime.options.StringOption OptionFactoryOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption DocsOG;
-  private final ie.ucd.clops.runtime.options.StringEnumOption BuiltinOG;
-  private final ie.ucd.clops.runtime.options.FileListOption CustomOG;
-  private final ie.ucd.clops.runtime.options.FileOption TargetOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption VerboseOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption TransitiveFlyRulesOG;
-  private final ie.ucd.clops.runtime.options.BooleanOption InfiniteLookaheadOG;
-  private final ie.ucd.clops.runtime.options.FileOption InputOG;
+  private final FileOption ogOutput;
+  private final BooleanOption ogTest;
+  private final StringOption ogOutputPackage;
+  private final StringOption ogOptionFactory;
+  private final BooleanOption ogDocs;
+  private final StringEnumOption ogBuiltin;
+  private final FileListOption ogCustom;
+  private final FileOption ogTarget;
+  private final BooleanOption ogVerbose;
+  private final BooleanOption ogTransitiveFlyRules;
+  private final BooleanOption ogInfiniteLookahead;
+  private final FileOption ogInput;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
-  public CLODSLOptionStore() throws ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException {
+  public CLODSLOptionStore() throws InvalidOptionPropertyValueException {
 
     //Options
-    OutputOG = new ie.ucd.clops.runtime.options.FileOption("Output", "(?:-o)|(?:--output)");
-    addOption(OutputOG);
-    OutputOG.setProperty("mustExist", "true");
-    OutputOG.setProperty("mustbedir", "true");
-    OutputOG.setProperty("default", ".");
-    OutputOG.setProperty("description", "Output directory for generated Java files.");
-    TestOG = new ie.ucd.clops.runtime.options.BooleanOption("Test", "(?:-m)|(?:--main)");
-    addOption(TestOG);
-    TestOG.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
-    OutputPackageOG = new ie.ucd.clops.runtime.options.StringOption("OutputPackage", "(?:-p)|(?:--package)");
-    addOption(OutputPackageOG);
-    OutputPackageOG.setProperty("stripquotesifpresent", "true");
-    OutputPackageOG.setProperty("description", "Output package. If left empty the default package is used.");
-    OptionFactoryOG = new ie.ucd.clops.runtime.options.StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
-    addOption(OptionFactoryOG);
-    OptionFactoryOG.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
-    DocsOG = new ie.ucd.clops.runtime.options.BooleanOption("Docs", "(?:-d)|(?:--docs)");
-    addOption(DocsOG);
-    DocsOG.setProperty("description", "Use a default documentation template for generation.");
-    BuiltinOG = new ie.ucd.clops.runtime.options.StringEnumOption("Builtin", "(?:-b)|(?:--built-in)");
-    addOption(BuiltinOG);
-    BuiltinOG.setProperty("choices", "htmldev,html,manpage,usage,help");
-    BuiltinOG.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
-    CustomOG = new ie.ucd.clops.runtime.options.FileListOption("Custom", "(?:-c)|(?:--custom)");
-    addOption(CustomOG);
-    CustomOG.setProperty("mustExist", "true");
-    CustomOG.setProperty("canBeDir", "false");
-    CustomOG.setProperty("description", "Use custom templates for generation.");
-    TargetOG = new ie.ucd.clops.runtime.options.FileOption("Target", "(?:-t)|(?:--target)");
-    addOption(TargetOG);
-    TargetOG.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
-    VerboseOG = new ie.ucd.clops.runtime.options.BooleanOption("Verbose", "(?:-v)|(?:--verbose)");
-    addOption(VerboseOG);
-    VerboseOG.setProperty("default", "false");
-    VerboseOG.setProperty("description", "Print debugging messages.");
-    TransitiveFlyRulesOG = new ie.ucd.clops.runtime.options.BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
-    addOption(TransitiveFlyRulesOG);
-    TransitiveFlyRulesOG.setProperty("default", "false");
-    TransitiveFlyRulesOG.setProperty("description", "Fly rules will applied transitively.");
-    InfiniteLookaheadOG = new ie.ucd.clops.runtime.options.BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
-    addOption(InfiniteLookaheadOG);
-    InfiniteLookaheadOG.setProperty("default", "false");
-    InfiniteLookaheadOG.setProperty("description", "The command line parser will try harder.");
-    InputOG = new ie.ucd.clops.runtime.options.FileOption("Input", "");
-    addOption(InputOG);
-    InputOG.setProperty("between", "");
-    InputOG.setProperty("mustExist", "true");
-    InputOG.setProperty("canbedir", "false");
-    InputOG.setProperty("description", "Input file.");
+    ogOutput = new FileOption("Output", "(?:-o)|(?:--output)");
+    addOption(ogOutput);
+    ogOutput.setProperty("mustExist", "true");
+    ogOutput.setProperty("mustbedir", "true");
+    ogOutput.setProperty("default", ".");
+    ogOutput.setProperty("description", "Output directory for generated Java files.");
+    ogTest = new BooleanOption("Test", "(?:-m)|(?:--main)");
+    addOption(ogTest);
+    ogTest.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
+    ogOutputPackage = new StringOption("OutputPackage", "(?:-p)|(?:--package)");
+    addOption(ogOutputPackage);
+    ogOutputPackage.setProperty("stripquotesifpresent", "true");
+    ogOutputPackage.setProperty("blankparamallowed", "true");
+    ogOutputPackage.setProperty("description", "Output package. If left empty the default package is used.");
+    ogOptionFactory = new StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
+    addOption(ogOptionFactory);
+    ogOptionFactory.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
+    ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
+    addOption(ogDocs);
+    ogDocs.setProperty("description", "Use a default documentation template for generation.");
+    ogBuiltin = new StringEnumOption("Builtin", "(?:-b)|(?:--built-in)");
+    addOption(ogBuiltin);
+    ogBuiltin.setProperty("choices", "htmldev,html,manpage,usage,help");
+    ogBuiltin.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
+    ogCustom = new FileListOption("Custom", "(?:-c)|(?:--custom)");
+    addOption(ogCustom);
+    ogCustom.setProperty("mustExist", "true");
+    ogCustom.setProperty("canBeDir", "false");
+    ogCustom.setProperty("description", "Use custom templates for generation.");
+    ogTarget = new FileOption("Target", "(?:-t)|(?:--target)");
+    addOption(ogTarget);
+    ogTarget.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
+    ogVerbose = new BooleanOption("Verbose", "(?:-v)|(?:--verbose)");
+    addOption(ogVerbose);
+    ogVerbose.setProperty("default", "false");
+    ogVerbose.setProperty("description", "Print debugging messages.");
+    ogTransitiveFlyRules = new BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
+    addOption(ogTransitiveFlyRules);
+    ogTransitiveFlyRules.setProperty("default", "false");
+    ogTransitiveFlyRules.setProperty("description", "Fly rules will applied transitively.");
+    ogInfiniteLookahead = new BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
+    addOption(ogInfiniteLookahead);
+    ogInfiniteLookahead.setProperty("default", "false");
+    ogInfiniteLookahead.setProperty("description", "The command line parser will try harder.");
+    ogInput = new FileOption("Input", "");
+    addOption(ogInput);
+    ogInput.setProperty("between", "");
+    ogInput.setProperty("mustExist", "true");
+    ogInput.setProperty("canbedir", "false");
+    ogInput.setProperty("description", "Input file.");
   
     CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
     addOption(CLOPSERROROPTION);
   
     //Option groups
-    final OptionGroup all_argsOG = new OptionGroup("all_args");
-    addOptionGroup(all_argsOG);
-    final OptionGroup TemplatesOG = new OptionGroup("Templates");
-    addOptionGroup(TemplatesOG);
+    final OptionGroup ogAllArgs = new OptionGroup("AllArgs");
+    addOptionGroup(ogAllArgs);
+    final OptionGroup ogTemplates = new OptionGroup("Templates");
+    addOptionGroup(ogTemplates);
     //Setup groupings
-    all_argsOG.addOptionOrGroup(OutputOG);
-    all_argsOG.addOptionOrGroup(OutputPackageOG);
-    all_argsOG.addOptionOrGroup(OptionFactoryOG);
-    all_argsOG.addOptionOrGroup(TestOG);
-    all_argsOG.addOptionOrGroup(VerboseOG);
-    all_argsOG.addOptionOrGroup(TransitiveFlyRulesOG);
-    all_argsOG.addOptionOrGroup(TemplatesOG);
-    TemplatesOG.addOptionOrGroup(DocsOG);
-    TemplatesOG.addOptionOrGroup(BuiltinOG);
-    TemplatesOG.addOptionOrGroup(CustomOG);
-    TemplatesOG.addOptionOrGroup(TargetOG);
+    ogAllArgs.addOptionOrGroup(ogOutput);
+    ogAllArgs.addOptionOrGroup(ogOutputPackage);
+    ogAllArgs.addOptionOrGroup(ogOptionFactory);
+    ogAllArgs.addOptionOrGroup(ogTest);
+    ogAllArgs.addOptionOrGroup(ogVerbose);
+    ogAllArgs.addOptionOrGroup(ogTransitiveFlyRules);
+    ogAllArgs.addOptionOrGroup(ogTemplates);
+    ogTemplates.addOptionOrGroup(ogDocs);
+    ogTemplates.addOptionOrGroup(ogBuiltin);
+    ogTemplates.addOptionOrGroup(ogCustom);
+    ogTemplates.addOptionOrGroup(ogTarget);
   }
   
 // Option Output.
@@ -102,26 +111,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isOutputSet() {
-    return OutputOG.hasValue();
+    return ogOutput.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getOutput() {
-        return OutputOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public File getOutput() {    return ogOutput.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getRawOutput() {
-    return OutputOG.getRawValue();
+  /** {@inheritDoc} */
+  public File getRawOutput() {
+    return ogOutput.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getOutputOption() {
-    return OutputOG;
+  public FileOption getOutputOption() {
+    return ogOutput;
   }
   
 // Option Test.
@@ -131,26 +134,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isTestSet() {
-    return TestOG.hasValue();
+    return ogTest.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getTest() {
-        return TestOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public boolean getTest() {    return ogTest.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public boolean getRawTest() {
-    return TestOG.getRawValue();
+    return ogTest.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getTestOption() {
-    return TestOG;
+  public BooleanOption getTestOption() {
+    return ogTest;
   }
   
 // Option OutputPackage.
@@ -160,26 +157,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isOutputPackageSet() {
-    return OutputPackageOG.hasValue();
+    return ogOutputPackage.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public String getOutputPackage() {
-        return OutputPackageOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public String getOutputPackage() {    return ogOutputPackage.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public String getRawOutputPackage() {
-    return OutputPackageOG.getRawValue();
+    return ogOutputPackage.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringOption getOutputPackageOption() {
-    return OutputPackageOG;
+  public StringOption getOutputPackageOption() {
+    return ogOutputPackage;
   }
   
 // Option OptionFactory.
@@ -189,26 +180,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isOptionFactorySet() {
-    return OptionFactoryOG.hasValue();
+    return ogOptionFactory.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public String getOptionFactory() {
-        return OptionFactoryOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public String getOptionFactory() {    return ogOptionFactory.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public String getRawOptionFactory() {
-    return OptionFactoryOG.getRawValue();
+    return ogOptionFactory.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringOption getOptionFactoryOption() {
-    return OptionFactoryOG;
+  public StringOption getOptionFactoryOption() {
+    return ogOptionFactory;
   }
   
 // Option Docs.
@@ -218,26 +203,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isDocsSet() {
-    return DocsOG.hasValue();
+    return ogDocs.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getDocs() {
-        return DocsOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public boolean getDocs() {    return ogDocs.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public boolean getRawDocs() {
-    return DocsOG.getRawValue();
+    return ogDocs.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getDocsOption() {
-    return DocsOG;
+  public BooleanOption getDocsOption() {
+    return ogDocs;
   }
   
 // Option Builtin.
@@ -247,27 +226,23 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isBuiltinSet() {
-    return BuiltinOG.hasValue();
+    return ogBuiltin.hasValue();
   }
   
-     	
+     
     
-  /**
-   * {@inheritDoc}
-   */
-  public Builtin getBuiltin() {
-       return Builtin.get(BuiltinOG.getValue());
-     }
+  /** {@inheritDoc} */
+  public Builtin getBuiltin() {  
+    return Builtin.get(ogBuiltin.getValue()); 
+  }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public String getRawBuiltin() {
-    return BuiltinOG.getRawValue();
+    return ogBuiltin.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.StringEnumOption getBuiltinOption() {
-    return BuiltinOG;
+  public StringEnumOption getBuiltinOption() {
+    return ogBuiltin;
   }
   
 // Option Custom.
@@ -277,26 +252,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isCustomSet() {
-    return CustomOG.hasValue();
+    return ogCustom.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public java.util.List<java.io.File> getCustom() {
-        return CustomOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public List<java.io.File> getCustom() {    return ogCustom.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public java.util.List<java.io.File> getRawCustom() {
-    return CustomOG.getRawValue();
+  /** {@inheritDoc} */
+  public List<java.io.File> getRawCustom() {
+    return ogCustom.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileListOption getCustomOption() {
-    return CustomOG;
+  public FileListOption getCustomOption() {
+    return ogCustom;
   }
   
 // Option Target.
@@ -306,26 +275,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isTargetSet() {
-    return TargetOG.hasValue();
+    return ogTarget.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getTarget() {
-        return TargetOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public File getTarget() {    return ogTarget.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getRawTarget() {
-    return TargetOG.getRawValue();
+  /** {@inheritDoc} */
+  public File getRawTarget() {
+    return ogTarget.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getTargetOption() {
-    return TargetOG;
+  public FileOption getTargetOption() {
+    return ogTarget;
   }
   
 // Option Verbose.
@@ -335,26 +298,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isVerboseSet() {
-    return VerboseOG.hasValue();
+    return ogVerbose.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getVerbose() {
-        return VerboseOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public boolean getVerbose() {    return ogVerbose.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public boolean getRawVerbose() {
-    return VerboseOG.getRawValue();
+    return ogVerbose.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getVerboseOption() {
-    return VerboseOG;
+  public BooleanOption getVerboseOption() {
+    return ogVerbose;
   }
   
 // Option TransitiveFlyRules.
@@ -364,26 +321,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isTransitiveFlyRulesSet() {
-    return TransitiveFlyRulesOG.hasValue();
+    return ogTransitiveFlyRules.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getTransitiveFlyRules() {
-        return TransitiveFlyRulesOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public boolean getTransitiveFlyRules() {    return ogTransitiveFlyRules.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public boolean getRawTransitiveFlyRules() {
-    return TransitiveFlyRulesOG.getRawValue();
+    return ogTransitiveFlyRules.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getTransitiveFlyRulesOption() {
-    return TransitiveFlyRulesOG;
+  public BooleanOption getTransitiveFlyRulesOption() {
+    return ogTransitiveFlyRules;
   }
   
 // Option InfiniteLookahead.
@@ -393,26 +344,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isInfiniteLookaheadSet() {
-    return InfiniteLookaheadOG.hasValue();
+    return ogInfiniteLookahead.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public boolean getInfiniteLookahead() {
-        return InfiniteLookaheadOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public boolean getInfiniteLookahead() {    return ogInfiniteLookahead.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   public boolean getRawInfiniteLookahead() {
-    return InfiniteLookaheadOG.getRawValue();
+    return ogInfiniteLookahead.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.BooleanOption getInfiniteLookaheadOption() {
-    return InfiniteLookaheadOG;
+  public BooleanOption getInfiniteLookaheadOption() {
+    return ogInfiniteLookahead;
   }
   
 // Option Input.
@@ -422,26 +367,20 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
    * {@inheritDoc}
    */
   public boolean isInputSet() {
-    return InputOG.hasValue();
+    return ogInput.hasValue();
   }
   
        
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getInput() {
-        return InputOG.getValue();
-     }
+  /** {@inheritDoc} */
+  public File getInput() {    return ogInput.getValue();   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public java.io.File getRawInput() {
-    return InputOG.getRawValue();
+  /** {@inheritDoc} */
+  public File getRawInput() {
+    return ogInput.getRawValue();
   }
   
-  public ie.ucd.clops.runtime.options.FileOption getInputOption() {
-    return InputOG;
+  public FileOption getInputOption() {
+    return ogInput;
   }
   
 }

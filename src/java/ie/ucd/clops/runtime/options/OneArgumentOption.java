@@ -1,9 +1,9 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.parser.ProcessingResult;
+
 import java.util.Collection;
 import java.util.LinkedList;
-
-import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**
  * Option that requires one argument.
@@ -17,16 +17,19 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   private static final String DEFAULTVAL="defaultvalue";
   private static final String BETWEEN="between";
   private static final String ARGUMENTSHAPE="argumentshape";
+  private static final String BLANKPARAMALLOWED="blankparamallowed";
 
 
   private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
   private String argumentShape = "[^" + SEP + "]*"; // format of the argument
   private String defaultVal = null; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
 
+  private boolean blankparamAllowed;
   
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
     updateSuffix();
+    blankparamAllowed = false;
   }
 
   //Static for space/time efficiency (we don't need one per instance) 
@@ -38,6 +41,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       acceptedPropertyNames.add(BETWEEN);
       acceptedPropertyNames.add(ARGUMENTSHAPE);
       acceptedPropertyNames.add(DEFAULTVAL);
+      acceptedPropertyNames.add(BLANKPARAMALLOWED);
     }
     return acceptedPropertyNames;
   }
@@ -54,10 +58,16 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     } else if (propertyName.equalsIgnoreCase(ARGUMENTSHAPE)) {
       setArgumentShape(propertyValue);
     } else if (propertyName.equalsIgnoreCase(DEFAULTVAL)) {
-        setDefaultVal(propertyValue);   
+      setDefaultVal(propertyValue);   
+    } else if (propertyName.equalsIgnoreCase(BLANKPARAMALLOWED)) {
+      setBlankParamAllowed(propertyValue);
     } else {
       super.setProperty(propertyName, propertyValue);
     }
+  }
+
+  private void setBlankParamAllowed(String propertyValue) {
+    blankparamAllowed = Boolean.parseBoolean(propertyValue);
   }
 
   private void setDefaultVal(String newDefaultVal) {
@@ -79,7 +89,8 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
    */
   public ProcessingResult process() {
     String arg = match.group(2);
-    if (arg == null || arg.equals("")) {
+    if (arg == null || 
+        (arg.equals("") && !blankparamAllowed)) {
         // no arg specified
         if (defaultVal != null) arg = defaultVal;// use defaultVal, if available
         else {

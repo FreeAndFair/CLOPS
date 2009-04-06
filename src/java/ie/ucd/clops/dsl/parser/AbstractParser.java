@@ -37,21 +37,19 @@ public abstract class AbstractParser extends Parser {
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
     super.displayRecognitionError(tokenNames, e);
     this.validParse = false;
-  }
-  
-  
+  }  
   
   /* (non-Javadoc)
    * @see org.antlr.runtime.BaseRecognizer#mismatch(org.antlr.runtime.IntStream, int, org.antlr.runtime.BitSet)
    */
-  @Override
-  protected void mismatch(IntStream input, int ttype, BitSet follow)
-      throws RecognitionException {
-    if (customErrorMessage != null) {
-      throw new MismatchedTokenException(ttype, input);
-    }
-    super.mismatch(input, ttype, follow);
-  }
+//  @Override
+//  protected void mismatch(IntStream input, int ttype, BitSet follow)
+//      throws RecognitionException {
+//    if (customErrorMessage != null) {
+//      throw new MismatchedTokenException(ttype, input);
+//    }
+//    super.mismatch(input, ttype, follow);
+//  }
 
   /*
    * @see org.antlr.runtime.BaseRecognizer#recoverFromMismatchedToken(org.antlr.runtime.IntStream, org.antlr.runtime.RecognitionException, int, org.antlr.runtime.BitSet)

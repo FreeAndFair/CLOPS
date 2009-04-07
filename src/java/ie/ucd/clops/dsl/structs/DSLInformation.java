@@ -38,6 +38,10 @@ public class DSLInformation {
   
   /** the structure containing correspondence between classes long and short names. */
   private NameDict dict = new NameDict();
+
+  private String description;
+
+  private String formatDesc;
   
   public DSLInformation() {
     optionDescriptions = new LinkedList<OptionDescription>();
@@ -239,5 +243,28 @@ public class DSLInformation {
     }
   }
 
+  /**
+   * Adds a description to the parser.
+   * @param st the description string
+   */
+  public void setParserDescription(final String st) {
+    assert (!isPacked);
+    description = st;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+  /**
+   * Adds a description to the parser.
+   * @param st the description string
+   */
+  public void setFormatDescription(final String st) {
+    assert (!isPacked);
+    formatDesc = st;
+  }
+  public String getFormatDescription() {
+    return formatDesc;
+  }
   
 }

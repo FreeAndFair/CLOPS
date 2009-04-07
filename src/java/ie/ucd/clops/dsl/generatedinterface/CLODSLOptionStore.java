@@ -17,12 +17,12 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final FileOption ogOutput;
   private final BooleanOption ogTest;
   private final StringOption ogOutputPackage;
-  private final StringOption ogOptionFactory;
   private final BooleanOption ogDocs;
   private final StringEnumOption ogBuiltin;
   private final FileListOption ogCustom;
   private final FileOption ogTarget;
   private final BooleanOption ogVerbose;
+  private final StringOption ogOptionFactory;
   private final BooleanOption ogTransitiveFlyRules;
   private final BooleanOption ogInfiniteLookahead;
   private final FileOption ogInput;
@@ -43,10 +43,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogOutputPackage = new StringOption("OutputPackage", "(?:-p)|(?:--package)");
     addOption(ogOutputPackage);
     ogOutputPackage.setProperty("stripquotesifpresent", "true");
+    ogOutputPackage.setProperty("blankparamallowed", "true");
     ogOutputPackage.setProperty("description", "Output package. If left empty the default package is used.");
-    ogOptionFactory = new StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
-    addOption(ogOptionFactory);
-    ogOptionFactory.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
     addOption(ogDocs);
     ogDocs.setProperty("description", "Use a default documentation template for generation.");
@@ -66,6 +64,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogVerbose);
     ogVerbose.setProperty("default", "false");
     ogVerbose.setProperty("description", "Print debugging messages.");
+    ogOptionFactory = new StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
+    addOption(ogOptionFactory);
+    ogOptionFactory.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
     ogTransitiveFlyRules = new BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
     addOption(ogTransitiveFlyRules);
     ogTransitiveFlyRules.setProperty("default", "false");
@@ -85,22 +86,29 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(CLOPSERROROPTION);
   
     //Option groups
-    final OptionGroup ogAllArgs = new OptionGroup("AllArgs");
-    addOptionGroup(ogAllArgs);
+    final OptionGroup ogAll = new OptionGroup("All");
+    addOptionGroup(ogAll);
+    final OptionGroup ogBase = new OptionGroup("Base");
+    addOptionGroup(ogBase);
     final OptionGroup ogTemplates = new OptionGroup("Templates");
     addOptionGroup(ogTemplates);
+    final OptionGroup ogAdvanced = new OptionGroup("Advanced");
+    addOptionGroup(ogAdvanced);
     //Setup groupings
-    ogAllArgs.addOptionOrGroup(ogOutput);
-    ogAllArgs.addOptionOrGroup(ogOutputPackage);
-    ogAllArgs.addOptionOrGroup(ogOptionFactory);
-    ogAllArgs.addOptionOrGroup(ogTest);
-    ogAllArgs.addOptionOrGroup(ogVerbose);
-    ogAllArgs.addOptionOrGroup(ogTransitiveFlyRules);
-    ogAllArgs.addOptionOrGroup(ogTemplates);
+    ogAll.addOptionOrGroup(ogBase);
+    ogAll.addOptionOrGroup(ogAdvanced);
+    ogAll.addOptionOrGroup(ogTemplates);
+    ogBase.addOptionOrGroup(ogOutput);
+    ogBase.addOptionOrGroup(ogOutputPackage);
+    ogBase.addOptionOrGroup(ogTest);
+    ogBase.addOptionOrGroup(ogVerbose);
     ogTemplates.addOptionOrGroup(ogDocs);
     ogTemplates.addOptionOrGroup(ogBuiltin);
     ogTemplates.addOptionOrGroup(ogCustom);
     ogTemplates.addOptionOrGroup(ogTarget);
+    ogAdvanced.addOptionOrGroup(ogOptionFactory);
+    ogAdvanced.addOptionOrGroup(ogTransitiveFlyRules);
+    ogAdvanced.addOptionOrGroup(ogInfiniteLookahead);
   }
   
 // Option Output.
@@ -170,29 +178,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public StringOption getOutputPackageOption() {
     return ogOutputPackage;
-  }
-  
-// Option OptionFactory.
-// Aliases: [-of, --option-factory]
-  
-  /**
-   * {@inheritDoc}
-   */
-  public boolean isOptionFactorySet() {
-    return ogOptionFactory.hasValue();
-  }
-  
-       
-  /** {@inheritDoc} */
-  public String getOptionFactory() {    return ogOptionFactory.getValue();   }
-
-  /** {@inheritDoc} */
-  public String getRawOptionFactory() {
-    return ogOptionFactory.getRawValue();
-  }
-  
-  public StringOption getOptionFactoryOption() {
-    return ogOptionFactory;
   }
   
 // Option Docs.
@@ -311,6 +296,29 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public BooleanOption getVerboseOption() {
     return ogVerbose;
+  }
+  
+// Option OptionFactory.
+// Aliases: [-of, --option-factory]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isOptionFactorySet() {
+    return ogOptionFactory.hasValue();
+  }
+  
+       
+  /** {@inheritDoc} */
+  public String getOptionFactory() {    return ogOptionFactory.getValue();   }
+
+  /** {@inheritDoc} */
+  public String getRawOptionFactory() {
+    return ogOptionFactory.getRawValue();
+  }
+  
+  public StringOption getOptionFactoryOption() {
+    return ogOptionFactory;
   }
   
 // Option TransitiveFlyRules.

@@ -61,23 +61,6 @@ public interface CLODSLOptionsInterface {
   String getOutputPackage();
   
 
-// Option OptionFactory. 
-// Aliases: [-of, --option-factory]
-
-  /**
-   * @return true if the option OptionFactory has been used
-   * in the command line.
-   */
-  boolean isOptionFactorySet();
-    
-  /**
-   * Get the value of {@code Option} OptionFactory.
-   * @return the value of the option OptionFactory if it has been set
-   * using the arguments. Throws an {@code IllegalStateException} otherwise.
-   */ 
-  String getOptionFactory();
-  
-
 // Option Docs. 
 // Aliases: [-d, --docs]
 
@@ -194,6 +177,23 @@ public interface CLODSLOptionsInterface {
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
   boolean getVerbose();
+  
+
+// Option OptionFactory. 
+// Aliases: [-of, --option-factory]
+
+  /**
+   * @return true if the option OptionFactory has been used
+   * in the command line.
+   */
+  boolean isOptionFactorySet();
+    
+  /**
+   * Get the value of {@code Option} OptionFactory.
+   * @return the value of the option OptionFactory if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  String getOptionFactory();
   
 
 // Option TransitiveFlyRules. 

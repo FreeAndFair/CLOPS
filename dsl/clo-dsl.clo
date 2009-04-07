@@ -1,6 +1,6 @@
 
 NAME::
- CLODSL
+ CLODSL: "CLOPS is a tool to help parse command line options."
 
 PACKAGE::
  ie.ucd.clops.dsl.generatedinterface
@@ -17,9 +17,6 @@ Test:{"-m","--main"}
 OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
   :"Output package. If left empty the default package is used."
 
-//option_factory should probably be a regular expression (for qualified java class names).
-OptionFactory:{"-of","--option-factory"}:{string}
-  :"Use this option factory instead of the default. Must be a fully qualified class name."
 
 
 
@@ -36,7 +33,9 @@ Target:{"-t", "--target"}:{file}
 Verbose:{"-v","--verbose"}:[default="false"]
   :"Print debugging messages."
 
- 
+//option_factory should probably be a regular expression (for qualified java class names).
+OptionFactory:{"-of","--option-factory"}:{string}
+  :"Use this option factory instead of the default. Must be a fully qualified class name." 
 TransitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
   :"Fly rules will applied transitively."
 InfiniteLookahead: {"-oo", "--infinite-lookahead"}:[default="false"]
@@ -49,20 +48,17 @@ FORMAT::
 
 //Currently enforcing presence of these options through this format.
 //When we have validity up and running this will not be necessary
-  AllArgs* Input AllArgs*
-;
+  All* Input All*;
+  "The program takes an argument, the input, surrounded by options.";
 
 WHERE::
 
-AllArgs:    Output 
-          OR OutputPackage 
-          OR OptionFactory 
-          OR Test OR Verbose
-          OR TransitiveFlyRules
-          OR InfiniteLookahead
-          OR Templates 
+All:  Base OR Advanced OR Templates 
           ;
+Base: Output | OutputPackage | Test | Verbose;
 Templates: Docs | Builtin | Custom | Target;
+Advanced: OptionFactory | TransitiveFlyRules | InfiniteLookahead;
+
 
 FLY::
 

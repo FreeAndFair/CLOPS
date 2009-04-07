@@ -90,11 +90,11 @@
 </p>
 </div>
 
-
 <h2><a name="description">Description</a></h2>
+$info.getDescription()
 <h2><a name="usage">Usage</a></h2>
-<span id="usage-str">$info.getFormatString()</span>
-
+<span id="usage-str">$info.getFormatString()</span><br/>
+$info.getFormatDescription()
 <div id="options">
 <h2><a name="options">Options</a></h2>
 

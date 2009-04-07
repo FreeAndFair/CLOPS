@@ -50,6 +50,10 @@ clo_specification  :  name_section
 
 name_section  :  SECTION_NAME NAME
                  { getDslInformation().setParserName($NAME.text); }
+                 ( ':' s=option_comment
+                     { getDslInformation().setParserDescription($s.text); }
+                   
+                   )?
               ;
 
 /**********************************************/
@@ -141,7 +145,11 @@ option_comment  :  STRING_CONSTANT
 
 args_format_section  :  SECTION_FORMAT format_clause  
                         { getDslInformation().setFormatString($format_clause.text); }
-                        ';'
+                        ';'                  
+                        (s=option_comment
+                              { getDslInformation().setFormatDescription($s.text); }
+                   
+                         ';' )? 
                      ;
 
 format_clause  :  format_subclause

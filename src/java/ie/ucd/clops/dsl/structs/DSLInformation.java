@@ -16,7 +16,8 @@ import java.util.Set;
  *
  */
 public class DSLInformation {
-
+  public boolean isPacked = false;
+  
   public boolean TRANSITIVE_FLYRULES;
 
   private final List<OptionDescription> optionDescriptions;
@@ -40,17 +41,21 @@ public class DSLInformation {
     packageName = "";
   }
 
-  public boolean getTransitive_Flyrules() { return TRANSITIVE_FLYRULES; }
+  public boolean getTransitive_Flyrules() { 
+    return TRANSITIVE_FLYRULES; 
+  }
 
   public String getFormatString() {
     return formatString;
   }
   
   public void setFormatString(String formatString) {
+    assert (!isPacked);
     this.formatString = formatString;
   }
   
   public void addOptionDescription(OptionDescription optionDescription) {
+    assert (!isPacked);
     optionDescriptions.add(optionDescription);
     optionIdDescriptionMap.put(optionDescription.getIdentifier(), optionDescription);
   }
@@ -60,6 +65,7 @@ public class DSLInformation {
   }
   
   public void addOptionGroupDescription(OptionGroupDescription optionGroupDescription) {
+    assert (!isPacked);
     optionGroupDescriptions.add(optionGroupDescription);
   }
   
@@ -68,14 +74,17 @@ public class DSLInformation {
   }
   
   public void addFlyRuleDescription(FlyRuleDescription flyRuleDescription) {
+    assert (!isPacked);
     flyRuleDescriptions.add(flyRuleDescription);
   }
   
   public void addOverrideRuleDescription(OverrideRuleDescription overrideRuleDescription) {
+    assert (!isPacked);
     overrideRuleDescriptions.add(overrideRuleDescription);
   }
     
   public void addValidityRuleDescription(ValidityRuleDescription validityRuleDescription) {
+    assert (!isPacked);
     validityRuleDescriptions.add(validityRuleDescription);
   }
   
@@ -88,6 +97,7 @@ public class DSLInformation {
   }
 
   public void setParserName(String parserName) {
+    assert (!isPacked);
     this.parserName = parserName;
   }
 
@@ -96,6 +106,7 @@ public class DSLInformation {
   }
 
   public void setPackageName(String packageName) {
+    assert (!isPacked);
     this.packageName = packageName;
   }
   
@@ -117,22 +128,23 @@ public class DSLInformation {
   }
   
   
-  public Set<String> getImports() {
-    for (OptionDescription od: getOptionDescriptions()) {
-      // we check everything' s there
-      String clzz = od.getType().getOptionTypeClass();
-      getShortClassName(clzz);
-      clzz = od.getType().getOptionValueTypeClass();
-      getShortClassName(clzz);
-    }
-    return lngClzz;
+  
+  public Set<String> getTypeImports() {
+    return typeClzz;
+  }
+  public Set<String> getValueTypeImports() {
+    return valueClzz;
   }
   
-  final Map<String, String> clzzShrt = new HashMap<String, String>();
-  final Set<String> shrtz = new HashSet<String>();
-  final Set<String> lngClzz = new HashSet<String>();
+
   
-  private String getShortClassName(String clzz) {
+  private final Map<String, String> clzzShrt = new HashMap<String, String>();
+  private final Set<String> shrtz = new HashSet<String>();
+  private final Set<String> valueClzz = new HashSet<String>();
+  private final Set<String> typeClzz = new HashSet<String>();
+  
+ 
+  private String getShortClassName(String clzz, Set<String> lngClzz) {
     String shrt = clzzShrt.get(clzz);
     if (shrt != null) {
       return shrt;
@@ -163,24 +175,50 @@ public class DSLInformation {
   }
 
   public String getTypeClass(OptionDescription od) {
-    return getShortClassName(od.getType().getOptionTypeClass());
+    return clzzShrt.get(od.getType().getOptionTypeClass());
   }
   public String getValueTypeClass(OptionDescription od) {
-    return getShortClassName(od.getType().getOptionValueTypeClass());
+    return clzzShrt.get(od.getType().getOptionValueTypeClass());
   }
   
-  private boolean isJavaLang(String clzz) {
+  private static boolean isJavaLang(String clzz) {
     return clzz.startsWith("java.lang") || clzz.equals("String");
   }
 
-  private boolean isPrimitive(String clzz) {
+  private static boolean isPrimitive(String clzz) {
     return clzz.equals("boolean");
   }
 
-  public void processPlaceholders() {
-    for (RuleDescription rule : flyRuleDescriptions) rule.processPlaceHolders(this);
-    for (RuleDescription rule : overrideRuleDescriptions) rule.processPlaceHolders(this);
-    for (ValidityRuleDescription rule : validityRuleDescriptions) rule.processPlaceHolders(this);
+  public void pack() {
+    /* Make sure no newlines in the format string. 
+    This should probably be done whilst processing the DSL */
+    setFormatString(formatString.replaceAll("\\n", " "));
+    processPlaceholders();
+    computeImports();
+    isPacked = true;
+    
+  }
+  
+  private void computeImports() {
+    for (OptionDescription od: getOptionDescriptions()) {
+      // we check everything' s there
+      String clzz = od.getType().getOptionTypeClass();
+      getShortClassName(clzz, typeClzz);
+      clzz = od.getType().getOptionValueTypeClass();
+      getShortClassName(clzz, valueClzz);
+    }
+  }
+  
+  private void processPlaceholders() {
+    for (RuleDescription rule : flyRuleDescriptions) {
+      rule.processPlaceHolders(this);
+    }
+    for (RuleDescription rule : overrideRuleDescriptions) {
+      rule.processPlaceHolders(this);
+    }
+    for (ValidityRuleDescription rule : validityRuleDescriptions) {
+      rule.processPlaceHolders(this);
+    }
   }
   
 }

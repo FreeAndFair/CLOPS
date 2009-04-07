@@ -7,7 +7,10 @@ import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
-#foreach($import in $info.getImports())
+#foreach($import in $info.getValueTypeImports())
+import $import;
+#end
+#foreach($import in $info.getTypeImports())
 import $import;
 #end
 

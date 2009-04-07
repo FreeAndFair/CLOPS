@@ -87,15 +87,13 @@ public class Main {
     }
     infos.TRANSITIVE_FLYRULES =
       options.isTransitiveFlyRulesSet() &&  options.getTransitiveFlyRules();
-    /* Make sure no newlines in the format string. 
-       This should probably be done whilst processing the DSL */
-    infos.setFormatString(infos.getFormatString().replaceAll("\\n", " "));
+
     
     //Override package name from commandline
     if (options.isOutputPackageSet()) {
       infos.setPackageName(options.getOutputPackage());
     }
-    infos.processPlaceholders();
+    infos.pack();
     CodeGenerator code = null;
     DocumentGenerator docs = null;
     try {

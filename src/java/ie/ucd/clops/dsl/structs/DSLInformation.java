@@ -29,7 +29,10 @@ public class DSLInformation {
   private boolean transitiveFlyrules;
 
   private final List<OptionDescription> optionDescriptions;
-  private final Map<String,OptionDescription> optionIdDescriptionMap;
+  
+  /** keep track of options and groups. */
+  private final Map<String, OptionDescription> optionIdDescriptionMap;
+  
   private final List<OptionGroupDescription> optionGroupDescriptions;
   private final List<FlyRuleDescription> flyRuleDescriptions;
   private final List<OverrideRuleDescription> overrideRuleDescriptions;
@@ -78,9 +81,10 @@ public class DSLInformation {
     return optionDescriptions;
   }
   
-  public void addOptionGroupDescription(OptionGroupDescription optionGroupDescription) {
+  public void addOptionGroupDescription(OptionGroupDescription group) {
     assert (!isPacked);
-    optionGroupDescriptions.add(optionGroupDescription);
+    optionGroupDescriptions.add(group);
+    optionIdDescriptionMap.put(group.getIdentifier(), group);
   }
   
   public List<OptionGroupDescription> getOptionGroupDescriptions() {
@@ -124,8 +128,12 @@ public class DSLInformation {
     this.packageName = packageName;
   }
   
-  public OptionDescription getOptionDescriptionForIdentifier(String identifier) {
-    return optionIdDescriptionMap.get(identifier);
+  public OptionDescription getOptionDescriptionForIdentifier(String id) {
+    OptionDescription od =  optionIdDescriptionMap.get(id);
+    if (od == null) {
+      System.out.println(id);
+    }
+    return od;
   }
   
   public String getOptionValuTypeParameterisationForIdentifier(String identifier) {

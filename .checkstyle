@@ -7,7 +7,6 @@
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
     <filter name="FilesFromPackage" enabled="true">
-        <filter-data value="src/java/ie/ucd/clops/dsl/generatedinterface"/>
         <filter-data value="src/java/ie/ucd/clops/dsl/parser"/>
         <filter-data value="src/java/ie/ucd/clops/runtime/parser"/>
     </filter>

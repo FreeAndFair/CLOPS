@@ -85,8 +85,8 @@ public class Main {
     if (infos == null) {
       return false;
     }
-    infos.TRANSITIVE_FLYRULES =
-      options.isTransitiveFlyRulesSet() &&  options.getTransitiveFlyRules();
+    infos.setTransitiveFlyRules(options.isTransitiveFlyRulesSet() &&  
+                                options.getTransitiveFlyRules());
 
     
     //Override package name from commandline

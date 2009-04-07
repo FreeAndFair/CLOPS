@@ -4,11 +4,11 @@ import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import java.util.List;
+import java.io.File;
 import ie.ucd.clops.runtime.options.StringEnumOption;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.FileOption;
-import java.util.List;
-import java.io.File;
 import ie.ucd.clops.runtime.options.StringOption;
 import ie.ucd.clops.runtime.options.FileListOption;
 
@@ -43,7 +43,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogOutputPackage = new StringOption("OutputPackage", "(?:-p)|(?:--package)");
     addOption(ogOutputPackage);
     ogOutputPackage.setProperty("stripquotesifpresent", "true");
-    ogOutputPackage.setProperty("blankparamallowed", "true");
     ogOutputPackage.setProperty("description", "Output package. If left empty the default package is used.");
     ogOptionFactory = new StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
     addOption(ogOptionFactory);

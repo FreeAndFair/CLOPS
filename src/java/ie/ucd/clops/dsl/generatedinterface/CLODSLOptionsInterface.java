@@ -1,12 +1,7 @@
 package ie.ucd.clops.dsl.generatedinterface;
 
-import ie.ucd.clops.runtime.options.StringEnumOption;
-import ie.ucd.clops.runtime.options.BooleanOption;
-import ie.ucd.clops.runtime.options.FileOption;
 import java.util.List;
 import java.io.File;
-import ie.ucd.clops.runtime.options.StringOption;
-import ie.ucd.clops.runtime.options.FileListOption;
 
 /**
  * The interface used to handle the options on the user side.

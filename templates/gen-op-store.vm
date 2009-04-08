@@ -56,6 +56,9 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     final OptionGroup og${id} = new OptionGroup("$id");
     addOptionGroup(og${id});
 #end
+    final OptionGroup ogAllOptions = new OptionGroup("AllOptions");
+    addOptionGroup(ogAllOptions);
+    
     //Setup groupings
 #foreach($desc in $info.getOptionGroupDescriptions())
 #foreach($child in $desc.getChildren())
@@ -63,6 +66,10 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     og${id}.addOptionOrGroup(og${child});
 #end
 #end
+    //AllOptions group
+#foreach($desc in $info.getOptionDescriptions())
+    ogAllOptions.addOptionOrGroup(og$desc.getIdentifier());
+#end 
   }
   
 #foreach($desc in $info.getOptionDescriptions())

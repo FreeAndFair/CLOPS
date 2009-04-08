@@ -29,7 +29,6 @@
 
   <path id="base.path">
     <filelist dir="${lib}">
-      <file name="stringtemplate-3.2.jar"/>
       <file name="velocity-1.6.2.jar"/>
       <file name="velocity-1.6.2-dep.jar"/>
       <file name="junit-4.5.jar"/>
@@ -148,7 +147,7 @@
 
     <mkdir dir="${dist}/lib"/>
     <copy todir="${dist}/lib">
-    	<fileset dir="${lib}/" includes="antlr-runtime-3.1.3.jar,stringtemplate-3.2.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
+    	<fileset dir="${lib}/" includes="antlr-runtime-3.1.3.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
     </copy>
 		
     <jar jarfile="${dist}/lib/${runtime-jar-name}.jar">

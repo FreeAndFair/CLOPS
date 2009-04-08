@@ -48,7 +48,7 @@ FORMAT::
 
 //Currently enforcing presence of these options through this format.
 //When we have validity up and running this will not be necessary
-  All* Input All*;
+  All* Input All*:
   "The program takes an argument, the input, surrounded by options.";
 
 WHERE::

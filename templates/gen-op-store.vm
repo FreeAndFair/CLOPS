@@ -88,13 +88,13 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
   }
   
    #set($typename = $info.getValueTypeClass($desc))
-  #if( "$type.getTypeDescriptionString()" == "string-enum")
+  #if( "$type.getTypeDescriptionString()" == "enum")
     #set ($typename =  "$desc.getIdentifier()")
 
   #end
   
   /** {@inheritDoc} */
-  public $typename get${id}() {#if( "$type.getTypeDescriptionString()" == "string-enum")
+  public $typename get${id}() {#if( "$type.getTypeDescriptionString()" == "enum")
   
     return ${typename}.get(og${id}.getValue()); 
 #else

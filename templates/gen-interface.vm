@@ -28,7 +28,7 @@ public interface $info.getParserName()OptionsInterface {
    */
   boolean is$desc.getIdentifier()Set();
   #set($typename = ${info.getValueTypeClass($desc)})
-  #if( "$type.getTypeDescriptionString()" == "string-enum")
+  #if( "$type.getTypeDescriptionString()" == "enum")
   #set ($choices=$desc.getPropertyValue("choices")) 
   #set ($list = $StringUtil.mkList($choices)) 
   #set ($typename =  "$desc.getIdentifier()")

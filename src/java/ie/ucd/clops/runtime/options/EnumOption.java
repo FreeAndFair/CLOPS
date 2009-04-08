@@ -14,12 +14,12 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public class StringEnumOption extends StringOption {
+public class EnumOption extends StringOption {
 
   private final Set<String> choices;
   private boolean caseSensitive;
   
-  public StringEnumOption(String identifier, String prefix) {
+  public EnumOption(String identifier, String prefix) {
     super(identifier, prefix);
     choices = new HashSet<String>();
     caseSensitive = false;

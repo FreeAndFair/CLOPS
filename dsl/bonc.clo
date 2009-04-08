@@ -10,7 +10,7 @@ no_typecheck:{"-ntc","--no-typecheck"}:[default="false"]
 //TODO - must prevent identifier names containing dashes!
 
 //Print would be better as a StringEnum
-print:{"-p","--print"}:{string-enum}:[choices="txt,html,xhtml,dic",casesensitive="false"]
+print:{"-p","--print"}:{enum}:[choices="txt,html,xhtml,dic",casesensitive="false"]
 print_output:{"-po","--print-output"}:{file}:[canbedir="false"]
 pretty_print:{"-pp","--pretty-print"}
 
@@ -33,7 +33,7 @@ debug:{"-d","--debug"}
 gen_class_dic:{"-gcd","--gen-class-dic"}
 no_gen_class_dic:{"-ngcd","--no-gen-class-dic"}
 
-graph:{"-g","--graph"}:{string-enum}:[choices="icg,iig",casesensitive="false"]
+graph:{"-g","--graph"}:{enum}:[choices="icg,iig",casesensitive="false"]
 
 //Old CLO library
 //print_man

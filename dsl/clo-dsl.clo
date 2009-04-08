@@ -23,7 +23,7 @@ OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowe
   
 Docs:{"-d","--docs"}
   :"Use a default documentation template for generation."
-Builtin:{"-b","--built-in"}:{string-enum}:[choices="htmldev,html,manpage,usage,help"]
+Builtin:{"-b","--built-in"}:{enum}:[choices="htmldev,html,manpage,usage,help"]
   :"Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage)."
 Custom:{"-c","--custom"}:{file-list}:[mustExist,canBeDir="false"]
   :"Use custom templates for generation."

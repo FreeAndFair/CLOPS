@@ -6,7 +6,7 @@ import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 import java.util.List;
 import java.io.File;
-import ie.ucd.clops.runtime.options.StringEnumOption;
+import ie.ucd.clops.runtime.options.EnumOption;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.FileOption;
 import ie.ucd.clops.runtime.options.StringOption;
@@ -18,7 +18,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final BooleanOption ogTest;
   private final StringOption ogOutputPackage;
   private final BooleanOption ogDocs;
-  private final StringEnumOption ogBuiltin;
+  private final EnumOption ogBuiltin;
   private final FileListOption ogCustom;
   private final FileOption ogTarget;
   private final BooleanOption ogVerbose;
@@ -48,7 +48,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
     addOption(ogDocs);
     ogDocs.setProperty("description", "Use a default documentation template for generation.");
-    ogBuiltin = new StringEnumOption("Builtin", "(?:-b)|(?:--built-in)");
+    ogBuiltin = new EnumOption("Builtin", "(?:-b)|(?:--built-in)");
     addOption(ogBuiltin);
     ogBuiltin.setProperty("choices", "htmldev,html,manpage,usage,help");
     ogBuiltin.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
@@ -225,7 +225,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogBuiltin.getRawValue();
   }
   
-  public StringEnumOption getBuiltinOption() {
+  public EnumOption getBuiltinOption() {
     return ogBuiltin;
   }
   

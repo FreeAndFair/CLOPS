@@ -41,7 +41,7 @@ ARGS::
      columns:{"-C"}:[allowarg="false"]
         :"list entries by columns"
  
-     color:{"--color"}:{string-enum}
+     color:{"--color"}:{enum}
         :[defaultvalue="always"
           between="="
           choices="never,always,auto," 
@@ -70,7 +70,7 @@ ARGS::
      file_type:{"--file-type"}:[allowarg="false"]
         :"like {classify}, except do not append *"
 
-     format:{"--format"}:{string-enum}:
+     format:{"--format"}:{enum}:
               [choices="across,commas,horizontal,long,single-column,verbose,vertical"]:
               "The listing format which can be one of across (-x), commas (-m), horizontal (-x), long (-l), single-column (-1), verbose (-l), vertical (-C)"
 
@@ -99,7 +99,7 @@ ARGS::
          :"do not list implied entries matching shell  pattern  (overridden
               by -a or -A)"
 
-     indicator_style:{"--indicator-style"}:{string-enum}
+     indicator_style:{"--indicator-style"}:{enum}
          :[choices="none,slash,file-type,classify" default="none"]
          :"append indicator with style WORD to entry names, with the values
               none  (default),  slash  (-p), file-type (--file-type), classify (-F)"
@@ -143,7 +143,7 @@ ARGS::
 
        quoting_style
            :{"--quoting-style"}
-           :{string-enum}
+           :{enum}
            :[choices="literal,locale,shell,shell-always,c,escape"]
            :"use quoting style WORD for entry names"
 
@@ -157,11 +157,11 @@ ARGS::
        sortby_size:{"-S"}:[allowarg="false"]:"sort by file size"
 
        sort:{"--sort"}
-           :{string-enum}
+           :{enum}
            :[choices="extension,none,size,time,version,status,time,atime,access,use"]
            :"extension  -X, none -U, size -S, time -t, version -v, status -c, time -t, atime -u, access -u, use -u"
 
-       time:{"--time"}:{string-enum}
+       time:{"--time"}:{enum}
            :[choices="atime,access,use,ctime,status"]
            :"with -l, show time as WORD instead of modification time:  atime,
               access,  use, ctime or status; use specified time 

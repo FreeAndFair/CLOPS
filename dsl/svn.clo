@@ -77,7 +77,7 @@ ARGS::
      :"give output suitable for concatenation"
    xml:{"--xml"}
      :"output in XML"
-   extensions:{"-x","--extensions"}:{string-enum}:[choices="-u,--unified,-b,--ignore-space-change,-w,--ignore-all-space,--ignore-eol-style,-p,--show-c-function"]
+   extensions:{"-x","--extensions"}:{enum}:[choices="-u,--unified,-b,--ignore-space-change,-w,--ignore-all-space,--ignore-eol-style,-p,--show-c-function"]
      : "Default: '-u'. When Subversion is invoking an
                              external diff program, ARG is simply passed along
                              to the program. But when Subversion is using its
@@ -152,7 +152,7 @@ ARGS::
      :"do not cross copies while traversing history"
    ignore_ancestry:{"--ignore-ancestry"}
      :"ignore ancestry when calculating merges"
-   accept:{"--accept"}:{string-enum}:[choices="postpone,base,mine-full,theirs-full,edit,launch"]
+   accept:{"--accept"}:{enum}:[choices="postpone,base,mine-full,theirs-full,edit,launch"]
      :"specify automatic conflict resolution action"
    reintegrate:{"--reintegrate"}
      :"lump-merge all of source URL's unmerged changes"
@@ -160,7 +160,7 @@ ARGS::
      :"try operation but make no changes"
    record_only:{"--record-only"}
      :"mark revisions as merged (use with -r)"
-   show_revs:{"--show-revs"}:{string-enum}:[choices="merged,eligible"]
+   show_revs:{"--show-revs"}:{enum}:[choices="merged,eligible"]
      :"specify which collection of revisions to display"
    revprop:{"--revprop"}
      :"operate on a revision property (use with -r)"
@@ -168,7 +168,7 @@ ARGS::
      :"use strict semantics"
    show_updates:{"-u","--show-updates"}
      :"display update information"
-   set_depth:{"--set-depth"}:{string-enum}:[choices="empty,files,immediates,infinity"]
+   set_depth:{"--set-depth"}:{enum}:[choices="empty,files,immediates,infinity"]
      :"set new working copy depth to ARG ('empty', 'files', 'immediates', or 'infinity')"
    relocate:{"--relocate"}
      :"relocate via URL-rewriting"

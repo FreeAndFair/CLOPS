@@ -24,3 +24,16 @@ valid: {-i ${existing-file} -o ${existing-file}}
 valid: {-i ${existing-file} -o ${existing-dir}}
 invalid: {-o ${existing-file} -i ${existing-dir}}
 invalid: {-i ${non-existent-file} -o ${existing-dir}}
+
+file: dsl/logicsync.clops
+name: LogicSync
+valid: {-h}
+valid: {${existing-file}}
+valid: {${existing-file} -g ${non-existent-file}}
+valid: {${existing-file} -m ${non-existent-file}}
+valid: {${existing-file} -g ${existing-file}}
+valid: {${existing-file} -m ${existing-file}}
+invalid: {${non-existent-file}}
+invalid: {${existing-dir}}
+invalid: {${existing-file} -g ${existing-dir}}
+invalid: {${existing-file} -m ${existing-dir}}

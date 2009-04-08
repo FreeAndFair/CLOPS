@@ -52,7 +52,7 @@ public class DocumentGenerator extends AGenerator {
   }
 
   public void generateBuiltin(File output, Builtin builtin) {
-    System.out.println(builtin);
+    //System.out.println(builtin);
     generate(output, templateLib.get(builtin), EXPLANATION);
   }
 

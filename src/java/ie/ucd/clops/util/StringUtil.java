@@ -1,8 +1,10 @@
 package ie.ucd.clops.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class StringUtil {
@@ -89,10 +91,47 @@ public class StringUtil {
   public static List<String> mkList(final String list) {
     final String[] arr = list.split(",");
     final List<String> res = new ArrayList<String>();
-    for (String s:arr) {
-      res.add(s.trim());
+    if (arr.length == 0) {
+      res.add(list);
+    }
+    else {
+      for (String s:arr) {
+        res.add(s.trim());
+      }
     }
     return res;
   }
 
+  public static Map<String, String> parseChoice(String choice) {
+    final Map<String, String> res = new HashMap<String,String>();
+    int curr = 0;
+    final int len = choice.length();
+    while (curr < len) {
+      final int start = curr; 
+      int comma = choice.indexOf(',', curr);
+      int end = comma;
+      int strAlias = choice.indexOf('{', curr);
+      int endAlias = comma;
+      if (end == -1) {
+        end = len;
+      }
+      if (strAlias != -1 && strAlias < comma) {
+        end = strAlias - 1;
+        strAlias++;
+        endAlias = choice.indexOf('}', curr);
+        if (endAlias == -1) {
+          return null;
+        }
+        
+        comma = choice.indexOf(',', curr);
+      }
+      else {
+        strAlias = start;
+        endAlias = end;
+      }
+      res.put(choice.substring(start, end), choice.substring(strAlias, endAlias));
+      curr = endAlias + 1;
+    }
+    return res;
+  }
 }

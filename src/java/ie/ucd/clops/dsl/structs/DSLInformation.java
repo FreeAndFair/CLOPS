@@ -129,10 +129,10 @@ public class DSLInformation {
   }
   
   public OptionDescription getOptionDescriptionForIdentifier(String id) {
-    OptionDescription od =  optionIdDescriptionMap.get(id);
-    if (od == null) {
-      System.out.println(id);
-    }
+    final OptionDescription od =  optionIdDescriptionMap.get(id);
+//    if (od == null) {
+//      System.out.println(id);
+//    }
     return od;
   }
   

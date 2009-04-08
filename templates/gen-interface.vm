@@ -30,16 +30,24 @@ public interface $info.getParserName()OptionsInterface {
   #set($typename = ${info.getValueTypeClass($desc)})
   #if( "$type.getTypeDescriptionString()" == "enum")
   #set ($choices=$desc.getPropertyValue("choices")) 
-  #set ($list = $StringUtil.mkList($choices)) 
   #set ($typename =  "$desc.getIdentifier()")
-  #set ($options =  ${desc.getPropertyValue("choices").replaceAll(",", ", ").replaceAll(", +", ", ")})
+  #set ($options =  ${StringUtil.parseChoice($desc.getPropertyValue("choices"))})
 
   /**
    * The enumeration type used to represent the string enum option.
    */
   enum  $typename {
-    ${options};
+    #foreach ($o in $options.entrySet())
     
+    ${o.getKey()}("${o.getValue()}")#if($velocityCount != $options.size()),#else;#end#end
+
+    private final String sRepres;
+    private $typename(final String s) {
+      sRepres = s;
+    }
+    public String toString() {
+      return sRepres;
+    }
     /**
      * Returns the option in the enum form from the given
      * String.
@@ -47,10 +55,11 @@ public interface $info.getParserName()OptionsInterface {
      * @return a valid $typename member.
      */
     public static $typename get(final String s) {
-      $typename res = null;#foreach($val in $list)
+      $typename res = null;#foreach($val in $options.entrySet())
+      #set ($tab = $StringUtil.mkList($val.getValue()))
       
-      if (${val}.toString().equals(s)) {
-        res = $val;
+      if (#foreach($s in $tab)"$s".equals(s)#if($velocityCount != $tab.size()) || #end#end) {
+        res = $val.getKey();
       }#end
       
       return res;

@@ -1,0 +1,19 @@
+Version 0.2
+
+- Template name is now taken from the template file, or specified 
+  by the user, or taken from the template file name.
+
+- Added templates:
+  htmldev
+
+- Enhanced templates:
+  html, all the code templates
+
+- string-enum generate a Java enum type
+
+- The option syntax for the command line of CLOPS changed
+
+- Enabled description String for the Name section and the 
+  format section in the DSL 
+
+Version 0.1

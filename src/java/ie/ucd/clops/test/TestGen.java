@@ -86,7 +86,7 @@ public class TestGen {
   private static String processInputString(String input, String existingFile, String existingDir, String nonExistantFile) {
     return input.replaceAll("\\$\\{existing-file\\}", existingFile)
                 .replaceAll("\\$\\{existing-dir\\}", existingDir)
-                .replaceAll("\\$\\{non-existant-file\\}", nonExistantFile);
+                .replaceAll("\\$\\{non-existent-file\\}", nonExistantFile);
   }
 
   private static void generateUnitTests(List<TestSet> tests, String outputDir) {

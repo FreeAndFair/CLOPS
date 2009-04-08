@@ -144,12 +144,11 @@ option_comment  :  STRING_CONSTANT
 /**********************************************/
 
 args_format_section  :  SECTION_FORMAT format_clause  
-                        { getDslInformation().setFormatString($format_clause.text); }
-                        ':'                  
-                        (s=option_comment
+                        { getDslInformation().setFormatString($format_clause.text); }                  
+                        (':' s=option_comment
                               { getDslInformation().setFormatDescription($s.text); }
                    
-                         ';' )? 
+                          )? ';'
                      ;
 
 format_clause  :  format_subclause

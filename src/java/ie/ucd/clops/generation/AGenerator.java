@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
+import java.io.Reader;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,8 +110,12 @@ public abstract class AGenerator {
     if (Velocity.resourceExists(templateFile)) {
       try {
         final Template template = Velocity.getTemplate(templateFile);
-        final File outputFile = getOutputFile(output, templateFile);
+        final InputStreamReader reader = 
+          new InputStreamReader(template.getResourceLoader().getResourceStream(templateFile));
+        final File outputFile = getOutputFile(output, template.getName(), reader);
+
         final FileWriter writer = new FileWriter(outputFile);
+
         template.merge(context, writer);
         writer.close();
         logger.log(Level.INFO,
@@ -121,7 +127,7 @@ public abstract class AGenerator {
            ParseErrorException ResourceNotFoundException
          */
         logger.log(Level.WARNING,
-                   explanationText + " failed:" + e.getLocalizedMessage());
+                   explanationText + " failed: " + e.getLocalizedMessage());
       }
     }
     else {
@@ -131,10 +137,10 @@ public abstract class AGenerator {
 
   }
 
-  private File getOutputFile(File output, String template) throws ResourceNotFoundException, ParseErrorException, Exception {
-    final File templateFile = new File(template);
+  private File getOutputFile(File output, String name, Reader template) throws ResourceNotFoundException, ParseErrorException, Exception {
+
     if (output.isDirectory()) {
-      LineNumberReader lnr = new LineNumberReader(new FileReader(templateFile));
+      LineNumberReader lnr = new LineNumberReader(template);
       final String first = lnr.readLine();
       if (first.startsWith("##!")) {
         final File tmp1 = File.createTempFile("clops", ".tmp", output);
@@ -154,7 +160,6 @@ public abstract class AGenerator {
         return new File(output, tput);
       } 
       else {
-        final String name = templateFile.getName();
         if (name.endsWith(".vm")) {
           return new File(output,
                           name.substring(0, name.length() - ".vm".length()));

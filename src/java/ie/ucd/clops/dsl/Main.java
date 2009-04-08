@@ -9,7 +9,9 @@ import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.generation.CodeGenerator;
 import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,10 +29,12 @@ import org.antlr.runtime.RecognitionException;
 
 /**
  * The main entry point of CLOPS.
- * @author Fintan
+ * @author Fintan (fintanf@gmail.com)
  */
 public class Main {
-
+  /** the parser that will be used to parse the arguments. */
+  private final CLODSLParser parser;
+  
   /** 
    * The main method of this project, runs the dsl parser, 
    * followed by the code generator.
@@ -38,22 +42,14 @@ public class Main {
    * which is generated from the file clo-dsl.clo.
    * See also the target update-dslcli in the build file.
    * @param args the arguments to the program.
+   * @throws InvalidOptionValueException if the arguments have a bad value
+   * @throws AutomatonException if the automaton fails to parse the command line
    */
-  public static void main(final String[] args) throws Exception {
+  public static void main(final String[] args) 
+    throws AutomatonException, InvalidOptionValueException {
     try {
-      final CLODSLParser parser = new CLODSLParser();
-      final boolean success = parser.parse(args);
-      if (success) {
-        final CLODSLOptionStore options = parser.getOptionStore();
-        execute(options);
-      } 
-      else {
-        //Just end?
-        CLOLogger.getLogger().log(
-          Level.SEVERE, "Format:" + parser.getFormatString());
-        CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
-        return;
-      }
+      final Main main = new Main();
+      main.start(args);   
     } 
     catch (InvalidOptionPropertyValueException e) {
       e.printStackTrace();
@@ -62,12 +58,33 @@ public class Main {
     }
   }
   
+
+  
+  public void start(String[] args) throws AutomatonException, InvalidOptionValueException {
+    final boolean success = parser.parse(args);
+    if (success) {
+      final CLODSLOptionStore options = parser.getOptionStore();
+      execute(options);
+    } 
+    else {
+      //Just end?
+      CLOLogger.getLogger().log(
+        Level.SEVERE, "Format:" + parser.getFormatString());
+      CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
+      return;
+    }  
+  }
+
+  public Main() throws InvalidOptionPropertyValueException {
+    parser = new CLODSLParser();    
+  }
+  
   /**
    * Run the dsl parser and code generator. The options supplied will in particular indicate
    * the input file to be used and the output location for the generated code.
    * @param options the parsed options to use for running the program.
    */
-  public static boolean execute(final CLODSLOptionsInterface options) {
+  private boolean execute(final CLODSLOptionsInterface options) {
     if (options.isVerboseSet() && options.getVerbose()) {
       CLOLogger.setLogLevel(Level.FINE);
     }
@@ -135,7 +152,13 @@ public class Main {
    
   }
   
-  private static File getTemplateTarget(CLODSLOptionsInterface options) {
+  /**
+   * Returns the file specified by the target option, or 
+   * the current working directory.
+   * @param options a fully initialized options structure.
+   * @return a valid file or directory
+   */
+  private static File getTemplateTarget(final CLODSLOptionsInterface options) {
     if (options.isTargetSet()) {
       return options.getTarget();
     }
@@ -152,9 +175,7 @@ public class Main {
     final Logger logger = CLOLogger.getLogger();
     try {
       final Class<?> c = Class.forName(factoryName);
-      final Constructor<?>[] constructors = c.getConstructors();
-      assert constructors.length == 1;
-      final Constructor<?> constructor = constructors[0];
+      final Constructor<?> constructor = c.getConstructor();
       final Object o = constructor.newInstance();
       if (o instanceof OptionTypeFactory) {
         final OptionTypeFactory factory = (OptionTypeFactory)o;
@@ -173,21 +194,21 @@ public class Main {
       logger.log(Level.WARNING, 
                  "No class on classpath with name " + factoryName);
     } 
-    catch (IllegalArgumentException e) {
-      logger.log(Level.WARNING, 
-                 "An error occurred when loading the factory " + factoryName);
-    } 
     catch (InstantiationException e) {
       logger.log(Level.WARNING, 
-                 "An error occurred when loading the factory " + factoryName);
+                 "I didn't manage to instanciate the object " + factoryName + ".");
     } 
     catch (IllegalAccessException e) {
       logger.log(Level.WARNING, 
-                 "An error occurred when loading the factory " + factoryName);
+                 "The constructor of " + factoryName + " has a bad visibility!");
     }
     catch (InvocationTargetException e) {
       logger.log(Level.WARNING, 
-                 "An error occurred when loading the factory " + factoryName);
+                 "I didn't manage to execute the constructor " + factoryName + ".");
+    }
+    catch (NoSuchMethodException e) {
+      logger.log(Level.WARNING, 
+                 "The factory " + factoryName + " has no default constructor!");
     }
   }
   

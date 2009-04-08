@@ -42,9 +42,9 @@ public class DSLInformation {
   /** the structure containing correspondence between classes long and short names. */
   private NameDict dict = new NameDict();
 
-  private String description;
+  private String description = "";
 
-  private String formatDesc;
+  private String formatDesc = "";
   
   public DSLInformation() {
     optionDescriptions = new LinkedList<OptionDescription>();

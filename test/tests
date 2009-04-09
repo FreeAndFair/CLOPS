@@ -37,3 +37,8 @@ invalid: {${non-existent-file}}
 invalid: {${existing-dir}}
 invalid: {${existing-file} -g ${existing-dir}}
 invalid: {${existing-file} -m ${existing-dir}}
+
+file:dsl/tail.clo
+name: Tail
+valid: {--retry}
+

@@ -91,30 +91,41 @@ public interface CLODSLOptionsInterface {
    * The enumeration type used to represent the string enum option.
    */
   enum  Builtin {
-    htmldev, html, manpage, usage, help;
-    
+        
+    help("help"),    
+    manpage("manpage"),    
+    usage("usage"),    
+    html("html"),    
+    htmldev("htmldev");
+    private final String sRepres;
+    private Builtin(final String s) {
+      sRepres = s;
+    }
+    public String toString() {
+      return sRepres;
+    }
     /**
      * Returns the option in the enum form from the given
      * String.
-     * @param s one of the following string: [htmldev, html, manpage, usage, help]
+     * @param s one of the following string: [{help=help, manpage=manpage, usage=usage, html=html, htmldev=htmldev}]
      * @return a valid Builtin member.
      */
     public static Builtin get(final String s) {
       Builtin res = null;      
-      if (htmldev.toString().equals(s)) {
-        res = htmldev;
+      if ("help".equals(s)) {
+        res = help;
       }      
-      if (html.toString().equals(s)) {
-        res = html;
-      }      
-      if (manpage.toString().equals(s)) {
+      if ("manpage".equals(s)) {
         res = manpage;
       }      
-      if (usage.toString().equals(s)) {
+      if ("usage".equals(s)) {
         res = usage;
       }      
-      if (help.toString().equals(s)) {
-        res = help;
+      if ("html".equals(s)) {
+        res = html;
+      }      
+      if ("htmldev".equals(s)) {
+        res = htmldev;
       }      
       return res;
     }

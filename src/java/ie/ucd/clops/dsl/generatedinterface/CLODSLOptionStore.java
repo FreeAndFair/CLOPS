@@ -94,6 +94,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOptionGroup(ogTemplates);
     final OptionGroup ogAdvanced = new OptionGroup("Advanced");
     addOptionGroup(ogAdvanced);
+    final OptionGroup ogAllOptions = new OptionGroup("AllOptions");
+    addOptionGroup(ogAllOptions);
+    
     //Setup groupings
     ogAll.addOptionOrGroup(ogBase);
     ogAll.addOptionOrGroup(ogAdvanced);
@@ -109,6 +112,19 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAdvanced.addOptionOrGroup(ogOptionFactory);
     ogAdvanced.addOptionOrGroup(ogTransitiveFlyRules);
     ogAdvanced.addOptionOrGroup(ogInfiniteLookahead);
+    //AllOptions group
+    ogAllOptions.addOptionOrGroup(ogOutput);
+    ogAllOptions.addOptionOrGroup(ogTest);
+    ogAllOptions.addOptionOrGroup(ogOutputPackage);
+    ogAllOptions.addOptionOrGroup(ogDocs);
+    ogAllOptions.addOptionOrGroup(ogBuiltin);
+    ogAllOptions.addOptionOrGroup(ogCustom);
+    ogAllOptions.addOptionOrGroup(ogTarget);
+    ogAllOptions.addOptionOrGroup(ogVerbose);
+    ogAllOptions.addOptionOrGroup(ogOptionFactory);
+    ogAllOptions.addOptionOrGroup(ogTransitiveFlyRules);
+    ogAllOptions.addOptionOrGroup(ogInfiniteLookahead);
+    ogAllOptions.addOptionOrGroup(ogInput);
   }
   
 // Option Output.

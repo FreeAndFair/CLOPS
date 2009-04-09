@@ -217,7 +217,7 @@ public class DSLInformation {
     }
   
     private static boolean isPrimitive(String clzz) {
-      return clzz.equals("boolean");
+      return clzz.equals("boolean") || clzz.equals("int") || clzz.equals("float") || clzz.equals("double") || clzz.equals("long") || clzz.equals("short") || clzz.equals("byte") || clzz.equals("char");
     }
   }
   

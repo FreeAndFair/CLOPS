@@ -26,7 +26,6 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
-
 /**
  * The main entry point of CLOPS.
  * @author Fintan (fintanf@gmail.com)
@@ -130,22 +129,18 @@ public class Main {
                               "Created code in " + output.getAbsolutePath());    
 
     if (options.isDocsSet() || 
-        options.isBuiltinSet() || 
-        options.isCustomSet()) {
+        options.getBuiltin().size() > 0 || 
+        options.getCustom().size() > 0) {
       // we are doing some template generation
       
       final File target = getTemplateTarget(options);
       
       // Generate Documentation
-      if (options.isDocsSet()) {
+      if (options.isDocsSet() && options.getDocs()) {
         docs.generateDefault(target);
       }
-      if (options.isBuiltinSet()) {
-        docs.generateBuiltin(target, options.getBuiltin());
-      }
-      if (options.isCustomSet()) {
-        docs.generateCustom(target, options.getCustom());
-      }
+      docs.generateBuiltin(output, options.getBuiltin());
+      docs.generateCustom(target, options.getCustom());
     }
     
     return true;

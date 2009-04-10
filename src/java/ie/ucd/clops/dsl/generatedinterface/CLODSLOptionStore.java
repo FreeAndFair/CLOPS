@@ -6,9 +6,9 @@ import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 import java.util.List;
 import java.io.File;
-import ie.ucd.clops.runtime.options.EnumOption;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.FileOption;
+import ie.ucd.clops.runtime.options.EnumListOption;
 import ie.ucd.clops.runtime.options.StringOption;
 import ie.ucd.clops.runtime.options.FileListOption;
 
@@ -18,7 +18,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final BooleanOption ogTest;
   private final StringOption ogOutputPackage;
   private final BooleanOption ogDocs;
-  private final EnumOption ogBuiltin;
+  private final EnumListOption ogBuiltin;
   private final FileListOption ogCustom;
   private final FileOption ogTarget;
   private final BooleanOption ogVerbose;
@@ -48,7 +48,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
     addOption(ogDocs);
     ogDocs.setProperty("description", "Use a default documentation template for generation.");
-    ogBuiltin = new EnumOption("Builtin", "(?:-b)|(?:--built-in)");
+    ogBuiltin = new EnumListOption("Builtin", "(?:-b)|(?:--built-in)");
     addOption(ogBuiltin);
     ogBuiltin.setProperty("choices", "htmldev,html,manpage,usage,help");
     ogBuiltin.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
@@ -137,9 +137,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOutput.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public File getOutput() {    return ogOutput.getValue();   }
+  public File getOutput() {
+    return ogOutput.getValue();
+  }
 
   /** {@inheritDoc} */
   public File getRawOutput() {
@@ -160,9 +161,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTest.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public boolean getTest() {    return ogTest.getValue();   }
+  public boolean getTest() {
+    return ogTest.getValue();
+  }
 
   /** {@inheritDoc} */
   public boolean getRawTest() {
@@ -183,9 +185,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOutputPackage.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public String getOutputPackage() {    return ogOutputPackage.getValue();   }
+  public String getOutputPackage() {
+    return ogOutputPackage.getValue();
+  }
 
   /** {@inheritDoc} */
   public String getRawOutputPackage() {
@@ -206,9 +209,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogDocs.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public boolean getDocs() {    return ogDocs.getValue();   }
+  public boolean getDocs() {
+    return ogDocs.getValue();
+  }
 
   /** {@inheritDoc} */
   public boolean getRawDocs() {
@@ -229,19 +233,18 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogBuiltin.hasValue();
   }
   
-     
-    
+
   /** {@inheritDoc} */
-  public Builtin getBuiltin() {  
-    return Builtin.get(ogBuiltin.getValue()); 
+  public List<Builtin> getBuiltin() {
+    return Builtin.get(ogBuiltin.getValue());
   }
 
   /** {@inheritDoc} */
-  public String getRawBuiltin() {
+  public List<String> getRawBuiltin() {
     return ogBuiltin.getRawValue();
   }
   
-  public EnumOption getBuiltinOption() {
+  public EnumListOption getBuiltinOption() {
     return ogBuiltin;
   }
   
@@ -255,9 +258,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogCustom.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public List<java.io.File> getCustom() {    return ogCustom.getValue();   }
+  public List<java.io.File> getCustom() {
+    return ogCustom.getValue();
+  }
 
   /** {@inheritDoc} */
   public List<java.io.File> getRawCustom() {
@@ -278,9 +282,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTarget.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public File getTarget() {    return ogTarget.getValue();   }
+  public File getTarget() {
+    return ogTarget.getValue();
+  }
 
   /** {@inheritDoc} */
   public File getRawTarget() {
@@ -301,9 +306,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogVerbose.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public boolean getVerbose() {    return ogVerbose.getValue();   }
+  public boolean getVerbose() {
+    return ogVerbose.getValue();
+  }
 
   /** {@inheritDoc} */
   public boolean getRawVerbose() {
@@ -324,9 +330,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOptionFactory.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public String getOptionFactory() {    return ogOptionFactory.getValue();   }
+  public String getOptionFactory() {
+    return ogOptionFactory.getValue();
+  }
 
   /** {@inheritDoc} */
   public String getRawOptionFactory() {
@@ -347,9 +354,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTransitiveFlyRules.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public boolean getTransitiveFlyRules() {    return ogTransitiveFlyRules.getValue();   }
+  public boolean getTransitiveFlyRules() {
+    return ogTransitiveFlyRules.getValue();
+  }
 
   /** {@inheritDoc} */
   public boolean getRawTransitiveFlyRules() {
@@ -370,9 +378,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogInfiniteLookahead.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public boolean getInfiniteLookahead() {    return ogInfiniteLookahead.getValue();   }
+  public boolean getInfiniteLookahead() {
+    return ogInfiniteLookahead.getValue();
+  }
 
   /** {@inheritDoc} */
   public boolean getRawInfiniteLookahead() {
@@ -393,9 +402,10 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogInput.hasValue();
   }
   
-       
   /** {@inheritDoc} */
-  public File getInput() {    return ogInput.getValue();   }
+  public File getInput() {
+    return ogInput.getValue();
+  }
 
   /** {@inheritDoc} */
   public File getRawInput() {

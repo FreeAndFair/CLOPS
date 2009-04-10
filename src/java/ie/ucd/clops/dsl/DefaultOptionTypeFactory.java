@@ -24,6 +24,7 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
   public static final OptionType FILE = new OptionType("file", "ie.ucd.clops.runtime.options.FileOption", "java.io.File", "java.io.File");
   public static final OptionType STRING_REGEXP = new OptionType("string-regexp", "ie.ucd.clops.runtime.options.RegularExpressionStringOption", "String", "String");
   public static final OptionType ENUM = new OptionType("enum", "ie.ucd.clops.runtime.options.EnumOption", "String", "String");
+  public static final OptionType ENUM_LIST = new OptionType("enum-list", "ie.ucd.clops.runtime.options.EnumListOption", "java.util.List<String>", "java.util.List<String>");
   public static final OptionType STRING_LIST = new OptionType("string-list", "ie.ucd.clops.runtime.options.StringListOption", "java.util.List<String>", "java.util.List<String>");
   public static final OptionType FILE_LIST = new OptionType("file-list", "ie.ucd.clops.runtime.options.FileListOption", "java.util.List<java.io.File>", "java.util.List<java.io.File>");
   
@@ -38,7 +39,7 @@ public class DefaultOptionTypeFactory extends OptionTypeFactory {
     optionTypeMap.put(name, type);
   }
   
-  private static final OptionType[] BUILT_INS = {BOOLEAN, COUNTED_BOOLEAN, STRING, INTEGER, FLOAT, FILE, ENUM, STRING_REGEXP, STRING_LIST, FILE_LIST};
+  private static final OptionType[] BUILT_INS = {BOOLEAN, COUNTED_BOOLEAN, STRING, INTEGER, FLOAT, FILE, ENUM, ENUM_LIST, STRING_REGEXP, STRING_LIST, FILE_LIST};
   private void initialise() {
     for (OptionType type : BUILT_INS) {
       registerOptionType(type.getTypeDescriptionString(), type);

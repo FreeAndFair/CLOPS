@@ -27,18 +27,17 @@ public interface $info.getParserName()OptionsInterface {
    * in the command line.
    */
   boolean is$desc.getIdentifier()Set();
-  #set($typename = ${info.getValueTypeClass($desc)})
-  #if( "$type.getTypeDescriptionString()" == "enum")
-  #set ($choices=$desc.getPropertyValue("choices")) 
-  #set ($typename =  "$desc.getIdentifier()")
-  #set ($options =  ${StringUtil.parseChoice($desc.getPropertyValue("choices"))})
+#set($typename = ${info.getValueTypeClass($desc)})
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumOption"))
+#set ($choices=$desc.getPropertyValue("choices")) 
+#set ($typename =  "$desc.getIdentifier()")
+#set ($options =  ${StringUtil.parseChoice($desc.getPropertyValue("choices"))})
 
   /**
    * The enumeration type used to represent the string enum option.
    */
   enum  $typename {
-    #foreach ($o in $options.entrySet())
-    
+#foreach ($o in $options.entrySet())    
     ${o.getKey()}("${o.getValue()}")#if($velocityCount != $options.size()),#else;#end#end
 
     private final String sRepres;
@@ -51,28 +50,44 @@ public interface $info.getParserName()OptionsInterface {
     /**
      * Returns the option in the enum form from the given
      * String.
-     * @param s one of the following string: [$options]
+     * @param s one of the following strings: [$options]
      * @return a valid $typename member.
      */
     public static $typename get(final String s) {
       $typename res = null;#foreach($val in $options.entrySet())
-      #set ($tab = $StringUtil.mkList($val.getValue()))
+#set ($tab = $StringUtil.mkList($val.getValue()))
       
       if (#foreach($s in $tab)"$s".equals(s)#if($velocityCount != $tab.size()) || #end#end) {
         res = $val.getKey();
-      }#end
-      
+      }
+#end      
       return res;
     }
+    
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumListOption"))
+    public static List<$desc.getIdentifier()> get(final List<String> ss) {
+      List<$desc.getIdentifier()> res = new java.util.ArrayList<$desc.getIdentifier()>(ss.size());
+      for (String s : ss) {
+        res.add(get(s));
+      }
+      return res;
+    }
+    
+#end
   }
-  #end
+#end
 
   /**
    * Get the value of {@code Option} $desc.getIdentifier().
    * @return the value of the option $desc.getIdentifier() if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  $typename get$desc.getIdentifier()();
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumListOption"))
+#set ($returntype = "List<$typename>")
+#else
+#set ($returntype = $typename)
+#end
+  $returntype get$desc.getIdentifier()();
   
 #end
 }

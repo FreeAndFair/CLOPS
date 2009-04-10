@@ -18,7 +18,7 @@ import java.util.List;
 public class OptionType {
 
   private static int count = 0; // counter used for unique identifiers of options types
-  
+
   private final int type; // a unique identifier of this type
   private String typeDescriptionString;
   private String optionTypeClass;
@@ -42,19 +42,19 @@ public class OptionType {
     this.optionValueTypeClass = optionValueTypeClass;
     this.optionValueTypeParameterisation = optionValueTypeParameterisation;
   }
-  
+
   public int getType() {
     return type;
   }  
-  
+
   public String toString() {
     return "Type: " + type + "(" + typeDescriptionString + ")"; 
   }
-  
+
   public String getTypeDescriptionString() {
     return typeDescriptionString;
   }
-  
+
   public String getOptionTypeClass() {
     return optionTypeClass;
   }
@@ -62,7 +62,7 @@ public class OptionType {
   public String getOptionValueTypeClass() {
     return optionValueTypeClass;
   }
-  
+
   public String getOptionValueTypeParameterisation() {
     return optionValueTypeParameterisation;
   }
@@ -85,7 +85,7 @@ public class OptionType {
     if (regexps.size() == 0) {
       return "";
     } else {
-      
+
       StringBuilder sb = new StringBuilder();
       for (String s : regexps) {
         sb.append("|(?:");
@@ -95,5 +95,17 @@ public class OptionType {
       return sb.toString().substring(1);
     }
   }
-  
+
+  public boolean implementsInterface(String interfaceName) {
+    try {
+      Class<?> clazz = Class.forName(optionTypeClass);
+      Class<?> face = Class.forName(interfaceName);
+      return face.isAssignableFrom(clazz);
+    } catch (ClassNotFoundException cnfe) {
+      //TODO Log error!
+      System.out.println("ClassNotFoundException: " + cnfe);
+      cnfe.printStackTrace();
+      return false;
+    }
+  }
 }

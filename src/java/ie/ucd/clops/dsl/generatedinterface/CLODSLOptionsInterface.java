@@ -18,7 +18,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isOutputSet();
-    
+
   /**
    * Get the value of {@code Option} Output.
    * @return the value of the option Output if it has been set
@@ -35,7 +35,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isTestSet();
-    
+
   /**
    * Get the value of {@code Option} Test.
    * @return the value of the option Test if it has been set
@@ -52,7 +52,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isOutputPackageSet();
-    
+
   /**
    * Get the value of {@code Option} OutputPackage.
    * @return the value of the option OutputPackage if it has been set
@@ -69,7 +69,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isDocsSet();
-    
+
   /**
    * Get the value of {@code Option} Docs.
    * @return the value of the option Docs if it has been set
@@ -86,17 +86,12 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isBuiltinSet();
-    
+
   /**
    * The enumeration type used to represent the string enum option.
    */
   enum  Builtin {
-        
-    help("help"),    
-    manpage("manpage"),    
-    usage("usage"),    
-    html("html"),    
-    htmldev("htmldev");
+    help("help"),    manpage("manpage"),    usage("usage"),    html("html"),    htmldev("htmldev");
     private final String sRepres;
     private Builtin(final String s) {
       sRepres = s;
@@ -107,36 +102,49 @@ public interface CLODSLOptionsInterface {
     /**
      * Returns the option in the enum form from the given
      * String.
-     * @param s one of the following string: [{help=help, manpage=manpage, usage=usage, html=html, htmldev=htmldev}]
+     * @param s one of the following strings: [{help=help, manpage=manpage, usage=usage, html=html, htmldev=htmldev}]
      * @return a valid Builtin member.
      */
     public static Builtin get(final String s) {
       Builtin res = null;      
       if ("help".equals(s)) {
         res = help;
-      }      
+      }
+      
       if ("manpage".equals(s)) {
         res = manpage;
-      }      
+      }
+      
       if ("usage".equals(s)) {
         res = usage;
-      }      
+      }
+      
       if ("html".equals(s)) {
         res = html;
-      }      
+      }
+      
       if ("htmldev".equals(s)) {
         res = htmldev;
-      }      
+      }
       return res;
     }
+    
+    public static List<Builtin> get(final List<String> ss) {
+      List<Builtin> res = new java.util.ArrayList<Builtin>(ss.size());
+      for (String s : ss) {
+        res.add(get(s));
+      }
+      return res;
+    }
+    
   }
-  
+
   /**
    * Get the value of {@code Option} Builtin.
    * @return the value of the option Builtin if it has been set
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
-  Builtin getBuiltin();
+  List<Builtin> getBuiltin();
   
 
 // Option Custom. 
@@ -147,7 +155,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isCustomSet();
-    
+
   /**
    * Get the value of {@code Option} Custom.
    * @return the value of the option Custom if it has been set
@@ -164,7 +172,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isTargetSet();
-    
+
   /**
    * Get the value of {@code Option} Target.
    * @return the value of the option Target if it has been set
@@ -181,7 +189,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isVerboseSet();
-    
+
   /**
    * Get the value of {@code Option} Verbose.
    * @return the value of the option Verbose if it has been set
@@ -198,7 +206,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isOptionFactorySet();
-    
+
   /**
    * Get the value of {@code Option} OptionFactory.
    * @return the value of the option OptionFactory if it has been set
@@ -215,7 +223,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isTransitiveFlyRulesSet();
-    
+
   /**
    * Get the value of {@code Option} TransitiveFlyRules.
    * @return the value of the option TransitiveFlyRules if it has been set
@@ -232,7 +240,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isInfiniteLookaheadSet();
-    
+
   /**
    * Get the value of {@code Option} InfiniteLookahead.
    * @return the value of the option InfiniteLookahead if it has been set
@@ -249,7 +257,7 @@ public interface CLODSLOptionsInterface {
    * in the command line.
    */
   boolean isInputSet();
-    
+
   /**
    * Get the value of {@code Option} Input.
    * @return the value of the option Input if it has been set

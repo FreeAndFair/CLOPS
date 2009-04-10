@@ -51,11 +51,11 @@ public class DocumentGenerator extends AGenerator {
     
   }
 
-  public void generateBuiltin(File output, Builtin builtin) {
-    //System.out.println(builtin);
-    generate(output, templateLib.get(builtin), EXPLANATION);
+  public void generateBuiltin(File output, List<Builtin> builtins) {
+    for (Builtin builtin : builtins) {
+      generate(output, templateLib.get(builtin), EXPLANATION);
+    }
   }
-
 
   public void generateCustom(File output, List<File> customz) {
     for (File f: customz) {

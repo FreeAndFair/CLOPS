@@ -3,39 +3,55 @@ package ie.ucd.clops.runtime.options;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
-/**
- * 
- * An option whose value is one of a given finite set of strings.
- * These string are given in the property "choices" and the value is a
- * comma-separated list of the individual values. The spaces are
- * preserved
- * @author Fintan
- *
- */
-public class EnumOption extends StringOption implements IEnumOption {
+public class EnumListOption extends StringListOption implements IEnumListOption {
 
   private final Set<String> choices;
   private boolean caseSensitive;
-  
-  public EnumOption(String identifier, String prefix) {
+
+  public EnumListOption(String identifier, String prefix) {
     super(identifier, prefix);
     choices = new HashSet<String>();
     caseSensitive = false;
   }
 
-  public void addEnumChoice(String choice) {
-    choices.add(choice);
+  @Override
+  public void setFromString(String valueString) throws InvalidOptionValueException {
+    if (isValidValue(valueString)) {
+      super.setFromString(valueString);
+    } else {
+      throw new InvalidOptionValueException(valueString + " is not an allowed choice.");
+    }    
   }
 
   @Override
-  public void set(String value) throws InvalidOptionValueException {
-    if (isValidValue(value)) {
+  public void set(List<String> value) throws InvalidOptionValueException {
+    List<String> invalidValues = new LinkedList<String>();
+    for (String v : value) {
+      if (!isValidValue(v)) {
+        invalidValues.add(v);
+      }
+    }
+    if (invalidValues.size() == 0) {
       super.set(value);
     } else {
-      throw new InvalidOptionValueException(value + " is not an allowed choice.");
-    } 
+      if (invalidValues.size() == 1) {
+        throw new InvalidOptionValueException(invalidValues.get(0) + " is not an valid choice.");
+      } else {
+        throw new InvalidOptionValueException(invalidValues + " are not valid choices.");
+      }
+    }
+  }
+
+  public boolean isValidValue(String value) {
+    return EnumOption.isValidValue(value, choices, caseSensitive);
+  }
+
+  @Override
+  protected String getTypeString() {
+    return "EnumList";
   }
 
   //Static for space/time efficiency (we don't need one per instance) 
@@ -43,18 +59,12 @@ public class EnumOption extends StringOption implements IEnumOption {
   protected static Collection<String> getStaticAcceptedPropertyNames() {
     if (acceptedPropertyNames == null) {
       acceptedPropertyNames = new LinkedList<String>();  
-      acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
+      acceptedPropertyNames.addAll(StringListOption.getStaticAcceptedPropertyNames());
       acceptedPropertyNames.add("choices");
       acceptedPropertyNames.add("casesensitive");
     }
     return acceptedPropertyNames;
   }
-  
-  @Override
-  public Collection<String> getAcceptedPropertyNames() {
-    return getStaticAcceptedPropertyNames();
-  }
-  
   
   @Override
   public void setProperty(String propertyName, String propertyValue)
@@ -72,22 +82,8 @@ public class EnumOption extends StringOption implements IEnumOption {
   }
 
   @Override
-  protected String getTypeString() {
-    return "StringEnum";
-  } 
-  
-  public boolean isValidValue(String value) {
-    return isValidValue(value, choices, caseSensitive);
+  public Collection<String> getAcceptedPropertyNames() {
+    return getStaticAcceptedPropertyNames();
   }
-  
-  public static boolean isValidValue(String value, Set<String> choices, boolean caseSensitive) {
-    for (String choice : choices) {
-      if ((caseSensitive && choice.equals(value)) || 
-          choice.equalsIgnoreCase(value)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  
+
 }

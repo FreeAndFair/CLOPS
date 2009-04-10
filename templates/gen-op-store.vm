@@ -87,18 +87,23 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
     return og${id}.hasValue();
   }
   
-   #set($typename = $info.getValueTypeClass($desc))
-  #if( "$type.getTypeDescriptionString()" == "enum")
-    #set ($typename =  "$desc.getIdentifier()")
+#set($typename = $info.getValueTypeClass($desc))
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumOption"))
+#set ($typename =  "$desc.getIdentifier()")
 
-  #end
-  
-  /** {@inheritDoc} */
-  public $typename get${id}() {#if( "$type.getTypeDescriptionString()" == "enum")
-  
-    return ${typename}.get(og${id}.getValue()); 
+#end
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumListOption"))
+#set ($returntype = "List<$typename>")
 #else
-    return og${id}.getValue(); #end
+#set ($returntype = $typename)
+#end  
+  /** {@inheritDoc} */
+  public $returntype get${id}() {
+#if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumOption"))  
+    return ${typename}.get(og${id}.getValue());
+#else
+    return og${id}.getValue();
+#end
   }
 
   /** {@inheritDoc} */

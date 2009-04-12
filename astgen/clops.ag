@@ -1,0 +1,4 @@
+
+WhereClause = String! groupName, List<OptionGroupChild> children;
+OptionGroupChild = String! name, Boolean! add;
+

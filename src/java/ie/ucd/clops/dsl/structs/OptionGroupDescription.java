@@ -2,11 +2,13 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.structs.ast.OptionGroupChild;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * AST-like information about an option group as specified in the CLOPS DSL.
@@ -16,15 +18,20 @@ import java.util.List;
 public class OptionGroupDescription implements OptionDescription {
 
   private final String identifier;
-  private final Collection<String> children;
+  
+  private Set<OptionGroupChild> children;
+  
+  private boolean isExpanded;
 
   public OptionGroupDescription(String identifier) {
     this.identifier = identifier;
-    this.children = new ArrayList<String>();
+    this.children = new HashSet<OptionGroupChild>();
+    
+    isExpanded = false;
   }
 
-  public void addChild(String child) {
-    children.add(child.replaceAll("-", "_"));
+  public void addChild(OptionGroupChild child) {
+    children.add(child);
   }
 
   /**
@@ -37,7 +44,7 @@ public class OptionGroupDescription implements OptionDescription {
   /**
    * @return the identifiers of the sub-groups/options in this option group
    */
-  public Collection<String> getChildren() {
+  public Set<OptionGroupChild> getChildren() {
     return children;
   }
 
@@ -46,7 +53,7 @@ public class OptionGroupDescription implements OptionDescription {
     sb.append("Group ");
     sb.append(identifier);
     sb.append(", children: ");
-    for (String child : children) {
+    for (OptionGroupChild child : children) {
       sb.append(child);
       sb.append(", ");
     }
@@ -68,7 +75,7 @@ public class OptionGroupDescription implements OptionDescription {
   @Override
   public String getDescription() {
     final StringBuilder sb = new StringBuilder();
-    for (String child : children) {
+    for (OptionGroupChild child : children) {
       sb.append(child);
       sb.append(", ");
     }
@@ -113,5 +120,38 @@ public class OptionGroupDescription implements OptionDescription {
 
   @Override
   public void setType(OptionType type) {
+  }
+  
+  public void expand(Map<String,OptionDescription> optionNameMap, Map<String,OptionGroupDescription> optionGroupNameMap) {
+    if (isExpanded) {
+      return;
+    }
+    //System.out.println("Before: " + children);
+    Set<OptionGroupChild> newChildren = new HashSet<OptionGroupChild>();
+    Set<OptionGroupChild> newChildrenRemoves = new HashSet<OptionGroupChild>();
+    for (OptionGroupChild child : children) {
+      OptionDescription op = optionNameMap.get(child.getName());
+      if (op != null) {
+        if (child.getAdd()) {
+          newChildren.add(child);
+        } else {
+          newChildrenRemoves.add(child);
+        }
+      } else {
+        OptionGroupDescription opGroup = optionGroupNameMap.get(child.getName());
+        if (opGroup != null) {
+          opGroup.expand(optionNameMap, optionGroupNameMap);
+          if (child.getAdd()) {
+            newChildren.addAll(opGroup.getChildren());
+          } else {
+            newChildrenRemoves.addAll(opGroup.getChildren());
+          }
+        }
+      }
+    }
+    newChildren.removeAll(newChildrenRemoves);
+    this.children = newChildren;
+    this.isExpanded = true;
+//    System.out.println("Updated " + identifier + " to " + children);
   }
 }

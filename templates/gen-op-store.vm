@@ -63,7 +63,7 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #foreach($desc in $info.getOptionGroupDescriptions())
 #foreach($child in $desc.getChildren())
 #set($id = $desc.getIdentifier())
-    og${id}.addOptionOrGroup(og${child});
+    og${id}.addOptionOrGroup(og${child.getName()});
 #end
 #end
     //AllOptions group

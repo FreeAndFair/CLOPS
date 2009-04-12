@@ -9,10 +9,14 @@ options {
   package ie.ucd.clops.dsl.parser; 
   
   import ie.ucd.clops.dsl.structs.*;
+  import ie.ucd.clops.dsl.structs.ast.*;
   import ie.ucd.clops.dsl.OptionTypeFactory;
   import ie.ucd.clops.dsl.OptionType;
   import ie.ucd.clops.dsl.UnknownOptionTypeException;
   import ie.ucd.clops.dsl.parser.DSLParseException;
+  
+  import java.util.LinkedList;
+  import java.util.List;
 }
 
 @lexer::header {
@@ -173,14 +177,29 @@ repetition_operator  : '*' | '+' | '?'
 where_section  :  SECTION_WHERE (where_clause)*
                ;
 
-where_clause  :  group=NAME
-                 { OptionGroupDescription opGroup = new OptionGroupDescription($group.text); } 
-                 ':' child1=NAME
-                 { opGroup.addChild($child1.text); }  
-                 (('OR'|'|') child=NAME { opGroup.addChild($child.text); } )* 
-                 { getDslInformation().addOptionGroupDescription(opGroup); }
-                 ';'
-              ;
+where_clause returns [WhereClause clause] :  
+  group=NAME
+  { OptionGroupDescription opGroup = new OptionGroupDescription($group.text); 
+    List<OptionGroupChild> children = new LinkedList<OptionGroupChild>();    } 
+  ':' 
+  ( child
+    { opGroup.addChild($child.child);
+      children.add($child.child);     }
+  )+   
+  
+  { getDslInformation().addOptionGroupDescription(opGroup); }
+  { $clause = WhereClause.mk($group.text, children); }
+  ';'
+;
+
+child returns [OptionGroupChild child] :    
+  ( '-' NAME 
+    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), false); } 
+  )
+| ( ('+'|'OR'|'|')? NAME
+    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), true); } 
+  )
+;
 
 /**********************************************/
 

@@ -293,6 +293,17 @@
       <arg value="${astgen-dir}/tpl/normal_classes.tpl" />
     </java>
   </target>
+	
+	<target name="astgen" depends="init" description="generates AST">
+	    <echo message="Running AST Gen"/>
+	    <java fork="yes" dir="src/java/ie/ucd/clops/dsl/structs/ast" jar="lib/astgen.jar">
+	      <arg value="-b"/>
+	      <arg value="BaseAST"/>
+	      <arg value="-Dpkg=ie.ucd.clops.dsl.structs.ast" />
+	      <arg value="${astgen-dir}/clops.ag" />
+	      <arg value="${astgen-dir}/tpl/normal_classes.tpl" />
+	    </java>
+	  </target>
   
   <target name="test-buildAntlr">
     <echo message="Running antlr"/>

@@ -1,6 +1,8 @@
 package ie.ucd.clops.dsl.structs;
 
 
+import ie.ucd.clops.dsl.structs.ast.OptionGroupChild;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -240,9 +242,13 @@ public class DSLInformation {
     setFormatString(formatString.replaceAll("\\n", " "));
     processPlaceholders();
     dict.computeImports(getOptionDescriptions());
+    
+    //TODO Create and add AllOptionsGroup
+    //TODO Only expand and include groups that are in format string?
     for (OptionGroupDescription og : optionGroupDescriptions) {
       og.expand(optionNameMap, optionGroupNameMap);
     }
+    
     isPacked = true;
     
   }

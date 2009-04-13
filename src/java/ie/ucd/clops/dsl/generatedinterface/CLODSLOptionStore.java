@@ -100,26 +100,26 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     //Setup groupings
     ogAll.addOptionOrGroup(ogOutputPackage);
     ogAll.addOptionOrGroup(ogVerbose);
-    ogAll.addOptionOrGroup(ogOptionFactory);
-    ogAll.addOptionOrGroup(ogTransitiveFlyRules);
-    ogAll.addOptionOrGroup(ogTarget);
     ogAll.addOptionOrGroup(ogTest);
-    ogAll.addOptionOrGroup(ogDocs);
-    ogAll.addOptionOrGroup(ogCustom);
+    ogAll.addOptionOrGroup(ogOptionFactory);
+    ogAll.addOptionOrGroup(ogTarget);
     ogAll.addOptionOrGroup(ogBuiltin);
-    ogAll.addOptionOrGroup(ogOutput);
     ogAll.addOptionOrGroup(ogInfiniteLookahead);
+    ogAll.addOptionOrGroup(ogOutput);
+    ogAll.addOptionOrGroup(ogCustom);
+    ogAll.addOptionOrGroup(ogTransitiveFlyRules);
+    ogAll.addOptionOrGroup(ogDocs);
     ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);
-    ogTemplates.addOptionOrGroup(ogDocs);
     ogTemplates.addOptionOrGroup(ogBuiltin);
     ogTemplates.addOptionOrGroup(ogCustom);
+    ogTemplates.addOptionOrGroup(ogDocs);
     ogAdvanced.addOptionOrGroup(ogOptionFactory);
-    ogAdvanced.addOptionOrGroup(ogTransitiveFlyRules);
     ogAdvanced.addOptionOrGroup(ogInfiniteLookahead);
+    ogAdvanced.addOptionOrGroup(ogTransitiveFlyRules);
     //AllOptions group
     ogAllOptions.addOptionOrGroup(ogOutput);
     ogAllOptions.addOptionOrGroup(ogTest);

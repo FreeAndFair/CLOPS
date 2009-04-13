@@ -19,19 +19,22 @@ public class OptionGroupDescription implements OptionDescription {
 
   private final String identifier;
   
-  private Set<OptionGroupChild> children;
+  private Set<OptionGroupChild> ogChildren;
+  private final Set<String> children;
   
   private boolean isExpanded;
 
   public OptionGroupDescription(String identifier) {
     this.identifier = identifier;
-    this.children = new HashSet<OptionGroupChild>();
+    this.ogChildren = new HashSet<OptionGroupChild>();
+    
+    this.children = new HashSet<String>();
     
     isExpanded = false;
   }
 
   public void addChild(OptionGroupChild child) {
-    children.add(child);
+    ogChildren.add(child);
   }
 
   /**
@@ -44,7 +47,7 @@ public class OptionGroupDescription implements OptionDescription {
   /**
    * @return the identifiers of the sub-groups/options in this option group
    */
-  public Set<OptionGroupChild> getChildren() {
+  public Set<String> getChildren() {
     return children;
   }
 
@@ -53,11 +56,11 @@ public class OptionGroupDescription implements OptionDescription {
     sb.append("Group ");
     sb.append(identifier);
     sb.append(", children: ");
-    for (OptionGroupChild child : children) {
+    for (OptionGroupChild child : ogChildren) {
       sb.append(child);
       sb.append(", ");
     }
-    if (children.size() > 0) {
+    if (ogChildren.size() > 0) {
       sb.delete(sb.length() - 2, sb.length());
     }
     return sb.toString();
@@ -75,11 +78,11 @@ public class OptionGroupDescription implements OptionDescription {
   @Override
   public String getDescription() {
     final StringBuilder sb = new StringBuilder();
-    for (OptionGroupChild child : children) {
+    for (OptionGroupChild child : ogChildren) {
       sb.append(child);
       sb.append(", ");
     }
-    if (children.size() > 0) {
+    if (ogChildren.size() > 0) {
       sb.delete(sb.length() - 2, sb.length());
     }
     return "{" + sb.toString() + "}";
@@ -127,30 +130,37 @@ public class OptionGroupDescription implements OptionDescription {
       return;
     }
     //System.out.println("Before: " + children);
-    Set<OptionGroupChild> newChildren = new HashSet<OptionGroupChild>();
-    Set<OptionGroupChild> newChildrenRemoves = new HashSet<OptionGroupChild>();
-    for (OptionGroupChild child : children) {
+    children.clear(); //Just to be sure
+    Set<String> newChildrenRemoves = new HashSet<String>();
+    for (OptionGroupChild child : ogChildren) {
       OptionDescription op = optionNameMap.get(child.getName());
       if (op != null) {
         if (child.getAdd()) {
-          newChildren.add(child);
+          children.add(child.getName());
         } else {
-          newChildrenRemoves.add(child);
+          newChildrenRemoves.add(child.getName());
         }
       } else {
         OptionGroupDescription opGroup = optionGroupNameMap.get(child.getName());
         if (opGroup != null) {
           opGroup.expand(optionNameMap, optionGroupNameMap);
           if (child.getAdd()) {
-            newChildren.addAll(opGroup.getChildren());
+            children.addAll(opGroup.getChildren());
           } else {
             newChildrenRemoves.addAll(opGroup.getChildren());
           }
+        } else {
+          if (child.getName().equals("AllOptions")) {
+            if (child.getAdd()) {
+              children.addAll(optionNameMap.keySet());
+            } else {
+              newChildrenRemoves.addAll(optionNameMap.keySet());
+            }
+          }
         }
-      }
+      } 
     }
-    newChildren.removeAll(newChildrenRemoves);
-    this.children = newChildren;
+    children.removeAll(newChildrenRemoves);
     this.isExpanded = true;
 //    System.out.println("Updated " + identifier + " to " + children);
   }

@@ -7,7 +7,6 @@ Interesting issues:
 --follow has optional parameter which is one of name and descriptor FIXME
 -# where # is a number is equal to -n # FIXME
 -n allows to type "+" at the beginning which changes the behavior FIXME
---sleep-interval has a float as a parameter FIXME
 
 */
 

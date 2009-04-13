@@ -77,7 +77,7 @@ ARGS::
      :"give output suitable for concatenation"
    xml:{"--xml"}
      :"output in XML"
-   extensions:{"-x","--extensions"}:{enum}:[choices="-u,--unified,-b,--ignore-space-change,-w,--ignore-all-space,--ignore-eol-style,-p,--show-c-function"]
+   extensions:{"-x","--extensions"}:{enum}:[choices="-u(unified),--unified(unified),-b(ignore_space_change),--ignore-space-change(ignore_space_change),-w(ignore_all_space),--ignore-all-space(ignore_all_space),--ignore-eol-style(ignore_eol_style),-p(show_c_function),--show-c-function(show_c_function)"]
      : "Default: '-u'. When Subversion is invoking an
                              external diff program, ARG is simply passed along
                              to the program. But when Subversion is using its
@@ -152,7 +152,7 @@ ARGS::
      :"do not cross copies while traversing history"
    ignore_ancestry:{"--ignore-ancestry"}
      :"ignore ancestry when calculating merges"
-   accept:{"--accept"}:{enum}:[choices="postpone,base,mine-full,theirs-full,edit,launch"]
+   accept:{"--accept"}:{enum}:[choices="postpone,base,mine-full(mine_full),theirs-full(theirs_full),edit,launch"]
      :"specify automatic conflict resolution action"
    reintegrate:{"--reintegrate"}
      :"lump-merge all of source URL's unmerged changes"
@@ -249,7 +249,7 @@ update [PATH...]
 path - file list, must exist (! maybe not, most cases you can give a file that doesn't exist) can be dir
 */
 
-    ( all_options* subcommand all_options* )
+    ( option* subcommand option* )
   | ( help subcommand+ )
   | ( version quiet? )
   ;
@@ -263,18 +263,10 @@ WHERE::
                  switch OR unlock OR update 
             ;
   
-  all_options:  targets OR non_recursive OR depth OR quiet OR force OR no_ignore OR
-                auto_props OR no_auto_props OR parents OR revision OR verbose OR 
-                use_merge_history OR incremental OR xml OR extensions OR recursive OR
-                remove OR changelist_op OR ignore_externals OR diff3_cmd OR no_unlock OR 
-                message OR file OR force_log OR editor_cmd OR encoding OR with_revprop OR
-                keep_changelists OR username OR password OR no_auth_cache OR non_interactive OR
-                config_dir OR keep_local OR change OR old OR new OR diff_cmd OR version OR 
-                no_diff_deleted OR notice_ancestry OR summarize OR native_eol OR limit OR
-                with_all_revprops OR stop_on_copy OR ignore_ancestry OR accept OR reintegrate OR
-                dry_run OR record_only OR show_revs OR revprop OR strict OR show_updates OR 
-                set_depth OR relocate
-             ; 
+  option:  AllOptions -subcommand -version -arg_path_list
+        ; 
+        
+//TODO could/should version be a subcommand?
   
 FLY::
   quiet { $(verbose?) } -> verbose := { false };

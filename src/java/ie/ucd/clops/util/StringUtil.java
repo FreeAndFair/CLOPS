@@ -102,36 +102,33 @@ public class StringUtil {
     return res;
   }
 
-  public static Map<String, String> parseChoice(String choice) {
-    final Map<String, String> res = new HashMap<String,String>();
-    int curr = 0;
-    final int len = choice.length();
-    while (curr < len) {
-      final int start = curr; 
-      int comma = choice.indexOf(',', curr);
-      int end = comma;
-      int strAlias = choice.indexOf('{', curr);
-      int endAlias = comma;
-      if (end == -1) {
-        end = len;
-      }
-      if (strAlias != -1 && strAlias < comma) {
-        end = strAlias - 1;
-        strAlias++;
-        endAlias = choice.indexOf('}', curr);
-        if (endAlias == -1) {
-          return null;
-        }
-        
-        comma = choice.indexOf(',', curr);
-      }
-      else {
-        strAlias = start;
-        endAlias = end;
-      }
-      res.put(choice.substring(start, end), choice.substring(strAlias, endAlias));
-      curr = endAlias + 1;
+  public static Map<String, StringBuilder> parseChoice(String choice) {
+    final Map<String, StringBuilder> map = new HashMap<String,StringBuilder>();
+    final String[] parts = choice.split(",");
+    for (String part : parts) {
+      parseChoicePart(part, map);
     }
-    return res;
+    return map;
+  }
+  
+  private static void parseChoicePart(String part, Map<String,StringBuilder> map) {
+    String name, parseString;
+    int index = part.indexOf('(');
+    if (index != -1) {
+      parseString = part.substring(0, index);
+      name = part.substring(index+1,part.length()-1);
+    } else {
+      parseString = part;
+      name = part;
+    }
+    StringBuilder sb = map.get(name);
+    if (sb == null) {
+      sb = new StringBuilder('"' + parseString + '"');
+      map.put(name, sb);
+    } else {
+      sb.append(", \"");
+      sb.append(parseString);
+      sb.append('"');
+    }
   }
 }

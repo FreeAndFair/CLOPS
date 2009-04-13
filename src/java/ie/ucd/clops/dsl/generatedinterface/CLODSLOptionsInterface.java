@@ -92,41 +92,25 @@ public interface CLODSLOptionsInterface {
    */
   enum  Builtin {
     help("help"),    manpage("manpage"),    usage("usage"),    html("html"),    htmldev("htmldev");
-    private final String sRepres;
-    private Builtin(final String s) {
-      sRepres = s;
+    private final String[] matchStrings;
+    private Builtin(final String... s) {
+      matchStrings = s;
     }
     public String toString() {
-      return sRepres;
+      return matchStrings.toString();
     }
     /**
-     * Returns the option in the enum form from the given
-     * String.
-     * @param s one of the following strings: [{help=help, manpage=manpage, usage=usage, html=html, htmldev=htmldev}]
+     * Returns the appropriate enum value for the given string
+     * @param s one of the following strings: [{help="help", manpage="manpage", usage="usage", html="html", htmldev="htmldev"}]
      * @return a valid Builtin member.
      */
     public static Builtin get(final String s) {
-      Builtin res = null;      
-      if ("help".equals(s)) {
-        res = help;
+      for (Builtin value : Builtin.values()) {
+        for (String m : value.matchStrings) {
+          if (m.equalsIgnoreCase(s)) return value;
+        }
       }
-      
-      if ("manpage".equals(s)) {
-        res = manpage;
-      }
-      
-      if ("usage".equals(s)) {
-        res = usage;
-      }
-      
-      if ("html".equals(s)) {
-        res = html;
-      }
-      
-      if ("htmldev".equals(s)) {
-        res = htmldev;
-      }
-      return res;
+      return null;
     }
     
     public static List<Builtin> get(final List<String> ss) {

@@ -16,10 +16,6 @@ Test:{"-m","--main"}
 //Strip quotes so we can write -p="" or -p "" for default package.
 OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
   :"Output package. If left empty the default package is used."
-
-
-
-
   
 Docs:{"-d","--docs"}
   :"Use a default documentation template for generation."
@@ -53,8 +49,7 @@ FORMAT::
 
 WHERE::
 
-All:  Base OR Advanced OR Templates 
-          ;
+All:  AllOptions -Input;
 Base: Output | OutputPackage | Test | Verbose;
 Templates: Docs | Builtin | Custom | Target;
 Advanced: OptionFactory | TransitiveFlyRules | InfiniteLookahead;

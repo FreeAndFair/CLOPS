@@ -16,22 +16,16 @@ import java.util.Set;
  */
 public class EnumOption extends StringOption implements IEnumOption {
 
-  private final Set<String> choices;
-  private boolean caseSensitive;
-  
+  private final EnumPart enumPart;
+
   public EnumOption(String identifier, String prefix) {
     super(identifier, prefix);
-    choices = new HashSet<String>();
-    caseSensitive = false;
-  }
-
-  public void addEnumChoice(String choice) {
-    choices.add(choice);
+    enumPart = new EnumPart();
   }
 
   @Override
   public void set(String value) throws InvalidOptionValueException {
-    if (isValidValue(value)) {
+    if (enumPart.isValidValue(value)) {
       super.set(value);
     } else {
       throw new InvalidOptionValueException(value + " is not an allowed choice.");
@@ -44,50 +38,94 @@ public class EnumOption extends StringOption implements IEnumOption {
     if (acceptedPropertyNames == null) {
       acceptedPropertyNames = new LinkedList<String>();  
       acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
-      acceptedPropertyNames.add("choices");
-      acceptedPropertyNames.add("casesensitive");
+      acceptedPropertyNames.addAll(EnumPart.getStaticAcceptedPropertyNames());
     }
     return acceptedPropertyNames;
   }
-  
+
   @Override
   public Collection<String> getAcceptedPropertyNames() {
     return getStaticAcceptedPropertyNames();
   }
-  
-  
+
   @Override
   public void setProperty(String propertyName, String propertyValue)
-      throws InvalidOptionPropertyValueException {
-    if (propertyName.equalsIgnoreCase("choices")) {
-      String[] newChoices = propertyValue.split(",");
-      for (String newChoice : newChoices) {
-        choices.add(newChoice);
-      }
-    } else if (propertyName.equalsIgnoreCase("casesensitive")) {
-      caseSensitive = Options.parseBooleanProperty(propertyName, propertyValue);
-    } else {
+  throws InvalidOptionPropertyValueException {
+    if (!enumPart.setProperty(propertyName, propertyValue)) {
       super.setProperty(propertyName, propertyValue);
     }
+  }
+
+  public EnumPart getEnumPart() {
+    return enumPart;
   }
 
   @Override
   protected String getTypeString() {
     return "StringEnum";
   } 
-  
-  public boolean isValidValue(String value) {
-    return isValidValue(value, choices, caseSensitive);
-  }
-  
-  public static boolean isValidValue(String value, Set<String> choices, boolean caseSensitive) {
-    for (String choice : choices) {
-      if ((caseSensitive && choice.equals(value)) || 
-          choice.equalsIgnoreCase(value)) {
+
+  public static class EnumPart {
+
+    private final Set<String> choices;
+    private boolean caseSensitive;
+
+    public EnumPart() {
+      choices = new HashSet<String>();
+      caseSensitive = false;
+    }
+
+    public void addChoice(String choice) {
+      choices.add(choice);
+    }
+
+    public boolean isValidValue(String value) {
+      return isValidValue(value, choices, caseSensitive);
+    }
+
+    public static boolean isValidValue(String value, Set<String> choices, boolean caseSensitive) {
+      for (String choice : choices) {
+        if ((caseSensitive && choice.equals(value)) || 
+            choice.equalsIgnoreCase(value)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    //Static for space/time efficiency (we don't need one per instance) 
+    private static Collection<String> acceptedPropertyNames; 
+    protected static Collection<String> getStaticAcceptedPropertyNames() {
+      if (acceptedPropertyNames == null) {
+        acceptedPropertyNames = new LinkedList<String>();  
+        acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
+        acceptedPropertyNames.add("choices");
+        acceptedPropertyNames.add("casesensitive");
+      }
+      return acceptedPropertyNames;
+    }
+
+    public Collection<String> getAcceptedPropertyNames() {
+      return getStaticAcceptedPropertyNames();
+    }
+
+    public boolean setProperty(String propertyName, String propertyValue)
+    throws InvalidOptionPropertyValueException {
+      if (propertyName.equalsIgnoreCase("choices")) {
+        String[] newChoices = propertyValue.split(",");
+        for (String newChoice : newChoices) {
+          choices.add(newChoice);
+        }
         return true;
+      } else if (propertyName.equalsIgnoreCase("casesensitive")) {
+        caseSensitive = Options.parseBooleanProperty(propertyName, propertyValue);
+        return true;
+      } else {
+        return false;
       }
     }
-    return false;
   }
-  
+
 }
+
+

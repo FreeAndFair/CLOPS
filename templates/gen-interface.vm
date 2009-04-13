@@ -32,36 +32,39 @@ public interface $info.getParserName()OptionsInterface {
 #set ($choices=$desc.getPropertyValue("choices")) 
 #set ($typename =  "$desc.getIdentifier()")
 #set ($options =  ${StringUtil.parseChoice($desc.getPropertyValue("choices"))})
+#set ($sensitive=$desc.getPropertyValue("casesensitive"))
+#if ($Boolean.parseBoolean(${sensitive}))
+#set ($equals = "equals")
+#else
+#set ($equals = "equalsIgnoreCase")
+#end
 
   /**
    * The enumeration type used to represent the string enum option.
    */
   enum  $typename {
 #foreach ($o in $options.entrySet())    
-    ${o.getKey()}("${o.getValue()}")#if($velocityCount != $options.size()),#else;#end#end
+    ${o.getKey()}(${o.getValue()})#if($velocityCount != $options.size()),#else;#end#end
 
-    private final String sRepres;
-    private $typename(final String s) {
-      sRepres = s;
+    private final String[] matchStrings;
+    private $typename(final String... s) {
+      matchStrings = s;
     }
     public String toString() {
-      return sRepres;
+      return matchStrings.toString();
     }
     /**
-     * Returns the option in the enum form from the given
-     * String.
+     * Returns the appropriate enum value for the given string
      * @param s one of the following strings: [$options]
      * @return a valid $typename member.
      */
     public static $typename get(final String s) {
-      $typename res = null;#foreach($val in $options.entrySet())
-#set ($tab = $StringUtil.mkList($val.getValue()))
-      
-      if (#foreach($s in $tab)"$s".equals(s)#if($velocityCount != $tab.size()) || #end#end) {
-        res = $val.getKey();
+      for ($typename value : ${typename}.values()) {
+        for (String m : value.matchStrings) {
+          if (m.${equals}(s)) return value;
+        }
       }
-#end      
-      return res;
+      return null;
     }
     
 #if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumListOption"))

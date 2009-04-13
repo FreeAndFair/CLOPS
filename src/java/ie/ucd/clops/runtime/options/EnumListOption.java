@@ -1,25 +1,23 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.options.EnumOption.EnumPart;
+
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class EnumListOption extends StringListOption implements IEnumListOption {
 
-  private final Set<String> choices;
-  private boolean caseSensitive;
+  private final EnumPart enumPart;
 
   public EnumListOption(String identifier, String prefix) {
     super(identifier, prefix);
-    choices = new HashSet<String>();
-    caseSensitive = false;
+    enumPart = new EnumPart();
   }
 
   @Override
   public void setFromString(String valueString) throws InvalidOptionValueException {
-    if (isValidValue(valueString)) {
+    if (enumPart.isValidValue(valueString)) {
       super.setFromString(valueString);
     } else {
       throw new InvalidOptionValueException(valueString + " is not an allowed choice.");
@@ -30,7 +28,7 @@ public class EnumListOption extends StringListOption implements IEnumListOption 
   public void set(List<String> value) throws InvalidOptionValueException {
     List<String> invalidValues = new LinkedList<String>();
     for (String v : value) {
-      if (!isValidValue(v)) {
+      if (!enumPart.isValidValue(v)) {
         invalidValues.add(v);
       }
     }
@@ -45,10 +43,6 @@ public class EnumListOption extends StringListOption implements IEnumListOption 
     }
   }
 
-  public boolean isValidValue(String value) {
-    return EnumOption.isValidValue(value, choices, caseSensitive);
-  }
-
   @Override
   protected String getTypeString() {
     return "EnumList";
@@ -60,8 +54,7 @@ public class EnumListOption extends StringListOption implements IEnumListOption 
     if (acceptedPropertyNames == null) {
       acceptedPropertyNames = new LinkedList<String>();  
       acceptedPropertyNames.addAll(StringListOption.getStaticAcceptedPropertyNames());
-      acceptedPropertyNames.add("choices");
-      acceptedPropertyNames.add("casesensitive");
+      acceptedPropertyNames.addAll(EnumPart.getStaticAcceptedPropertyNames());
     }
     return acceptedPropertyNames;
   }
@@ -69,14 +62,7 @@ public class EnumListOption extends StringListOption implements IEnumListOption 
   @Override
   public void setProperty(String propertyName, String propertyValue)
       throws InvalidOptionPropertyValueException {
-    if (propertyName.equalsIgnoreCase("choices")) {
-      String[] newChoices = propertyValue.split(",");
-      for (String newChoice : newChoices) {
-        choices.add(newChoice);
-      }
-    } else if (propertyName.equalsIgnoreCase("casesensitive")) {
-      caseSensitive = Options.parseBooleanProperty(propertyName, propertyValue);
-    } else {
+    if (!enumPart.setProperty(propertyName, propertyValue)) {
       super.setProperty(propertyName, propertyValue);
     }
   }

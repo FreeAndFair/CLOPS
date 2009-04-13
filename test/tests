@@ -1,3 +1,8 @@
+file: dsl/svn.clo
+name: SVN
+valid: {co} //Testing current format string (which is not complete)
+invalid: {co --version}
+
 file: dsl/bico.clo
 name: Bico
 valid: {-h}

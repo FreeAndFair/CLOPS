@@ -73,6 +73,7 @@ public abstract class AGenerator {
   public VelocityContext createContext(final DSLInformation infos) {
     final VelocityContext ctxt = new VelocityContext();
     ctxt.put("info", infos);
+    ctxt.put("Boolean", Boolean.class);
     ctxt.put("StringUtil", StringUtil.class);
     ctxt.put("BasicOptionDescription", BasicOptionDescription.class);
     ctxt.put("CLOPSErrorOption", CLOPSErrorOption.class);

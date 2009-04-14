@@ -2,9 +2,6 @@
 NAME::
  CLODSL: "CLOPS is a tool to help parse command line options."
 
-PACKAGE::
- ie.ucd.clops.dsl.generatedinterface
-
 ARGS::
 
 Output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]

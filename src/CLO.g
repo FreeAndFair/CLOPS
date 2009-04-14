@@ -41,7 +41,6 @@ prog  :  clo_specification EOF
       ;
 
 clo_specification  :  name_section
-                      (package_section)?
                       args_section
                       args_format_section
                       (where_section)?
@@ -59,16 +58,6 @@ name_section  :  SECTION_NAME NAME
                    
                    )?
               ;
-
-/**********************************************/
-
-package_section  :  SECTION_PACKAGE package_name
-                    { getDslInformation().setPackageName($package_name.text); }
-              ;
-              
-package_name  :  NAME ('.' NAME)*
-              ;
-
 
 /**********************************************/
 
@@ -307,35 +296,6 @@ exclusive_validity_rule  :  'exclusive' ':' a1=arg_name
 explanation  :  STRING_CONSTANT
              ;
 
-/**********************************************
- **********************************************/
-
-// constant  :    boolean_constant
-//              | integer_constant  
-//              | STRING_CONSTANT
-//              | unspecified_constant
-//           ;
-
-// boolean_constant  :  'true' | 'false'
-//                   ;
-
-// integer_constant  :  INTEGER
-//                   ;
-
-// unspecified_constant  :  '?'
-//                       ;
-
-///**********************************************/
-
-comparison_op  :    '='
-                  | '!='
-                  | '>'
-                  | '<'
-                  | '<='
-                  | '>='
-               ;
-
-
 /**********************************************  
  ##############################################
  ###   Lexer...                             ###
@@ -343,7 +303,6 @@ comparison_op  :    '='
  **********************************************/ 
 
 SECTION_NAME: 'NAME::';
-SECTION_PACKAGE: 'PACKAGE::';
 SECTION_ARGS: 'ARGS::' {curliesInJavaMode=false;};
 SECTION_FORMAT: 'FORMAT::';
 SECTION_WHERE: 'WHERE::';

@@ -12,7 +12,8 @@
 	  <filelist dir="${dist}/lib">
 		  <file name="${full-jar-name}.jar"/>
 	  	<file name="antlr-runtime-3.1.3.jar"/>
-	  	<file name="velocity-1.6.1.jar"/>
+	  	<file name="velocity-1.6.2.jar"/>
+	  	<file name="velocity-1.6.2-dep.jar"/>
 	  </filelist>
 	</path>
   <property name="test-file" value="dsl/clo-dsl.clo"/>
@@ -68,25 +69,19 @@
     </java>
   </target>
 
-
   <target name="generate-ls">
     <ant antfile="buildls.xml"  
          dir="dsl"
          inheritAll="false"/>
   </target>
-	
 
   <target name="test-parser" description="simple test">
   	<echo message="Using ${test-file}"/>
     <delete dir="${temp-test}"/>
     <mkdir dir="${temp-test}"/>
     <java fork="yes" classname="ie.ucd.clops.dsl.Main">
-      <assertions>
-        <enable/>
-      </assertions>
+      <assertions><enable/></assertions>
       <classpath refid="testdist.path"/>
-      <!-- this should probably use the -b option and -d should produce a file -->
-      <!-- corresponding to the input file -->
       <arg value="-v"/>
       <arg value="-d"/>
       <arg value="-t=./test/"/>

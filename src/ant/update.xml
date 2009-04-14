@@ -1,4 +1,4 @@
-<project name="update" default="update-dsl" basedir=".">
+<project name="update" default="update-dslcli" basedir=".">
   <description>Update the dsl of clops</description>
   <import file="basic.xml"/>
   <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>

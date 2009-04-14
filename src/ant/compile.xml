@@ -5,7 +5,7 @@
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
   </path>
-  <target name="compile-build" description="compile the source">
+  <target name="compile-build" depends="antlr-build" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
   	<mkdir dir="${build}"/>
     <javac srcdir="${src-java}" 

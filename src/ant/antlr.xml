@@ -6,7 +6,7 @@
   <path id="antlr.path">
     <filelist dir="${lib}" files="antlr-3.1.3.jar"/>
   </path>
-  <property name="antlr-src" value="${java-src}/ie/ucd/clops/dsl/parser"/>
+  <property name="antlr-src" value="${src-java}/ie/ucd/clops/dsl/parser"/>
 	 
   <target name="antlr-build-check-uptodate">
     <echo message="Checking if the ANTLR generated files are up to date"/>
@@ -16,10 +16,10 @@
   <target name="antlr-build" depends="antlr-build-check-uptodate" unless="antlrBuild.notRequired">
     <antcall target="antlr-clean"/>
     <echo message="Running antlr"/>
-    <java fork="yes" dir="${java-src}" classname="org.antlr.Tool">
+    <java fork="yes" dir="${src-java}" classname="org.antlr.Tool">
       <classpath refid="antlr.path" />
       <arg value="-o"/>
-      <arg value="${antlr-src}"/>
+      <arg value="${src-java}/ie/ucd/clops/dsl/parser"/>
       <arg value="${src}/${antlr-src}.g"/>
     </java>
   </target>

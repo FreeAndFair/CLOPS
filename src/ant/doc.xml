@@ -3,6 +3,7 @@
   <property name="docs" location="doc"/>
   <property name="java-docs" location="${docs}/javadoc"/>
   <target name="javadocs" description="Generate javadocs">
+    <mkdir dir="${java-docs}"/>
     <javadoc sourcepath="${src-java}" destdir="${java-docs}" classpathref="runtime.path"
              Verbose="no">
             <packageset dir="${src-java}">    

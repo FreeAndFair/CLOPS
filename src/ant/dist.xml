@@ -9,7 +9,7 @@
     <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
   </path>
   <target name="dist-build" description="Generate the distribution">
-    <mkdir dir="${dist}/lib"/>
+    <mkdir dir="${dist}"/>
 	
 	<mkdir dir="${dist}/lib"/>
 	<copy todir="${dist}/lib">

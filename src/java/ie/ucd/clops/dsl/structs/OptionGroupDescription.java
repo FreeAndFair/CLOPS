@@ -16,7 +16,8 @@ import java.util.Set;
  *
  */
 public class OptionGroupDescription implements OptionDescription {
-  /** used with the method {@link #getAliases()}. */
+  /** used with the method {@link #getAliases()} 
+      and {@link #getPrefixRegexps()} . */
   private static final List<String> empty = new LinkedList<String>();
   
   /** the identifier associated with this group. */
@@ -29,7 +30,8 @@ public class OptionGroupDescription implements OptionDescription {
   private final Set<OptionGroupChild> ogChildren;
   //TODO: add description
   private final Set<String> children;
-  //TODO: add description
+  
+  /** true if the children have already been computed. */
   private boolean isExpanded;
   
   
@@ -81,11 +83,7 @@ public class OptionGroupDescription implements OptionDescription {
   public void addPrefixRegexp(final String regexp) { }
 
   
-  /** {@inheritDoc} */
-  @Override
-  public List<String> getAliases() {
-    return empty;
-  }
+
   
   /** {@inheritDoc} */
   @Override
@@ -102,11 +100,7 @@ public class OptionGroupDescription implements OptionDescription {
   }
   
   
-  /** {@inheritDoc} */
-  @Override
-  public List<String> getPrefixRegexps() {
-    return empty;
-  }
+
 
   /** {@inheritDoc} */
   @Override
@@ -140,11 +134,12 @@ public class OptionGroupDescription implements OptionDescription {
   }
   
   // TODO: need review
-  public void expand(Map<String,OptionDescription> optionNameMap, 
-                     Map<String,OptionGroupDescription> optionGroupNameMap) {
+  public void expand(final Map<String, OptionDescription> optionNameMap, 
+                     final Map<String, OptionGroupDescription> optionGroupNameMap) {
     if (isExpanded) {
       return;
     }
+    this.isExpanded = true;
     //System.out.println("Before: " + children);
     children.clear(); //Just to be sure
     final Set<String> newChildrenRemoves = new HashSet<String>();
@@ -182,7 +177,19 @@ public class OptionGroupDescription implements OptionDescription {
       } 
     }
     children.removeAll(newChildrenRemoves);
-    this.isExpanded = true;
+
 //    System.out.println("Updated " + identifier + " to " + children);
+  }
+  
+  // TODO should be removed
+  @Override
+  public List<String> getPrefixRegexps() {
+    return empty;
+  }
+  
+  // TODO should be removed
+  @Override
+  public List<String> getAliases() {
+    return empty;
   }
 }

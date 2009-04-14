@@ -40,18 +40,6 @@ public interface OptionDescription {
    * @return this option's type.
    */
   OptionType getType();
- 
-  /**
-   * Get the regular expressions for the prefix of this option.
-   * @return the Set of prefixes.
-   */
-  List<String> getPrefixRegexps();
-
-  /**
-   * Add a prefix regular expression for this option.
-   * @param regexp the regular expression to add for this option.
-   */
-  void addPrefixRegexp(final String regexp);
 
   String getPropertyValue(String key);
   
@@ -71,6 +59,18 @@ public interface OptionDescription {
   
   /** Get the Option's textual description. */
   String getDescription();
+  
+  /**
+   * Add a prefix regular expression for this option.
+   * @param regexp the regular expression to add for this option.
+   */
+  void addPrefixRegexp(final String regexp);
+  
+  /**
+   * Get the regular expressions for the prefix of this option.
+   * @return the Set of prefixes.
+   */
+  List<String> getPrefixRegexps();
   
   List<String> getAliases();
 }

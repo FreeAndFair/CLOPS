@@ -178,10 +178,12 @@ public abstract class BasicOption<T> implements Option<T> {
     String[] parts = prefix.split("\\|");
     List<String> aliases = new LinkedList<String>();
     for (String part : parts) {
-      if (part.charAt(0) == '(' && part.charAt(1) == '?') {
-        part = part.substring(3,part.length()-1);
+      if (part.length() > 0) {
+        if (part.charAt(0) == '(' && part.length() > 1 && part.charAt(1) == '?') {
+          part = part.substring(3,part.length()-1);
+        }
+        aliases.add(part);
       }
-      aliases.add(part);
     }
     return aliases;
   }

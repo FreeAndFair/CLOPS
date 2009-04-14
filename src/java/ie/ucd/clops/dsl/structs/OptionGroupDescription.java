@@ -16,30 +16,38 @@ import java.util.Set;
  *
  */
 public class OptionGroupDescription implements OptionDescription {
-
+  /** used with the method {@link #getAliases()}. */
+  private static final List<String> empty = new LinkedList<String>();
+  
+  /** the identifier associated with this group. */
   private final String identifier;
-  
-  private Set<OptionGroupChild> ogChildren;
+ 
+  /** the properties associated with this Group. */
+  private final List<Pair<String, String>> prop = new LinkedList<Pair<String, String>>();
+
+  //TODO: add description
+  private final Set<OptionGroupChild> ogChildren;
+  //TODO: add description
   private final Set<String> children;
-  
+  //TODO: add description
   private boolean isExpanded;
+  
+  
 
   public OptionGroupDescription(String identifier) {
     this.identifier = identifier;
-    this.ogChildren = new HashSet<OptionGroupChild>();
     
-    this.children = new HashSet<String>();
-    
+    ogChildren = new HashSet<OptionGroupChild>();
+    children = new HashSet<String>();
     isExpanded = false;
   }
-
-  public void addChild(OptionGroupChild child) {
+  
+  public void addChild(final OptionGroupChild child) {
     ogChildren.add(child);
   }
 
-  /**
-   * @return the identifier
-   */
+  /** {@inheritDoc} */
+  @Override
   public String getIdentifier() {
     return identifier;
   }
@@ -51,8 +59,10 @@ public class OptionGroupDescription implements OptionDescription {
     return children;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     sb.append("Group ");
     sb.append(identifier);
     sb.append(", children: ");
@@ -66,15 +76,18 @@ public class OptionGroupDescription implements OptionDescription {
     return sb.toString();
   }
 
+  /** {@inheritDoc} */
   @Override
-  public void addPrefixRegexp(String regexp) { }
+  public void addPrefixRegexp(final String regexp) { }
 
-  List<String> empty = new LinkedList<String>();
+  
+  /** {@inheritDoc} */
   @Override
   public List<String> getAliases() {
     return empty;
   }
-
+  
+  /** {@inheritDoc} */
   @Override
   public String getDescription() {
     final StringBuilder sb = new StringBuilder();
@@ -87,73 +100,81 @@ public class OptionGroupDescription implements OptionDescription {
     }
     return "{" + sb.toString() + "}";
   }
-
+  
+  
+  /** {@inheritDoc} */
   @Override
   public List<String> getPrefixRegexps() {
     return empty;
   }
 
-  List<Pair<String, String>> emptyPair = new LinkedList<Pair<String, String>>();
+  /** {@inheritDoc} */
   @Override
   public List<Pair<String, String>> getProperties() {
-    return emptyPair;
+    return prop;
   }
 
+  /** {@inheritDoc} */
   @Override
-  public String getPropertyValue(String key) {
-    return null;
+  public String getPropertyValue(final String key) {
+    String retv = null;
+    for (Pair<String, String> p : prop) {
+      if (p.getFirst().equals(key)) {
+        retv = p.getSecond();
+      }
+    }
+    return retv;
   }
 
+  /** {@inheritDoc} */
   @Override
   public OptionType getType() { // we are a sort of boolean
     return DefaultOptionTypeFactory.BOOLEAN;
   }
 
-  @Override
-  public void setDescription(String description) {
-  }
 
+  /** {@inheritDoc} */
   @Override
-  public void setId(String id) {
-  }
-
-  @Override
-  public void setProperty(String key, String value) {
-  }
-
-  @Override
-  public void setType(OptionType type) {
+  public void setProperty(final String key, final String value) {
+    prop.add(new Pair<String, String>(key, value));
   }
   
-  public void expand(Map<String,OptionDescription> optionNameMap, Map<String,OptionGroupDescription> optionGroupNameMap) {
+  // TODO: need review
+  public void expand(Map<String,OptionDescription> optionNameMap, 
+                     Map<String,OptionGroupDescription> optionGroupNameMap) {
     if (isExpanded) {
       return;
     }
     //System.out.println("Before: " + children);
     children.clear(); //Just to be sure
-    Set<String> newChildrenRemoves = new HashSet<String>();
+    final Set<String> newChildrenRemoves = new HashSet<String>();
     for (OptionGroupChild child : ogChildren) {
-      OptionDescription op = optionNameMap.get(child.getName());
+      final OptionDescription op = optionNameMap.get(child.getName());
       if (op != null) {
         if (child.getAdd()) {
           children.add(child.getName());
-        } else {
+        } 
+        else {
           newChildrenRemoves.add(child.getName());
         }
-      } else {
-        OptionGroupDescription opGroup = optionGroupNameMap.get(child.getName());
+      } 
+      else {
+        final OptionGroupDescription opGroup = optionGroupNameMap.get(child.getName());
         if (opGroup != null) {
           opGroup.expand(optionNameMap, optionGroupNameMap);
           if (child.getAdd()) {
             children.addAll(opGroup.getChildren());
-          } else {
+          } 
+          else {
             newChildrenRemoves.addAll(opGroup.getChildren());
           }
-        } else {
+        } 
+        else {
           if (child.getName().equals("AllOptions")) {
             if (child.getAdd()) {
               children.addAll(optionNameMap.keySet());
-            } else {
+            } 
+            else {
               newChildrenRemoves.addAll(optionNameMap.keySet());
             }
           }

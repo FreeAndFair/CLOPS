@@ -28,25 +28,12 @@ import java.util.List;
  *   refines "OptionDescription.spec"
  * </JML>
  */
-public interface OptionDescription {
-
-  /**
-   * Set this option's String identifier.
-   * @param id this options's identifier.
-   */
-  void setId(final String id);
-  
+public interface OptionDescription {  
   /**
    * Get this option's String identifier as specified in the DSL.
    * @return this option's identifier.
    */
   String getIdentifier();
-
-  /**
-   * 
-   * @param type
-   */
-  void setType(final OptionType type);
   
   /**
    * Get the type of this option.
@@ -79,13 +66,8 @@ public interface OptionDescription {
    * Get the properties associated with this option.
    * @return the properties associated with this option.
    */
-  List<Pair<String,String>> getProperties();
+  List<Pair<String, String>> getProperties();
   
-  /**
-   * Set the Option's textual description. 
-   * @param description
-   */
-  void setDescription(String description);
   
   /** Get the Option's textual description. */
   String getDescription();

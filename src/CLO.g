@@ -77,7 +77,7 @@ args_section  :  SECTION_ARGS (arg_definition)+
 
 //Currently allowing anything for the 
 arg_definition  
-@init { OptionDescription option = new BasicOptionDescription(); }
+@init { BasicOptionDescription option = new BasicOptionDescription(); }
                 :  id=arg_name
                    { option.setId($id.text); } 
                    ':' '{'

@@ -68,14 +68,17 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */
-  public List<Pair<String,String>> getProperties() {
+  @Override
+  public List<Pair<String, String>> getProperties() {
     return properties;
   }
-
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.dsl.structs.OptionDescription#setId(java.lang.String)
+  
+  
+  /**
+   * Set this option's String identifier.
+   * @param id this options's identifier.
    */
-  public void setId(String id) {
+  public void setId(final String id) {
     this.identifier = id.replaceAll("-", "_");
   }
 
@@ -109,7 +112,11 @@ public class BasicOptionDescription implements OptionDescription {
     return description;
   }
 
-  public void setDescription(String description) {
+  /**
+   * Set the Option's textual description. 
+   * @param description
+   */
+  public void setDescription(final String description) {
     this.description = description;
   }
 

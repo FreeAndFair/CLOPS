@@ -1,6 +1,11 @@
 
 NAME::
- CLODSL: "CLOPS is a tool to help parse command line options."
+ CLODSL: 
+ "CLOPS is a tool which helps programmers to develop command-line parsers and 
+  option documentation for their programs. 
+  Given a description of command-line options in the CLOPS language, 
+  it generates a corresponding parser and documentation. 
+  The format of the documentation is determined by Velocity templates."
 
 ARGS::
 
@@ -12,14 +17,17 @@ Test:{"-m","--main"}
   
 //Strip quotes so we can write -p="" or -p "" for default package.
 OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
-  :"Output package. If left empty the default package is used."
+  :"Output Java package. If left empty, the default package is used."
   
 Docs:{"-d","--docs"}
   :"Use a default documentation template for generation."
+
 Builtin:{"-b","--built-in"}:{enum-list}:[choices="htmldev,html,manpage,usage,help"]
   :"Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage)."
+
 Custom:{"-c","--custom"}:{file-list}:[mustExist,canBeDir="false"]
   :"Use custom templates for generation."
+
 Target:{"-t", "--target"}:{file}
   :"Specify the target directory / or the target file for the generation from some templates."
   
@@ -32,17 +40,19 @@ Version:{"-version"}
 //option_factory should probably be a regular expression (for qualified java class names).
 OptionFactory:{"-of","--option-factory"}:{string}
   :"Use this option factory instead of the default. Must be a fully qualified class name." 
+
 TransitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
-  :"Fly rules will be applied transitively."
+  :"Fly rules in the generated parser will be applied transitively."
+
 InfiniteLookahead: {"-oo", "--infinite-lookahead"}:[default="false"]
-  :"The command line parser will try harder."
+  :"The generated command-line parser will try harder to match inputs to the format."
 
 Input:{}:{file}:[between="",mustExist,canbedir="false"]
-  :"Input file."
+  :"Input CLOPS file."
 
 FORMAT::
     (All* Input All*) | Version
-  : "The program takes an argument, the input, surrounded by options.";
+  : "The program takes the input file surrounded by options.";
 
 WHERE::
 

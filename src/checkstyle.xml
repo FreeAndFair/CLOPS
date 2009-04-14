@@ -76,7 +76,7 @@
         </module>
         <module name="LeftCurly"/>
         <module name="RightCurly">
-            <property name="option" value="alone"/>
+            <property name="severity" value="ignore"/>
         </module>
         <module name="AnonInnerLength"/>
         <module name="ParameterNumber">

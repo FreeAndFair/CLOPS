@@ -69,17 +69,10 @@
   </target>
 
 
-    <target name="generate-ls">
+  <target name="generate-ls">
     <ant antfile="buildls.xml"  
          dir="dsl"
          inheritAll="false"/>
-  </target>
-
-  <target name="test-ls" depends="generate-ls">
-     <antcall target="test-parser">
-       <param name="test-file" value="dsl/ls.clo"/>
-       <param name="TFR" value="true"/>
-     </antcall>
   </target>
 	
 

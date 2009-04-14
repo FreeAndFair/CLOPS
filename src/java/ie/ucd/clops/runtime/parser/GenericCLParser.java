@@ -193,18 +193,18 @@ public class GenericCLParser {
   /**
    * Parse the given commandline.
    * @param formatString the format regular expression in a string form
-   * @param flyStore collection of fly rules that should be used during parsing
+   * @param ruleStore collection of fly rules that should be used during parsing
    * @param optionStore collection of options that will be matched against the input
    * @param args the commandline as given to the main method
    * @return {@code true} iff the commmandline has been successfully parsed
    */
-  public boolean parse(String formatString, OptionStore optionStore, RuleStore flyStore, String[] args)
+  public boolean parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args)
   throws Tokenizer.IllegalCharacterException,
   Tokenizer.UnknownOptionException {
     CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
     CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
 
-    CLOLogger.getLogger().log(Level.FINE, flyStore.toString());
+    CLOLogger.getLogger().log(Level.FINE, ruleStore.toString());
 
     //Set up automaton
     List<Token<IMatchable>> tokens = null;
@@ -291,7 +291,7 @@ public class GenericCLParser {
           i += matchedOption.getMatchLength();
           try {
             CLOLogger.getLogger().log(Level.FINE, "Applying fly rules");
-            flyStore.applyFlyRules(matchedOption, optionStore);
+            ruleStore.applyFlyRules(matchedOption, optionStore);
             CLOLogger.getLogger().log(Level.FINE, "Done applying fly rules");
           } catch (InvalidOptionValueException iove) {
             //Shouldn't happen?
@@ -310,7 +310,7 @@ public class GenericCLParser {
 
     if (automaton.isAccepting()) {
       try {
-        flyStore.applyOverrideRules(optionStore);
+        ruleStore.applyOverrideRules(optionStore);
         CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
       } catch (InvalidOptionValueException e) {
         //Again, shouldn't happen?
@@ -318,9 +318,8 @@ public class GenericCLParser {
         return false;
       }
 
-
       try {
-        flyStore.applyValidityRules(optionStore);
+        ruleStore.applyValidityRules(optionStore);
         CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
       } catch (InvalidOptionValueException e) {
         //Really, really shouldn't happen
@@ -343,6 +342,8 @@ public class GenericCLParser {
 
       return true;
     } else {
+      CLOLogger.getLogger().log(Level.SEVERE, "Invalid arguments.");
+      //TODO print usage string?
       return false;
     }
 

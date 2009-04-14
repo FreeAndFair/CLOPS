@@ -263,7 +263,7 @@ WHERE::
                  switch OR unlock OR update 
             ;
   
-  option:  AllOptions -subcommand -version -arg_path_list
+  option:  AllOptions -subcommand -version -arg_path_list -chosen_subcommand
         ; 
         
 //TODO could/should version be a subcommand?

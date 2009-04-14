@@ -31,7 +31,7 @@ public class AssignmentDescription {
     return id;
   }
   
-  public void processPlaceholders(DSLInformation dslInfo) {
+  public void processPlaceholders(RuleStore dslInfo) {
     value = RuleDescription.processPlaceholders(value, dslInfo);
   }
   

@@ -1,11 +1,8 @@
 package ie.ucd.clops.dsl.structs;
 
 
-import ie.ucd.clops.dsl.structs.ast.OptionGroupChild;
-
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,29 +17,15 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public class DSLInformation {
+public class DSLInformation extends RuleStore {
   /** true if the object is sealed (immutable). */ 
   private boolean isPacked;
   
   private String parserName;
   private String packageName;
   private String formatString;
-  
-  private boolean transitiveFlyrules;
 
-  private final List<OptionDescription> optionDescriptions;
   
-  private final Map<String, OptionDescription> optionNameMap; // Name -> OpDesc
-  private final Map<String, OptionGroupDescription> optionGroupNameMap; // Name -> OpGroupDesc
-  /** keep track of all options and groups. */
-  private final Map<String, OptionDescription> optionAndGroupNameMap;
-  
-  
-  private final List<OptionGroupDescription> optionGroupDescriptions;
-  private final List<FlyRuleDescription> flyRuleDescriptions;
-  private final List<OverrideRuleDescription> overrideRuleDescriptions;
-  private final List<ValidityRuleDescription> validityRuleDescriptions;
-
   
   /** the structure containing correspondence between classes long and short names. */
   private NameDict dict = new NameDict();
@@ -52,21 +35,9 @@ public class DSLInformation {
   private String formatDesc = "";
   
   public DSLInformation() {
-    optionDescriptions = new LinkedList<OptionDescription>();
-    optionAndGroupNameMap = new HashMap<String, OptionDescription>();
-    optionNameMap = new HashMap<String, OptionDescription>();
-    optionGroupNameMap = new HashMap<String, OptionGroupDescription>();
-    optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
-    flyRuleDescriptions = new LinkedList<FlyRuleDescription>();
-    overrideRuleDescriptions = new LinkedList<OverrideRuleDescription>();
-    validityRuleDescriptions = new LinkedList<ValidityRuleDescription>();
     parserName = "";
     packageName = "";
     isPacked = false;
-  }
-
-  public boolean getTransitiveFlyrules() { 
-    return transitiveFlyrules; 
   }
 
   public String getFormatString() {
@@ -78,46 +49,6 @@ public class DSLInformation {
     this.formatString = formatString;
   }
   
-  public void addOptionDescription(OptionDescription optionDescription) {
-    assert (!isPacked);
-    optionDescriptions.add(optionDescription);
-    optionAndGroupNameMap.put(optionDescription.getIdentifier(), optionDescription);
-    optionNameMap.put(optionDescription.getIdentifier(), optionDescription);
-  }
-  
-  public List<OptionDescription> getOptionDescriptions() {
-    return optionDescriptions;
-  }
-  
-  public void addOptionGroupDescription(OptionGroupDescription group) {
-    assert (!isPacked);
-    optionGroupDescriptions.add(group);
-    optionAndGroupNameMap.put(group.getIdentifier(), group);
-    optionGroupNameMap.put(group.getIdentifier(), group);
-  }
-  
-  public List<OptionGroupDescription> getOptionGroupDescriptions() {
-    return optionGroupDescriptions;
-  }
-  
-  public void addFlyRuleDescription(FlyRuleDescription flyRuleDescription) {
-    assert (!isPacked);
-    flyRuleDescriptions.add(flyRuleDescription);
-  }
-  
-  public void addOverrideRuleDescription(OverrideRuleDescription overrideRuleDescription) {
-    assert (!isPacked);
-    overrideRuleDescriptions.add(overrideRuleDescription);
-  }
-    
-  public void addValidityRuleDescription(ValidityRuleDescription validityRuleDescription) {
-    assert (!isPacked);
-    validityRuleDescriptions.add(validityRuleDescription);
-  }
-  
-  public List<FlyRuleDescription> getFlyRuleDescriptions() {
-    return flyRuleDescriptions;
-  }
 
   public String getParserName() {
     return parserName;
@@ -136,35 +67,7 @@ public class DSLInformation {
     assert (!isPacked);
     this.packageName = packageName;
   }
-  
-  public OptionDescription getOptionDescriptionForIdentifier(String id) {
-    final OptionDescription od =  optionAndGroupNameMap.get(id);
-//    if (od == null) {
-//      System.out.println(id);
-//    }
-    return od;
-  }
-  
-  public String getOptionValuTypeParameterisationForIdentifier(String identifier) {
-    final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
-    return od == null ? null : od.getType().getOptionValueTypeParameterisation();
-  }
 
-  public List<OverrideRuleDescription> getOverrideRuleDescriptions() {
-    return overrideRuleDescriptions;
-  }
-
-  public List<ValidityRuleDescription> getValidityRuleDescriptions() {
-    return validityRuleDescriptions;
-  }
-  
-  
-
-  public void setTransitiveFlyRules(boolean b) {
-    assert (!isPacked);
-    transitiveFlyrules = b;
-  }
-  
   public Set<String> getTypeImports() {
     return dict.typeClzz;
   }
@@ -189,8 +92,9 @@ public class DSLInformation {
       }
     }
    
-    private String getShortClassName(String clzz, Set<String> lngClzz) {
+    private String getShortClassName(final String clzz, Set<String> lngClzz) {
       String shrt = clzzShrt.get(clzz);
+      
       if (shrt != null) {
         return shrt;
       }
@@ -208,10 +112,11 @@ public class DSLInformation {
   
         clzzShrt.put(clzz, shrt);
         if (!isPrimitive(clzz) && !isJavaLang(clzz)) {
+          String withoutgen = clzz;
           if (generics > 0) {
-            clzz = clzz.substring(0, generics);
+            withoutgen = withoutgen.substring(0, generics);
           }
-          lngClzz.add(clzz);
+          lngClzz.add(withoutgen);
         }
         shrtz.add(shrt);
         
@@ -221,12 +126,15 @@ public class DSLInformation {
   
 
     
-    private static boolean isJavaLang(String clzz) {
+    private static boolean isJavaLang(final String clzz) {
       return clzz.startsWith("java.lang") || clzz.equals("String");
     }
   
-    private static boolean isPrimitive(String clzz) {
-      return clzz.equals("boolean") || clzz.equals("int") || clzz.equals("float") || clzz.equals("double") || clzz.equals("long") || clzz.equals("short") || clzz.equals("byte") || clzz.equals("char");
+    private static boolean isPrimitive(final String clzz) {
+      return clzz.equals("boolean") || clzz.equals("int") || 
+             clzz.equals("float") || clzz.equals("double") || 
+             clzz.equals("long") || clzz.equals("short") || 
+             clzz.equals("byte") || clzz.equals("char");
     }
   }
   
@@ -236,35 +144,16 @@ public class DSLInformation {
   public String getValueTypeClass(OptionDescription od) {
     return dict.clzzShrt.get(od.getType().getOptionValueTypeClass());
   }
+  
+  
+  @Override
   public void pack() {
+    super.pack();
     /* Make sure no newlines in the format string. 
     This should probably be done whilst processing the DSL */
     setFormatString(formatString.replaceAll("\\n", " "));
-    processPlaceholders();
     dict.computeImports(getOptionDescriptions());
-    
-    //TODO Create and add AllOptionsGroup
-    //TODO Only expand and include groups that are in format string?
-    for (OptionGroupDescription og : optionGroupDescriptions) {
-      og.expand(optionNameMap, optionGroupNameMap);
-    }
-    
     isPacked = true;
-    
-  }
-  
-
-  
-  private void processPlaceholders() {
-    for (RuleDescription rule : flyRuleDescriptions) {
-      rule.processPlaceHolders(this);
-    }
-    for (RuleDescription rule : overrideRuleDescriptions) {
-      rule.processPlaceHolders(this);
-    }
-    for (ValidityRuleDescription rule : validityRuleDescriptions) {
-      rule.processPlaceHolders(this);
-    }
   }
 
   /**
@@ -279,6 +168,7 @@ public class DSLInformation {
   public String getDescription() {
     return description;
   }
+  
   /**
    * Adds a description to the parser.
    * @param st the description string

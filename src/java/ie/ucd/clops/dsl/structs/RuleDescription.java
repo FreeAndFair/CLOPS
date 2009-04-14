@@ -67,7 +67,7 @@ public class RuleDescription {
     return id;
   }
 
-  public void processPlaceHolders(DSLInformation dslInfo) {
+  public void processPlaceHolders(RuleStore dslInfo) {
     conditionText = processPlaceholders(conditionText, dslInfo);
     for (AssignmentDescription assignment : assignments) {
       assignment.processPlaceholders(dslInfo);
@@ -75,7 +75,7 @@ public class RuleDescription {
   }
   
   private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\$\\([^\\(\\$\\)]+\\)");
-  public static String processPlaceholders(String string, DSLInformation dslInfo) {
+  public static String processPlaceholders(String string, RuleStore dslInfo) {
     if (string == null) return null;
     
     Matcher matcher = PLACEHOLDER_PATTERN.matcher(string);
@@ -92,7 +92,7 @@ public class RuleDescription {
     return sb.toString();
   }
   
-  private static final String convertMatch(String s, DSLInformation dslInfo) {
+  private static final String convertMatch(String s, RuleStore dslInfo) {
     s = s.trim();
     s = s.substring(2, s.length()-1);
     if (isIsSetPlaceholder(s)) {
@@ -106,7 +106,7 @@ public class RuleDescription {
     return s.charAt(s.length()-1) == '?';
   }
   
-  private static String convertNormalPlaceholder(String s, DSLInformation dslInfo) {
+  private static String convertNormalPlaceholder(String s, RuleStore dslInfo) {
     OptionDescription desc = dslInfo.getOptionDescriptionForIdentifier(s);
     if (desc == null) {
       CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);
@@ -116,7 +116,7 @@ public class RuleDescription {
     }
   }
   
-  private static String convertIsSetPlaceholder(String s, DSLInformation dslInfo) {
+  private static String convertIsSetPlaceholder(String s, RuleStore dslInfo) {
     OptionDescription desc = dslInfo.getOptionDescriptionForIdentifier(s);
     if (desc == null) {
       CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);

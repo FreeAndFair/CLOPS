@@ -57,6 +57,7 @@ public class RuleStore extends OptionStore {
     return validityRuleDescriptions;
   }
   
+  /** {@inheritDoc} */
   @Override
   public void pack() {
     super.pack();

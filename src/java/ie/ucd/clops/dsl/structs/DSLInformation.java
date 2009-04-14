@@ -1,10 +1,6 @@
 package ie.ucd.clops.dsl.structs;
 
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,23 +16,21 @@ import java.util.Set;
 public class DSLInformation extends RuleStore {
   /** true if the object is sealed (immutable). */ 
   private boolean isPacked;
-  
-  private String parserName;
-  private String packageName;
-  private String formatString;
-
-  
-  
-  /** the structure containing correspondence between classes long and short names. */
-  private NameDict dict = new NameDict();
-
+  /** name of the program which is specified in the name section. */
+  private String name = "";
+  /** description of the program. */
   private String description = "";
+  /** the package name of the generated parser files. */
+  private String packageName = "";
+  /** the structure containing correspondence between classes long and short names. */
+  private NameDict dict;
 
+
+  
+  private String formatString = "";
   private String formatDesc = "";
   
   public DSLInformation() {
-    parserName = "";
-    packageName = "";
     isPacked = false;
   }
 
@@ -51,12 +45,12 @@ public class DSLInformation extends RuleStore {
   
 
   public String getParserName() {
-    return parserName;
+    return name;
   }
 
   public void setParserName(String parserName) {
     assert (!isPacked);
-    this.parserName = parserName;
+    this.name = parserName;
   }
 
   public String getPackageName() {
@@ -69,90 +63,32 @@ public class DSLInformation extends RuleStore {
   }
 
   public Set<String> getTypeImports() {
-    return dict.typeClzz;
+    assert (isPacked);
+    return dict.getTypeImports();
   }
   public Set<String> getValueTypeImports() {
-    return dict.valueClzz;
+    assert (isPacked);
+    return dict.getValueTypeImports();
   }
   
 
-  private static class NameDict {
-    private final Map<String, String> clzzShrt = new HashMap<String, String>();
-    private final Set<String> shrtz = new HashSet<String>();
-    private final Set<String> valueClzz = new HashSet<String>();
-    private final Set<String> typeClzz = new HashSet<String>();
-    
-    private void computeImports(List<OptionDescription> desc) {
-      for (OptionDescription od: desc) {
-        // we check everything' s there
-        String clzz = od.getType().getOptionTypeClass();
-        getShortClassName(clzz, typeClzz);
-        clzz = od.getType().getOptionValueTypeClass();
-        getShortClassName(clzz, valueClzz);
-      }
-    }
-   
-    private String getShortClassName(final String clzz, Set<String> lngClzz) {
-      String shrt = clzzShrt.get(clzz);
-      
-      if (shrt != null) {
-        return shrt;
-      }
-      final int generics = clzz.lastIndexOf('<');
-      String genfree = clzz;
-      if (generics > 0) {
-        genfree = clzz.substring(0, generics);
-      }
-      shrt = clzz.substring(genfree.lastIndexOf('.') + 1);
-      if (shrtz.contains(shrt)) {
-        shrt = clzz;
-        clzzShrt.put(clzz, clzz);
-      }
-      else {
-  
-        clzzShrt.put(clzz, shrt);
-        if (!isPrimitive(clzz) && !isJavaLang(clzz)) {
-          String withoutgen = clzz;
-          if (generics > 0) {
-            withoutgen = withoutgen.substring(0, generics);
-          }
-          lngClzz.add(withoutgen);
-        }
-        shrtz.add(shrt);
-        
-      }
-      return shrt;
-    }
-  
-
-    
-    private static boolean isJavaLang(final String clzz) {
-      return clzz.startsWith("java.lang") || clzz.equals("String");
-    }
-  
-    private static boolean isPrimitive(final String clzz) {
-      return clzz.equals("boolean") || clzz.equals("int") || 
-             clzz.equals("float") || clzz.equals("double") || 
-             clzz.equals("long") || clzz.equals("short") || 
-             clzz.equals("byte") || clzz.equals("char");
-    }
-  }
-  
   public String getTypeClass(OptionDescription od) {
-    return dict.clzzShrt.get(od.getType().getOptionTypeClass());
+    assert (isPacked);
+    return dict.getTypeClass(od);
   }
   public String getValueTypeClass(OptionDescription od) {
-    return dict.clzzShrt.get(od.getType().getOptionValueTypeClass());
+    assert (isPacked);
+    return dict.getValueTypeClass(od);
   }
   
-  
+  /** {@inheritDoc} */
   @Override
   public void pack() {
     super.pack();
     /* Make sure no newlines in the format string. 
     This should probably be done whilst processing the DSL */
     setFormatString(formatString.replaceAll("\\n", " "));
-    dict.computeImports(getOptionDescriptions());
+    dict = new NameDict(getOptionDescriptions());
     isPacked = true;
   }
 

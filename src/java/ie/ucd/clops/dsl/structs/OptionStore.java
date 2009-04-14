@@ -61,6 +61,10 @@ public class OptionStore {
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();
   }
 
+  /** 
+   * Packs the object: make sure that every value has
+   * been properly set and makes it immutable.
+   */
   public void pack() {
     isPacked = true;
     //TODO Create and add AllOptionsGroup

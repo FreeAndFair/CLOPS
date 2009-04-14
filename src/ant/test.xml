@@ -29,7 +29,7 @@
       <classpath refid="compile.path"/>
     </javac>
   </target>
-  <target name="test-build" depends="junit-tests,test-parser,test-automaton" description="clean up"/>
+  <target name="test-build" depends="test-parser,test-automaton" description="clean up"/>
 
   <target name="unit-tests">
     <echo message="Using ${unit-test-file}"/>
@@ -69,23 +69,7 @@
   </target>
 
 
-  <target name="junit-tests" description="run junit tests">
-    <junit printsummary="yes" showoutput="yes" haltonfailure="yes">
-      <classpath refid="compile.path" />
-      <formatter type="plain"/>
-
-      <batchtest fork="yes" todir="${reports.tests}">
-        <fileset dir="${test-src}">
-          <include name="**/*.java"/>
-        </fileset>
-      </batchtest>
-    </junit>
-  </target>
-
-
-
-
-  <target name="generate-ls">
+    <target name="generate-ls">
     <ant antfile="buildls.xml"  
          dir="dsl"
          inheritAll="false"/>

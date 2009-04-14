@@ -33,7 +33,7 @@ Version:{"-version"}
 OptionFactory:{"-of","--option-factory"}:{string}
   :"Use this option factory instead of the default. Must be a fully qualified class name." 
 TransitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
-  :"Fly rules will applied transitively."
+  :"Fly rules will be applied transitively."
 InfiniteLookahead: {"-oo", "--infinite-lookahead"}:[default="false"]
   :"The command line parser will try harder."
 

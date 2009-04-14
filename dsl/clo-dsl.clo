@@ -29,6 +29,9 @@ Target:{"-t", "--target"}:{file}
 Verbose:{"-v","--verbose"}:[default="false"]
   :"Print debugging messages."
 
+Version:{"-version"}
+  :"Print version information and exit"
+
 //option_factory should probably be a regular expression (for qualified java class names).
 OptionFactory:{"-of","--option-factory"}:{string}
   :"Use this option factory instead of the default. Must be a fully qualified class name." 
@@ -41,11 +44,8 @@ Input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input file."
 
 FORMAT::
-
-//Currently enforcing presence of these options through this format.
-//When we have validity up and running this will not be necessary
-  All* Input All*:
-  "The program takes an argument, the input, surrounded by options.";
+    (All* Input All*) | Version
+  : "The program takes an argument, the input, surrounded by options.";
 
 WHERE::
 

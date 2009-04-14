@@ -1,5 +1,6 @@
 package ie.ucd.clops.dsl;
 
+import ie.ucd.clops.Version;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
@@ -46,32 +47,56 @@ public class Main {
    */
   public static void main(final String[] args) 
     throws AutomatonException, InvalidOptionValueException {
+    main2(args, true);
+  }
+  
+  /**
+   * Programmatic entry point
+   * @param args
+   * @param terminate if System.exit should be called after execution
+   * @throws InvalidOptionValueException 
+   * @throws AutomatonException 
+   */
+  public static boolean main2(final String[] args, boolean terminateSystem) throws AutomatonException, InvalidOptionValueException {
+    boolean overallSuccess;
     try {
       final Main main = new Main();
-      main.start(args);   
-    } 
-    catch (InvalidOptionPropertyValueException e) {
+      overallSuccess = main.start(args, true);   
+    } catch (InvalidOptionPropertyValueException e) {
       e.printStackTrace();
       CLOLogger.getLogger().log(Level.SEVERE, 
                                 "Error setting initial property values for options.");
+      overallSuccess = false;
+    }
+    if (terminateSystem) {
+      System.exit(overallSuccess ? 0 : 1);
+      return overallSuccess; //Just to compile...
+    } else {
+      return overallSuccess;
     }
   }
   
 
-  
-  public void start(String[] args) throws AutomatonException, InvalidOptionValueException {
+  /**
+   * Parse the args and execute the program with the parsed option values.
+   * @param args
+   * @param terminateSystem
+   * @return
+   * @throws AutomatonException
+   * @throws InvalidOptionValueException
+   */
+  public boolean start(String[] args, boolean terminateSystem) throws AutomatonException, InvalidOptionValueException {
     final boolean success = parser.parse(args);
+    
     if (success) {
       final CLODSLOptionStore options = parser.getOptionStore();
-      execute(options);
-    } 
-    else {
-      //Just end?
+       return execute(options);
+    } else {
       CLOLogger.getLogger().log(
         Level.SEVERE, "Format:" + parser.getFormatString());
       CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
-      return;
-    }  
+      return false;
+    } 
   }
 
   public Main() throws InvalidOptionPropertyValueException {
@@ -86,6 +111,11 @@ public class Main {
   private boolean execute(final CLODSLOptionsInterface options) {
     if (options.isVerboseSet() && options.getVerbose()) {
       CLOLogger.setLogLevel(Level.FINE);
+    }
+
+    CLOLogger.getLogger().log(Level.INFO, Version.getVersion());
+    if (options.isVersionSet() && options.getVersion()) {
+      return true;
     }
 
     /* No need to check if each of these are set, as this is 

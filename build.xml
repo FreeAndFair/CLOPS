@@ -1,4 +1,4 @@
-<project name="CLO" default="test-parser" basedir=".">
+<project name="CLO" default="compile-java" basedir=".">
   <description>CLO Build File</description>
 
   <property name="src" location="src"/>
@@ -24,6 +24,9 @@
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
   <property name="TFR" value="false"/>
+	
+	<property name="release-name" value="clops"/>
+	<property name="release-version" value="0.2"/>
 
   <path id="base.path">
     <filelist dir="${lib}">
@@ -83,6 +86,10 @@
       <compilerarg value="-Xlint:all"/>
       <classpath refid="compile.path"/>
     </javac>
+  	<tstamp>
+  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+  	<echo message="${release-name} ${release-version} (${COMPILE_TIME})" file="${build}/version"/>
   </target>
 
   <target name="compile-tests" depends="all-src" description="compile junit tests">

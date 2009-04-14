@@ -24,7 +24,7 @@ public class TestGen {
   private static void runTest(TestSet test, String outputDir) {
         
     try {
-      Main.main(new String[] { test.getFilePath(), "-o", outputDir, "-m", "-p", "" } );
+      Main.main2(new String[] { test.getFilePath(), "-o", outputDir, "-m", "-p", "" }, false);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -182,6 +182,23 @@ public interface CLODSLOptionsInterface {
   boolean getVerbose();
   
 
+// Option Version. 
+// Aliases: [-version]
+
+  /**
+   * @return true if the option Version has been used
+   * in the command line.
+   */
+  boolean isVersionSet();
+
+  /**
+   * Get the value of {@code Option} Version.
+   * @return the value of the option Version if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getVersion();
+  
+
 // Option OptionFactory. 
 // Aliases: [-of, --option-factory]
 

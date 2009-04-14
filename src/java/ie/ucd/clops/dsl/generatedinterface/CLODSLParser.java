@@ -48,6 +48,6 @@ public class CLODSLParser extends AbstractSpecificCLParser {
    * @return the format string.
    */
   public String getFormatString() {
-    return "All* Input All*"; 
+    return "(All* Input All*) | Version"; 
   }
 }

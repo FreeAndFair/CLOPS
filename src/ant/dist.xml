@@ -1,0 +1,33 @@
+<project name="dist" default="dist-build" basedir=".">
+  <description>All the distribution related things</description>
+  <property name="dist"  location="dist"/>
+  <path id="dist.path">
+    <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
+  </path>
+  <target name="dist-build" description="Generate the distribution">
+    <mkdir dir="${dist}/lib"/>
+	
+	<mkdir dir="${dist}/lib"/>
+	<copy todir="${dist}/lib">
+		<fileset dir="${lib}/" includes="antlr-runtime-3.1.3.jar,velocity-1.6.1-dep.jar,velocity-1.6.1.jar"/>
+	</copy>
+		
+	<jar jarfile="${dist}/lib/${runtime-jar-name}.jar">
+	  <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**"/>
+	  <fileset dir="." includes="templates/**"/>
+	  <manifest>
+	    <attribute name="Class-Path" value="antlr-runtime-3.1.3.jar" />
+	  </manifest>
+	</jar>
+	
+	<jar jarfile="${dist}/lib/${full-jar-name}.jar">
+	  <fileset dir="${build}"/>
+	  <fileset dir="." includes="templates/**"/>
+	  <manifest>
+	    <attribute name="Main-Class" value="ie.ucd.clops.dsl.Main" />
+	    <attribute name="Class-Path" value="antlr-runtime-3.1.3.jar velocity-1.6.1-dep.jar velocity-1.6.1.jar" />
+	  </manifest>
+	</jar>
+	  	
+  </target>
+</project>

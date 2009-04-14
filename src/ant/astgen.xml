@@ -1,0 +1,25 @@
+<project name="astgen" default="astgen-build" basedir=".">
+  <description>ASTgen related stuff build File</description>
+ <property name="astgen-dir" location="astgen"/>
+ <target name="astgen-test" description="generates AST">
+    <echo message="Running AST Gen"/>
+    <java fork="yes" dir="src/java/ie/ucd/clops/test" jar="lib/astgen.jar">
+      <arg value="-b"/>
+      <arg value="BaseAST"/>
+      <arg value="-Dpkg=ie.ucd.clops.test" />
+      <arg value="${astgen-dir}/Test.ag" />
+      <arg value="${astgen-dir}/tpl/normal_classes.tpl" />
+    </java>
+  </target>
+	
+  <target name="astgen-build" description="generates AST">
+    <echo message="Running AST Gen"/>
+    <java fork="yes" dir="src/java/ie/ucd/clops/dsl/structs/ast" jar="lib/astgen.jar">
+      <arg value="-b"/>
+      <arg value="BaseAST"/>
+      <arg value="-Dpkg=ie.ucd.clops.dsl.structs.ast" />
+      <arg value="${astgen-dir}/clops.ag" />
+      <arg value="${astgen-dir}/tpl/normal_classes.tpl" />
+    </java>
+  </target>
+</project>

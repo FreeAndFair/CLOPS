@@ -10,13 +10,14 @@
 
 (defconst clops-font-lock-keywords-1
   (list 
-   '("\\<NAME\\>" . font-lock-builtin-face)
-   '("\\<ARGS\\>" . font-lock-builtin-face)
-   '("\\<FORMAT\\>" . font-lock-builtin-face)
-   '("\\<WHERE\\>" . font-lock-builtin-face)
-   '("\\<FLY\\>" . font-lock-builtin-face)
-   '("\\<OVERRIDES\\>" . font-lock-builtin-face)
-   '("\\<VALIDITY\\>" . font-lock-builtin-face)
+   '("\\<NAME::" . font-lock-builtin-face)
+   '("\\<ARGS::" . font-lock-builtin-face)
+   '("\\<FORMAT::" . font-lock-builtin-face)
+   '("\\<WHERE::" . font-lock-builtin-face)
+   '("\\<FLY::" . font-lock-builtin-face)
+   '("\\<OVERRIDES::" . font-lock-builtin-face)
+   '("\\<VALIDITY::" . font-lock-builtin-face)
+   '("\\<PACKAGE::" . font-lock-builtin-face)
   ) 
   "Minimal highlighting expressions for CLOPS mode.")
 

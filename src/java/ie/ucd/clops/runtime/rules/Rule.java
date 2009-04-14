@@ -49,7 +49,7 @@ public abstract class Rule {
   /** Returns a list of options that get affected by this rule, if fired. */
   public java.util.Set<String> getAffectedOptions() {
        java.util.Set<String> retv = new java.util.HashSet<String>(actions.size());
-       for (Action a : actions) retv.add(a.getAffectedOption());
+       for (Action<?> a : actions) retv.add(a.getAffectedOption());
        return retv;
    }  
 }

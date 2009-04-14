@@ -1,240 +1,27 @@
-<project name="CLO" default="compile-java" basedir=".">
+<project name="CLO" default="dist" basedir=".">
   <description>CLO Build File</description>
 
-  <property name="src" location="src"/>
-  <property name="java-src" location="${src}/java"/>
-  <property name="test-src" location="${src}/test"/>
-  <property name="dsl-src" location="dsl"/>
-  <property name="build" location="bin"/>
-  <property name="docs" location="doc"/>
-  <property name="java-docs" location="${docs}/javadoc"/>
-
-  <property name="reports.tests" location="test-reports"/>
-  <property name="lib"  location="lib"/>
-  <property name="test" location="test"/>
-  <property name="temp-test" location="${test}/temp"/>
-  <property name="java-target-version" value="1.5"/>
-
-  <property name="full-jar-name" value="clops"/>
-  <property name="runtime-jar-name" value="clops-runtime"/>
-  <property name="test-file" value="dsl/clo-dsl.clo"/>
-  <property name="unit-test-file" value="test/tests"/>
-  <property name="unit-test-dir" value="test/unittests"/>
-  <property name="src-dsl-interface" value="${java-src}/ie/ucd/clops/dsl/generatedinterface"/>
-  <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
-  <property name="dsl-interface-file" value="${dsl-src}/clo-dsl.clo"/>
-  <property name="TFR" value="false"/>
-	
-	<property name="release-name" value="clops"/>
-	<property name="release-version" value="0.2"/>
-
-  <path id="base.path">
-    <filelist dir="${lib}">
-      <file name="velocity-1.6.2.jar"/>
-      <file name="velocity-1.6.2-dep.jar"/>
-      <file name="junit-4.5.jar"/>
-    </filelist>
-  </path>
-
+  <import file="src/ant/basic.xml"/>
   <import file="src/ant/antlr.xml"/>
+  <import file="src/ant/astgen.xml"/>
   <import file="src/ant/dist.xml"/>
-	
-  <path id="runtime.path">
-   <path refid="base.path"/>
-   <filelist dir="${lib}" files="antlr-runtime-3.1.3.jar"/>
-  </path>
-	
-  <path id="test.path">
-    <path refid="runtime.path"/>
-    <pathelement location="${build}"/>
-  </path>
-	
-	<path id="testdist.path">
-	  <filelist dir="${dist}/lib">
-		  <file name="${full-jar-name}.jar"/>
-	  	<file name="antlr-runtime-3.1.3.jar"/>
-	  	<file name="velocity-1.6.1.jar"/>
-	  </filelist>
-	</path>
+  <import file="src/ant/doc.xml"/>
+  <import file="src/ant/compile.xml"/>
+  <import file="src/ant/test.xml"/>
 
-  <path id="compile.path">
-    <path refid="test.path"/>
-  </path>
-	
-  <path id="src.path">
-    <pathelement path="${java-src}"/>
-    <pathelement path="${test-src}"/>
-  </path>
-	
- 
+  <target name="compile" depends="compile-build" description="compile java and tests"/>
+  <target name="test" depends="test-build" description="Run the tests"/>
 
-  <target name="init">
-    <echo message="Creating timestamp"/>
-    <tstamp/>
-    <mkdir dir="${build}"/>
-    <mkdir dir="${reports.tests}"/>
-  </target>
+  <target name="clean" depends="clean-build,antlr-clean" description="clean up"/>
+  <target name="src" depends="init,antlr-build,astgen-build" description="Create all source files"/>
+
+  <target name="clean-build" depends="compile-clean, dist-clean, doc-clean" description="Clean up the build" />
 
 
-
-  <target name="compile-java" depends="all-src" description="compile the source">
-    <!-- Compile the java code from ${java-src} into ${build} -->
-    <javac srcdir="${java-src}" 
-           destdir="${build}" 
-           target="${java-target-version}"
-           debug="yes">
-      <compilerarg value="-Xlint:all"/>
-      <classpath refid="compile.path"/>
-    </javac>
-  	<tstamp>
-  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
-    </tstamp>
-  	<echo message="${release-name} ${release-version} (${COMPILE_TIME})" file="${build}/version"/>
-  </target>
-
-  <target name="compile-tests" depends="all-src" description="compile junit tests">
-    <javac srcdir="${test-src}" 
-           destdir="${build}" 
-           target="${java-target-version}"
-           debug="yes">
-      <compilerarg value="-Xlint:all"/>
-      <classpath refid="compile.path"/>
-    </javac>
-  </target>
-
-  <target name="compile" depends="compile-java,compile-tests" description="compile java and tests"/>
-
-  <target name="javadocs" depends="antlr-build" description="Generate javadocs">
-    <javadoc sourcepath="${java-src}" destdir="${java-docs}" classpathref="runtime.path"
-             Verbose="no">
-            <packageset dir="${java-src}">    
-                <include name="**"/>
-            </packageset>
-    </javadoc>
-  </target>
-	
-  <target name="update-dslcli" depends="dist">
-    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
-      <assertions>
-        <enable/>
-      </assertions>
-      <classpath refid="testdist.path"/>
-      <arg value="-v"/>
-      <arg value="-o"/>
-      <arg value="${src-dsl-interface}"/>
-      <arg value="-p"/>
-      <arg value="${src-dsl-interface-package}"/>
-      <arg value="${dsl-interface-file}"/>
-    </java>
-    <antcall target="dist"/>
-  </target>
   
 
-  <target name="dist" depends="compile, dist-build" description="Generate the distribution"/>
-  <target name="test-parser" depends="dist" description="simple test">
-  	<echo message="Using ${test-file}"/>
-    <delete dir="${temp-test}"/>
-    <mkdir dir="${temp-test}"/>
-    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
-      <assertions>
-        <enable/>
-      </assertions>
-      <classpath refid="testdist.path"/>
-      <!-- this should probably use the -b option and -d should produce a file -->
-      <!-- corresponding to the input file -->
-      <arg value="-v"/>
-      <arg value="-d"/>
-      <arg value="-t=./test/"/>
-      <arg value="-c"/>
-      <arg value="./templates/usage.vm"/> 
-      <arg value="-b"/>
-      <arg value="htmldev"/> 
-      <arg value="-o"/>
-      <arg value="${temp-test}"/>
-    	<arg value='-p=""'/>
-    	<arg value="-m"/>
-      <arg value="${test-file}"/>
-      <arg value="-tfr=${TFR}"/>
-    </java>
-    <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
-      <compilerarg value="-Xlint:all"/>
-      <classpath refid="dist.path"/>
-    </javac>
-  </target>
+  <target name="dist" depends="compile, dist-build" description="Generate the distribution" />
+  <target name="doc" depends="compile, doc-build" description="Generate documentation." />
+
   
-  <target name="unit-tests" depends="dist">
-    <echo message="Using ${unit-test-file}"/>
-    <delete dir="${unit-test-dir}"/>
-    <mkdir dir="${unit-test-dir}"/>
-    <java fork="yes" classname="ie.ucd.clops.test.TestGen">
-      <classpath refid="testdist.path"/>
-      <arg value="${unit-test-file}"/>
-      <arg value="${unit-test-dir}"/>
-    </java>
-    <javac srcdir="${unit-test-dir}" destdir="${unit-test-dir}" target="${java-target-version}">
-      <compilerarg value="-Xlint:all"/>
-      <classpath>
-        <path refid="testdist.path"/>
-        <pathelement path="${lib}/junit-4.5.jar"/>
-      </classpath>
-    </javac>    
-    <junit fork="yes" printsummary="yes">
-      <classpath>
-        <path refid="testdist.path"/>
-        <pathelement path="${lib}/junit-4.5.jar"/>
-        <pathelement path="${unit-test-dir}"/>
-      </classpath>
-      <test name="UnitTests" haltonfailure="no" outfile="${unit-test-dir}/result">
-      	<formatter type="plain"/>
-      </test>
-    </junit>
-  </target>
-
-  <target name="test-automaton" depends="compile" description="Automaton test">
-    <java fork="yes" classname="ie.ucd.clops.runtime.automaton.AutomatonTest">
-      <assertions>
-         <enable/>
-      </assertions>
-      <classpath refid="test.path"/>
-    </java>
-  </target>
-
-
-  <target name="junit-tests" depends="compile" description="run junit tests">
-    <junit printsummary="yes" showoutput="yes" haltonfailure="yes">
-      <classpath refid="compile.path" />
-      <formatter type="plain"/>
-
-      <batchtest fork="yes" todir="${reports.tests}">
-        <fileset dir="${test-src}">
-          <include name="**/*.java"/>
-        </fileset>
-      </batchtest>
-    </junit>
-  </target>
-
-  <target name="test-all" depends="junit-tests,test-parser,test-automaton" description="clean up"/>
-  <target name="clean-all" depends="clean-build,antlr-clean" description="clean up"/>
-  <target name="clean" depends="clean-all"/>	
-  <target name="all-src" depends="init,antlr-build" description="Create all source files"/>
-
-  <target name="clean-build" description="Clean up the build">
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-    <delete dir="${java-docs}"/>
-  </target>
-
-
-  <target name="generate-ls">
-    <ant antfile="buildls.xml"  
-         dir="dsl"
-         inheritAll="false"/>
-  </target>
-
-  <target name="test-ls" depends="generate-ls">
-     <antcall target="test-parser">
-       <param name="test-file" value="dsl/ls.clo"/>
-       <param name="TFR" value="true"/>
-     </antcall>
-  </target>
 </project>

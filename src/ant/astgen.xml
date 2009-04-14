@@ -1,9 +1,12 @@
 <project name="astgen" default="astgen-build" basedir=".">
-  <description>ASTgen related stuff build File</description>
+ <description>ASTgen related stuff build File</description>
+ <!-- needs src-java and lib dir from the file -->
+ <import file="basic.xml" />
  <property name="astgen-dir" location="astgen"/>
+ 
  <target name="astgen-test" description="generates AST">
     <echo message="Running AST Gen"/>
-    <java fork="yes" dir="src/java/ie/ucd/clops/test" jar="lib/astgen.jar">
+    <java fork="yes" dir="${src-java}/ie/ucd/clops/test" jar="lib/astgen.jar">
       <arg value="-b"/>
       <arg value="BaseAST"/>
       <arg value="-Dpkg=ie.ucd.clops.test" />
@@ -14,7 +17,7 @@
 	
   <target name="astgen-build" description="generates AST">
     <echo message="Running AST Gen"/>
-    <java fork="yes" dir="src/java/ie/ucd/clops/dsl/structs/ast" jar="lib/astgen.jar">
+    <java fork="yes" dir="${src-java}/ie/ucd/clops/dsl/structs/ast" jar="lib/astgen.jar">
       <arg value="-b"/>
       <arg value="BaseAST"/>
       <arg value="-Dpkg=ie.ucd.clops.dsl.structs.ast" />

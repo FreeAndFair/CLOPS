@@ -1,0 +1,17 @@
+<project name="doc" default="doc-build" basedir=".">
+  <description>Doc stuff build File</description>
+  <property name="docs" location="doc"/>
+  <property name="java-docs" location="${docs}/javadoc"/>
+  <target name="javadocs" description="Generate javadocs">
+    <javadoc sourcepath="${src-java}" destdir="${java-docs}" classpathref="runtime.path"
+             Verbose="no">
+            <packageset dir="${src-java}">    
+                <include name="**"/>
+            </packageset>
+    </javadoc>
+  </target>
+  <target name="doc-build" depends="javadocs" />
+  <target name="doc-clean" description="Clean up the documentation">
+    <delete dir="${java-docs}"/>
+  </target>
+</project>

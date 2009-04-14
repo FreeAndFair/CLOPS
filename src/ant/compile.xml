@@ -1,0 +1,25 @@
+<project name="compile" default="compile-build" basedir=".">
+  <description>Compilation stuff build File</description>
+  <import file="basic.xml" />
+  <path id="compile.path">
+    <path refid="runtime.path"/>
+    <pathelement location="${build}"/>
+  </path>
+  <target name="compile-build" description="compile the source">
+    <!-- Compile the java code from ${java-src} into ${build} -->
+    <javac srcdir="${src-java}" 
+           destdir="${build}" 
+           target="${java-target-version}"
+           debug="yes">
+      <compilerarg value="-Xlint:all"/>
+      <classpath refid="compile.path"/>
+    </javac>
+  	<tstamp>
+  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+  	<echo message="${release-name} ${release-version} (${COMPILE_TIME})" file="${build}/version"/>
+  </target>
+  <target name="compile-clean" description="Clean up the compilation">
+    <delete dir="${build}"/>
+  </target>
+</project>

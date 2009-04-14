@@ -1,0 +1,132 @@
+<project name="test" default="test-build" basedir=".">
+  <description>Test related stuff build File</description>
+  <import file="basic.xml" />
+  <path id="test.path">
+    <path refid="runtime.path"/>
+    <pathelement location="${build}"/>
+  </path>
+  <property name="test-src" location="${src}/test"/>
+
+  <property name="TFR" value="false"/>	
+	<path id="testdist.path">
+	  <filelist dir="${dist}/lib">
+		  <file name="${full-jar-name}.jar"/>
+	  	<file name="antlr-runtime-3.1.3.jar"/>
+	  	<file name="velocity-1.6.1.jar"/>
+	  </filelist>
+	</path>
+  <property name="test-file" value="dsl/clo-dsl.clo"/>
+  <property name="unit-test-file" value="test/tests"/>
+  <property name="unit-test-dir" value="test/unittests"/>
+  <property name="test" location="test"/>
+  <property name="temp-test" location="${test}/temp"/>
+  <target name="compile-tests" description="compile junit tests">
+    <javac srcdir="${test-src}" 
+           destdir="${build}" 
+           target="${java-target-version}"
+           debug="yes">
+      <compilerarg value="-Xlint:all"/>
+      <classpath refid="compile.path"/>
+    </javac>
+  </target>
+  <target name="test-build" depends="junit-tests,test-parser,test-automaton" description="clean up"/>
+
+  <target name="unit-tests">
+    <echo message="Using ${unit-test-file}"/>
+    <delete dir="${unit-test-dir}"/>
+    <mkdir dir="${unit-test-dir}"/>
+    <java fork="yes" classname="ie.ucd.clops.test.TestGen">
+      <classpath refid="testdist.path"/>
+      <arg value="${unit-test-file}"/>
+      <arg value="${unit-test-dir}"/>
+    </java>
+    <javac srcdir="${unit-test-dir}" destdir="${unit-test-dir}" target="${java-target-version}">
+      <compilerarg value="-Xlint:all"/>
+      <classpath>
+        <path refid="testdist.path"/>
+        <pathelement path="${lib}/junit-4.5.jar"/>
+      </classpath>
+    </javac>    
+    <junit fork="yes" printsummary="yes">
+      <classpath>
+        <path refid="testdist.path"/>
+        <pathelement path="${lib}/junit-4.5.jar"/>
+        <pathelement path="${unit-test-dir}"/>
+      </classpath>
+      <test name="UnitTests" haltonfailure="no" outfile="${unit-test-dir}/result">
+      	<formatter type="plain"/>
+      </test>
+    </junit>
+  </target>
+
+  <target name="test-automaton" description="Automaton test">
+    <java fork="yes" classname="ie.ucd.clops.runtime.automaton.AutomatonTest">
+      <assertions>
+         <enable/>
+      </assertions>
+      <classpath refid="test.path"/>
+    </java>
+  </target>
+
+
+  <target name="junit-tests" description="run junit tests">
+    <junit printsummary="yes" showoutput="yes" haltonfailure="yes">
+      <classpath refid="compile.path" />
+      <formatter type="plain"/>
+
+      <batchtest fork="yes" todir="${reports.tests}">
+        <fileset dir="${test-src}">
+          <include name="**/*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+
+
+
+  <target name="generate-ls">
+    <ant antfile="buildls.xml"  
+         dir="dsl"
+         inheritAll="false"/>
+  </target>
+
+  <target name="test-ls" depends="generate-ls">
+     <antcall target="test-parser">
+       <param name="test-file" value="dsl/ls.clo"/>
+       <param name="TFR" value="true"/>
+     </antcall>
+  </target>
+	
+
+  <target name="test-parser" description="simple test">
+  	<echo message="Using ${test-file}"/>
+    <delete dir="${temp-test}"/>
+    <mkdir dir="${temp-test}"/>
+    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
+      <assertions>
+        <enable/>
+      </assertions>
+      <classpath refid="testdist.path"/>
+      <!-- this should probably use the -b option and -d should produce a file -->
+      <!-- corresponding to the input file -->
+      <arg value="-v"/>
+      <arg value="-d"/>
+      <arg value="-t=./test/"/>
+      <arg value="-c"/>
+      <arg value="./templates/usage.vm"/> 
+      <arg value="-b"/>
+      <arg value="htmldev"/> 
+      <arg value="-o"/>
+      <arg value="${temp-test}"/>
+    	<arg value='-p=""'/>
+    	<arg value="-m"/>
+      <arg value="${test-file}"/>
+      <arg value="-tfr=${TFR}"/>
+    </java>
+    <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
+      <compilerarg value="-Xlint:all"/>
+      <classpath refid="dist.path"/>
+    </javac>
+  </target>
+</project>

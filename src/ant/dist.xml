@@ -1,6 +1,10 @@
 <project name="dist" default="dist-build" basedir=".">
   <description>All the distribution related things</description>
+  <import file="basic.xml" />
   <property name="dist"  location="dist"/>
+  <property name="full-jar-name" value="clops"/>
+  <property name="runtime-jar-name" value="clops-runtime"/>
+
   <path id="dist.path">
     <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
   </path>
@@ -29,5 +33,8 @@
 	  </manifest>
 	</jar>
 	  	
+  </target>
+  <target name="dist-clean" description="Clean up the distribution">
+    <delete dir="${dist}"/>
   </target>
 </project>

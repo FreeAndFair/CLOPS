@@ -22,10 +22,7 @@ import java.util.List;
  * @author The CLOPS team (kind@ucd.ie)
  */
 public class ${parserName}RuleStore extends RuleStore {
-  {
-    ie.ucd.clops.runtime.rules.RuleStore.TRANSITIVE_FLYRULES = $info.getTransitiveFlyrules();
-  }
-
+  
   public ${parserName}RuleStore() {
 #foreach($flyrule in $info.getFlyRuleDescriptions())
 #set($flyid = $flyrule.getId()) 
@@ -143,4 +140,8 @@ public class ${parserName}RuleStore extends RuleStore {
   }
   
 #end
+
+  protected final boolean shouldApplyFlyRulesTransitively() {
+    return $info.getTransitiveFlyrules();
+  }
 }

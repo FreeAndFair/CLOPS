@@ -19,8 +19,6 @@ import java.util.HashSet;
  *
  */
 public class RuleStore {
-  public static boolean TRANSITIVE_FLYRULES  = false;
-
   private final Map<String,List<FlyRule>> optionIdentifierToFlyRuleMap;
   //Other data structures for normal rules...
   private final List<OverrideRule> overrideRules;
@@ -70,7 +68,7 @@ public class RuleStore {
   }
 
   public void applyFlyRules(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
-    if (TRANSITIVE_FLYRULES) {
+    if (shouldApplyFlyRulesTransitively()) {
       applyFlyRulesTransitive(matchedOption, optionStore);      
     }
     else {
@@ -138,4 +136,11 @@ public class RuleStore {
     }
   }
   
+  /**
+   * Should the fly rules be applied transitively?
+   * @return
+   */
+  protected boolean shouldApplyFlyRulesTransitively() {
+    return true;
+  }
 }

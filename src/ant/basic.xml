@@ -19,7 +19,6 @@
     <filelist dir="${lib}">
       <file name="velocity-1.6.2.jar"/>
       <file name="velocity-1.6.2-dep.jar"/>
-      <file name="junit-4.5.jar"/>
     </filelist>
   </path>		
 

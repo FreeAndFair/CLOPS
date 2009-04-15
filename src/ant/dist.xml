@@ -37,9 +37,9 @@
   </target>
 	
   <target name="dist-bin" description="Generate the bin directory">
-  	<mkdir dir="${dist}/bin"/>
-	<copy todir="${dist-doc}/utils/scripts">
-		<fileset dir="${doc}/bin">
+
+	<copy todir="${dist}/bin">
+		<fileset dir="${doc}/utils/scripts">
 		  <include name="**" />
 		</fileset>
 	</copy>

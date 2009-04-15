@@ -45,7 +45,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogOutputPackage);
     ogOutputPackage.setProperty("stripquotesifpresent", "true");
     ogOutputPackage.setProperty("blankparamallowed", "true");
-    ogOutputPackage.setProperty("description", "Output package. If left empty the default package is used.");
+    ogOutputPackage.setProperty("description", "Output Java package. If left empty, the default package is used.");
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
     addOption(ogDocs);
     ogDocs.setProperty("description", "Use a default documentation template for generation.");
@@ -74,17 +74,23 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogTransitiveFlyRules = new BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
     addOption(ogTransitiveFlyRules);
     ogTransitiveFlyRules.setProperty("default", "false");
-    ogTransitiveFlyRules.setProperty("description", "Fly rules will applied transitively.");
+    ogTransitiveFlyRules.setProperty("description", 
+      "Fly rules in the generated parser will be applied" +
+      "transitively. Meaning that assigning to an option in a fly-rule" +
+      "triggers fly-rules associated with that opion. This is an advanced" +
+      "and experimental feature. The issue with is it that the parser" +
+      "becomes potentially non-terminating due to rules triggering one" +
+      "another.");
     ogInfiniteLookahead = new BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
     addOption(ogInfiniteLookahead);
     ogInfiniteLookahead.setProperty("default", "false");
-    ogInfiniteLookahead.setProperty("description", "The command line parser will try harder.");
+    ogInfiniteLookahead.setProperty("description", "The generated command-line parser will try harder to match inputs to the format.");
     ogInput = new FileOption("Input", "");
     addOption(ogInput);
     ogInput.setProperty("between", "");
     ogInput.setProperty("mustExist", "true");
     ogInput.setProperty("canbedir", "false");
-    ogInput.setProperty("description", "Input file.");
+    ogInput.setProperty("description", "Input CLOPS file.");
   
     CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
     addOption(CLOPSERROROPTION);

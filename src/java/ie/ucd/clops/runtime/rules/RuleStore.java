@@ -141,6 +141,6 @@ public class RuleStore {
    * @return
    */
   protected boolean shouldApplyFlyRulesTransitively() {
-    return true;
+    return false;
   }
 }

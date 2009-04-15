@@ -18,10 +18,7 @@ import java.util.List;
  * @author The CLOPS team (kind@ucd.ie)
  */
 public class CLODSLRuleStore extends RuleStore {
-  {
-    ie.ucd.clops.runtime.rules.RuleStore.TRANSITIVE_FLYRULES = false;
-  }
-
+  
   public CLODSLRuleStore() {
     Expression<Boolean> rule1Condition = new Rule1Condition();
     ValidityRule rule1 = new ValidityRule(rule1Condition);
@@ -47,4 +44,8 @@ public class CLODSLRuleStore extends RuleStore {
     }
   }
   
+
+  protected final boolean shouldApplyFlyRulesTransitively() {
+    return false;
+  }
 }

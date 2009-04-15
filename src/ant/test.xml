@@ -11,8 +11,8 @@
   <property name="test-enable-transflyrules" value="false"/>	
 	
 	<path id="test-dist.path">
-	  <fileset dir="${dist}">
-	    <include name="**/*.jar"/>
+	  <fileset dir="${dist}/lib">
+	    <include name="*.jar"/>
 	  </fileset>
 	  <file name="${lib}/junit-4.5.jar"/>
 	</path>

@@ -14,6 +14,6 @@
   <target name="clean" depends="clean-build,antlr-clean" description="clean up"/>
   <target name="src" depends="init,antlr-build,astgen-build" description="Create all source files"/>
   <target name="clean-build" depends="compile-clean, dist-clean, doc-clean" description="Clean up the build" />
-  <target name="dist" depends="compile, dist-build" description="Generate the distribution" />
+  <target name="dist" depends="compile, doc, dist-build" description="Generate the distribution" />
   <target name="doc" depends="compile, doc-build" description="Generate documentation." />  
 </project>

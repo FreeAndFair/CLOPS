@@ -10,4 +10,5 @@
         <filter-data value="src/java/ie/ucd/clops/dsl/parser"/>
         <filter-data value="src/java/ie/ucd/clops/runtime/parser"/>
     </filter>
+    <filter name="NonSrcDirs" enabled="true"/>
 </fileset-config>

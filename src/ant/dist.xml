@@ -1,22 +1,58 @@
-<project name="dist" default="dist-build" basedir=".">
+<project name="dist" default="dist-build" basedir="../../">
   <description>All the distribution related things</description>
   <import file="basic.xml" />
-  <property name="dist"  location="dist"/>
-  <property name="full-jar-name" value="clops"/>
-  <property name="runtime-jar-name" value="clops-runtime"/>
-
+  <property name="dist-jar" value="${release-name}.jar"/>
+  <property name="dist-runtime-jar" value="${release-name}-runtime.jar"/>
+  <property name="dist-lib" value="${dist}/lib" />
+  <property name="dist-doc" value="${dist}/doc" />
   <path id="dist.path">
-    <filelist dir="${dist}/lib" files="${runtime-jar-name}.jar"/>
+    <filelist dir="${dist}/lib" files="${dist-runtime-jar}"/>
   </path>
-  <target name="dist-build" description="Generate the distribution">
+  <target name="dist-build" depends="dist-init, dist-bin, dist-lib, dist-doc" description="Generate the distribution"/>
+
+  <target name="dist-init" description="Initialiasation to build the distribution.">
     <mkdir dir="${dist}"/>
+	<copy todir="${dist}">
+	 <filelist dir="." files="CHANGELOG,INSTALL,README" />
+	</copy>
+  </target>
+  <target name="dist-doc" description="Generate the doc directory">
+  	<mkdir dir="${dist-doc}" />
+  	<echo message="${doc}" />
+	<copy todir="${dist-doc}/java">
+		<fileset dir="${doc}/javadoc">
+		  <include name="**" />
+		</fileset>
+	</copy>
+	<copy todir="${dist-doc}/manual">
+	  <fileset dir="${doc}/web">
+	    <include name="**" />
+	  </fileset>
+	</copy>
+	<copy todir="${dist-doc}/examples">
+	  <fileset dir="${src-dsl}">
+	    <include name="**" />
+	  </fileset>
+	</copy>
+  </target>
 	
-	<mkdir dir="${dist}/lib"/>
-	<copy todir="${dist}/lib">
-		<fileset dir="${lib}/" includes="antlr-runtime-3.1.3.jar,velocity-1.6.2.jar,velocity-1.6.2-dep.jar"/>
+  <target name="dist-bin" description="Generate the bin directory">
+  	<mkdir dir="${dist}/bin"/>
+	<copy todir="${dist-doc}/utils/scripts">
+		<fileset dir="${doc}/bin">
+		  <include name="**" />
+		</fileset>
+	</copy>
+  </target>
+  <target name="dist-lib" description="Generate the lib directory">
+
+	
+	<mkdir dir="${dist-lib}"/>
+	<copy todir="${dist-lib}">
+		<path refid="runtime.path"/>
 	</copy>
 		
-	<jar jarfile="${dist}/lib/${runtime-jar-name}.jar">
+	<jar jarfile="${dist-lib}/${dist-runtime-jar}">
 	  <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/**"/>
 	  <fileset dir="." includes="templates/**"/>
 	  <manifest>
@@ -24,7 +60,7 @@
 	  </manifest>
 	</jar>
 	
-	<jar jarfile="${dist}/lib/${full-jar-name}.jar">
+	<jar jarfile="${dist-lib}/${dist-jar}">
 	  <fileset dir="${build}"/>
 	  <fileset dir="." includes="templates/**"/>
 	  <manifest>

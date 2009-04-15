@@ -1,4 +1,4 @@
-<project name="test" default="test-build" basedir=".">
+<project name="test" default="test-build" basedir="../../">
   <description>Test related stuff build File</description>
   <import file="basic.xml" />
   <path id="test.path">
@@ -6,51 +6,55 @@
     <pathelement location="${build}"/>
   </path>
   <property name="test-src" location="${src}/test"/>
-
-  <property name="TFR" value="false"/>	
-	<path id="testdist.path">
-	  <filelist dir="${dist}/lib">
-		  <file name="${full-jar-name}.jar"/>
-	  	<file name="antlr-runtime-3.1.3.jar"/>
-	  	<file name="velocity-1.6.2.jar"/>
-	  	<file name="velocity-1.6.2-dep.jar"/>
-	  </filelist>
+  <property name="reports.tests" location="test-reports"/>
+  <property name="test-enable-transflyrules" value="false"/>	
+	
+	<path id="test-dist.path">
+	  <fileset dir="${dist}">
+	    <include name="**/*.jar"/>
+	  </fileset>
 	</path>
   <property name="test-file" value="dsl/clo-dsl.clo"/>
   <property name="unit-test-file" value="test/tests"/>
   <property name="unit-test-dir" value="test/unittests"/>
   <property name="test" location="test"/>
-  <property name="temp-test" location="${test}/temp"/>
-  <target name="compile-tests" description="compile junit tests">
+  <property name="test-temp" location="${test}/temp"/>
+
+  <target name="test-compile" description="Compile unit tests">
     <javac srcdir="${test-src}" 
            destdir="${build}" 
            target="${java-target-version}"
            debug="yes">
       <compilerarg value="-Xlint:all"/>
-      <classpath refid="compile.path"/>
+      <classpath refid="test.path"/>
     </javac>
   </target>
-  <target name="test-build" depends="test-parser,test-automaton" description="clean up"/>
+  <target name="test-build" depends="test-init,test-unit,test-parser,test-automaton" description="clean up"/>
 
-  <target name="unit-tests">
+  <target name="test-init" description="Prepare everything for the tests.">
+    <mkdir dir="${reports.tests}"/>
+  </target>
+  
+  <target name="test-unit" depends="test-compile" 
+  	      description="Run the unit tests">
     <echo message="Using ${unit-test-file}"/>
     <delete dir="${unit-test-dir}"/>
     <mkdir dir="${unit-test-dir}"/>
     <java fork="yes" classname="ie.ucd.clops.test.TestGen">
-      <classpath refid="testdist.path"/>
+      <classpath refid="test.path"/>
       <arg value="${unit-test-file}"/>
       <arg value="${unit-test-dir}"/>
     </java>
     <javac srcdir="${unit-test-dir}" destdir="${unit-test-dir}" target="${java-target-version}">
       <compilerarg value="-Xlint:all"/>
       <classpath>
-        <path refid="testdist.path"/>
+        <path refid="test.path"/>
         <pathelement path="${lib}/junit-4.5.jar"/>
       </classpath>
     </javac>    
     <junit fork="yes" printsummary="yes">
       <classpath>
-        <path refid="testdist.path"/>
+        <path refid="test.path"/>
         <pathelement path="${lib}/junit-4.5.jar"/>
         <pathelement path="${unit-test-dir}"/>
       </classpath>
@@ -69,19 +73,20 @@
     </java>
   </target>
 
-  <target name="generate-ls">
+  <!-- target name="generate-ls">
     <ant antfile="buildls.xml"  
          dir="dsl"
          inheritAll="false"/>
-  </target>
+  </target -->
 
   <target name="test-parser" description="simple test">
   	<echo message="Using ${test-file}"/>
-    <delete dir="${temp-test}"/>
-    <mkdir dir="${temp-test}"/>
+  	<echo message="Using ${toString:test-dist.path}"/>
+    <delete dir="${test-temp}"/>
+    <mkdir dir="${test-temp}"/>
     <java fork="yes" classname="ie.ucd.clops.dsl.Main">
+      <classpath refid="test-dist.path"/>
       <assertions><enable/></assertions>
-      <classpath refid="testdist.path"/>
       <arg value="-v"/>
       <arg value="-d"/>
       <arg value="-t=./test/"/>
@@ -90,15 +95,15 @@
       <arg value="-b"/>
       <arg value="htmldev"/> 
       <arg value="-o"/>
-      <arg value="${temp-test}"/>
+      <arg value="${test-temp}"/>
     	<arg value='-p=""'/>
     	<arg value="-m"/>
       <arg value="${test-file}"/>
-      <arg value="-tfr=${TFR}"/>
+      <arg value="-tfr=${test-enable-transflyrules}"/>
     </java>
-    <javac srcdir="${temp-test}" destdir="${temp-test}" target="${java-target-version}">
+    <javac srcdir="${test-temp}" destdir="${test-temp}" target="${java-target-version}">
       <compilerarg value="-Xlint:all"/>
-      <classpath refid="dist.path"/>
+      <classpath refid="test.path"/>
     </javac>
   </target>
 </project>

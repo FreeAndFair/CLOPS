@@ -1,0 +1,2 @@
+#!/bin/sh
+java -cp $CLOPS_PATH:$CLASSPATH -jar $CLOPS_PATH/clops.jar

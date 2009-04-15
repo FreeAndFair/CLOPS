@@ -1,7 +1,8 @@
-<project name="doc" default="doc-build" basedir=".">
+<project name="doc" default="doc-build" basedir="../../">
   <description>Doc stuff build File</description>
-  <property name="docs" location="doc"/>
-  <property name="java-docs" location="${docs}/javadoc"/>
+  <import file="basic.xml" />
+
+  <property name="java-docs" location="${doc}/javadoc"/>
   <target name="javadocs" description="Generate javadocs">
     <mkdir dir="${java-docs}"/>
     <javadoc sourcepath="${src-java}" destdir="${java-docs}" classpathref="runtime.path"

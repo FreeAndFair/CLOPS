@@ -4,7 +4,7 @@
   <path id="test.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
-    <file name="${lib}/junit-4.5.jar"/>
+    <file file="${lib}/junit-4.5.jar"/>
   </path>
   <property name="test-src" location="${src}/test"/>
   <property name="reports.tests" location="test-reports"/>
@@ -23,6 +23,7 @@
   <property name="test-temp" location="${test}/temp"/>
 
   <target name="test-compile" description="Compile unit tests">
+  	<echo>${toString:test.path}</echo>
     <javac srcdir="${test-src}" 
            destdir="${build}" 
            target="${java-target-version}"
@@ -31,8 +32,8 @@
       <classpath refid="test.path"/>
     </javac>
   </target>
+	
   <target name="test-build" depends="test-init,test-unit,test-parser,test-automaton" description="clean up"/>
-
   <target name="test-init" description="Prepare everything for the tests.">
     <mkdir dir="${reports.tests}"/>
   </target>

@@ -33,21 +33,14 @@
   </target>
 	
   <target name="compile-version" depends="compile-init" description="Creates the version number file">
-  	
-  	<tstamp>
-  	  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
-   </tstamp>
-   <echo message="${release-name} ${release-version}" file="${version-file}"/>
-   <tempfile property="out-svn.temp" prefix="svn-rev"/>
-  	<java classname="org.tmatesoft.svn.cli.SVN" 
-          fork="true"  
-          failonerror="true">
+  	<tstamp><format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/></tstamp>
+    <echo message="${release-name} ${release-version}" file="${version-file}"/>
+    <tempfile property="out-svn.temp" prefix="svn-rev"/>
+  	<java classname="org.tmatesoft.svn.cli.SVN" fork="true" failonerror="true">
   	  <classpath refid="svn.path"/>
       <arg value="info" />
   	</java>
-  	<java classname="org.tmatesoft.svn.cli.SVN" 
-          fork="true" output="${out-svn.temp}" 
-          failonerror="true">
+  	<java classname="org.tmatesoft.svn.cli.SVN" fork="true" output="${out-svn.temp}" failonerror="true">
   	  <classpath refid="svn.path"/>
       <arg value="info" />
   	</java>
@@ -56,17 +49,12 @@
   	                         replace=" rev\2"
   		                     flags="m" />
   	<concat destfile="${version-file}" append="yes">
-  		<filelist>
-  			<file name="${out-svn.temp}"/>
-  		</filelist>
+  		<file file="${out-svn.temp}"/>
   	</concat>
   	<concat destfile="${version-file}" append="yes">${COMPILE_TIME}</concat>
   	<delete file="${out-svn.temp}" />
+  	
   	<echo>Clops version:</echo>
-  	<concat>
-  		<filelist>
-  			<file name="${version-file}"/>
-  		</filelist>
-  	</concat>
+  	<concat><file file="${version-file}"/></concat>
   </target>
 </project>

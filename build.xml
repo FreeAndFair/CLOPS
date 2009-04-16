@@ -10,7 +10,7 @@
   <import file="src/ant/test.xml"/>
 	<import file="src/ant/update.xml"/>
 
-  <target name="compile" depends="compile-build" description="compile java and tests"/>
+  <target name="compile" depends="src,compile-build" description="compile java and tests"/>
   <target name="test" depends="test-build" description="Run the tests"/>
   <target name="clean" depends="clean-build,antlr-clean" description="clean up"/>
   <target name="src" depends="init,antlr-build,astgen-build" description="Create all source files"/>

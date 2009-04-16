@@ -1,10 +1,9 @@
 package ie.ucd.clops.util;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.LineNumberReader;
 
 /**
  * 
@@ -13,28 +12,25 @@ import java.io.Reader;
  */
 public class FileUtil {
 
-  public static Reader getResourceReader(String filePath) {
-
-    InputStream istream = new FileUtil().getClass().getClassLoader().getResourceAsStream(filePath);
+  public static LineNumberReader getResourceReader(String filePath) {
+    final InputStream istream = 
+      new FileUtil().getClass().getClassLoader().getResourceAsStream(filePath);
     if (istream != null) {
-      final BufferedReader br = new BufferedReader(new InputStreamReader(istream));
+      final LineNumberReader br = new LineNumberReader(new InputStreamReader(istream));
       return br;    
     } else {
       return null;
     }
   }
   
-  public static String readToString(Reader r) throws IOException {
-    final StringBuilder sb = new StringBuilder();
-    int c;
-    while ((c = r.read()) != -1) {
-      sb.append((char)c);
-    }
-    return sb.toString();
-  }
-  
   public static String readToString(String filePath) throws IOException {
-    return readToString(getResourceReader(filePath));
+    final LineNumberReader lnr = getResourceReader(filePath); 
+    final StringBuilder blder = new StringBuilder();
+    blder.append(lnr.readLine());
+    blder.append(" (");
+    blder.append(lnr.readLine());
+    blder.append(")");
+    return blder.toString();
   }
   
 }

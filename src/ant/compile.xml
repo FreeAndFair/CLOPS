@@ -1,11 +1,19 @@
 <project name="compile" default="compile-build" basedir="../../">
   <description>Compilation stuff build File</description>
   <import file="basic.xml" />
+	
+  <property name="version-file" location="${build}/version"/>
   <path id="compile.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
   </path>
-  <target name="compile-build" description="compile the source">
+  <path id="svn.path">
+    <path refid="runtime.path"/>
+	<fileset dir="${lib}">
+  	  <include name="**/*.jar" />
+  	</fileset>
+  </path>
+  <target name="compile-build" depends="compile-version" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
   	<mkdir dir="${build}"/>
     <javac srcdir="${src-java}" 
@@ -15,12 +23,40 @@
       <compilerarg value="-Xlint:all"/>
       <classpath refid="compile.path"/>
     </javac>
-  	<tstamp>
-  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
-    </tstamp>
-  	<echo message="${release-name} ${release-version} (${COMPILE_TIME})" file="${build}/version"/>
   </target>
   <target name="compile-clean" description="Clean up the compilation">
     <delete dir="${build}"/>
+  </target>
+	
+  <target name="compile-version" description="Creates the version number file">
+  	
+  	<tstamp>
+  	  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
+   </tstamp>
+   <echo message="${release-name} ${release-version}" file="${version-file}"/>
+   <tempfile property="out-svn.temp" prefix="svn-rev"/>
+  	<java classname="org.tmatesoft.svn.cli.SVN" 
+          fork="true" output="${out-svn.temp}" 
+          failonerror="true">
+  	  <classpath refid="svn.path"/>
+      <arg value="info" />
+  	</java>
+  	<replaceregexp file="${out-svn.temp}"
+  	                         match="(^[A-Z].*[.\newline])*Revision: ([0-9]+)([.\newline])*(^[A-Z].*[.\newline])*"
+  	                         replace=" rev\2"
+  		                     flags="m" />
+  	<concat destfile="${version-file}" append="yes">
+  		<filelist>
+  			<file name="${out-svn.temp}"/>
+  		</filelist>
+  	</concat>
+  	<concat destfile="${version-file}" append="yes">${COMPILE_TIME}</concat>
+  	<delete file="${out-svn.temp}" />
+  	<echo>Clops version:</echo>
+  	<concat>
+  		<filelist>
+  			<file name="${version-file}"/>
+  		</filelist>
+  	</concat>
   </target>
 </project>

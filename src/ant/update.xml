@@ -5,7 +5,7 @@
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="dsl/clo-dsl.clo"/>
 
-  <target name="update-dslcli" depends="dist">
+  <target name="update-dslcli">
     <java fork="yes" classname="ie.ucd.clops.dsl.Main">
       <assertions>
         <enable/>

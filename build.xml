@@ -18,5 +18,5 @@
   <target name="dist" depends="compile, doc, dist-build" description="Generate the distribution" />
   <target name="dist-exec" depends="compile, dist-lib" description="Generate the executable part of the distribution" />
   <target name="doc" depends="compile, doc-build" description="Generate documentation." />
-  <target name="update" depends="update-dslcli" description="Update the clops command line interface"/>
+	<target name="update" depends="dist-lib,update-dslcli" description="Update the clops command line interface"/>
 </project>

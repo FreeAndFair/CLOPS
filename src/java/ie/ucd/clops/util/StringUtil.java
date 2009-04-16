@@ -103,7 +103,7 @@ public class StringUtil {
   }
 
   public static Map<String, StringBuilder> parseChoice(String choice) {
-    final Map<String, StringBuilder> map = new HashMap<String,StringBuilder>();
+    final Map<String, StringBuilder> map = new HashMap<String, StringBuilder>();
     final String[] parts = choice.split(",");
     for (String part : parts) {
       parseChoicePart(part, map);
@@ -111,12 +111,12 @@ public class StringUtil {
     return map;
   }
   
-  private static void parseChoicePart(String part, Map<String,StringBuilder> map) {
+  private static void parseChoicePart(String part, Map<String, StringBuilder> map) {
     String name, parseString;
-    int index = part.indexOf('(');
+    final int index = part.indexOf('(');
     if (index != -1) {
       parseString = part.substring(0, index);
-      name = part.substring(index+1,part.length()-1);
+      name = part.substring(index + 1, part.length() - 1);
     } else {
       parseString = part;
       name = part;

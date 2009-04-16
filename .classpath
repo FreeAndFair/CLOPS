@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/antlr-3.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/svnkit-1.2.3.5521/svnkit.jar" sourcepath="lib/svnkit-1.2.3.5521/svnkitsrc.zip"/>
+	<classpathentry kind="lib" path="lib/svnkit-1.2.3.5521/svnkit-cli.jar" sourcepath="lib/svnkit-1.2.3.5521/svnkitclisrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

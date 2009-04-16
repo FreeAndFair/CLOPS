@@ -15,48 +15,59 @@ import org.junit.Test;
  * @author Mikolas Janota
  */
 public class TestGenericCLParser {
-    private OptionStore os;
-    private RuleStore flyStore;
-    private BooleanOption bo1;
-    private BooleanOption bo2;
-    private GenericCLParser gp;
+  private OptionStore os;
+  private RuleStore flyStore;
+  private BooleanOption bo1;
+  private BooleanOption bo2;
+  private GenericCLParser gp;
+  
+  @Before 
+  public void setUp() {
+    os = new OptionStore();
+    bo1 = new BooleanOption("bo1", "-bo");
+    bo2 = new BooleanOption("bo2", "-boo");
 
-    @Before public void setUp() {
-        os = new OptionStore();
-        bo1 = new BooleanOption("bo1", "-bo");
-        bo2 = new BooleanOption("bo2", "-boo");
+    os.addOption(bo1);
+    os.addOption(bo2);
+    
+    flyStore = new RuleStore();
 
-        os.addOption(bo1);
-        os.addOption(bo2);
-        
-        flyStore = new RuleStore();
+    gp = new GenericCLParser();
+  }
+  
+  @Test
+  public void testArg() throws Exception { 
+    Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"xxxx"}));
+  }
+  
+  @Test(expected=Tokenizer.UnknownOptionException.class) 
+  public void testParserUnknownOptionException2() throws Exception {
+    Assert.assertFalse(gp.parse("xxx", os, flyStore, new String[] {"-boo"}));
+  }
+  
+  
+  @Test 
+  public void testParse() throws Exception {
+    Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"})); 
+                         // shouldn't parse
+    Assert.assertTrue(gp.parse("bo2", os, flyStore, new String[] {"-boo"})); // should parse
+    Assert.assertTrue(gp.parse("bo2?", os, flyStore, new String[] {"-boo"})); // should parse
+    Assert.assertTrue(gp.parse("bo2*", os, flyStore, new String[] {"-boo" , "-boo" , "-boo"}));
+                         // should parse
 
-        gp = new GenericCLParser();
-    }
+    Assert.assertTrue(gp.parse("bo2* bo1*", os, flyStore, 
+                               new String[] {"-boo" , "-boo" , "-boo", 
+                                             "-bo", "-bo"})); // should parse
 
-    @Test public void testArg() throws Exception { 
-        Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"xxxx"}));
-    }
+    Assert.assertFalse(gp.parse("bo2+ bo1*", os, flyStore, 
+                                new String[] {"-bo"})); // shouldn't go thru
 
-    @Test(expected=Tokenizer.UnknownOptionException.class) 
-        public void testParserUnknownOptionException2() throws Exception {
-        Assert.assertFalse(gp.parse("xxx", os, flyStore, new String[] {"-boo"}));
-    }
+    Assert.assertTrue(gp.parse("(bo2 | bo1)*", os, flyStore, 
+                               new String[] {"-bo", "-boo", "-bo", 
+                                             "-bo", "-boo"})); // should parse
 
-
-    @Test public void testParse() throws Exception {
-        Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"})); // shouldn't parse
-        Assert.assertTrue(gp.parse("bo2", os, flyStore, new String[] {"-boo"})); // should parse
-        Assert.assertTrue(gp.parse("bo2?", os, flyStore, new String[] {"-boo"})); // should parse
-        Assert.assertTrue(gp.parse("bo2*", os, flyStore, new String[] {"-boo" , "-boo" , "-boo"})); // should parse
-
-        Assert.assertTrue(gp.parse("bo2* bo1*", os, flyStore, new String[] {"-boo" , "-boo" , "-boo", "-bo", "-bo"})); // should parse
-
-        Assert.assertFalse(gp.parse("bo2+ bo1*", os, flyStore, new String[] {"-bo"})); // shouldn't go thru
-
-        Assert.assertTrue(gp.parse("(bo2 | bo1)*", os, flyStore, new String[] {"-bo", "-boo", "-bo", "-bo", "-boo"})); // should parse
-
-        Assert.assertTrue(gp.parse("bo2*", os, flyStore, new String[] {"-boo", "-boo", "-boo"})); // should parse
-    }
+    Assert.assertTrue(gp.parse("bo2*", os, flyStore, 
+                               new String[] {"-boo", "-boo", "-boo"})); // should parse
+  }
 
 }

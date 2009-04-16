@@ -14,9 +14,10 @@ import java.io.Reader;
 public class FileUtil {
 
   public static Reader getResourceReader(String filePath) {
+
     InputStream istream = new FileUtil().getClass().getClassLoader().getResourceAsStream(filePath);
     if (istream != null) {
-      BufferedReader br = new BufferedReader(new InputStreamReader(istream));
+      final BufferedReader br = new BufferedReader(new InputStreamReader(istream));
       return br;    
     } else {
       return null;
@@ -24,9 +25,9 @@ public class FileUtil {
   }
   
   public static String readToString(Reader r) throws IOException {
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     int c;
-    while((c = r.read()) != -1) {
+    while ((c = r.read()) != -1) {
       sb.append((char)c);
     }
     return sb.toString();

@@ -36,6 +36,12 @@
    <echo message="${release-name} ${release-version}" file="${version-file}"/>
    <tempfile property="out-svn.temp" prefix="svn-rev"/>
   	<java classname="org.tmatesoft.svn.cli.SVN" 
+          fork="true"  
+          failonerror="true">
+  	  <classpath refid="svn.path"/>
+      <arg value="info" />
+  	</java>
+  	<java classname="org.tmatesoft.svn.cli.SVN" 
           fork="true" output="${out-svn.temp}" 
           failonerror="true">
   	  <classpath refid="svn.path"/>

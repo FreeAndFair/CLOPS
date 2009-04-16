@@ -13,9 +13,13 @@
   	  <include name="**/*.jar" />
   	</fileset>
   </path>
-  <target name="compile-build" depends="compile-version" description="compile the source">
-    <!-- Compile the java code from ${java-src} into ${build} -->
+  <target name="compile-init" description="Initialize the process" >
   	<mkdir dir="${build}"/>
+  </target>
+	
+  <target name="compile-build" depends="compile-init,compile-version" description="compile the source">
+    <!-- Compile the java code from ${java-src} into ${build} -->
+
     <javac srcdir="${src-java}" 
            destdir="${build}" 
            target="${java-target-version}"
@@ -28,7 +32,7 @@
     <delete dir="${build}"/>
   </target>
 	
-  <target name="compile-version" description="Creates the version number file">
+  <target name="compile-version" depends="compile-init" description="Creates the version number file">
   	
   	<tstamp>
   	  	  <format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>

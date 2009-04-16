@@ -11,11 +11,12 @@
 	<import file="src/ant/update.xml"/>
 
   <target name="compile" depends="src,compile-build" description="compile java and tests"/>
-  <target name="test" depends="compile,dist-lib,test-build" description="Run the tests"/>
+  <target name="test" depends="compile,dist-exec,test-build" description="Run the tests"/>
   <target name="clean" depends="clean-build,antlr-clean" description="clean up"/>
   <target name="src" depends="init,antlr-build,astgen-build" description="Create all source files"/>
   <target name="clean-build" depends="compile-clean, dist-clean, doc-clean" description="Clean up the build" />
   <target name="dist" depends="compile, doc, dist-build" description="Generate the distribution" />
+  <target name="dist-exec" depends="compile, dist-lib" description="Generate the executable part of the distribution" />
   <target name="doc" depends="compile, doc-build" description="Generate documentation." />
-	<target name="update" depends="update-dslcli" description="Update the clops command line interface"/>
+  <target name="update" depends="update-dslcli" description="Update the clops command line interface"/>
 </project>

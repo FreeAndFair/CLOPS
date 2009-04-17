@@ -113,7 +113,6 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   private void updateSuffix() {
     setMatchingSuffix("(?:" + between + "(" + argumentShape + "))?" + SEP);
-    System.out.println(getSuffix());
     //      between + "(" + argumentShape + ")" + SEP);
   }
 }

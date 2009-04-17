@@ -78,7 +78,7 @@ Generate the parser with:</p>
 
 <pre class="cmdline">
 java -jar CLOPSPATH/lib/clops.jar\
-  src/wc.clo -o src/generated -p generated
+  src/wc.clo -o src/generated -p generated\
   -d cli.html -b html
 </pre>
 
@@ -159,7 +159,7 @@ Create the <tt>build.xml</tt> file:</p>
 
 <pre class="prettyprint">
 &lt;project name="Wc" default="compile" basedir="."&gt;
-  /* to be filled later */
+  &lt;!-- to be filled later --&gt;
 &lt;/project&gt;
 </pre>
 
@@ -178,7 +178,9 @@ to have the file <tt>clops-runtime.jar</tt> in the classpath.</p>
   &lt;/target&gt;
 </pre>
 
-<p>The code generation phase is simply an invocation of CLOPS.</p>
+<p>The code generation phase is simply an invocation of CLOPS.
+You may need to change the path for <code>clops.jar</code> to fit your
+clops installation.</p>
 
 <pre class="prettyprint">
   &lt;target name="clops-generate" 

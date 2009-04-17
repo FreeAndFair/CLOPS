@@ -47,3 +47,17 @@ invalid: {-sdfahsdjkh}
 file:dsl/tail.clo
 name: Tail
 valid: {--retry}
+valid: {10}
+valid: {-10}
+valid: {--lines=34}
+invalid: {--lines34}
+invalid: {--lines 34}
+
+file:dsl/gzip.clo
+name: Gzip
+valid: {-1}
+valid: {-9}
+invalid: {-10}
+valid: {--best --fast -6}
+valid: {--}
+valid: {${existing-file} -S .dd -- ${existing-file}}

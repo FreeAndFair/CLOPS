@@ -26,8 +26,6 @@ public class OptionStore {
     optionGroupDescriptions = new LinkedList<OptionGroupDescription>();
   }
 
-  
-  
   public void addOptionDescription(OptionDescription optionDescription) {
     assert (!isPacked);
     optionDescriptions.add(optionDescription);
@@ -52,12 +50,14 @@ public class OptionStore {
   
   
   public OptionDescription getOptionDescriptionForIdentifier(String id) {
-    final OptionDescription od =  optionAndGroupNameMap.get(id);
-    return od;
+    return optionNameMap.get(id);
   }
   
   public String getOptionValueTypeParameterisationForIdentifier(String identifier) {
+    System.out.println("Getting " + identifier);
     final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
+    System.out.println("Found: " + od);
+    System.out.println("Fulle map: " + optionNameMap);
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();
   }
 

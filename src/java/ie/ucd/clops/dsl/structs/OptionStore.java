@@ -56,7 +56,7 @@ public class OptionStore {
     return od;
   }
   
-  public String getOptionValuTypeParameterisationForIdentifier(String identifier) {
+  public String getOptionValueTypeParameterisationForIdentifier(String identifier) {
     final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();
   }

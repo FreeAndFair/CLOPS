@@ -34,9 +34,8 @@ public class ${parserName}RuleStore extends RuleStore {
     FlyRule rule${flyid} = new FlyRule("$flyrule.getTriggeringOptionIdentifier()",rule${flyid}Condition);
     addFlyRule("$flyrule.getTriggeringOptionIdentifier()", rule${flyid});
 #foreach($assign in $flyrule.getAssignments())
-#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+#set($assigntype = $info.getOptionValueTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
     rule${flyid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${flyid}Expression$assign.getId()()));
-    
 #end
 #end    
 #foreach($orrule in $info.getOverrideRuleDescriptions())
@@ -45,7 +44,7 @@ public class ${parserName}RuleStore extends RuleStore {
     OverrideRule rule${orid} = new OverrideRule(rule${orid}Condition);
     addOverrideRule(rule${orid});
 #foreach($assign in $orrule.getAssignments())
-#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+#set($assigntype = $info.getOptionValueTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
     rule${orid}.addAction(new Action<$assigntype>("$assign.getOptionIdentifier()", new Rule${orid}Expression$assign.getId()()));
 
 #end
@@ -73,7 +72,7 @@ public class ${parserName}RuleStore extends RuleStore {
     
 #end
 #foreach($assign in $flyrule.getAssignments())
-#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+#set($assigntype = $info.getOptionValueTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
   public static class Rule${flyid}Expression$assign.getId() implements Expression<$assigntype> {
     /**
      * {@inheritDoc}
@@ -97,7 +96,7 @@ public class ${parserName}RuleStore extends RuleStore {
   }
     
 #foreach($assign in $orrule.getAssignments())
-#set($assigntype = $info.getOptionValuTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
+#set($assigntype = $info.getOptionValueTypeParameterisationForIdentifier($assign.getOptionIdentifier()))
   public static class Rule${orid}Expression$assign.getId() implements Expression<$assigntype> {
     /**
      * {@inheritDoc}

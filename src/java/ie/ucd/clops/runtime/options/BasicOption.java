@@ -31,6 +31,7 @@ public abstract class BasicOption<T> implements Option<T> {
   private Matcher matcher;
   
   private String description;
+  private String[] aliases;
 
   public BasicOption(String identifier, String prefixRegexp) {
     this.identifier = identifier;
@@ -39,6 +40,7 @@ public abstract class BasicOption<T> implements Option<T> {
     
     this.prefix = prefixRegexp;
     this.suffix = SEP_STRING;
+    this.aliases = new String[0];
   }
 
   /* (non-Javadoc)
@@ -119,6 +121,7 @@ public abstract class BasicOption<T> implements Option<T> {
       acceptedPropertyNames.add("sanitizeprefix");
       acceptedPropertyNames.add("suffixregexp");
       acceptedPropertyNames.add("description");
+      acceptedPropertyNames.add("aliases");
     }
     return acceptedPropertyNames;
   }
@@ -151,6 +154,8 @@ public abstract class BasicOption<T> implements Option<T> {
       setMatchingSuffix(propertyValue);
     } else if (propertyName.equalsIgnoreCase("description")) {
       this.description = propertyValue;
+    } else if (propertyName.equalsIgnoreCase("aliases")) {
+      this.aliases = propertyValue.split(",");
     } else {
       throw new InvalidOptionPropertyValueException("Unknown property " + propertyName);
     }

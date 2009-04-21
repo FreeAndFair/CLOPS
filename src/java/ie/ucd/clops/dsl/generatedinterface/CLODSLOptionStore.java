@@ -25,7 +25,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final BooleanOption ogVersion;
   private final StringOption ogOptionFactory;
   private final BooleanOption ogTransitiveFlyRules;
-  private final BooleanOption ogInfiniteLookahead;
   private final FileOption ogInput;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
@@ -37,43 +36,54 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogOutput.setProperty("mustExist", "true");
     ogOutput.setProperty("mustbedir", "true");
     ogOutput.setProperty("default", ".");
+    ogOutput.setProperty("aliases", "-o,--output");
     ogOutput.setProperty("description", "Output directory for generated Java files.");
     ogTest = new BooleanOption("Test", "(?:-m)|(?:--main)");
     addOption(ogTest);
+    ogTest.setProperty("aliases", "-m,--main");
     ogTest.setProperty("description", "Generate a Main class with a main method for rapid testing/debugging.");
     ogOutputPackage = new StringOption("OutputPackage", "(?:-p)|(?:--package)");
     addOption(ogOutputPackage);
     ogOutputPackage.setProperty("stripquotesifpresent", "true");
     ogOutputPackage.setProperty("blankparamallowed", "true");
+    ogOutputPackage.setProperty("aliases", "-p,--package");
     ogOutputPackage.setProperty("description", "Output Java package. If left empty, the default package is used.");
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
     addOption(ogDocs);
+    ogDocs.setProperty("aliases", "-d,--docs");
     ogDocs.setProperty("description", "Use a default documentation template for generation.");
     ogBuiltin = new EnumListOption("Builtin", "(?:-b)|(?:--built-in)");
     addOption(ogBuiltin);
     ogBuiltin.setProperty("choices", "htmldev,html,manpage,usage,help");
+    ogBuiltin.setProperty("aliases", "-b,--built-in");
     ogBuiltin.setProperty("description", "Use a specific built-in documentation template for generation (you must specify one of the following: htmldev,html,manpage,usage).");
     ogCustom = new FileListOption("Custom", "(?:-c)|(?:--custom)");
     addOption(ogCustom);
     ogCustom.setProperty("mustExist", "true");
     ogCustom.setProperty("canBeDir", "false");
+    ogCustom.setProperty("aliases", "-c,--custom");
     ogCustom.setProperty("description", "Use custom templates for generation.");
     ogTarget = new FileOption("Target", "(?:-t)|(?:--target)");
     addOption(ogTarget);
+    ogTarget.setProperty("aliases", "-t,--target");
     ogTarget.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
     ogVerbose = new BooleanOption("Verbose", "(?:-v)|(?:--verbose)");
     addOption(ogVerbose);
     ogVerbose.setProperty("default", "false");
+    ogVerbose.setProperty("aliases", "-v,--verbose");
     ogVerbose.setProperty("description", "Print debugging messages.");
     ogVersion = new BooleanOption("Version", "(?:-version)");
     addOption(ogVersion);
+    ogVersion.setProperty("aliases", "-version");
     ogVersion.setProperty("description", "Print version information and exit");
     ogOptionFactory = new StringOption("OptionFactory", "(?:-of)|(?:--option-factory)");
     addOption(ogOptionFactory);
+    ogOptionFactory.setProperty("aliases", "-of,--option-factory");
     ogOptionFactory.setProperty("description", "Use this option factory instead of the default. Must be a fully qualified class name.");
     ogTransitiveFlyRules = new BooleanOption("TransitiveFlyRules", "(?:-tfr)|(?:--transitive-fly-rules)");
     addOption(ogTransitiveFlyRules);
     ogTransitiveFlyRules.setProperty("default", "false");
+    ogTransitiveFlyRules.setProperty("aliases", "-tfr,--transitive-fly-rules");
     ogTransitiveFlyRules.setProperty("description", 
       "Fly rules in the generated parser will be applied" +
       "transitively. Meaning that assigning to an option in a fly-rule" +
@@ -81,15 +91,12 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
       "and experimental feature. The issue with is it that the parser" +
       "becomes potentially non-terminating due to rules triggering one" +
       "another.");
-    ogInfiniteLookahead = new BooleanOption("InfiniteLookahead", "(?:-oo)|(?:--infinite-lookahead)");
-    addOption(ogInfiniteLookahead);
-    ogInfiniteLookahead.setProperty("default", "false");
-    ogInfiniteLookahead.setProperty("description", "The generated command-line parser will try harder to match inputs to the format.");
     ogInput = new FileOption("Input", "");
     addOption(ogInput);
     ogInput.setProperty("between", "");
     ogInput.setProperty("mustExist", "true");
     ogInput.setProperty("canbedir", "false");
+    ogInput.setProperty("aliases", "");
     ogInput.setProperty("description", "Input CLOPS file.");
   
     CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
@@ -110,15 +117,14 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     //Setup groupings
     ogAll.addOptionOrGroup(ogOutputPackage);
     ogAll.addOptionOrGroup(ogVerbose);
-    ogAll.addOptionOrGroup(ogOptionFactory);
-    ogAll.addOptionOrGroup(ogOutput);
-    ogAll.addOptionOrGroup(ogCustom);
-    ogAll.addOptionOrGroup(ogTransitiveFlyRules);
     ogAll.addOptionOrGroup(ogTest);
+    ogAll.addOptionOrGroup(ogOptionFactory);
     ogAll.addOptionOrGroup(ogTarget);
     ogAll.addOptionOrGroup(ogBuiltin);
-    ogAll.addOptionOrGroup(ogInfiniteLookahead);
+    ogAll.addOptionOrGroup(ogOutput);
+    ogAll.addOptionOrGroup(ogCustom);
     ogAll.addOptionOrGroup(ogVersion);
+    ogAll.addOptionOrGroup(ogTransitiveFlyRules);
     ogAll.addOptionOrGroup(ogDocs);
     ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogOutputPackage);
@@ -129,7 +135,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogTemplates.addOptionOrGroup(ogCustom);
     ogTemplates.addOptionOrGroup(ogDocs);
     ogAdvanced.addOptionOrGroup(ogOptionFactory);
-    ogAdvanced.addOptionOrGroup(ogInfiniteLookahead);
     ogAdvanced.addOptionOrGroup(ogTransitiveFlyRules);
     //AllOptions group
     ogAllOptions.addOptionOrGroup(ogOutput);
@@ -143,7 +148,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAllOptions.addOptionOrGroup(ogVersion);
     ogAllOptions.addOptionOrGroup(ogOptionFactory);
     ogAllOptions.addOptionOrGroup(ogTransitiveFlyRules);
-    ogAllOptions.addOptionOrGroup(ogInfiniteLookahead);
     ogAllOptions.addOptionOrGroup(ogInput);
   }
   
@@ -410,30 +414,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public BooleanOption getTransitiveFlyRulesOption() {
     return ogTransitiveFlyRules;
-  }
-  
-// Option InfiniteLookahead.
-// Aliases: [-oo, --infinite-lookahead]
-  
-  /**
-   * {@inheritDoc}
-   */
-  public boolean isInfiniteLookaheadSet() {
-    return ogInfiniteLookahead.hasValue();
-  }
-  
-  /** {@inheritDoc} */
-  public boolean getInfiniteLookahead() {
-    return ogInfiniteLookahead.getValue();
-  }
-
-  /** {@inheritDoc} */
-  public boolean getRawInfiniteLookahead() {
-    return ogInfiniteLookahead.getRawValue();
-  }
-  
-  public BooleanOption getInfiniteLookaheadOption() {
-    return ogInfiniteLookahead;
   }
   
 // Option Input.

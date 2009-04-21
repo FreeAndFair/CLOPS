@@ -30,8 +30,15 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #set($id = $desc.getIdentifier())
     og${id} = new ${info.getTypeClass($desc)}("$id", "$OptionType.unifyRegexps($desc.getPrefixRegexps())");
     addOption(og${id});
+#set($aliasesset = false)
 #foreach($pair in $desc.getProperties())
     og${id}.setProperty("$pair.first", "$pair.second");
+#if($pair.getFirst().equalsIgnoreCase("aliases"))
+#set($aliasesset = true)
+#end
+#end
+#if(!$aliasesset)
+    og${id}.setProperty("aliases", "$StringUtil.collectionToString($desc.getAliases(),false)");
 #end
 #if( "$!desc.getDescription()" != "" )
 #set( $lines = $StringUtil.quoteMultilineString($desc.getDescription()) )

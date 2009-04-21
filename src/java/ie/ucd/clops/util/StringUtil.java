@@ -1,6 +1,7 @@
 package ie.ucd.clops.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +47,6 @@ public class StringUtil {
   }
 
   public static String convertAliasesForManpage(List<String> aliases) {
-    System.out.println("Before: " + aliases);
     final StringBuilder sb = new StringBuilder();
     for (String alias : aliases) {
       sb.append(alias.replace("-", "\\-").replace("\\\\?", "?"));
@@ -55,8 +55,6 @@ public class StringUtil {
     if (sb.length() > 1) {
       sb.delete(sb.length() - 2, sb.length());
     }
-
-    System.out.println("After: " + sb.toString());
     return sb.toString();
   }
   
@@ -130,5 +128,23 @@ public class StringUtil {
       sb.append(parseString);
       sb.append('"');
     }
+  }
+  
+  public static String collectionToString(Collection<?> collection, boolean addSpace) {
+    StringBuilder sb = new StringBuilder();
+    
+    for (Object o : collection) {
+     sb.append(o.toString());
+     sb.append(',');
+     if (addSpace) {
+       sb.append(' ');
+     }
+    }
+    int deleteLength = addSpace ? 2 : 1;
+    if (sb.length() >= deleteLength) {
+      sb.delete(sb.length()-deleteLength, sb.length());
+    }
+    
+    return sb.toString();
   }
 }

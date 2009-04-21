@@ -233,23 +233,6 @@ public interface CLODSLOptionsInterface {
   boolean getTransitiveFlyRules();
   
 
-// Option InfiniteLookahead. 
-// Aliases: [-oo, --infinite-lookahead]
-
-  /**
-   * @return true if the option InfiniteLookahead has been used
-   * in the command line.
-   */
-  boolean isInfiniteLookaheadSet();
-
-  /**
-   * Get the value of {@code Option} InfiniteLookahead.
-   * @return the value of the option InfiniteLookahead if it has been set
-   * using the arguments. Throws an {@code IllegalStateException} otherwise.
-   */ 
-  boolean getInfiniteLookahead();
-  
-
 // Option Input. 
 // Aliases: []
 

@@ -48,7 +48,6 @@ public class OptionStoreDescription {
     return optionGroupDescriptions;
   }
   
-  
   public OptionDescription getOptionDescriptionForIdentifier(String id) {
     return optionNameMap.get(id);
   }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
  */
 public class FileOption extends OneArgumentOption<File> {
   public static final String DASH_REGEXP = "[^" + SEP + "]+";
-  public static final String NO_DASH_REGEXP = "[^-][^" + SEP + "]*";
+  public static final String NO_DASH_REGEXP = "[^-" + SEP + "][^" + SEP + "]*";
 
   private FileOptionConstraints constraints;
   private File value;

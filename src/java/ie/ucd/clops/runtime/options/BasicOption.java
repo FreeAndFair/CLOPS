@@ -198,5 +198,9 @@ public abstract class BasicOption<T> implements Option<T> {
   public String getDescription() {
     return description;
   }
+
+  public String getSuffix() {
+      return suffix;
+  }
   
 }

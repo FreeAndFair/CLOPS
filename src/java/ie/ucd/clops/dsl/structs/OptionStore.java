@@ -54,10 +54,10 @@ public class OptionStore {
   }
   
   public String getOptionValueTypeParameterisationForIdentifier(String identifier) {
-    System.out.println("Getting " + identifier);
+      //System.out.println("Getting " + identifier); TODO
     final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
-    System.out.println("Found: " + od);
-    System.out.println("Fulle map: " + optionNameMap);
+    //System.out.println("Found: " + od);
+    //System.out.println("Fulle map: " + optionNameMap);
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();
   }
 

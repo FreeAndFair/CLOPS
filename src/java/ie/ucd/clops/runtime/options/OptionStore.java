@@ -1,7 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +16,7 @@ implements IMatchString  {
 
   private final HashMap<String, Option<?>> identifierOptionMap;
   private final HashMap<String, IMatchable> identifierMatchableMap;
-  private final HashSet<Option<?>> options;
+  private final List<Option<?>> options;
 
   /**
    * Create a new OptionStore. 
@@ -24,7 +24,7 @@ implements IMatchString  {
   public OptionStore() {
     identifierOptionMap = new HashMap<String, Option<?>>();
     identifierMatchableMap = new HashMap<String, IMatchable>();
-    options = new HashSet<Option<?>>();
+    options = new LinkedList<Option<?>>();
   }
 
 
@@ -57,7 +57,7 @@ implements IMatchString  {
   /**
    * Obtain the set of options in this store.
    */
-  public Set<Option<?>> getOptions() {
+  public List<Option<?>> getOptions() {
     return options;
   }
 

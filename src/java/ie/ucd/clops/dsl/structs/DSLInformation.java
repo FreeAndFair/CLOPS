@@ -13,7 +13,7 @@ import java.util.Set;
  * @author Fintan
  *
  */
-public class DSLInformation extends RuleStore {
+public class DSLInformation extends RuleStoreDescription {
   /** true if the object is sealed (immutable). */ 
   private boolean isPacked;
   /** name of the program which is specified in the name section. */

@@ -3,7 +3,7 @@ package ie.ucd.clops.dsl.structs;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RuleStore extends OptionStore {
+public class RuleStoreDescription extends OptionStoreDescription {
   
   /** true if the object is sealed (immutable). */ 
   private boolean isPacked;
@@ -16,7 +16,7 @@ public class RuleStore extends OptionStore {
   private final List<OverrideRuleDescription> overrideRuleDescriptions;
   private final List<ValidityRuleDescription> validityRuleDescriptions;
 
-  public RuleStore () {
+  public RuleStoreDescription () {
     flyRuleDescriptions = new LinkedList<FlyRuleDescription>();
     overrideRuleDescriptions = new LinkedList<OverrideRuleDescription>();
     validityRuleDescriptions = new LinkedList<ValidityRuleDescription>();

@@ -1,6 +1,7 @@
 package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.util.Pair;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class OptionStore {
+public class OptionStoreDescription {
   /** true if the object is sealed (immutable). */ 
   private boolean isPacked;
   private final List<OptionDescription> optionDescriptions;
@@ -18,7 +18,7 @@ public class OptionStore {
   
   private final List<OptionGroupDescription> optionGroupDescriptions;
 
-  public OptionStore() {
+  public OptionStoreDescription() {
     optionDescriptions = new LinkedList<OptionDescription>();
     optionAndGroupNameMap = new HashMap<String, OptionDescription>();
     optionNameMap = new HashMap<String, OptionDescription>();
@@ -54,10 +54,7 @@ public class OptionStore {
   }
   
   public String getOptionValueTypeParameterisationForIdentifier(String identifier) {
-      //System.out.println("Getting " + identifier); TODO
     final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
-    //System.out.println("Found: " + od);
-    //System.out.println("Fulle map: " + optionNameMap);
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();
   }
 

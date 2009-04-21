@@ -1,4 +1,4 @@
-package ie.ucd.clops.dsl.structs;
+package ie.ucd.clops.util;
 
 public class Pair <A,B> {
 

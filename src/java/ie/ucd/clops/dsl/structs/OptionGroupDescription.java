@@ -3,6 +3,7 @@ package ie.ucd.clops.dsl.structs;
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionType;
 import ie.ucd.clops.dsl.structs.ast.OptionGroupChild;
+import ie.ucd.clops.util.Pair;
 
 import java.util.HashSet;
 import java.util.LinkedList;

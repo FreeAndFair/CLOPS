@@ -18,4 +18,6 @@ Version 0.2
 
 - Improved documentation of CLOPS command-line input. 
 
+- Infinite lookahead parser provided as a method, rather than an option.
+
 Version 0.1

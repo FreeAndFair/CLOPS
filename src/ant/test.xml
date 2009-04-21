@@ -4,7 +4,7 @@
   <path id="test.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
-    <file file="${lib}/junit-4.5.jar"/>
+    <pathelement path="${lib}/junit-4.5.jar"/>
   </path>
   <property name="test-src" location="${src}/test"/>
   <property name="reports.tests" location="test-reports"/>
@@ -14,7 +14,7 @@
 	  <fileset dir="${dist}/lib">
 	    <include name="*.jar"/>
 	  </fileset>
-	  <file name="${lib}/junit-4.5.jar"/>
+	  <pathelement path="${lib}/junit-4.5.jar"/>
 	</path>
   <property name="test-file" value="dsl/clo-dsl.clo"/>
   <property name="unit-test-file" value="test/tests"/>
@@ -83,6 +83,7 @@
   </target -->
 
   <target name="test-parser" description="simple test">
+  	<echo message="${lib}"/>
   	<echo message="Using ${test-file}"/>
   	<echo message="Using ${toString:test-dist.path}"/>
     <delete dir="${test-temp}"/>
@@ -104,7 +105,7 @@
       <arg value="${test-file}"/>
       <arg value="-tfr=${test-enable-transflyrules}"/>
     </java>
-    <javac srcdir="${test-temp}" destdir="${test-temp}" target="${java-target-version}">
+    <javac srcdir="${test-temp}" destdir="${test-temp}" target="${java-target-version}" debug="yes">
       <compilerarg value="-Xlint:all"/>
       <classpath refid="test.path"/>
     </javac>

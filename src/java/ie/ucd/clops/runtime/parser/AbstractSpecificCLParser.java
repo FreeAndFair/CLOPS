@@ -39,9 +39,25 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public boolean parse(String[] args) 
+  public boolean parse(String[] args) throws AutomatonException, InvalidOptionValueException 
+  { return parse(args, false); }
+
+  /**
+   * Parse the given command line arguments using this parser with the infiniteLookahead. 
+   * @param args the command line arguments to parse.
+   * @return whether the parse was successful or not
+   */
+  public boolean parseAlternate(String[] args) throws AutomatonException, InvalidOptionValueException 
+  { return parse(args, true); }
+
+  /**
+   * Parse the given command line arguments using this parser. 
+   * @param args the command line arguments to parse.
+   * @return whether the parse was successful or not
+   */
+  public boolean parse(String[] args, boolean infiniteLookahead) 
   throws AutomatonException, InvalidOptionValueException {
-    return parse(new GenericCLParser(), args);
+    return parse(new GenericCLParser(), args, infiniteLookahead);
   }
   
   /**
@@ -51,11 +67,11 @@ public abstract class AbstractSpecificCLParser {
    * @return whether the parse was successful or not.
    */
   // TODO(rgrig): I think this should throw exceptions rather than log them.
-  public boolean parse(GenericCLParser parser, String[] args) 
+  public boolean parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) 
   throws AutomatonException, InvalidOptionValueException {
     try {
-      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
-      //return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      if (infiniteLookahead) return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      else return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
     } catch (IllegalCharacterException e) {
       CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
       return false;

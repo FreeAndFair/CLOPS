@@ -13,7 +13,7 @@ Output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]
   :"Output directory for generated Java files."
 Test:{"-m","--main"}
   :"Generate a Main class with a main method for rapid testing/debugging."
-  
+ 
   
 //Strip quotes so we can write -p="" or -p "" for default package.
 OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
@@ -49,9 +49,6 @@ TransitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
   becomes potentially non-terminating due to rules triggering one
   another."
 
-InfiniteLookahead: {"-oo", "--infinite-lookahead"}:[default="false"]
-  :"The generated command-line parser will try harder to match inputs to the format."
-
 Input:{}:{file}:[between="",mustExist,canbedir="false"]
   :"Input CLOPS file."
 
@@ -64,7 +61,7 @@ WHERE::
 All:  AllOptions -Input;
 Base: Output | OutputPackage | Test | Verbose;
 Templates: Docs | Builtin | Custom | Target;
-Advanced: OptionFactory | TransitiveFlyRules | InfiniteLookahead;
+Advanced: OptionFactory | TransitiveFlyRules;
 
 
 FLY::

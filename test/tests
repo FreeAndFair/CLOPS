@@ -16,7 +16,7 @@ invalid: {${non-existent-file}}
 valid: {${existing-file} -o ${existing-dir}}
 invalid: {${existing-file} -o ${existing-file}} //Must be dir
 //(below) long example using most of the options
-valid: {${existing-file} -m -p= -of OptionFac -d -b=html --custom=${existing-file} --target={$existing-dir} -v -tfr -oo}
+valid: {${existing-file} -m -p= -of OptionFac -d -b=html --custom=${existing-file} --target=${existing-dir} -v -tfr}
 invalid: {-ggg}
 invalid: {${existing-file} -ggg}
 

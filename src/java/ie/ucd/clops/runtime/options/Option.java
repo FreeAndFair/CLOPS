@@ -3,6 +3,7 @@ package ie.ucd.clops.runtime.options;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This interface describes information about the option needed during option parsing.
@@ -88,4 +89,8 @@ public interface Option<T> extends IMatchable {
   /** Returns the string that should determine the value of the option,
    * according to the last successful match operation. */
   String getMatchingValueString();
+  
+  String[] getAliases();
+  
+  String getDescription();
 }

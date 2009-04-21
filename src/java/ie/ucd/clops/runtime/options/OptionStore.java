@@ -3,7 +3,6 @@ package ie.ucd.clops.runtime.options;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A class for storing options, implementing a retrieval function from Strings to options. 
@@ -95,7 +94,7 @@ implements IMatchString  {
     for (Option<?> op : options) {
       if (op instanceof BasicOption) {
         BasicOption<?> bop = (BasicOption<?>)op;
-        List<String> aliases = bop.getAliases();
+        String[] aliases = bop.getAliases();
         for (String alias : aliases) {
           sb.append(alias);
           sb.append(separator);

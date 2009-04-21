@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class StringUtil {
@@ -130,21 +131,48 @@ public class StringUtil {
     }
   }
   
-  public static String collectionToString(Collection<?> collection, boolean addSpace) {
+  public static String collectionToString(Collection<?> collection, String separator) {
     StringBuilder sb = new StringBuilder();
-    
     for (Object o : collection) {
      sb.append(o.toString());
-     sb.append(',');
-     if (addSpace) {
-       sb.append(' ');
+     if (separator != null) {
+       sb.append(separator);
      }
     }
-    int deleteLength = addSpace ? 2 : 1;
-    if (sb.length() >= deleteLength) {
-      sb.delete(sb.length()-deleteLength, sb.length());
-    }
-    
+    if (sb.length() >= separator.length()) {
+      sb.delete(sb.length()-separator.length(), sb.length());
+    }    
     return sb.toString();
+  }
+  
+  private static List<String> splitTextToLength(String message, int maxLength) {
+    List<String> parts = new LinkedList<String>();    
+    Scanner scanner = new Scanner(message);    
+    StringBuilder currentPart = new StringBuilder();
+    while (scanner.hasNext()) {
+      String next = scanner.next();
+      if ((currentPart.length() + 1 + next.length()) > maxLength) {
+        parts.add(currentPart.toString());
+        currentPart = new StringBuilder();
+        if (next.length() > maxLength) {
+          //Split word, it won't fit
+          int index = 0;
+          while (index < next.length()) {
+            parts.add(next.substring(index,index+maxLength));
+          }
+        } else {
+          currentPart.append(next);
+        }
+      } else {
+        if (currentPart.length() > 0) {
+          currentPart.append(' ');
+        }
+        currentPart.append(next);
+      }
+    }
+    if (currentPart.length() > 0) {
+      parts.add(currentPart.toString());
+    }
+    return parts;
   }
 }

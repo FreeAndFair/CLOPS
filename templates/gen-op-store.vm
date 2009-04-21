@@ -38,7 +38,8 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #end
 #end
 #if(!$aliasesset)
-    og${id}.setProperty("aliases", "$StringUtil.collectionToString($desc.getAliases(),false)");
+#set($aliases = $StringUtil.collectionToString(${desc.getAliases()},",") )
+    og${id}.setProperty("aliases", "${aliases}");
 #end
 #if( "$!desc.getDescription()" != "" )
 #set( $lines = $StringUtil.quoteMultilineString($desc.getDescription()) )

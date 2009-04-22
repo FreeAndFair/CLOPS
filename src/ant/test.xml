@@ -7,7 +7,6 @@
     <pathelement path="${lib}/junit-4.5.jar"/>
   </path>
   <property name="test-src" location="${src}/test"/>
-  <property name="reports.tests" location="test-reports"/>
   <property name="test-enable-transflyrules" value="false"/>	
 	
 	<path id="test-dist.path">
@@ -21,6 +20,7 @@
   <property name="unit-test-dir" value="test/unittests"/>
   <property name="test" location="test"/>
   <property name="test-temp" location="${test}/temp"/>
+  <property name="reports.tests" location="${test}/test-reports"/>
 
   <target name="test-compile" description="Compile unit tests">
   	<echo>${toString:test.path}</echo>

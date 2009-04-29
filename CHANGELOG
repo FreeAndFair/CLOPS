@@ -1,3 +1,6 @@
+Version 0.2.1
+- Fixed the builtin template bug on windows.
+ 
 Version 0.2
 
 - Template name is now taken from the template file, or specified 

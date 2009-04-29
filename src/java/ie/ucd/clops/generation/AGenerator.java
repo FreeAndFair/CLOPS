@@ -27,7 +27,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 
 public abstract class AGenerator {
   /** The templates directory: "templates/". */
-  public static final String TEMPLATE_BASE = "templates" + File.separator;
+  public static final String TEMPLATE_BASE = "templates/";
   
   /** the context used for velocity. */
   private VelocityContext context;

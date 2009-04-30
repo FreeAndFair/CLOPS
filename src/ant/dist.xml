@@ -13,7 +13,7 @@
   <target name="dist-init" description="Initialiasation to build the distribution.">
     <mkdir dir="${dist}"/>
 	<copy todir="${dist}">
-	 <filelist dir="." files="CHANGELOG,INSTALL,README" />
+	 <filelist dir="." files="CHANGELOG,INSTALL,README,LICENSE" />
 	</copy>
   </target>
   <target name="dist-doc" description="Generate the doc directory">

@@ -13,18 +13,22 @@ import java.util.List;
 public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
 
   public static final String DEFAULT_SPLIT = ",";
-  
+
   private List<T> value;
   private boolean allowMultiple;
   protected String splittingString;
-  
+
   public ListOption(String identifier, String prefix) {
     super(identifier, prefix);
     this.value = new LinkedList<T>();
     this.allowMultiple = true;
     this.splittingString = DEFAULT_SPLIT;
+
+    try {
+      super.setProperty(ARGUMENTNAME, "<args>");
+    } catch (InvalidOptionPropertyValueException e) {};
   }
-  
+
   public List<T> getRawValue() {
     return value;
   }
@@ -53,8 +57,8 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
    * @throws InvalidOptionValueException if the String provided is invalid.
    */
   public abstract T convertFromStringToListValue(String valueString) throws InvalidOptionValueException;
-  
-  
+
+
   @Override
   /**
    * This should never be used, but is required by the interface of Option.
@@ -80,15 +84,15 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     }
     return acceptedPropertyNames;
   }
-  
+
   @Override
   public Collection<String> getAcceptedPropertyNames() {
     return getStaticAcceptedPropertyNames();
   }
-  
+
   @Override
   public void setProperty(String propertyName, String propertyValue)
-      throws InvalidOptionPropertyValueException {
+  throws InvalidOptionPropertyValueException {
     if (propertyName.equalsIgnoreCase("allowmultiple")) {
       allowMultiple = Options.parseBooleanProperty(propertyName, propertyValue);
     } else if (propertyName.equalsIgnoreCase("splitter")) {
@@ -96,8 +100,6 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     } else {
       super.setProperty(propertyName, propertyValue);
     }
-  }
+  }  
 
-  
-  
 }

@@ -28,6 +28,7 @@ public class BooleanOption extends BasicOption<Boolean> {
     super(identifier, prefix);
     this.allowArg = true;
     setMatchingSuffix(SUFFIX);
+    
   }
 
   public Boolean getRawValue() { return value; }

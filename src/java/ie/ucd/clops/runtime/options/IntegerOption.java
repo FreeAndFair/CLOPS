@@ -22,6 +22,10 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 		super(identifier, prefix);
 		this.hasMaxValue = false;
 		this.hasMinValue = false;
+		
+		try {
+      super.setProperty(ARGUMENTNAME, "<int>");
+    } catch (InvalidOptionPropertyValueException e) {};
 	}
 
 	public Integer getRawValue() { return value; }

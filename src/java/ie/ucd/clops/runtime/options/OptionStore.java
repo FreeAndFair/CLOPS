@@ -16,6 +16,7 @@ implements IMatchString  {
   private final HashMap<String, Option<?>> identifierOptionMap;
   private final HashMap<String, IMatchable> identifierMatchableMap;
   private final List<Option<?>> options;
+  private final List<Option<?>> optionsWithoutErrorOption;
 
   /**
    * Create a new OptionStore. 
@@ -24,6 +25,7 @@ implements IMatchString  {
     identifierOptionMap = new HashMap<String, Option<?>>();
     identifierMatchableMap = new HashMap<String, IMatchable>();
     options = new LinkedList<Option<?>>();
+    optionsWithoutErrorOption = new LinkedList<Option<?>>();
   }
 
 
@@ -39,6 +41,10 @@ implements IMatchString  {
   public void addOption(/*@non_null*/Option<?> o) {
     assert !options.contains(o);
     options.add(o);
+    
+    if (!o.getIdentifier().equals(CLOPSErrorOption.ERROR_OPTION_ID)) {
+      optionsWithoutErrorOption.add(o);
+    }
 
     assert !identifierOptionMap.containsKey(o.getIdentifier());
     identifierOptionMap.put(o.getIdentifier(), o);
@@ -56,8 +62,8 @@ implements IMatchString  {
   /**
    * Obtain the set of options in this store.
    */
-  public List<Option<?>> getOptions() {
-    return options;
+  public List<Option<?>> getOptionsWithoutErrorOption() {
+    return optionsWithoutErrorOption;
   }
 
   /* (non-Javadoc)

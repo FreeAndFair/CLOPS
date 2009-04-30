@@ -18,18 +18,22 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   private static final String BETWEEN="between";
   private static final String ARGUMENTSHAPE="argumentshape";
   private static final String BLANKPARAMALLOWED="blankparamallowed";
+  protected static final String ARGUMENTNAME="argumentname";
+  private static final String DEFAULT_ARGUMENTNAME="<arg>";
 
 
   private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
   private String argumentShape = "[^" + SEP + "]*"; // format of the argument
   private String defaultVal = null; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
 
+  private String argumentName;
   private boolean blankparamAllowed;
   
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
     updateSuffix();
     blankparamAllowed = false;
+    argumentName = DEFAULT_ARGUMENTNAME;
   }
 
   //Static for space/time efficiency (we don't need one per instance) 
@@ -42,6 +46,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       acceptedPropertyNames.add(ARGUMENTSHAPE);
       acceptedPropertyNames.add(DEFAULTVAL);
       acceptedPropertyNames.add(BLANKPARAMALLOWED);
+      acceptedPropertyNames.add(ARGUMENTNAME);
     }
     return acceptedPropertyNames;
   }
@@ -61,6 +66,8 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       setDefaultVal(propertyValue);   
     } else if (propertyName.equalsIgnoreCase(BLANKPARAMALLOWED)) {
       setBlankParamAllowed(propertyValue);
+    } else if (propertyName.equalsIgnoreCase(ARGUMENTNAME)) {
+      this.argumentName = propertyValue;
     } else {
       super.setProperty(propertyName, propertyValue);
     }
@@ -116,7 +123,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     //      between + "(" + argumentShape + ")" + SEP);
   }
   
-  public String getArgumentName() {
-    return "ARG";
+  public final String getArgumentName() {
+    return argumentName;
   }
 }

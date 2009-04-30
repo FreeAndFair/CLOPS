@@ -18,7 +18,7 @@ public class OptionUtil {
   
   public static List<Option<?>> sortOptions(OptionStore store, SortingOption so) {
     
-    List<Option<?>> options = store.getOptions();
+    List<Option<?>> options = store.getOptionsWithoutErrorOption();
     
     if (so == SortingOption.ADDED_ORDER) {
       return options;
@@ -71,7 +71,9 @@ public class OptionUtil {
     
     if (includeDefaultArgs && o instanceof OneArgumentOption) {
       String argName = ((OneArgumentOption<?>)o).getArgumentName();
-      sb.append('=');
+      if (o.getAliases().length > 0) {
+        sb.append('=');  
+      }      
       if (argName == null) {
         sb.append("ARG");
       } else {
@@ -83,13 +85,10 @@ public class OptionUtil {
   }
   
   public static void printOptions(final PrintStream ps, final Collection<Option<?>> options, final int width, final int initialIndent) {
-    List<String> optionStrings = new ArrayList<String>();
-    
     //Find the longest option names string
     int longestString = 0;
     for (Option<?> o : options) {
       String s = getOptionNamesString(o, ", ", true);
-      optionStrings.add(s);
       if (s.length() > longestString) {
         longestString = s.length();
       }

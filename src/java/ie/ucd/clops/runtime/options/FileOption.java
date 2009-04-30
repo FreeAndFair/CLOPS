@@ -18,6 +18,10 @@ public class FileOption extends OneArgumentOption<File> {
     super(identifier, prefix);
     setArgumentShape(NO_DASH_REGEXP);
     constraints = new FileOptionConstraints();
+    
+    try {
+      super.setProperty(ARGUMENTNAME, "<file>");
+    } catch (InvalidOptionPropertyValueException e) {};
   }
 
   public File getRawValue() { return value; }
@@ -190,12 +194,6 @@ public class FileOption extends OneArgumentOption<File> {
     }
 
   }
-
-  @Override
-  public String getArgumentName() {
-    return "FILE";
-  }
-
-  
+ 
   
 }

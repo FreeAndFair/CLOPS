@@ -22,6 +22,10 @@ public class FloatOption extends OneArgumentOption<Float> {
 		super(identifier, prefix);
 		this.hasMaxValue = false;
 		this.hasMinValue = false;
+		
+		try {
+      super.setProperty(ARGUMENTNAME, "<float>");
+    } catch (InvalidOptionPropertyValueException e) {};
 	}
 
 	public Float getRawValue() { return value; }

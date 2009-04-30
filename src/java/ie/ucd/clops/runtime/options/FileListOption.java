@@ -14,6 +14,10 @@ public class FileListOption extends ListOption<File> {
     super(identifier, prefix);
     setAllowDash(false);
     constraints = new FileOptionConstraints();
+    
+    try {
+      super.setProperty(ARGUMENTNAME, "<file>");
+    } catch (InvalidOptionPropertyValueException e) {};
   }
 
   @Override

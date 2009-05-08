@@ -21,9 +21,7 @@ public class CLOLogger {
     logger.setLevel(DEFAULT_LEVEL);
     //TODO - proper configuration of this
     logger.setUseParentHandlers(false);
-    Handler defaultHandler = new StreamHandler(System.out, new EndUserFormatter());
-    defaultHandler.setLevel(DEFAULT_LEVEL);
-    logger.addHandler(defaultHandler);
+    setupDefaultHandler();
   }
     
   public static Logger getLogger() {
@@ -43,5 +41,9 @@ public class CLOLogger {
     }
   }
   
-    
+  public static void setupDefaultHandler() {
+    Handler defaultHandler = new StreamHandler(System.out, new EndUserFormatter());
+    defaultHandler.setLevel(DEFAULT_LEVEL);
+    logger.addHandler(defaultHandler);
+  }
 }

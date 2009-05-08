@@ -27,7 +27,6 @@ public class TestGen {
   private static void runTest(TestSet test, File outputDir) {
 
     try {
-      CLOLogger.setLogLevel(Level.OFF);
       Main.main2(new String[] { test.getInputFileDirPath() + File.separator + test.getFilePath(), "-o", outputDir.getAbsolutePath(), "-m", "-p", "" }, false);
     } catch (Exception e) {
       e.printStackTrace();
@@ -44,21 +43,21 @@ public class TestGen {
     String inputFile = args[0];
     String outputDir = args[1];
 
-    generateTests(new File(inputFile), new File(outputDir));
+    generateTests(new File(inputFile), new File(outputDir), true);
   }
 
-  public static void generateTests(File inputFile, File outputDir) {
+  public static void generateTests(File inputFile, File outputDir, boolean logFine) {
     List<TestSet> testSet = readTestSets(inputFile);
     if (testSet != null) {
       try {
-        actuallyGenerateTests(testSet, outputDir);
+        actuallyGenerateTests(testSet, outputDir, logFine);
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
   }
   
-  public static void generateTests(List<File> inputFiles, File outputDir) {
+  public static void generateTests(List<File> inputFiles, File outputDir, boolean logFine) {
     List<TestSet> testSets = new LinkedList<TestSet>();
     for (File inputFile : inputFiles) {
       List<TestSet> testSet = readTestSets(inputFile);
@@ -68,16 +67,19 @@ public class TestGen {
     }
     
     try {
-      actuallyGenerateTests(testSets, outputDir);
+      actuallyGenerateTests(testSets, outputDir, logFine);
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  private static void actuallyGenerateTests(List<TestSet> testSet, File outputDir) throws IOException {
+  private static void actuallyGenerateTests(List<TestSet> testSet, File outputDir, boolean logFine) throws IOException {
+    if (!logFine) {
+      CLOLogger.setLogLevel(Level.OFF);
+    }
     runTests(testSet, outputDir);
     testSet = processFileTags(testSet, outputDir);
-    generateUnitTests(testSet, outputDir);
+    generateUnitTests(testSet, outputDir, logFine);
   }
 
   private static List<TestSet> readTestSets(File inputFile) {
@@ -129,13 +131,22 @@ public class TestGen {
     .replaceAll("\\$\\{non-existent-file\\}", nonExistantFile);
   }
 
-  private static void generateUnitTests(List<TestSet> tests, File outputDir) {
+  private static void generateUnitTests(List<TestSet> tests, File outputDir, boolean logFine) {
     try {
-      TestGenerator gen = new TestGenerator(tests);
+      TestGenerator gen = new TestGenerator(tests, logFine);
       gen.generate(new File(outputDir.getPath() + "/UnitTests.java"), "templates/unittests.vm");
+      System.out.println("Generated " + countTests(tests) + " unit tests.");
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  
+  private static int countTests(List<TestSet> testSets) {
+    int count = 0;
+    for (TestSet set : testSets) {
+      count += set.getCases().size(); 
+    }
+    return count;
   }
 
 }

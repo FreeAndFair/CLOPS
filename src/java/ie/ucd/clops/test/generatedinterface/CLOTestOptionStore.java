@@ -14,6 +14,7 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
 
   private final FileOption ogOutput;
   private final BooleanOption ogRunTests;
+  private final BooleanOption ogDebug;
   private final FileListOption ogInput;
   private final CLOPSErrorOption CLOPSERROROPTION;
 
@@ -31,6 +32,10 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     addOption(ogRunTests);
     ogRunTests.setProperty("default", "true");
     ogRunTests.setProperty("aliases", "-r,--run");
+    ogDebug = new BooleanOption("Debug", "(?:-d)|(?:--debug)");
+    addOption(ogDebug);
+    ogDebug.setProperty("default", "false");
+    ogDebug.setProperty("aliases", "-d,--debug");
     ogInput = new FileListOption("Input", "");
     addOption(ogInput);
     ogInput.setProperty("between", "");
@@ -49,6 +54,7 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     //AllOptions group
     ogAllOptions.addOptionOrGroup(ogOutput);
     ogAllOptions.addOptionOrGroup(ogRunTests);
+    ogAllOptions.addOptionOrGroup(ogDebug);
     ogAllOptions.addOptionOrGroup(ogInput);
   }
   
@@ -98,6 +104,30 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
   
   public BooleanOption getRunTestsOption() {
     return ogRunTests;
+  }
+  
+// Option Debug.
+// Aliases: [-d, --debug]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isDebugSet() {
+    return ogDebug.hasValue();
+  }
+  
+  /** {@inheritDoc} */
+  public boolean getDebug() {
+    return ogDebug.getValue();
+  }
+
+  /** {@inheritDoc} */
+  public boolean getRawDebug() {
+    return ogDebug.getRawValue();
+  }
+  
+  public BooleanOption getDebugOption() {
+    return ogDebug;
   }
   
 // Option Input.

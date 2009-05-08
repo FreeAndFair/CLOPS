@@ -1,5 +1,6 @@
 package ie.ucd.clops.test;
 
+import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.test.generatedinterface.CLOTestOptionsInterface;
 import ie.ucd.clops.test.generatedinterface.CLOTestParser;
 
@@ -8,6 +9,7 @@ import java.io.FilenameFilter;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.junit.runner.JUnitCore;
 
@@ -36,18 +38,22 @@ public class Main {
   private static void execute(CLOTestOptionsInterface options) {
     List<File> inputFiles = options.getInput();
     File outputDir = options.getOutput();
+    boolean logFine = options.getDebug();
     
-    generateTests(inputFiles, outputDir);
+    System.out.println("Parsing input file(s), generating parsers and unit tests.");
+    generateTests(inputFiles, outputDir, logFine);
     
     if (options.getRunTests()) {
+      System.out.println("Compiling parsers and unit tests.");
       compileTests(outputDir);
-      runTests(outputDir);
+      System.out.println("Running tests.");
+      runTests(outputDir, logFine);
     }
   }
 
   
-  private static void generateTests(List<File> inputFiles, File outputDir) {
-    TestGen.generateTests(inputFiles, outputDir);
+  private static void generateTests(List<File> inputFiles, File outputDir, boolean logFine) {
+    TestGen.generateTests(inputFiles, outputDir, logFine);
   }
 
   private static boolean compileTests(File outputDir) {
@@ -65,8 +71,6 @@ public class Main {
       String[] args = new String[sourceFiles.length + 2];
       args[0] = "-cp";
       args[1] = getClassPath((URLClassLoader)loader); 
-      System.out.println("Path: " + args[1]);
-      
       
       for (int i=0; i < sourceFiles.length; i++) {
         args[i+2] = outputDir.getPath() + File.separator + sourceFiles[i];
@@ -90,8 +94,10 @@ public class Main {
     return path.toString();
   }
   
-  private static void runTests(File outputDir) {
-    System.out.println("Running tests");
+  private static void runTests(File outputDir, boolean logFine) {
+    if (!logFine) {
+      CLOLogger.setLogLevel(Level.OFF);
+    }
     JUnitCore.main("UnitTests");  
   }
   

@@ -4,7 +4,7 @@
   <path id="test.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
-    <pathelement path="${lib}/junit-4.5.jar"/>
+    <pathelement path="${lib}/junit-4.6.jar"/>
   </path>
   <property name="test-src" location="${src}/test"/>
   <property name="test-enable-transflyrules" value="false"/>	
@@ -13,7 +13,7 @@
 	  <fileset dir="${dist}/lib">
 	    <include name="*.jar"/>
 	  </fileset>
-	  <pathelement path="${lib}/junit-4.5.jar"/>
+	  <pathelement path="${lib}/junit-4.6.jar"/>
 	</path>
   <property name="test-file" value="dsl/clo-dsl.clo"/>
   <property name="unit-test-file" value="test/tests"/>
@@ -52,13 +52,13 @@
       <compilerarg value="-Xlint:all"/>
       <classpath>
         <path refid="test.path"/>
-        <pathelement path="${lib}/junit-4.5.jar"/>
+        <pathelement path="${lib}/junit-4.6.jar"/>
       </classpath>
     </javac>    
     <junit fork="yes" printsummary="yes">
       <classpath>
         <path refid="test.path"/>
-        <pathelement path="${lib}/junit-4.5.jar"/>
+        <pathelement path="${lib}/junit-4.6.jar"/>
         <pathelement path="${unit-test-dir}"/>
       </classpath>
       <test name="UnitTests" haltonfailure="no" outfile="${unit-test-dir}/result">

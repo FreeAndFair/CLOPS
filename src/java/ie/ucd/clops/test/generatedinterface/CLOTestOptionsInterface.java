@@ -44,6 +44,23 @@ public interface CLOTestOptionsInterface {
   boolean getRunTests();
   
 
+// Option Debug. 
+// Aliases: [-d, --debug]
+
+  /**
+   * @return true if the option Debug has been used
+   * in the command line.
+   */
+  boolean isDebugSet();
+
+  /**
+   * Get the value of {@code Option} Debug.
+   * @return the value of the option Debug if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getDebug();
+  
+
 // Option Input. 
 // Aliases: []
 

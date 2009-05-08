@@ -10,6 +10,8 @@ Output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]
  
 RunTests:{"-r","--run"}:[default="true"]
 
+Debug:{"-d","--debug"}:[default="false"]
+
 Input:{}:{file-list}:[between="",mustExist,canbedir="false"]
   :"Input testing file(s)."
 

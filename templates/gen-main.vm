@@ -11,7 +11,7 @@ import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
 public class ${info.getParserName()}Main {
   
   public static void main(String[] args) throws Exception {
-    boolean success = test(args);
+    boolean success = test(args, true);
     if (success) {
       CLOLogger.getLogger().log(Level.INFO, "Successful parse.");
     } else {
@@ -20,8 +20,10 @@ public class ${info.getParserName()}Main {
     
   }
   
-  public static boolean test(String[] args) throws Exception {
-    CLOLogger.setLogLevel(Level.FINE);
+  public static boolean test(String[] args, boolean logFine) throws Exception {
+    if (logFine) {
+      CLOLogger.setLogLevel(Level.FINE);
+    }
     ${parserName}Parser parser = new ${parserName}Parser();
     return parser.parse(args);
   }

@@ -19,17 +19,17 @@ public class TestGenerator {
   VelocityContext context;
   final List<TestSet> tests;
   
-  public TestGenerator(List<TestSet> tests) throws Exception {
+  public TestGenerator(List<TestSet> tests, boolean logFine) throws Exception {
     this.tests = tests;
-    init();
+    init(logFine);
     Velocity.init(configureVelocityLoader());
   }
   
-  private void init() {
+  private void init(boolean logFine) {
     context = new VelocityContext();
     //context.put("CodeGenerator", CodeGenerator.class);
     context.put("tests", tests);
-
+    context.put("logFine", logFine);
   }
   
   /**

@@ -1,8 +1,9 @@
-// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /Users/fintan/workspace/clops/src/Test.g 2009-04-07 00:26:21
+// $ANTLR 3.1.3 Mar 18, 2009 10:09:25 /Users/fintan/workspace/clops/src/Test.g 2009-05-08 14:39:42
 
   package ie.ucd.clops.test;
   
   import java.util.LinkedList; 
+  import java.io.File;
 
 
 import org.antlr.runtime.*;
@@ -53,9 +54,15 @@ public class TestParser extends Parser {
     public String getGrammarFileName() { return "/Users/fintan/workspace/clops/src/Test.g"; }
 
 
+      private File inputFileDir;
+      public void setInputFileDir(File f) {
+      	this.inputFileDir = f;
+      }
+
+
 
     // $ANTLR start "tests"
-    // /Users/fintan/workspace/clops/src/Test.g:14:1: tests returns [List<TestSet> testSets] : ( test_set )+ EOF ;
+    // /Users/fintan/workspace/clops/src/Test.g:22:1: tests returns [List<TestSet> testSets] : ( test_set )+ EOF ;
     public final List<TestSet> tests() throws RecognitionException {
         List<TestSet> testSets = null;
 
@@ -63,11 +70,11 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:14:39: ( ( test_set )+ EOF )
-            // /Users/fintan/workspace/clops/src/Test.g:15:3: ( test_set )+ EOF
+            // /Users/fintan/workspace/clops/src/Test.g:22:39: ( ( test_set )+ EOF )
+            // /Users/fintan/workspace/clops/src/Test.g:23:3: ( test_set )+ EOF
             {
              testSets = new LinkedList<TestSet>(); 
-            // /Users/fintan/workspace/clops/src/Test.g:16:3: ( test_set )+
+            // /Users/fintan/workspace/clops/src/Test.g:24:3: ( test_set )+
             int cnt1=0;
             loop1:
             do {
@@ -81,9 +88,9 @@ public class TestParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // /Users/fintan/workspace/clops/src/Test.g:17:5: test_set
+            	    // /Users/fintan/workspace/clops/src/Test.g:25:5: test_set
             	    {
-            	    pushFollow(FOLLOW_test_set_in_tests42);
+            	    pushFollow(FOLLOW_test_set_in_tests48);
             	    test_set1=test_set();
 
             	    state._fsp--;
@@ -102,7 +109,7 @@ public class TestParser extends Parser {
                 cnt1++;
             } while (true);
 
-            match(input,EOF,FOLLOW_EOF_in_tests54); 
+            match(input,EOF,FOLLOW_EOF_in_tests60); 
 
             }
 
@@ -119,7 +126,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_set"
-    // /Users/fintan/workspace/clops/src/Test.g:22:1: test_set returns [TestSet set] : test_file test_name test_cases ;
+    // /Users/fintan/workspace/clops/src/Test.g:30:1: test_set returns [TestSet set] : test_file test_name test_cases ;
     public final TestSet test_set() throws RecognitionException {
         TestSet set = null;
 
@@ -131,25 +138,25 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:22:31: ( test_file test_name test_cases )
-            // /Users/fintan/workspace/clops/src/Test.g:23:3: test_file test_name test_cases
+            // /Users/fintan/workspace/clops/src/Test.g:30:31: ( test_file test_name test_cases )
+            // /Users/fintan/workspace/clops/src/Test.g:31:3: test_file test_name test_cases
             {
-            pushFollow(FOLLOW_test_file_in_test_set68);
+            pushFollow(FOLLOW_test_file_in_test_set74);
             test_file2=test_file();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_test_name_in_test_set72);
+            pushFollow(FOLLOW_test_name_in_test_set78);
             test_name3=test_name();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_test_cases_in_test_set76);
+            pushFollow(FOLLOW_test_cases_in_test_set82);
             test_cases4=test_cases();
 
             state._fsp--;
 
-             set = new TestSet(test_file2, test_name3, test_cases4); 
+             set = new TestSet(inputFileDir.getPath(), test_file2, test_name3, test_cases4); 
 
             }
 
@@ -166,7 +173,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_cases"
-    // /Users/fintan/workspace/clops/src/Test.g:29:1: test_cases returns [List<TestCase> cases] : ( test_case )+ ;
+    // /Users/fintan/workspace/clops/src/Test.g:37:1: test_cases returns [List<TestCase> cases] : ( test_case )+ ;
     public final List<TestCase> test_cases() throws RecognitionException {
         List<TestCase> cases = null;
 
@@ -174,11 +181,11 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:29:42: ( ( test_case )+ )
-            // /Users/fintan/workspace/clops/src/Test.g:30:3: ( test_case )+
+            // /Users/fintan/workspace/clops/src/Test.g:37:42: ( ( test_case )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:38:3: ( test_case )+
             {
              cases = new LinkedList<TestCase>(); 
-            // /Users/fintan/workspace/clops/src/Test.g:31:3: ( test_case )+
+            // /Users/fintan/workspace/clops/src/Test.g:39:3: ( test_case )+
             int cnt2=0;
             loop2:
             do {
@@ -192,9 +199,9 @@ public class TestParser extends Parser {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/fintan/workspace/clops/src/Test.g:32:4: test_case
+            	    // /Users/fintan/workspace/clops/src/Test.g:40:4: test_case
             	    {
-            	    pushFollow(FOLLOW_test_case_in_test_cases104);
+            	    pushFollow(FOLLOW_test_case_in_test_cases110);
             	    test_case5=test_case();
 
             	    state._fsp--;
@@ -229,7 +236,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_case"
-    // /Users/fintan/workspace/clops/src/Test.g:36:1: test_case returns [TestCase testCase] : condition ':' test_input ;
+    // /Users/fintan/workspace/clops/src/Test.g:44:1: test_case returns [TestCase testCase] : condition ':' test_input ;
     public final TestCase test_case() throws RecognitionException {
         TestCase testCase = null;
 
@@ -239,16 +246,16 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:36:38: ( condition ':' test_input )
-            // /Users/fintan/workspace/clops/src/Test.g:37:3: condition ':' test_input
+            // /Users/fintan/workspace/clops/src/Test.g:44:38: ( condition ':' test_input )
+            // /Users/fintan/workspace/clops/src/Test.g:45:3: condition ':' test_input
             {
-            pushFollow(FOLLOW_condition_in_test_case126);
+            pushFollow(FOLLOW_condition_in_test_case132);
             condition6=condition();
 
             state._fsp--;
 
-            match(input,14,FOLLOW_14_in_test_case128); 
-            pushFollow(FOLLOW_test_input_in_test_case132);
+            match(input,14,FOLLOW_14_in_test_case134); 
+            pushFollow(FOLLOW_test_input_in_test_case138);
             test_input7=test_input();
 
             state._fsp--;
@@ -270,12 +277,12 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "condition"
-    // /Users/fintan/workspace/clops/src/Test.g:42:1: condition returns [boolean b] : ( ( 'valid' ) | ( 'invalid' ) );
+    // /Users/fintan/workspace/clops/src/Test.g:50:1: condition returns [boolean b] : ( ( 'valid' ) | ( 'invalid' ) );
     public final boolean condition() throws RecognitionException {
         boolean b = false;
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:42:30: ( ( 'valid' ) | ( 'invalid' ) )
+            // /Users/fintan/workspace/clops/src/Test.g:50:30: ( ( 'valid' ) | ( 'invalid' ) )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -293,12 +300,12 @@ public class TestParser extends Parser {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:51:5: ( 'valid' )
                     {
-                    // /Users/fintan/workspace/clops/src/Test.g:43:5: ( 'valid' )
-                    // /Users/fintan/workspace/clops/src/Test.g:43:7: 'valid'
+                    // /Users/fintan/workspace/clops/src/Test.g:51:5: ( 'valid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:51:7: 'valid'
                     {
-                    match(input,15,FOLLOW_15_in_condition154); 
+                    match(input,15,FOLLOW_15_in_condition160); 
                      b = true; 
 
                     }
@@ -307,12 +314,12 @@ public class TestParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:52:5: ( 'invalid' )
                     {
-                    // /Users/fintan/workspace/clops/src/Test.g:44:5: ( 'invalid' )
-                    // /Users/fintan/workspace/clops/src/Test.g:44:7: 'invalid'
+                    // /Users/fintan/workspace/clops/src/Test.g:52:5: ( 'invalid' )
+                    // /Users/fintan/workspace/clops/src/Test.g:52:7: 'invalid'
                     {
-                    match(input,16,FOLLOW_16_in_condition166); 
+                    match(input,16,FOLLOW_16_in_condition172); 
                      b = false; 
 
                     }
@@ -335,7 +342,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_file"
-    // /Users/fintan/workspace/clops/src/Test.g:47:1: test_file returns [String path] : 'file' ':' file ;
+    // /Users/fintan/workspace/clops/src/Test.g:55:1: test_file returns [String path] : 'file' ':' file ;
     public final String test_file() throws RecognitionException {
         String path = null;
 
@@ -343,12 +350,12 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:47:32: ( 'file' ':' file )
-            // /Users/fintan/workspace/clops/src/Test.g:48:3: 'file' ':' file
+            // /Users/fintan/workspace/clops/src/Test.g:55:32: ( 'file' ':' file )
+            // /Users/fintan/workspace/clops/src/Test.g:56:3: 'file' ':' file
             {
-            match(input,17,FOLLOW_17_in_test_file186); 
-            match(input,14,FOLLOW_14_in_test_file188); 
-            pushFollow(FOLLOW_file_in_test_file190);
+            match(input,17,FOLLOW_17_in_test_file192); 
+            match(input,14,FOLLOW_14_in_test_file194); 
+            pushFollow(FOLLOW_file_in_test_file196);
             file8=file();
 
             state._fsp--;
@@ -370,17 +377,17 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_input"
-    // /Users/fintan/workspace/clops/src/Test.g:52:1: test_input returns [String testInput] : b= UNCHECKED_CODE_BLOCK ;
+    // /Users/fintan/workspace/clops/src/Test.g:60:1: test_input returns [String testInput] : b= UNCHECKED_CODE_BLOCK ;
     public final String test_input() throws RecognitionException {
         String testInput = null;
 
         Token b=null;
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:52:38: (b= UNCHECKED_CODE_BLOCK )
-            // /Users/fintan/workspace/clops/src/Test.g:53:3: b= UNCHECKED_CODE_BLOCK
+            // /Users/fintan/workspace/clops/src/Test.g:60:38: (b= UNCHECKED_CODE_BLOCK )
+            // /Users/fintan/workspace/clops/src/Test.g:61:3: b= UNCHECKED_CODE_BLOCK
             {
-            b=(Token)match(input,UNCHECKED_CODE_BLOCK,FOLLOW_UNCHECKED_CODE_BLOCK_in_test_input211); 
+            b=(Token)match(input,UNCHECKED_CODE_BLOCK,FOLLOW_UNCHECKED_CODE_BLOCK_in_test_input217); 
              testInput = (b!=null?b.getText():null); 
 
             }
@@ -398,7 +405,7 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "test_name"
-    // /Users/fintan/workspace/clops/src/Test.g:57:1: test_name returns [String name] : 'name' ':' filestring ;
+    // /Users/fintan/workspace/clops/src/Test.g:65:1: test_name returns [String name] : 'name' ':' filestring ;
     public final String test_name() throws RecognitionException {
         String name = null;
 
@@ -406,12 +413,12 @@ public class TestParser extends Parser {
 
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:57:32: ( 'name' ':' filestring )
-            // /Users/fintan/workspace/clops/src/Test.g:58:3: 'name' ':' filestring
+            // /Users/fintan/workspace/clops/src/Test.g:65:32: ( 'name' ':' filestring )
+            // /Users/fintan/workspace/clops/src/Test.g:66:3: 'name' ':' filestring
             {
-            match(input,18,FOLLOW_18_in_test_name231); 
-            match(input,14,FOLLOW_14_in_test_name233); 
-            pushFollow(FOLLOW_filestring_in_test_name235);
+            match(input,18,FOLLOW_18_in_test_name237); 
+            match(input,14,FOLLOW_14_in_test_name239); 
+            pushFollow(FOLLOW_filestring_in_test_name241);
             filestring9=filestring();
 
             state._fsp--;
@@ -435,21 +442,21 @@ public class TestParser extends Parser {
     };
 
     // $ANTLR start "file"
-    // /Users/fintan/workspace/clops/src/Test.g:63:1: file : filestring ( '/' filestring )* ;
+    // /Users/fintan/workspace/clops/src/Test.g:71:1: file : filestring ( '/' filestring )* ;
     public final TestParser.file_return file() throws RecognitionException {
         TestParser.file_return retval = new TestParser.file_return();
         retval.start = input.LT(1);
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:63:6: ( filestring ( '/' filestring )* )
-            // /Users/fintan/workspace/clops/src/Test.g:63:8: filestring ( '/' filestring )*
+            // /Users/fintan/workspace/clops/src/Test.g:71:6: ( filestring ( '/' filestring )* )
+            // /Users/fintan/workspace/clops/src/Test.g:71:8: filestring ( '/' filestring )*
             {
-            pushFollow(FOLLOW_filestring_in_file251);
+            pushFollow(FOLLOW_filestring_in_file257);
             filestring();
 
             state._fsp--;
 
-            // /Users/fintan/workspace/clops/src/Test.g:63:19: ( '/' filestring )*
+            // /Users/fintan/workspace/clops/src/Test.g:71:19: ( '/' filestring )*
             loop4:
             do {
                 int alt4=2;
@@ -462,10 +469,10 @@ public class TestParser extends Parser {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/fintan/workspace/clops/src/Test.g:63:20: '/' filestring
+            	    // /Users/fintan/workspace/clops/src/Test.g:71:20: '/' filestring
             	    {
-            	    match(input,19,FOLLOW_19_in_file254); 
-            	    pushFollow(FOLLOW_filestring_in_file256);
+            	    match(input,19,FOLLOW_19_in_file260); 
+            	    pushFollow(FOLLOW_filestring_in_file262);
             	    filestring();
 
             	    state._fsp--;
@@ -499,13 +506,13 @@ public class TestParser extends Parser {
     };
 
     // $ANTLR start "filestring"
-    // /Users/fintan/workspace/clops/src/Test.g:66:1: filestring : ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' );
+    // /Users/fintan/workspace/clops/src/Test.g:74:1: filestring : ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' );
     public final TestParser.filestring_return filestring() throws RecognitionException {
         TestParser.filestring_return retval = new TestParser.filestring_return();
         retval.start = input.LT(1);
 
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:66:13: ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' )
+            // /Users/fintan/workspace/clops/src/Test.g:74:13: ( ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )* | '.' | '..' )
             int alt6=3;
             switch ( input.LA(1) ) {
             case ALPHANUMERIC:
@@ -532,10 +539,10 @@ public class TestParser extends Parser {
 
             switch (alt6) {
                 case 1 :
-                    // /Users/fintan/workspace/clops/src/Test.g:66:17: ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )*
+                    // /Users/fintan/workspace/clops/src/Test.g:74:17: ALPHANUMERIC ( ALPHANUMERIC | '-' | '_' | '.' )*
                     {
-                    match(input,ALPHANUMERIC,FOLLOW_ALPHANUMERIC_in_filestring275); 
-                    // /Users/fintan/workspace/clops/src/Test.g:66:30: ( ALPHANUMERIC | '-' | '_' | '.' )*
+                    match(input,ALPHANUMERIC,FOLLOW_ALPHANUMERIC_in_filestring281); 
+                    // /Users/fintan/workspace/clops/src/Test.g:74:30: ( ALPHANUMERIC | '-' | '_' | '.' )*
                     loop5:
                     do {
                         int alt5=2;
@@ -572,16 +579,16 @@ public class TestParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/fintan/workspace/clops/src/Test.g:67:17: '.'
+                    // /Users/fintan/workspace/clops/src/Test.g:75:17: '.'
                     {
-                    match(input,22,FOLLOW_22_in_filestring312); 
+                    match(input,22,FOLLOW_22_in_filestring318); 
 
                     }
                     break;
                 case 3 :
-                    // /Users/fintan/workspace/clops/src/Test.g:68:17: '..'
+                    // /Users/fintan/workspace/clops/src/Test.g:76:17: '..'
                     {
-                    match(input,23,FOLLOW_23_in_filestring330); 
+                    match(input,23,FOLLOW_23_in_filestring336); 
 
                     }
                     break;
@@ -602,13 +609,13 @@ public class TestParser extends Parser {
 
 
     // $ANTLR start "integer"
-    // /Users/fintan/workspace/clops/src/Test.g:71:1: integer : ( DIGIT )+ ;
+    // /Users/fintan/workspace/clops/src/Test.g:79:1: integer : ( DIGIT )+ ;
     public final void integer() throws RecognitionException {
         try {
-            // /Users/fintan/workspace/clops/src/Test.g:71:10: ( ( DIGIT )+ )
-            // /Users/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
+            // /Users/fintan/workspace/clops/src/Test.g:79:10: ( ( DIGIT )+ )
+            // /Users/fintan/workspace/clops/src/Test.g:79:12: ( DIGIT )+
             {
-            // /Users/fintan/workspace/clops/src/Test.g:71:12: ( DIGIT )+
+            // /Users/fintan/workspace/clops/src/Test.g:79:12: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -622,9 +629,9 @@ public class TestParser extends Parser {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/fintan/workspace/clops/src/Test.g:71:12: DIGIT
+            	    // /Users/fintan/workspace/clops/src/Test.g:79:12: DIGIT
             	    {
-            	    match(input,DIGIT,FOLLOW_DIGIT_in_integer352); 
+            	    match(input,DIGIT,FOLLOW_DIGIT_in_integer358); 
 
             	    }
             	    break;
@@ -657,31 +664,31 @@ public class TestParser extends Parser {
 
  
 
-    public static final BitSet FOLLOW_test_set_in_tests42 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_EOF_in_tests54 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_test_file_in_test_set68 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_test_name_in_test_set72 = new BitSet(new long[]{0x0000000000018000L});
-    public static final BitSet FOLLOW_test_cases_in_test_set76 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_test_case_in_test_cases104 = new BitSet(new long[]{0x0000000000018002L});
-    public static final BitSet FOLLOW_condition_in_test_case126 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_14_in_test_case128 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_test_input_in_test_case132 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_15_in_condition154 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_condition166 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_17_in_test_file186 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_14_in_test_file188 = new BitSet(new long[]{0x0000000000C00020L});
-    public static final BitSet FOLLOW_file_in_test_file190 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_UNCHECKED_CODE_BLOCK_in_test_input211 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_18_in_test_name231 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_14_in_test_name233 = new BitSet(new long[]{0x0000000000C00020L});
-    public static final BitSet FOLLOW_filestring_in_test_name235 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_filestring_in_file251 = new BitSet(new long[]{0x0000000000080002L});
-    public static final BitSet FOLLOW_19_in_file254 = new BitSet(new long[]{0x0000000000C00020L});
-    public static final BitSet FOLLOW_filestring_in_file256 = new BitSet(new long[]{0x0000000000080002L});
-    public static final BitSet FOLLOW_ALPHANUMERIC_in_filestring275 = new BitSet(new long[]{0x0000000000700022L});
-    public static final BitSet FOLLOW_set_in_filestring277 = new BitSet(new long[]{0x0000000000700022L});
-    public static final BitSet FOLLOW_22_in_filestring312 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_23_in_filestring330 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DIGIT_in_integer352 = new BitSet(new long[]{0x0000000000000042L});
+    public static final BitSet FOLLOW_test_set_in_tests48 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_EOF_in_tests60 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_test_file_in_test_set74 = new BitSet(new long[]{0x0000000000040000L});
+    public static final BitSet FOLLOW_test_name_in_test_set78 = new BitSet(new long[]{0x0000000000018000L});
+    public static final BitSet FOLLOW_test_cases_in_test_set82 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_test_case_in_test_cases110 = new BitSet(new long[]{0x0000000000018002L});
+    public static final BitSet FOLLOW_condition_in_test_case132 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_test_case134 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_test_input_in_test_case138 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_15_in_condition160 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_16_in_condition172 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_17_in_test_file192 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_test_file194 = new BitSet(new long[]{0x0000000000C00020L});
+    public static final BitSet FOLLOW_file_in_test_file196 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_UNCHECKED_CODE_BLOCK_in_test_input217 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_18_in_test_name237 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_test_name239 = new BitSet(new long[]{0x0000000000C00020L});
+    public static final BitSet FOLLOW_filestring_in_test_name241 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_filestring_in_file257 = new BitSet(new long[]{0x0000000000080002L});
+    public static final BitSet FOLLOW_19_in_file260 = new BitSet(new long[]{0x0000000000C00020L});
+    public static final BitSet FOLLOW_filestring_in_file262 = new BitSet(new long[]{0x0000000000080002L});
+    public static final BitSet FOLLOW_ALPHANUMERIC_in_filestring281 = new BitSet(new long[]{0x0000000000700022L});
+    public static final BitSet FOLLOW_set_in_filestring283 = new BitSet(new long[]{0x0000000000700022L});
+    public static final BitSet FOLLOW_22_in_filestring318 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_23_in_filestring336 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DIGIT_in_integer358 = new BitSet(new long[]{0x0000000000000042L});
 
 }

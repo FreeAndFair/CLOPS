@@ -1,0 +1,26 @@
+
+NAME::
+ CLOTest: 
+ "Automatically generate and run tests on clops input files."
+
+ARGS::
+
+Output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]
+  :"Output directory for generated Java files."
+ 
+RunTests:{"-r","--run"}:[default="true"]
+
+Input:{}:{file-list}:[between="",mustExist,canbedir="false"]
+  :"Input testing file(s)."
+
+FORMAT::
+    (AllOptions* Input AllOptions*) ;
+
+WHERE::
+
+FLY::
+
+OVERRIDES::
+
+VALIDITY::
+

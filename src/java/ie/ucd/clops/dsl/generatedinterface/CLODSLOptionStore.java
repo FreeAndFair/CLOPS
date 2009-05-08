@@ -96,7 +96,6 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogInput.setProperty("between", "");
     ogInput.setProperty("mustExist", "true");
     ogInput.setProperty("canbedir", "false");
-    ogInput.setProperty("aliases", "");
     ogInput.setProperty("description", "Input CLOPS file.");
   
     CLOPSERROROPTION = new ie.ucd.clops.runtime.options.CLOPSErrorOption();
@@ -126,8 +125,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogTransitiveFlyRules);
     ogAll.addOptionOrGroup(ogDocs);
-    ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogVerbose);
+    ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);

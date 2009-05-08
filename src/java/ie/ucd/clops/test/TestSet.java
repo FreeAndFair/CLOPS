@@ -11,6 +11,7 @@ public class TestSet extends BaseAST {
 
 
 
+  private final String inputFileDirPath;
   private final String filePath;
   private final String name;
   private final List<TestCase> cases;
@@ -18,28 +19,30 @@ public class TestSet extends BaseAST {
 private final SourceLocation location;
 
   // === Constructors and Factories ===
-  protected TestSet(String filePath, String name, List<TestCase> cases) {
-    this(filePath,name,cases, null);    
+  protected TestSet(String inputFileDirPath, String filePath, String name, List<TestCase> cases) {
+    this(inputFileDirPath,filePath,name,cases, null);    
   }
 
-  protected TestSet(String filePath, String name, List<TestCase> cases, SourceLocation location) {
+  protected TestSet(String inputFileDirPath, String filePath, String name, List<TestCase> cases, SourceLocation location) {
     this.location = location;
+    this.inputFileDirPath = inputFileDirPath; assert inputFileDirPath != null;
     this.filePath = filePath; assert filePath != null;
     this.name = name; assert name != null;
     this.cases = cases; 
     
   }
   
-  public static TestSet mk(String filePath, String name, List<TestCase> cases) {
-    return new TestSet(filePath, name, cases);
+  public static TestSet mk(String inputFileDirPath, String filePath, String name, List<TestCase> cases) {
+    return new TestSet(inputFileDirPath, filePath, name, cases);
   }
 
-  public static TestSet mk(String filePath, String name, List<TestCase> cases, SourceLocation location) {
-    return new TestSet(filePath, name, cases, location);
+  public static TestSet mk(String inputFileDirPath, String filePath, String name, List<TestCase> cases, SourceLocation location) {
+    return new TestSet(inputFileDirPath, filePath, name, cases, location);
   }
 
   // === Accessors ===
 
+  public String getInputFileDirPath() { return inputFileDirPath; }
   public String getFilePath() { return filePath; }
   public String getName() { return name; }
   public List<TestCase> getCases() { return cases; }
@@ -47,6 +50,10 @@ private final SourceLocation location;
   // === Others ===
   @Override
   public TestSet clone() {
+    
+      
+        String newInputFileDirPath = inputFileDirPath;
+      
     
       
         String newFilePath = filePath;
@@ -60,13 +67,17 @@ private final SourceLocation location;
         List<TestCase> newCases = cases;
       
     
-    return TestSet.mk(newFilePath, newName, newCases, location);
+    return TestSet.mk(newInputFileDirPath, newFilePath, newName, newCases, location);
   }
   
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("TestSet ast node: ");
+    
+    sb.append("inputFileDirPath = ");
+    sb.append(inputFileDirPath);
+    sb.append(", ");
     
     sb.append("filePath = ");
     sb.append(filePath);

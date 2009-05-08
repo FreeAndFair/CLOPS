@@ -1,9 +1,14 @@
 <project name="update" default="update-dslcli" basedir=".">
   <description>Update the dsl of clops</description>
   <import file="basic.xml"/>
+	
   <property name="src-dsl-interface" value="${src-java}/ie/ucd/clops/dsl/generatedinterface"/>
   <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
   <property name="dsl-interface-file" value="dsl/clo-dsl.clo"/>
+	
+	<property name="src-test-interface" value="${src-java}/ie/ucd/clops/test/generatedinterface"/>
+	<property name="src-test-interface-package" value="ie.ucd.clops.test.generatedinterface"/>
+	<property name="test-interface-file" value="dsl/clo-test.clo"/>
 
   <target name="update-dslcli">
     <java fork="yes" classname="ie.ucd.clops.dsl.Main">
@@ -19,4 +24,19 @@
       <arg value="${dsl-interface-file}"/>
     </java>
   </target>
+	
+	<target name="update-dsltestcli">
+	    <java fork="yes" classname="ie.ucd.clops.dsl.Main">
+	      <assertions>
+	        <enable/>
+	      </assertions>
+	      <classpath refid="test-dist.path"/>
+	      <arg value="-v"/>
+	      <arg value="-o"/>
+	      <arg value="${src-test-interface}"/>
+	      <arg value="-p"/>
+	      <arg value="${src-test-interface-package}"/>
+	      <arg value="${test-interface-file}"/>
+	    </java>
+	  </target>
 </project>

@@ -5,10 +5,18 @@ grammar Test;
   package ie.ucd.clops.test;
   
   import java.util.LinkedList; 
+  import java.io.File;
 }
 
 @lexer::header {
   package ie.ucd.clops.test;
+}
+
+@members {
+  private File inputFileDir;
+  public void setInputFileDir(File f) {
+  	this.inputFileDir = f;
+  }
 }
 
 tests returns [List<TestSet> testSets]: 
@@ -23,7 +31,7 @@ test_set returns [TestSet set]:
   test_file
   test_name
   test_cases 
-  { $set = new TestSet($test_file.path, $test_name.name, $test_cases.cases); }
+  { $set = new TestSet(inputFileDir.getPath(), $test_file.path, $test_name.name, $test_cases.cases); }
 ;
 
 test_cases returns [List<TestCase> cases]:

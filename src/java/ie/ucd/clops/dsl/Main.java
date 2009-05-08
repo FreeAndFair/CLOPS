@@ -90,11 +90,19 @@ public class Main {
     
     if (success) {
       final CLODSLOptionStore options = parser.getOptionStore();
-       return execute(options);
+       boolean result = execute(options);
+       if (!result && terminateSystem) {
+         System.exit(1);
+       }
+       return result;
     } else {
       CLOLogger.getLogger().log(
         Level.SEVERE, "Format:" + parser.getFormatString());
       CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
+      
+      if (terminateSystem) {
+        System.exit(1);
+      }
       return false;
     } 
   }

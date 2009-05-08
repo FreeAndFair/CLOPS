@@ -13,6 +13,7 @@
   	  <include name="**/*.jar" />
   	</fileset>
   </path>
+	
   <target name="compile-init" description="Initialize the process" >
   	<mkdir dir="${build}"/>
   </target>
@@ -28,6 +29,7 @@
       <classpath refid="compile.path"/>
     </javac>
   </target>
+	
   <target name="compile-clean" description="Clean up the compilation">
     <delete dir="${build}"/>
   </target>

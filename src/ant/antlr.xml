@@ -34,7 +34,7 @@
 	
   <target name="antlr-test-build">
     <echo message="Running antlr"/>
-    <java fork="yes" dir="${java-src}" classname="org.antlr.Tool">
+    <java fork="yes" dir="${src-java}" classname="org.antlr.Tool">
       <classpath refid="antlr.path" />
       <arg value="-o"/>
       <arg value="${src}/java/ie/ucd/clops/test"/>

@@ -1,15 +1,15 @@
-file: dsl/svn.clo
+file: ../dsl/svn.clo
 name: SVN
 valid: {co} //Testing current format string (which is not complete)
 invalid: {co --version}
 
-file: dsl/bico.clo
+file: ../dsl/bico.clo
 name: Bico
 valid: {-h}
 valid: {--help}
 invalid: {-k}
 
-file: dsl/clo-dsl.clo
+file: ../dsl/clo-dsl.clo
 name: CLODSL
 valid: {${existing-file}}
 invalid: {${non-existent-file}}
@@ -20,7 +20,7 @@ valid: {${existing-file} -m -p= -of OptionFac -d -b=html --custom=${existing-fil
 invalid: {-ggg}
 invalid: {${existing-file} -ggg}
 
-file: dsl/toy.clo
+file: ../dsl/toy.clo
 name: toy
 invalid: {${existing-file}}
 invalid: {${existing-file} ${existing-file}}
@@ -30,7 +30,7 @@ valid: {-i ${existing-file} -o ${existing-dir}}
 invalid: {-o ${existing-file} -i ${existing-dir}}
 invalid: {-i ${non-existent-file} -o ${existing-dir}}
 
-file: dsl/logicsync.clops
+file: ../dsl/logicsync.clops
 name: LogicSync
 valid: {-h}
 valid: {${existing-file}}
@@ -44,7 +44,7 @@ invalid: {${existing-file} -g ${existing-dir}}
 invalid: {${existing-file} -m ${existing-dir}}
 invalid: {-sdfahsdjkh}
 
-file:dsl/tail.clo
+file: ../dsl/tail.clo
 name: Tail
 valid: {--retry}
 valid: {10}
@@ -53,7 +53,7 @@ valid: {--lines=34}
 invalid: {--lines34}
 invalid: {--lines 34}
 
-file:dsl/gzip.clo
+file: ../dsl/gzip.clo
 name: Gzip
 valid: {-1}
 valid: {-9}

@@ -6,6 +6,7 @@
   <path id="compile.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>
+    <files includes="${lib}/junit-4.5.jar"/>
   </path>
   <path id="svn.path">
     <path refid="runtime.path"/>

@@ -43,11 +43,13 @@ public class Main {
     System.out.println("Parsing input file(s), generating parsers and unit tests.");
     generateTests(inputFiles, outputDir, logFine);
     
-    if (options.getRunTests()) {
+    if (options.getCompile()) {
       System.out.println("Compiling parsers and unit tests.");
       compileTests(outputDir);
-      System.out.println("Running tests.");
-      runTests(outputDir, logFine);
+      if (options.getRunTests()) {
+        System.out.println("Running tests.");
+        runTests(outputDir, logFine);
+      } 
     }
   }
 

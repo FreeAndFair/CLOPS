@@ -13,6 +13,7 @@ import ie.ucd.clops.runtime.options.FileListOption;
 public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInterface {
 
   private final FileOption ogOutput;
+  private final BooleanOption ogCompile;
   private final BooleanOption ogRunTests;
   private final BooleanOption ogDebug;
   private final FileListOption ogInput;
@@ -28,6 +29,10 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     ogOutput.setProperty("default", ".");
     ogOutput.setProperty("aliases", "-o,--output");
     ogOutput.setProperty("description", "Output directory for generated Java files.");
+    ogCompile = new BooleanOption("Compile", "(?:-c)|(?:--compile)");
+    addOption(ogCompile);
+    ogCompile.setProperty("default", "true");
+    ogCompile.setProperty("aliases", "-c,--compile");
     ogRunTests = new BooleanOption("RunTests", "(?:-r)|(?:--run)");
     addOption(ogRunTests);
     ogRunTests.setProperty("default", "true");
@@ -53,6 +58,7 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     //Setup groupings
     //AllOptions group
     ogAllOptions.addOptionOrGroup(ogOutput);
+    ogAllOptions.addOptionOrGroup(ogCompile);
     ogAllOptions.addOptionOrGroup(ogRunTests);
     ogAllOptions.addOptionOrGroup(ogDebug);
     ogAllOptions.addOptionOrGroup(ogInput);
@@ -80,6 +86,30 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
   
   public FileOption getOutputOption() {
     return ogOutput;
+  }
+  
+// Option Compile.
+// Aliases: [-c, --compile]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isCompileSet() {
+    return ogCompile.hasValue();
+  }
+  
+  /** {@inheritDoc} */
+  public boolean getCompile() {
+    return ogCompile.getValue();
+  }
+
+  /** {@inheritDoc} */
+  public boolean getRawCompile() {
+    return ogCompile.getRawValue();
+  }
+  
+  public BooleanOption getCompileOption() {
+    return ogCompile;
   }
   
 // Option RunTests.

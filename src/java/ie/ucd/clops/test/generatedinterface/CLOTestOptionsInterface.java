@@ -27,6 +27,23 @@ public interface CLOTestOptionsInterface {
   File getOutput();
   
 
+// Option Compile. 
+// Aliases: [-c, --compile]
+
+  /**
+   * @return true if the option Compile has been used
+   * in the command line.
+   */
+  boolean isCompileSet();
+
+  /**
+   * Get the value of {@code Option} Compile.
+   * @return the value of the option Compile if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getCompile();
+  
+
 // Option RunTests. 
 // Aliases: [-r, --run]
 

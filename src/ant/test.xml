@@ -40,21 +40,17 @@
   
   <target name="test-unit" depends="test-compile" 
   	      description="Run the unit tests">
+    <echo message="${JAVA_HOME}"/>
     <echo message="Using ${unit-test-file}"/>
     <delete dir="${unit-test-dir}"/>
     <mkdir dir="${unit-test-dir}"/>
-    <java fork="yes" classname="ie.ucd.clops.test.TestGen">
+    <java fork="yes" classname="ie.ucd.clops.test.Main">
       <classpath refid="test.path"/>
       <arg value="${unit-test-file}"/>
+      <arg value="-o"/>
       <arg value="${unit-test-dir}"/>
-    </java>
-    <javac srcdir="${unit-test-dir}" destdir="${unit-test-dir}" target="${java-target-version}">
-      <compilerarg value="-Xlint:all"/>
-      <classpath>
-        <path refid="test.path"/>
-        <pathelement path="${lib}/junit-4.6.jar"/>
-      </classpath>
-    </javac>    
+      <arg value="-r=false"/>
+    </java>    
     <junit fork="yes" printsummary="yes">
       <classpath>
         <path refid="test.path"/>

@@ -8,6 +8,8 @@ ARGS::
 Output:{"-o","--output"}:{file}:[mustExist,mustbedir,default="."]
   :"Output directory for generated Java files."
  
+Compile:{"-c","--compile"}:[default="true"] 
+ 
 RunTests:{"-r","--run"}:[default="true"]
 
 Debug:{"-d","--debug"}:[default="false"]
@@ -26,3 +28,4 @@ OVERRIDES::
 
 VALIDITY::
 
+{ $(RunTests) && !$(Compile) } : "Cannot run the tests without first compiling.";

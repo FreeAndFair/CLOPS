@@ -125,8 +125,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogTransitiveFlyRules);
     ogAll.addOptionOrGroup(ogDocs);
-    ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogVerbose);
+    ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);

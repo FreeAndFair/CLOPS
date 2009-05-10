@@ -14,4 +14,5 @@ public interface IMatchable {
   
   Option<?> getMatchingOption(String argumentString, int index);
   
+  boolean hasAtLeastOneOptionWithValue();
 }

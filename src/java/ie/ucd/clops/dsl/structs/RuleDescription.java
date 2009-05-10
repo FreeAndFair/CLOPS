@@ -16,10 +16,10 @@ import java.util.regex.Pattern;
 public class RuleDescription {
 
   private static int count = 1;
-  
+
   protected final List<AssignmentDescription> assignments;
   private String conditionText;
-  
+
   private String conditionDescription; // for document generation
   private final String id;
 
@@ -27,7 +27,7 @@ public class RuleDescription {
     this.assignments = new LinkedList<AssignmentDescription>();
     this.id = (count++) + "";
   }
-  
+
   public void addAssignment(AssignmentDescription assign) {
     this.assignments.add(assign);
   }
@@ -45,10 +45,10 @@ public class RuleDescription {
   // @ensures \result.equals(conditionDescription) || \result.equals(conditionText);
   public /*@ non_null @*/ String getConditionDescription() {
     if (conditionDescription != null) {
-    	return conditionDescription;
+      return conditionDescription;
     }
     else {
-	return conditionText;
+      return conditionText;
     }
   }
 
@@ -73,11 +73,11 @@ public class RuleDescription {
       assignment.processPlaceholders(dslInfo);
     }
   }
-  
+
   private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\$\\([^\\(\\$\\)]+\\)");
   public static String processPlaceholders(String string, RuleStoreDescription dslInfo) {
     if (string == null) return null;
-    
+
     Matcher matcher = PLACEHOLDER_PATTERN.matcher(string);
     StringBuilder sb = new StringBuilder(string);
     int index = 0;
@@ -91,7 +91,7 @@ public class RuleDescription {
     }   
     return sb.toString();
   }
-  
+
   private static final String convertMatch(String s, RuleStoreDescription dslInfo) {
     s = s.trim();
     s = s.substring(2, s.length()-1);
@@ -101,26 +101,37 @@ public class RuleDescription {
       return convertNormalPlaceholder(s, dslInfo);
     }
   }
-  
+
   private static boolean isIsSetPlaceholder(String s) {
     return s.charAt(s.length()-1) == '?';
   }
-  
+
   private static String convertNormalPlaceholder(String s, RuleStoreDescription dslInfo) {
     OptionDescription desc = dslInfo.getOptionDescriptionForIdentifier(s);
     if (desc == null) {
-      CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);
-      return "";
+      OptionGroupDescription ogDesc = dslInfo.getOptionGroupDescriptionForIdentifier(s);
+      if (ogDesc == null) {
+        CLOLogger.getLogger().log(Level.SEVERE, "Unknown option or option group identifier used in placeholder: " + s);
+        return s;
+      } else {
+        CLOLogger.getLogger().log(Level.SEVERE, "Cannot get the value of an OptionGroup via a placeholder: " + s);
+        return s;
+      }
     } else {
       return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).getValue()";
     }
   }
-  
+
   private static String convertIsSetPlaceholder(String s, RuleStoreDescription dslInfo) {
     OptionDescription desc = dslInfo.getOptionDescriptionForIdentifier(s);
     if (desc == null) {
-      CLOLogger.getLogger().log(Level.SEVERE, "Unknown option identifier used in placeholder: " + s);
-      return "";
+      OptionGroupDescription ogDesc = dslInfo.getOptionGroupDescriptionForIdentifier(s);
+      if (ogDesc == null) {
+        CLOLogger.getLogger().log(Level.SEVERE, "Unknown option or option group identifier used in placeholder: " + s);
+        return s;
+      } else {
+        return "optionStore.getOptionGroupByIdentifier(\"" + ogDesc.getIdentifier() + "\").hasAtLeastOneOptionWithValue()";
+      }
     } else {
       return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).hasValue()";
     }

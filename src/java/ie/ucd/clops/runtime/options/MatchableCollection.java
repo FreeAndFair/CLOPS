@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A class maintaining a collecgtion of {@code IMatchable} objects and
+ * A class maintaining a collection of {@code IMatchable} objects and
  * implementing their retrieval.
  * @author Mikolas Janota
  */
@@ -61,6 +61,15 @@ public class MatchableCollection {
     @Override 
     public int hashCode() {
         return ms.hashCode();
+    }
+    
+    public boolean hasAtLeastOneOptionWithValue() {
+      for (IMatchable matchable : ms) {
+        if (matchable.hasAtLeastOneOptionWithValue()) {
+          return true;
+        }
+      }
+      return false;
     }
 }
 

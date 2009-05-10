@@ -195,4 +195,11 @@ public abstract class BasicOption<T> implements Option<T> {
   public String[] getAliases() {
     return aliases;
   }
+
+  @Override
+  public final boolean hasAtLeastOneOptionWithValue() {
+    return hasValue();
+  }
+  
+  
 }

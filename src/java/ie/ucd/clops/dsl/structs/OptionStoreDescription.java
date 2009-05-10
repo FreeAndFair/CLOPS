@@ -52,6 +52,10 @@ public class OptionStoreDescription {
     return optionNameMap.get(id);
   }
   
+  public OptionGroupDescription getOptionGroupDescriptionForIdentifier(String id) {
+    return optionGroupNameMap.get(id);
+  }
+  
   public String getOptionValueTypeParameterisationForIdentifier(String identifier) {
     final OptionDescription od = getOptionDescriptionForIdentifier(identifier);
     return od == null ? null : od.getType().getOptionValueTypeParameterisation();

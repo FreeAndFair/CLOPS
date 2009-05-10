@@ -14,6 +14,7 @@ public class OptionStore extends MatchableCollection
 implements IMatchString  {
 
   private final HashMap<String, Option<?>> identifierOptionMap;
+  private final HashMap<String, OptionGroup> identifierOptionGroupMap;
   private final HashMap<String, IMatchable> identifierMatchableMap;
   private final List<Option<?>> options;
   private final List<Option<?>> optionsWithoutErrorOption;
@@ -23,6 +24,7 @@ implements IMatchString  {
    */
   public OptionStore() {
     identifierOptionMap = new HashMap<String, Option<?>>();
+    identifierOptionGroupMap = new HashMap<String, OptionGroup>();
     identifierMatchableMap = new HashMap<String, IMatchable>();
     options = new LinkedList<Option<?>>();
     optionsWithoutErrorOption = new LinkedList<Option<?>>();
@@ -57,6 +59,7 @@ implements IMatchString  {
    */
   public void addOptionGroup(/*@non_null*/OptionGroup og) {
     addMatchable(og);
+    identifierOptionGroupMap.put(og.getIdentifier(), og);
   }
 
   /**
@@ -81,6 +84,10 @@ implements IMatchString  {
    */
   public Option<?> getOptionByIdentifier(String identifier) {
     return identifierOptionMap.get(identifier);
+  }
+  
+  public OptionGroup getOptionGroupByIdentifier(String identifier) {
+    return identifierOptionGroupMap.get(identifier);
   }
 
   @Override

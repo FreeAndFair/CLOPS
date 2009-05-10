@@ -38,19 +38,19 @@
     <mkdir dir="${reports.tests}"/>
   </target>
   
-  <target name="test-unit" depends="test-compile" 
-  	      description="Run the unit tests">
-    <echo message="${JAVA_HOME}"/>
-    <echo message="Using ${unit-test-file}"/>
+  <target name="test-unit" depends="test-compile" description="Run the unit tests">
     <delete dir="${unit-test-dir}"/>
     <mkdir dir="${unit-test-dir}"/>
-    <java fork="yes" classname="ie.ucd.clops.test.Main">
-      <classpath refid="test.path"/>
+    <java classname="ie.ucd.clops.test.Main" fork="true">
+      <classpath>
+        <pathelement path="${toString:test-dist.path}"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
       <arg value="${unit-test-file}"/>
       <arg value="-o"/>
       <arg value="${unit-test-dir}"/>
       <arg value="-r=false"/>
-    </java>    
+    </java>
     <junit fork="yes" printsummary="yes">
       <classpath>
         <path refid="test.path"/>

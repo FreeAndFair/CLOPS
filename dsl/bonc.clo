@@ -20,8 +20,6 @@ PrintBashCompletion:{"--print-bash-completion"}:[default="false"]
 
 Help:{"-h","--help"}:[default="false"]
  : "Print this help message."
-HiddenHelp:{"-hh","--hidden-help"}:[default="false"] //TODO do we still need this?
- : "Print help with hidden options shown"
 
 Time:{"-t","--time"}:[default="false"]
  : "Print timing information."
@@ -45,13 +43,13 @@ Debug:{"-d","--debug"}:[default="false"]
 ReadFromStdin:{"-"}:[default="false"]
  : "Read input from stdin."
 
-GenClassDic:{"-gcd","--gen-class-dic"}
+GenClassDic:{"-gcd","--gen-class-dic"}:[default="false"]
  : "Generate the class dictionary when printing."
 
 Graph:{"-g","--graph"}:{enum}:[choices="ICG,IIG",casesensitive="false"]
  : "Display the chosen graph type. ICG for informal clustering graph, IIG for informal inheritance graph."
 
-Version:{"-v","--version"}:[default="false"]
+Version:{"-v","-version","--version"}:[default="false"]
  : "Print BONc version and exit."
 
 SourceFiles:{}:{file-list}:[between="",canbedir="false",mustexist="true"]
@@ -60,7 +58,7 @@ SourceFiles:{}:{file-list}:[between="",canbedir="false",mustexist="true"]
 
 FORMAT::
 
-  ( Option*  SourceFiles*) 
+  ( Option*  SourceFiles*   ) 
 | AloneOption;
 
 
@@ -68,7 +66,7 @@ WHERE::
 
 Option : AllOptions -AloneOption -SourceFiles;
        
-AloneOption : Version OR Help OR HiddenHelp OR PrintMan OR PrintReadme OR PrintBashCompletion;
+AloneOption : Version OR Help OR PrintMan OR PrintReadme OR PrintBashCompletion;
 
 FLY::
 
@@ -85,3 +83,8 @@ OVERRIDES::
 VALIDITY::
 
 {$(Print?) && !$(PrintOutput?)} : "Output file (-po) for printing must be provided." ; 
+
+//If none of the AloneOptions are true
+{!$(Version) && !$(Help) && !$(PrintMan) && !$(PrintReadme) && !$(PrintBashCompletion) && 
+ !$(ReadFromStdin) && ($(SourceFiles).size() == 0)} 
+  : "Must provide at least one source file or read from standard input.";

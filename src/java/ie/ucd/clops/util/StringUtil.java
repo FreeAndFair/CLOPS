@@ -102,6 +102,9 @@ public class StringUtil {
 
   public static Map<String, StringBuilder> parseChoice(String choice) {
     final Map<String, StringBuilder> map = new HashMap<String, StringBuilder>();
+    if (choice == null) {
+      return map;
+    }
     final String[] parts = choice.split(",");
     for (String part : parts) {
       parseChoicePart(part, map);

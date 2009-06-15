@@ -1,0 +1,9 @@
+NAME::
+  Test
+
+ARGS::
+  Enum :{"--enum"} :{enum} :"Oops, I forgot the chocies property"
+
+FORMAT::
+  Enum;
+	

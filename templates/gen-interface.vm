@@ -42,7 +42,7 @@ public interface $info.getParserName()OptionsInterface {
   /**
    * The enumeration type used to represent the string enum option.
    */
-  enum  $typename {
+  static enum  $typename {
 #foreach ($o in $options.entrySet())    
     ${o.getKey()}(${o.getValue()})#if($velocityCount != $options.size()),#else;#end#end
 

@@ -3,7 +3,10 @@ package ie.ucd.clops.runtime.options;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
+
+import ie.ucd.clops.util.StringUtil;
 
 /**
  * 
@@ -112,9 +115,11 @@ public class EnumOption extends StringOption implements IEnumOption {
     public boolean setProperty(String propertyName, String propertyValue)
     throws InvalidOptionPropertyValueException {
       if (propertyName.equalsIgnoreCase("choices")) {
-        String[] newChoices = propertyValue.split(",");
-        for (String newChoice : newChoices) {
-          choices.add(newChoice);
+        // TODO(rgrig): this should by in sync with StringUtil.parseChoice
+        for (String c : propertyValue.split(",")) {
+          int i = c.indexOf("(");
+          if (i != -1) c = c.substring(i + 1, c.length() - 1);
+          choices.add(c);
         }
         return true;
       } else if (propertyName.equalsIgnoreCase("casesensitive")) {

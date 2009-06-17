@@ -122,6 +122,8 @@ public abstract class AGenerator {
         logger.log(Level.INFO,
                    "Successfully created " + outputFile.getPath());
       }
+      // TODO(rgrig): eating exceptions is asking for trouble 
+      //   (and i had some trouble caused by this particular case)
       catch (Exception e) { 
         /* e can be of the following types:
            IOException FileNotFoundException MethodInvocationException 
@@ -139,7 +141,6 @@ public abstract class AGenerator {
   }
 
   private File getOutputFile(File output, String name, Reader template) throws ResourceNotFoundException, ParseErrorException, Exception {
-
     if (output.isDirectory()) {
       LineNumberReader lnr = new LineNumberReader(template);
       final String first = lnr.readLine();
@@ -166,7 +167,7 @@ public abstract class AGenerator {
                           name.substring(0, name.length() - ".vm".length()));
         } 
         else { // we hope that the user knows what he's doing
-          //ok - that's a bit presomptuous
+          //OK - that's a bit presumptuous
           return new File(output, name);
         }
       }

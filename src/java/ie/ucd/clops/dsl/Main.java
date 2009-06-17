@@ -195,7 +195,7 @@ public class Main {
     if (options.isTargetSet()) {
       return options.getTarget();
     }
-    return new File("");
+    return new File(".");
   }
 
   /** 

@@ -98,7 +98,7 @@ public class DSLInformation extends RuleStoreDescription {
    */
   public void setParserDescription(final String st) {
     assert (!isPacked);
-    description = st;
+    description = st.replace("\n"," ").replace("\r"," ");
   }
 
   public String getDescription() {

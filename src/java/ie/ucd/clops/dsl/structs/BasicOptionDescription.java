@@ -110,7 +110,7 @@ public class BasicOptionDescription implements OptionDescription {
   }
 
   public String getDescription() {
-    return description.replace("\n"," ").replace("\r"," ");
+    return description;
   }
 
   /**
@@ -118,7 +118,7 @@ public class BasicOptionDescription implements OptionDescription {
    * @param description
    */
   public void setDescription(final String description) {
-    this.description = description;
+    this.description = description.replace("\n"," ").replace("\r"," ");
   }
 
   //Warning, currently a VERY naive implementation

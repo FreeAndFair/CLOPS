@@ -37,7 +37,7 @@
 	
   <target name="compile-version" depends="compile-init" description="Creates the version number file">
   	<tstamp><format property="COMPILE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/></tstamp>
-    <echo message="${release-name} ${release-version}" file="${version-file}"/>
+    <echo message="clops ${release-version}" file="${version-file}"/>
     <tempfile property="out-svn.temp" prefix="svn-rev"/>
   	<java classname="org.tmatesoft.svn.cli.SVN" fork="true" failonerror="true">
   	  <classpath refid="svn.path"/>

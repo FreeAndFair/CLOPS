@@ -31,7 +31,6 @@
 	        <enable/>
 	      </assertions>
 	      <classpath refid="test-dist.path"/>
-	      <arg value="-v"/>
 	      <arg value="-o"/>
 	      <arg value="${src-test-interface}"/>
 	      <arg value="-p"/>

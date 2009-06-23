@@ -90,7 +90,7 @@ public interface CLODSLOptionsInterface {
   /**
    * The enumeration type used to represent the string enum option.
    */
-  enum  Builtin {
+  static enum  Builtin {
     help("help"),    manpage("manpage"),    usage("usage"),    html("html"),    htmldev("htmldev");
     private final String[] matchStrings;
     private Builtin(final String... s) {

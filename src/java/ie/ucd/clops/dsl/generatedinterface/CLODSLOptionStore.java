@@ -84,13 +84,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogTransitiveFlyRules);
     ogTransitiveFlyRules.setProperty("default", "false");
     ogTransitiveFlyRules.setProperty("aliases", "-tfr,--transitive-fly-rules");
-    ogTransitiveFlyRules.setProperty("description", 
-      "Fly rules in the generated parser will be applied" +
-      "transitively. Meaning that assigning to an option in a fly-rule" +
-      "triggers fly-rules associated with that opion. This is an advanced" +
-      "and experimental feature. The issue with is it that the parser" +
-      "becomes potentially non-terminating due to rules triggering one" +
-      "another.");
+    ogTransitiveFlyRules.setProperty("description", "Fly rules in the generated parser will be applied   transitively. Meaning that assigning to an option in a fly-rule   triggers fly-rules associated with that opion. This is an advanced   and experimental feature. The issue with is it that the parser   becomes potentially non-terminating due to rules triggering one   another.");
     ogInput = new FileOption("Input", "");
     addOption(ogInput);
     ogInput.setProperty("between", "");
@@ -125,8 +119,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogTransitiveFlyRules);
     ogAll.addOptionOrGroup(ogDocs);
-    ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogOutputPackage);
+    ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);

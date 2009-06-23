@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <antlib>
-  <taskdef name="generate" classname="ie.ucd.clops.ant"/>
+  <taskdef name="generate" classname="ie.ucd.clops.ant.Compile"/>
 </antlib>

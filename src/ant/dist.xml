@@ -2,7 +2,7 @@
   <description>All the distribution related things</description>
   <import file="basic.xml" />
   <property name="dist-jar" value="clops-${release-version}.jar"/>
-  <property name="dist-runtime-jar" value="$clops-${release-version}-runtime.jar"/>
+  <property name="dist-runtime-jar" value="clops-${release-version}-runtime.jar"/>
   <property name="dist-lib" value="${dist}/lib" />
   <property name="dist-doc" value="${dist}/doc" />
   <path id="dist.path">
@@ -42,12 +42,12 @@
           <include name="**" />
         </fileset>
     </copy>
-  <chmod perm="a+x">
-    <files includes="${dist}/bin/clops"/>
-  </chmod>
+    <chmod perm="a+x">
+      <files includes="${dist}/bin/clops"/>
+    </chmod>
   </target>
     
-  <target name="dist-lib" description="Generate the lib directory" depends="dist-init">
+  <target name="dist-lib" description="Generate the lib directory" depends="dist-init,compile">
     <mkdir dir="${dist-lib}"/>
     <copy todir="${dist-lib}">
         <path refid="runtime.path"/>

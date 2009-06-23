@@ -29,6 +29,9 @@
       <compilerarg value="-Xlint:all"/>
       <classpath refid="compile.path"/>
     </javac>
+    <copy 
+      file="${src-java}/ie/ucd/clops/ant/antlib.xml" 
+      todir="${build}/ie/ucd/clops/ant"/>
   </target>
 	
   <target name="compile-clean" description="Clean up the compilation">

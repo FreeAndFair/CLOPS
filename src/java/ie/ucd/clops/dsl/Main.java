@@ -51,7 +51,7 @@ public class Main {
   }
   
   /**
-   * Programmatic entry point
+   * Programmatic entry point.
    * @param args
    * @param terminate if System.exit should be called after execution
    * @throws InvalidOptionValueException 
@@ -116,7 +116,7 @@ public class Main {
    * the input file to be used and the output location for the generated code.
    * @param options the parsed options to use for running the program.
    */
-  private boolean execute(final CLODSLOptionsInterface options) {
+  public boolean execute(final CLODSLOptionsInterface options) {
     if (options.isVerboseSet() && options.getVerbose()) {
       CLOLogger.setLogLevel(Level.FINE);
     }

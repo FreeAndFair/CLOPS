@@ -11,6 +11,7 @@ import java.io.File;
  */
 public class CodeGenerator extends DocumentGenerator {
 
+  // TODO(rgrig): These string concatenations look like asking for trouble.
   /** the template to generate the parser: templates/gen-parser.vm. */
   private static final String PARSER_TEMPLATE =
     TEMPLATE_BASE + "gen-parser.vm";
@@ -26,6 +27,8 @@ public class CodeGenerator extends DocumentGenerator {
   /** the template to generate the main: templates/gen-main.vm. */
   private static final String MAIN_TEMPLATE =
     TEMPLATE_BASE + "gen-main.vm";
+  private static final String ANT_TEMPLATE =
+    TEMPLATE_BASE + "gen-ant-task.vm";
 
   /**
    * Creates a code generator from the collected informations.
@@ -49,6 +52,7 @@ public class CodeGenerator extends DocumentGenerator {
     codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
     codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
     codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
+    codeGen.generate(output, ANT_TEMPLATE, "Code generation");
 
     if (genTest) {
       codeGen.generate(output, MAIN_TEMPLATE, "Code generation");

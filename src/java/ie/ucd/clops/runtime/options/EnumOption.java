@@ -118,7 +118,7 @@ public class EnumOption extends StringOption implements IEnumOption {
         // TODO(rgrig): this should by in sync with StringUtil.parseChoice
         for (String c : propertyValue.split(",")) {
           int i = c.indexOf("(");
-          if (i != -1) c = c.substring(i + 1, c.length() - 1);
+          if (i != -1) c = c.substring(0, i);
           choices.add(c);
         }
         return true;

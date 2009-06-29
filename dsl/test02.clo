@@ -1,0 +1,11 @@
+NAME::
+  Test
+
+ARGS::
+  Enum :{"--enum"} :{enum} 
+    :[choices="1(ONE),2(TWO)" default="2"]
+    :"I have a default, an the internal rep is different from the exernal one."
+
+FORMAT::
+  Enum;
+	

@@ -2,7 +2,7 @@ NAME::
   Test
 
 ARGS::
-  Enum :{"--enum"} :{enum} :"Oops, I forgot the chocies property"
+  Enum :{"--enum"} :{enum} :"Oops, I forgot the choices property"
 
 FORMAT::
   Enum;

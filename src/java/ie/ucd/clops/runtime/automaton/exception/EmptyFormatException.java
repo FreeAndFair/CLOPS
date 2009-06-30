@@ -1,5 +1,6 @@
 
-package ie.ucd.clops.runtime.automaton;
+package ie.ucd.clops.runtime.automaton.exception;
+
 
 /** Format is empty. */
 public class EmptyFormatException extends AutomatonException {

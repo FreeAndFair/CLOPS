@@ -2,14 +2,14 @@ package ie.ucd.clops.runtime.parser;
 
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.automaton.Automaton;
-import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
+import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.IMatchable;
-import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.rules.RuleStore;
 
 import static ie.ucd.clops.runtime.options.IMatchable.SEP;

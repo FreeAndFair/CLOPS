@@ -1,5 +1,6 @@
 
-package ie.ucd.clops.runtime.automaton;
+package ie.ucd.clops.runtime.automaton.exception;
+
 
 /** Left open bracket has not been closed. */
 public class LeftOpenBracketException extends AutomatonException {

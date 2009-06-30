@@ -1,7 +1,8 @@
 
-package ie.ucd.clops.runtime.automaton;
+package ie.ucd.clops.runtime.automaton.exception;
+
 
 /** Using question mark operator without predecessor. */
-public class OpenStarException extends AutomatonException {
+public class OpenPlusException extends AutomatonException {
 	private static final long serialVersionUID = 1L;
 }

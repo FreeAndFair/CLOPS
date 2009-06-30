@@ -3,6 +3,8 @@ package ie.ucd.clops.runtime.options;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 /**

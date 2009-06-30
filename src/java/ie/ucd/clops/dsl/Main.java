@@ -10,9 +10,9 @@ import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.generation.CodeGenerator;
 import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.automaton.AutomatonException;
-import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
-import ie.ucd.clops.runtime.options.InvalidOptionValueException;
+import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
 import java.io.File;
 import java.io.FileNotFoundException;

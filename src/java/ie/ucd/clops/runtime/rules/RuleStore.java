@@ -1,9 +1,9 @@
 package ie.ucd.clops.runtime.rules;
 
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.options.InvalidOptionValueException;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
 import java.util.HashMap;
 import java.util.LinkedList;

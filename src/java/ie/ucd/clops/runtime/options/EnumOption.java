@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.util.StringUtil;
 
 /**

@@ -1,5 +1,6 @@
 
-package ie.ucd.clops.runtime.automaton;
+package ie.ucd.clops.runtime.automaton.exception;
+
 
 /** Right open bracket without corresponding left bracket. */
 public class RightOpenBracketException extends AutomatonException {

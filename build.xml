@@ -8,7 +8,7 @@
   <import file="src/ant/doc.xml"/>
   <import file="src/ant/compile.xml"/>
   <import file="src/ant/test.xml"/>
-	<import file="src/ant/update.xml"/>
+  <import file="src/ant/update.xml"/>
 
   <target name="compile" depends="src,compile-build" description="compile java and tests"/>
   <target name="test" depends="compile,dist-exec,test-build" description="Run the tests"/>
@@ -19,5 +19,5 @@
   <target name="dist-exec" depends="compile, dist-lib" description="Generate the executable part of the distribution" />
   <target name="release" depends="dist, dist-release" description="Generate the release" />
   <target name="doc" depends="compile, doc-build" description="Generate documentation." />
-	<target name="update" depends="dist-lib,update-dslcli,update-dsltestcli" description="Update the clops command line interface"/>
+  <target name="update" depends="dist-lib,update-dslcli,update-dsltestcli" description="Update the clops command line interface"/>
 </project>

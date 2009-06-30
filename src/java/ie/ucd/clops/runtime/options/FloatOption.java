@@ -1,5 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
+
 import java.util.Collection;
 import java.util.LinkedList;
 

@@ -2,7 +2,7 @@ package ie.ucd.clops.test.generatedinterface;
 
 import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
 import ie.ucd.clops.runtime.rules.RuleStore;
-import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 
 
 /**

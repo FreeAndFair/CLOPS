@@ -1,4 +1,4 @@
-package ie.ucd.clops.runtime.options;
+package ie.ucd.clops.runtime.options.exception;
 
 /**
  * 

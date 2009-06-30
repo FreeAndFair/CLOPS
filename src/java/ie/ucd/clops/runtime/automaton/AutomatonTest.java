@@ -6,6 +6,13 @@ package ie.ucd.clops.runtime.automaton;
  * http://swtch.com/~rsc/regexp/
  */
 
+import ie.ucd.clops.runtime.automaton.exception.EmptyAlternativeException;
+import ie.ucd.clops.runtime.automaton.exception.EmptyFormatException;
+import ie.ucd.clops.runtime.automaton.exception.LeftOpenBracketException;
+import ie.ucd.clops.runtime.automaton.exception.OpenPlusException;
+import ie.ucd.clops.runtime.automaton.exception.OpenQuestionException;
+import ie.ucd.clops.runtime.automaton.exception.OpenStarException;
+import ie.ucd.clops.runtime.automaton.exception.RightOpenBracketException;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;

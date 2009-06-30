@@ -1,11 +1,11 @@
 package ie.ucd.clops.runtime.parser;
 
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.automaton.AutomatonException;
 import ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException;
 import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
-import ie.ucd.clops.runtime.options.InvalidOptionValueException;
+import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.rules.RuleStore;
 
 import java.util.logging.Level;

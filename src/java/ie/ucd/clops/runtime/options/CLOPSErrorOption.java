@@ -1,5 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
+
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,5 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+
 
 /**
  * Provides convenience functions for implementing an {@code Option}.

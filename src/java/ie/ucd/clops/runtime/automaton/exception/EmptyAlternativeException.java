@@ -1,5 +1,6 @@
 
-package ie.ucd.clops.runtime.automaton;
+package ie.ucd.clops.runtime.automaton.exception;
+
 
 /** Using alternative operator without predecessor. */
 public class EmptyAlternativeException extends AutomatonException {

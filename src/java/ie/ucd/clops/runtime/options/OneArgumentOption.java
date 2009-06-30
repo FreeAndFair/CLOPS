@@ -1,5 +1,7 @@
 package ie.ucd.clops.runtime.options;
 
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 import java.util.Collection;

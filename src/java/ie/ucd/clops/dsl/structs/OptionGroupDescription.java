@@ -50,7 +50,6 @@ public class OptionGroupDescription implements OptionDescription {
   }
 
   /** {@inheritDoc} */
-  @Override
   public String getIdentifier() {
     return identifier;
   }
@@ -80,14 +79,12 @@ public class OptionGroupDescription implements OptionDescription {
   }
 
   /** {@inheritDoc} */
-  @Override
   public void addPrefixRegexp(final String regexp) { }
 
   
 
   
   /** {@inheritDoc} */
-  @Override
   public String getDescription() {
     final StringBuilder sb = new StringBuilder();
     for (OptionGroupChild child : ogChildren) {
@@ -104,13 +101,11 @@ public class OptionGroupDescription implements OptionDescription {
 
 
   /** {@inheritDoc} */
-  @Override
   public List<Pair<String, String>> getProperties() {
     return prop;
   }
 
   /** {@inheritDoc} */
-  @Override
   public String getPropertyValue(final String key) {
     String retv = null;
     for (Pair<String, String> p : prop) {
@@ -122,14 +117,12 @@ public class OptionGroupDescription implements OptionDescription {
   }
 
   /** {@inheritDoc} */
-  @Override
   public OptionType getType() { // we are a sort of boolean
     return DefaultOptionTypeFactory.BOOLEAN;
   }
 
 
   /** {@inheritDoc} */
-  @Override
   public void setProperty(final String key, final String value) {
     prop.add(new Pair<String, String>(key, value));
   }
@@ -183,13 +176,11 @@ public class OptionGroupDescription implements OptionDescription {
   }
   
   // TODO should be removed
-  @Override
   public List<String> getPrefixRegexps() {
     return empty;
   }
   
   // TODO should be removed
-  @Override
   public List<String> getAliases() {
     return empty;
   }

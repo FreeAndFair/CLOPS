@@ -59,7 +59,7 @@ public class Main {
 
   private static boolean compileTests(File outputDir) {
     String[] sourceFiles = outputDir.list(new FilenameFilter() {
-      @Override
+      
       public boolean accept(File dir, String name) {
         return name.endsWith(".java");
       }      
@@ -96,7 +96,8 @@ public class Main {
 //      }
 
       //Direct invocation, must compile against tools.jar
-      int result = com.sun.tools.javac.Main.compile(args);
+      int result = -1;//com.sun.tools.javac.Main.compile(args);
+      //FIXME
       return result == 0;
     } else {
       System.out.println("Not an URLClassLoader, cannot extract existing classpath to compile automatically.");

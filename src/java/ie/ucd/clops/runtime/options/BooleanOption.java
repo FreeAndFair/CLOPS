@@ -78,7 +78,6 @@ public class BooleanOption extends BasicOption<Boolean> {
     this.value = value;
   }
 
-  @Override
   public Boolean convertStringToValue(String valueString) throws InvalidOptionValueException {
     if (!allowArg) {
       if (valueString != null) throw new InvalidOptionValueException("No argument allowed.");

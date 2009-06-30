@@ -44,7 +44,7 @@ public class IntegerOption extends OneArgumentOption<Integer> {
 			}
 	}
 
-	@Override
+
 	public Integer convertStringToValue(String valueString) throws InvalidOptionValueException {
 		if (valueString == null)
 			throw new InvalidOptionValueException("Empty integer value.");

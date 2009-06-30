@@ -115,7 +115,6 @@ public class CountedBooleanOption extends BasicOption<Integer> {
     }
   }
 
-  @Override
   public Integer convertStringToValue(String value) throws InvalidOptionValueException {
     if (value == null)
       throw new InvalidOptionValueException("Empty integer value.");

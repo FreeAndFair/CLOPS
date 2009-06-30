@@ -66,7 +66,6 @@ public abstract class BasicOption<T> implements Option<T> {
     return match.end() - match.start();
   }
 
-  @Override
   public final void setMatchingPrefix(String regexp) {
     prefix = regexp;
     dirty = true;
@@ -95,7 +94,6 @@ public abstract class BasicOption<T> implements Option<T> {
     }
   }
 
-  @Override
   public void setFromString(String valueString) throws InvalidOptionValueException {
     set(convertStringToValue(valueString));
   }
@@ -125,7 +123,6 @@ public abstract class BasicOption<T> implements Option<T> {
     return acceptedPropertyNames;
   }
   
-  @Override
   public Collection<String> getAcceptedPropertyNames() {
     return getStaticAcceptedPropertyNames();
   }
@@ -196,7 +193,6 @@ public abstract class BasicOption<T> implements Option<T> {
     return aliases;
   }
 
-  @Override
   public final boolean hasAtLeastOneOptionWithValue() {
     return hasValue();
   }

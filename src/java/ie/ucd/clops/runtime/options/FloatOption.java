@@ -44,7 +44,7 @@ public class FloatOption extends OneArgumentOption<Float> {
 		  }
 	}
 
-	@Override
+
   public Float convertStringToValue(String valueString) throws InvalidOptionValueException {
 	  if (valueString == null)
       throw new InvalidOptionValueException("Empty float value.");

@@ -31,7 +31,6 @@ public class FileOption extends OneArgumentOption<File> {
     this.value = value;	  
   }
 
-  @Override
   public File convertStringToValue(String valueString) throws InvalidOptionValueException {
     if (valueString == null)
       throw new InvalidOptionValueException("Null File string.");

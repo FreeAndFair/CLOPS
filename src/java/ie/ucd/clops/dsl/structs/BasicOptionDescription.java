@@ -69,7 +69,6 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#getProperties()
    */
-  @Override
   public List<Pair<String, String>> getProperties() {
     return properties;
   }

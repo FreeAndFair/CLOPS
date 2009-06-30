@@ -40,7 +40,6 @@ public class StringOption extends OneArgumentOption<String> {
 	  }
 	}
 
-	@Override
   public String convertStringToValue(String valueString) throws InvalidOptionValueException {
 	  if (valueString == null)
       throw new InvalidOptionValueException("Null String.");

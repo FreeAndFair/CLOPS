@@ -6,7 +6,7 @@ package $info.getPackageName();
 
 import java.util.logging.Level;
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 
 public class ${info.getParserName()}Main {
   

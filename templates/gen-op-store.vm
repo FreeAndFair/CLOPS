@@ -6,7 +6,7 @@ package $info.getPackageName();
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
-import ie.ucd.clops.runtime.options.InvalidOptionPropertyValueException;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 #foreach($import in $info.getValueTypeImports())
 import $import;
 #end

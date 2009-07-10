@@ -44,11 +44,15 @@ public class Main {
 
     if (options.getCompile()) {
       System.out.println("Compiling parsers and unit tests.");
-      compileTests(outputDir);
-      if (options.getRunTests()) {
-        System.out.println("Running tests.");
-        runTests(outputDir, logFine);
-      } 
+      if (compileTests(outputDir)) {
+        System.out.println("Compile success.");
+        if (options.getRunTests()) {
+          System.out.println("Running tests.");
+          runTests(outputDir, logFine);
+        } 
+      } else {
+        System.out.println("Compile fail.");
+      }
     }
   }
 
@@ -59,7 +63,7 @@ public class Main {
 
   private static boolean compileTests(File outputDir) {
     String[] sourceFiles = outputDir.list(new FilenameFilter() {
-      
+
       public boolean accept(File dir, String name) {
         return name.endsWith(".java");
       }      
@@ -72,32 +76,31 @@ public class Main {
       String[] args = new String[sourceFiles.length + 2];
       args[0] = "-cp";
       args[1] = getClassPath((URLClassLoader)loader);
-      
+
       String classpathProperty = System.getProperty("java.class.path");
       if (classpathProperty != null) {
         args[1] += File.pathSeparator + classpathProperty;
       }
-      
+
       for (int i=0; i < sourceFiles.length; i++) {
         args[i+2] = outputDir.getPath() + File.separator + sourceFiles[i];
       }
 
       //Reflection method, as done by ant's javac
-//      try {
-//        Class<?> c = Class.forName ("com.sun.tools.javac.Main");
-//        Object compiler = c.newInstance ();
-//        Method compile = c.getMethod ("compile", new Class [] {(new String [] {}).getClass ()});
-//        int result = (Integer)compile.invoke(compiler, new Object[] {args});
-//        return result == 0;
-//      } catch (Exception e) {
-//        System.out.println("An error occurred when trying to run javac.");
-//        e.printStackTrace();
-//        return false;
-//      }
+      //      try {
+      //        Class<?> c = Class.forName ("com.sun.tools.javac.Main");
+      //        Object compiler = c.newInstance ();
+      //        Method compile = c.getMethod ("compile", new Class [] {(new String [] {}).getClass ()});
+      //        int result = (Integer)compile.invoke(compiler, new Object[] {args});
+      //        return result == 0;
+      //      } catch (Exception e) {
+      //        System.out.println("An error occurred when trying to run javac.");
+      //        e.printStackTrace();
+      //        return false;
+      //      }
 
       //Direct invocation, must compile against tools.jar
-      int result = -1;//com.sun.tools.javac.Main.compile(args);
-      //FIXME
+      int result = com.sun.tools.javac.Main.compile(args);
       return result == 0;
     } else {
       System.out.println("Not an URLClassLoader, cannot extract existing classpath to compile automatically.");

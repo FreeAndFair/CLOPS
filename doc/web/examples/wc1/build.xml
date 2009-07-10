@@ -1,11 +1,20 @@
-<project name="Wc" default="compile" basedir=".">
+<project name="Wc1" default="compile" basedir=".">
+  <property name="clofile" location="src/wc.clo"/>
+  <property name="generate.dir" location="src/generated"/>
+
+  <!--   generate the parser according to wc.clo -->
   <target name="compile" description="do everything">
     <java fork="yes" dir="." jar="jars/clops.jar">
-      <arg value="-i=src/wc.clops"/>
-      <arg value="-o=src/generated"/>
-      <arg value="-p=generated"/>
+      <arg value="${clofile}"/>
+      <arg value="--output=${generate.dir}"/>
+      <arg value="--package=generated"/>
     </java>
-    <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar"/>
+
+    <!--   compile the generated parser -->
+    <mkdir dir="classes"/>
+    <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar" debug="yes"/>
+
+    <!--   jar the generated parser, note that it requires clops-runtime.jar -->
     <jar destfile="jars/wc.jar" basedir="classes">
       <manifest>
         <attribute name="Main-Class" value="Main"/>

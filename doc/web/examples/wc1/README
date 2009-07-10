@@ -1,0 +1,10 @@
+This directory contains a simple example of a CLOPS description for
+simulating the program wc (word count).
+
+Run ant in the current directory to generate the parser from the CLOPS
+description. The script wc1 is can be used to play with the generated
+parser (e.g., "./wc1 -c").
+
+This is an extended version of the example wc which enables specifying
+files starting with a hyphen (e.g., ./wc1 -c -- --file).
+

@@ -1,8 +1,8 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,7 +41,7 @@ public class EnumOption extends StringOption implements IEnumOption {
   private static Collection<String> acceptedPropertyNames; 
   protected static Collection<String> getStaticAcceptedPropertyNames() {
     if (acceptedPropertyNames == null) {
-      acceptedPropertyNames = new LinkedList<String>();  
+      acceptedPropertyNames = new ArrayList<String>();  
       acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
       acceptedPropertyNames.addAll(EnumPart.getStaticAcceptedPropertyNames());
     }
@@ -72,11 +72,11 @@ public class EnumOption extends StringOption implements IEnumOption {
 
   public static class EnumPart {
 
-    private final Set<String> choices;
+    private final List<String> choices;
     private boolean caseSensitive;
 
     public EnumPart() {
-      choices = new HashSet<String>();
+      choices = new ArrayList<String>();
       caseSensitive = false;
     }
 
@@ -88,7 +88,7 @@ public class EnumOption extends StringOption implements IEnumOption {
       return isValidValue(value, choices, caseSensitive);
     }
 
-    public static boolean isValidValue(String value, Set<String> choices, boolean caseSensitive) {
+    public static boolean isValidValue(String value, Iterable<String> choices, boolean caseSensitive) {
       for (String choice : choices) {
         if ((caseSensitive && choice.equals(value)) || 
             choice.equalsIgnoreCase(value)) {
@@ -102,7 +102,7 @@ public class EnumOption extends StringOption implements IEnumOption {
     private static Collection<String> acceptedPropertyNames; 
     protected static Collection<String> getStaticAcceptedPropertyNames() {
       if (acceptedPropertyNames == null) {
-        acceptedPropertyNames = new LinkedList<String>();  
+        acceptedPropertyNames = new ArrayList<String>();  
         acceptedPropertyNames.addAll(StringOption.getStaticAcceptedPropertyNames());
         acceptedPropertyNames.add("choices");
         acceptedPropertyNames.add("casesensitive");

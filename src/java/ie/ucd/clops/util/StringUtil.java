@@ -2,6 +2,7 @@ package ie.ucd.clops.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,8 +87,8 @@ public class StringUtil {
    * @param list the list to parse of the form "a,b,c,d"
    * @return a java list ["a", "b", "c", "d"]
    */
-  public static List<String> mkList(final String list) {
-    final String[] arr = list.split(",");
+  public static List<String> mkList(final String list, final String sep) {
+    final String[] arr = list.split(sep);
     final List<String> res = new ArrayList<String>();
     if (arr.length == 0) {
       res.add(list);
@@ -100,37 +101,33 @@ public class StringUtil {
     return res;
   }
 
-  public static Map<String, StringBuilder> parseChoice(String choice) {
-    final Map<String, StringBuilder> map = new HashMap<String, StringBuilder>();
+  public static List<String> mkList(final String list) {
+    return mkList(list, ",");
+  }
+
+  public static List<Pair<String, List<String>>> parseChoice(String choice) {
+    final List<Pair<String, List<String>>> r = 
+      new ArrayList<Pair<String, List<String>>>();
     if (choice == null) {
-      return map;
+      return r;
     }
-    final String[] parts = choice.split(",");
-    for (String part : parts) {
-      parseChoicePart(part, map);
+    for (String part : mkList(choice)) {
+      parseChoicePart(part, r);
     }
-    return map;
+    return r;
   }
   
-  private static void parseChoicePart(String part, Map<String, StringBuilder> map) {
-    String name, parseString;
+  private static void parseChoicePart(String part, List<Pair<String, List<String>>> r) {
+    String name, parseStrings;
     final int index = part.indexOf('(');
     if (index != -1) {
-      parseString = part.substring(0, index);
+      parseStrings = part.substring(0, index);
       name = part.substring(index + 1, part.length() - 1);
     } else {
-      parseString = part;
+      parseStrings = part;
       name = part;
     }
-    StringBuilder sb = map.get(name);
-    if (sb == null) {
-      sb = new StringBuilder('"' + parseString + '"');
-      map.put(name, sb);
-    } else {
-      sb.append(", \"");
-      sb.append(parseString);
-      sb.append('"');
-    }
+    r.add(Pair.mk(name, mkList(parseStrings, "\\|")));
   }
   
   public static String collectionToString(Collection<?> collection, String separator) {

@@ -18,12 +18,13 @@ public class EnumListOption extends StringListOption implements IEnumListOption 
   }
 
   @Override
-  public void setFromString(String valueString) throws InvalidOptionValueException {
-    if (enumPart.isValidValue(valueString)) {
-      super.setFromString(valueString);
-    } else {
-      throw new InvalidOptionValueException(valueString + " is not an allowed choice.");
-    }    
+  public String convertFromStringToListValue(String valueString)
+      throws InvalidOptionValueException {
+    if (!enumPart.isValidValue(valueString)) {
+      throw new InvalidOptionValueException(
+          valueString + " is not an allowed choice.");
+    }
+    return valueString;
   }
 
   @Override

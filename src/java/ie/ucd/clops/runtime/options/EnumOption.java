@@ -8,6 +8,7 @@ import java.util.Set;
 
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
+import ie.ucd.clops.util.Pair;
 import ie.ucd.clops.util.StringUtil;
 
 /**
@@ -117,11 +118,12 @@ public class EnumOption extends StringOption implements IEnumOption {
     public boolean setProperty(String propertyName, String propertyValue)
     throws InvalidOptionPropertyValueException {
       if (propertyName.equalsIgnoreCase("choices")) {
-        // TODO(rgrig): this should by in sync with StringUtil.parseChoice
-        for (String c : propertyValue.split(",")) {
-          int i = c.indexOf("(");
-          if (i != -1) c = c.substring(0, i);
-          choices.add(c);
+        List<Pair<String, List<String>>> pc = 
+          StringUtil.parseChoice(propertyValue);
+        for (Pair<String, List<String>> c : pc) {
+          for (String cs : c.getSecond()) {
+            choices.add(cs);
+          }
         }
         return true;
       } else if (propertyName.equalsIgnoreCase("casesensitive")) {

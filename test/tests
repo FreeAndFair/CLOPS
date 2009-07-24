@@ -78,3 +78,14 @@ invalid: {-i}
 invalid: {-f}
 invalid: {-f ${non-existant-file}}
 invalid: {-h ${existing-file}}
+
+
+file: ../doc/web/examples/wc/src/wc.clo
+name: Wc
+valid: {-c}
+invalid: {-x}
+
+file: ../doc/web/examples/wc1/src/wc.clo
+name: Wc
+valid: {-- -x}
+invalid: {-x}

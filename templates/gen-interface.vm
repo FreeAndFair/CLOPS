@@ -44,7 +44,8 @@ public interface $info.getParserName()OptionsInterface {
    */
   static enum  $typename {
 #foreach ($o in $options)    
-    ${o.getFirst()}(#foreach($ps in ${o.getSecond()})"$!{ps}"#end)#if($velocityCount != $options.size()),#else;#end
+    ${o.getFirst()}(#foreach($ps in ${o.getSecond()})"$!{ps}"#if($velocityCount != ${o.getSecond().size()}),#end#end)#if($velocityCount != $options.size()),#else;
+#end
 #end
 
     private final String[] matchStrings;

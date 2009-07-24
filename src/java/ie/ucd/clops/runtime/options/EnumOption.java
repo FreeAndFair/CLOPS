@@ -35,7 +35,7 @@ public class EnumOption extends StringOption implements IEnumOption {
       super.set(value);
     } else {
       throw new InvalidOptionValueException(value + " is not an allowed choice.");
-    } 
+    }
   }
 
   //Static for space/time efficiency (we don't need one per instance) 

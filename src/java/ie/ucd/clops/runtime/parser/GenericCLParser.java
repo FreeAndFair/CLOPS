@@ -1,18 +1,23 @@
 package ie.ucd.clops.runtime.parser;
 
+import static ie.ucd.clops.runtime.options.IMatchable.SEP;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.automaton.Automaton;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
 import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
+import ie.ucd.clops.runtime.errors.AmbiguousCommandLineError;
+import ie.ucd.clops.runtime.errors.CLError;
+import ie.ucd.clops.runtime.errors.IncompleteCommandLineError;
+import ie.ucd.clops.runtime.errors.InvalidOptionValueError;
+import ie.ucd.clops.runtime.errors.UnknownOptionError;
+import ie.ucd.clops.runtime.errors.ValidityError;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.rules.RuleStore;
-
-import static ie.ucd.clops.runtime.options.IMatchable.SEP;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +40,9 @@ import java.util.regex.Pattern;
  * @author Viliam Holub
  */
 public class GenericCLParser {
+
+  public static final boolean DO_ERROR_RECOVERY = true;
+
   private static final Logger log = Logger.getLogger("ie.ucd.clops");
 
   public GenericCLParser() {}
@@ -51,11 +59,13 @@ public class GenericCLParser {
     public Option<?> option;
     public String optionValue;
     public int optionMatchLength;
+    public int position;
 
-    public ParseStep(Option<?> option) {
+    public ParseStep(Option<?> option, int position) {
       this.option = option;
       optionMatchLength = option.getMatchLength();
       optionValue = option.getMatchingValueString();
+      this.position = position;
     }
 
     @Override public boolean equals(Object o) {
@@ -69,9 +79,9 @@ public class GenericCLParser {
 
     @Override public int hashCode() {
       return 
-          optionMatchLength + 
-          (option == null? 0 : option.hashCode()) + 
-          (optionValue == null? 0 : optionValue.hashCode());
+      optionMatchLength + 
+      (option == null? 0 : option.hashCode()) + 
+      (optionValue == null? 0 : optionValue.hashCode());
     }
   }
 
@@ -93,17 +103,17 @@ public class GenericCLParser {
    * TODO(rgrig): The interface of this function should clearly
    *    separate errors in the DSL from errors in the command line.
    */
-  public boolean alternateParse(
+  public List<CLError> alternateParse(
       String formatString, 
       OptionStore optionStore,
       RuleStore ruleStore,
       String[] args) 
-  throws 
+      throws 
       Tokenizer.IllegalCharacterException, 
-      Tokenizer.UnknownOptionException ,
-      AutomatonException,
-      InvalidOptionValueException
-  {
+      Tokenizer.UnknownOptionException
+      {
+    List<CLError> errorList = new ArrayList<CLError>();
+
     this.optionStore = optionStore;
     this.ruleStore = ruleStore;
     buildAutomaton(formatString);
@@ -113,20 +123,32 @@ public class GenericCLParser {
     currentParse = new ArrayList<ParseStep>();
 
     recursiveParse(0);
-    if (parsingPossibilities.size() != 1) {
-      log.fine("There are " + parsingPossibilities.size() + 
-          " parsing possibilities.");
-      return false;
+    if (parsingPossibilities.size() > 1) {
+      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
+      //TODO better errors here - index of divergence, other information
+      errorList.add(new AmbiguousCommandLineError("There are " + parsingPossibilities.size() + " parsing possibilities."));
+      return errorList;
+    } else if (parsingPossibilities.size() == 0) {
+      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
+      //TODO better errors here - index of no match
+      errorList.add(new UnknownOptionError("There are " + parsingPossibilities.size() + " parsing possibilities."));
+      return errorList;      
     }
-    applyParse(parsingPossibilities.iterator().next());
+    errorList.addAll(applyParse(parsingPossibilities.iterator().next()));
+    if (!errorList.isEmpty()) {
+      return errorList;
+    }
+
     ruleStore.applyValidityRules(optionStore);
     List<String> validityErrorList = 
-        ((CLOPSErrorOption)optionStore.getOptionByIdentifier(
-            CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
-    for (String error : validityErrorList)
+      ((CLOPSErrorOption)optionStore.getOptionByIdentifier(
+          CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
+    for (String error : validityErrorList) {
       log.fine(error);
-    return validityErrorList.isEmpty();
-  }
+      errorList.add(new AmbiguousCommandLineError(error));
+    }
+    return errorList;
+      }
 
   private void recursiveParse(int startIndex) {
     if (startIndex == commandLine.length()) {
@@ -136,13 +158,13 @@ public class GenericCLParser {
     }
 
     Collection<IMatchable> possibleTransitions = 
-        automaton.availableTransitionsUnique();
+      automaton.availableTransitionsUnique();
     Map<ParseStep, Set<IMatchable>> matches =
-        new HashMap<ParseStep, Set<IMatchable>>();
+      new HashMap<ParseStep, Set<IMatchable>>();
     for (IMatchable t : possibleTransitions) {
       Option<?> option = t.getMatchingOption(commandLine, startIndex);
       if (option == null) continue;
-      ParseStep step = new ParseStep(option);
+      ParseStep step = new ParseStep(option, startIndex);
       Set<IMatchable> transitions = matches.get(step);
       if (transitions == null) {
         transitions = new HashSet<IMatchable>();
@@ -159,21 +181,36 @@ public class GenericCLParser {
     }
   }
 
-  private void applyParse(List<ParseStep> parse) 
-  throws InvalidOptionValueException {
+  private List<CLError> applyParse(List<ParseStep> parse) {
+    List<CLError> errorList = new ArrayList<CLError>();
     for (ParseStep step : parse) {
-      step.option.setFromString(step.optionValue);
-      log.fine("Set option: " + step.option);
-      ruleStore.applyFlyRules(step.option, optionStore);
+
+      try {
+        step.option.setFromString(step.optionValue);
+      } catch (InvalidOptionValueException e) {
+        errorList.add(new InvalidOptionValueError(step.position, e.getMessage()));
+      }
+
+      if (errorList.isEmpty()) {
+        log.fine("Set option: " + step.option);
+        List<CLError> flyErrors = ruleStore.applyFlyRules(step.option, optionStore);
+        errorList.addAll(flyErrors);
+      }
+
+      if (!DO_ERROR_RECOVERY && !errorList.isEmpty()) {
+        return errorList;
+      }
     }
-    ruleStore.applyOverrideRules(optionStore);
+    List<CLError> overrideErrors = ruleStore.applyOverrideRules(optionStore);
+    errorList.addAll(overrideErrors);
+    return errorList;
   }
 
   private void buildAutomaton(String formatString) 
   throws 
-      Tokenizer.IllegalCharacterException, 
-      Tokenizer.UnknownOptionException,
-      AutomatonException
+  Tokenizer.IllegalCharacterException, 
+  Tokenizer.UnknownOptionException,
+  AutomatonException
   {
     List<Token<IMatchable>> tokens =
       new Tokenizer().tokenize(formatString, optionStore);
@@ -198,9 +235,9 @@ public class GenericCLParser {
    * @param args the commandline as given to the main method
    * @return {@code true} iff the commmandline has been successfully parsed
    */
-  public boolean parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args)
-  throws Tokenizer.IllegalCharacterException,
-  Tokenizer.UnknownOptionException {
+  public List<CLError> parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args) {
+    List<CLError> errorList = new ArrayList<CLError>();
+
     CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
     CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
 
@@ -223,14 +260,7 @@ public class GenericCLParser {
       throw e;
     }
 
-    try {
-      automaton = new Automaton<IMatchable>(tokens);
-    }
-    catch (AutomatonException e) {
-      // TODO: Exception refinement
-      CLOLogger.getLogger().log(Level.SEVERE, "Error: Automaton exception.");
-      return false;
-    }
+    automaton = new Automaton<IMatchable>(tokens);
 
     //Convert args to single string
     StringBuilder sb = new StringBuilder();
@@ -259,8 +289,10 @@ public class GenericCLParser {
           //We cannot match on two different Options
           if (matchedOption != null && matchedOption != newMatchedOption) {
             CLOLogger.getLogger().log(Level.SEVERE, "Matched two options: " 
-              + matchedOption + " and " + newMatchedOption);
-            return false;
+                + matchedOption + " and " + newMatchedOption);
+            errorList.add(new AmbiguousCommandLineError("Matched two options: " 
+                + matchedOption + " and " + newMatchedOption));
+            return errorList;
           }
 
           matchedOption = newMatchedOption;
@@ -272,7 +304,9 @@ public class GenericCLParser {
       if (matchedOption == null) {  
         // If no  match was found
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
-        return false;
+        //TODO index of no match
+        errorList.add(new UnknownOptionError("Illegal option: " + suggestUnmatchedOption(argumentString, i)));
+        return errorList;
       } else {
         //We should have at least one transition
         assert matches.size() > 0;
@@ -286,17 +320,17 @@ public class GenericCLParser {
         if (pr.errorDuringProcessing()) {
           //output error
           CLOLogger.getLogger().log(Level.SEVERE, pr.getErrorMessage());
-          return false;
+          errorList.add(new InvalidOptionValueError(i, pr.getErrorMessage()));
+          if (!DO_ERROR_RECOVERY) {
+            return errorList;
+          }
         } else {
           i += matchedOption.getMatchLength();
-          try {
-            CLOLogger.getLogger().log(Level.FINE, "Applying fly rules");
-            ruleStore.applyFlyRules(matchedOption, optionStore);
-            CLOLogger.getLogger().log(Level.FINE, "Done applying fly rules");
-          } catch (InvalidOptionValueException iove) {
-            //Shouldn't happen?
-            CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from fly rule: " + iove);
-            return false;
+          CLOLogger.getLogger().log(Level.FINE, "Applying fly rules");
+          errorList.addAll(ruleStore.applyFlyRules(matchedOption, optionStore));
+          CLOLogger.getLogger().log(Level.FINE, "Done applying fly rules");
+          if (!DO_ERROR_RECOVERY && !errorList.isEmpty()) {
+            return errorList;
           }
         }
       }
@@ -309,23 +343,17 @@ public class GenericCLParser {
     CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
 
     if (automaton.isAccepting()) {
-      try {
-        ruleStore.applyOverrideRules(optionStore);
-        CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
-      } catch (InvalidOptionValueException e) {
-        //Again, shouldn't happen?
-        CLOLogger.getLogger().log(Level.SEVERE, "Invalid option value set from override rule: " + e);
-        return false;
-      }
 
-      try {
-        ruleStore.applyValidityRules(optionStore);
-        CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
-      } catch (InvalidOptionValueException e) {
-        //Really, really shouldn't happen
-        CLOLogger.getLogger().log(Level.SEVERE, "Something internal went wrong.");
-        return false;
+      errorList.addAll(ruleStore.applyOverrideRules(optionStore));
+      CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
+
+      if (!errorList.isEmpty()) {
+        return errorList;
       }
+      
+      ruleStore.applyValidityRules(optionStore);
+      CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
+
       List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
       if (validityErrorList.size() > 0) {
         //We had a validity error.
@@ -333,18 +361,20 @@ public class GenericCLParser {
         for (String errorMessage : validityErrorList) {
           if (errorMessage != null && !errorMessage.equals("")) { 
             CLOLogger.getLogger().log(Level.SEVERE, errorMessage);
+            errorList.add(new ValidityError(errorMessage));
           }
         }
-        return false;
+        return errorList;
       } else {
         CLOLogger.getLogger().log(Level.FINE, "Validity checks passed.");
       }
 
-      return true;
+      return errorList;
     } else {
       CLOLogger.getLogger().log(Level.SEVERE, "Invalid arguments.");
-      //TODO print usage string?
-      return false;
+      //TODO print usage string? print possible next args?
+      errorList.add(new IncompleteCommandLineError("Invalid arguments."));
+      return errorList;
     }
 
   }

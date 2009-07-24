@@ -22,7 +22,7 @@ public class Main {
     try {
       CLOTestParser parser = new CLOTestParser();
 
-      if (parser.parse(args)) {
+      if (parser.parse(args).isEmpty()) {
         execute(parser.getOptionStore());
       } else {
         //TODO print usage  

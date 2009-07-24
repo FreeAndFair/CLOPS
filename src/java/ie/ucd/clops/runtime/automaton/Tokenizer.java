@@ -21,7 +21,7 @@ public class Tokenizer {
   static final Token<IMatchable> STAR     = new Token<IMatchable>( TokenType.STAR);
   static final Token<IMatchable> QUESTION = new Token<IMatchable>( TokenType.QUESTION);
 
-	public class TokenizerException extends Exception {
+	public class TokenizerException extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 	}
 

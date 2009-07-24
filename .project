@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CLO</name>
+	<name>clops</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -20,11 +20,6 @@
 				</dictionary>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
@@ -33,7 +28,6 @@
 		<nature>ie.ucd.bon.plugin.boncnature</nature>
 		<nature>com.stateofflow.eclipse.metrics.MetricsNature</nature>
 		<nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
-		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
 		<nature>ch.ethz.inf.pm.jml.plugin.CheckerNature</nature>
 		<nature>net.sourceforge.metrics.nature</nature>
 	</natures>

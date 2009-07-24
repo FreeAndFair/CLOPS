@@ -1,18 +1,20 @@
 package ie.ucd.clops.runtime.rules;
 
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.errors.CLError;
+import ie.ucd.clops.runtime.errors.InvalidOptionValueError;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-
 import java.util.Set;
-import java.util.HashSet;
+import java.util.logging.Level;
 /**
  * 
  * @author Fintan
@@ -23,13 +25,13 @@ public class RuleStore {
   //Other data structures for normal rules...
   private final List<OverrideRule> overrideRules;
   private final List<ValidityRule> validityRules;
-    
+
   public RuleStore() {
     this.optionIdentifierToFlyRuleMap = new HashMap<String,List<FlyRule>>();
     this.overrideRules = new LinkedList<OverrideRule>();
     this.validityRules = new LinkedList<ValidityRule>();
   }
-  
+
   public void addFlyRule(String optionIdentifier, FlyRule rule) {
     List<FlyRule> existingRules = optionIdentifierToFlyRuleMap.get(optionIdentifier);
     if (existingRules == null) {
@@ -39,7 +41,7 @@ public class RuleStore {
     existingRules.add(rule);
     CLOLogger.getLogger().log(Level.FINE, "Added rule " + rule + " for " + optionIdentifier);
   }
-  
+
   public void addOverrideRule(OverrideRule rule) {
     overrideRules.add(rule);
   }
@@ -47,7 +49,7 @@ public class RuleStore {
   public void addValidityRule(ValidityRule rule) {
     validityRules.add(rule);
   }
-  
+
   public List<FlyRule> getFlyRulesForOption(String optionIdentifier) {
     return optionIdentifierToFlyRuleMap.get(optionIdentifier);
   }
@@ -55,28 +57,34 @@ public class RuleStore {
   public List<FlyRule> getFlyRulesForOption(Option<?> option) {
     return getFlyRulesForOption(option.getIdentifier());
   }
-  
-  public void applyFlyRulesTraditional(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+
+  public List<CLError> applyFlyRulesTraditional(Option<?> matchedOption, OptionStore optionStore) {
+    List<CLError> errorList = new ArrayList<CLError>();
     List<FlyRule> rules = getFlyRulesForOption(matchedOption);
     if (rules != null) {
       CLOLogger.getLogger().log(Level.FINE, "Rules for " + matchedOption);
       for (FlyRule rule : rules) {
         CLOLogger.getLogger().log(Level.FINE, "Rule: " + rule);
-        rule.applyRule(optionStore);
+        try {
+          rule.applyRule(optionStore);
+        } catch (InvalidOptionValueException e) {
+          errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
+        }        
       }          
     }
+    return errorList;
   }
 
-  public void applyFlyRules(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+  public List<CLError> applyFlyRules(Option<?> matchedOption, OptionStore optionStore) {
     if (shouldApplyFlyRulesTransitively()) {
-      applyFlyRulesTransitive(matchedOption, optionStore);      
-    }
-    else {
-      applyFlyRulesTraditional(matchedOption, optionStore);
+      return applyFlyRulesTransitive(matchedOption, optionStore);      
+    } else {
+      return applyFlyRulesTraditional(matchedOption, optionStore);
     }
   }
 
-  public void applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) throws InvalidOptionValueException {
+  public List<CLError> applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) {
+    List<CLError> errorList = new ArrayList<CLError>();
     Set<Option<?>> triggers = new HashSet<Option<?>>(1);
     triggers.add(matchedOption); matchedOption=null;
 
@@ -94,19 +102,24 @@ public class RuleStore {
           Map<String, Object> oldVals = getVals(optionStore, rule.getAffectedOptions());
           CLOLogger.getLogger().log(Level.FINE, "Affected opts: " + rule.getAffectedOptions());
 
-          if (rule.applyRule(optionStore)) {
-            for (String oId : rule.getAffectedOptions()) {
-              Option<?> o = optionStore.getOptionByIdentifier(oId);
-              if (!isSame(oldVals.get(oId), o.hasValue() ? o.getValue() : null)) {
-                triggers.add(o);
-              } else {
-                CLOLogger.getLogger().log(Level.FINE, "Affected "  + o + " stayed the same");
+          try {
+            if (rule.applyRule(optionStore)) {
+              for (String oId : rule.getAffectedOptions()) {
+                Option<?> o = optionStore.getOptionByIdentifier(oId);
+                if (!isSame(oldVals.get(oId), o.hasValue() ? o.getValue() : null)) {
+                  triggers.add(o);
+                } else {
+                  CLOLogger.getLogger().log(Level.FINE, "Affected "  + o + " stayed the same");
+                }
               }
             }
+          } catch (InvalidOptionValueException e) {
+            errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
           }
         }          
       }
     }
+    return errorList;
   }
 
   private static boolean isSame(Object o1, Object o2) {
@@ -123,19 +136,29 @@ public class RuleStore {
     }
     return vals; 
   }
-  
-  public void applyOverrideRules(OptionStore optionStore) throws InvalidOptionValueException {
+
+  public List<CLError> applyOverrideRules(OptionStore optionStore) {
+    List<CLError> errorList = new ArrayList<CLError>();
     for (OverrideRule rule : overrideRules) {
-      rule.applyRule(optionStore);
+      try {
+        rule.applyRule(optionStore);
+      } catch (InvalidOptionValueException e) {
+        errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
+      } 
+    }
+    return errorList;
+  }
+
+  public void applyValidityRules(OptionStore optionStore) {
+    try {
+      for (ValidityRule rule : validityRules) {
+        rule.applyRule(optionStore);
+      }
+    } catch (InvalidOptionValueException e) {
+      assert false : "Validity rules do not modify option values!";
     }
   }
-  
-  public void applyValidityRules(OptionStore optionStore) throws InvalidOptionValueException {
-    for (ValidityRule rule : validityRules) {
-      rule.applyRule(optionStore);
-    }
-  }
-  
+
   /**
    * Should the fly rules be applied transitively?
    * @return

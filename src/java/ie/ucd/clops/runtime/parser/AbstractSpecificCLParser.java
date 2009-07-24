@@ -1,14 +1,10 @@
 package ie.ucd.clops.runtime.parser;
 
-import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.automaton.Tokenizer.IllegalCharacterException;
-import ie.ucd.clops.runtime.automaton.Tokenizer.UnknownOptionException;
-import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
+import ie.ucd.clops.runtime.errors.CLError;
 import ie.ucd.clops.runtime.options.OptionStore;
-import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.rules.RuleStore;
 
-import java.util.logging.Level;
+import java.util.List;
 
 /**
  * This class is used as a base class for the automatically generated parser.
@@ -39,7 +35,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public boolean parse(String[] args) throws AutomatonException, InvalidOptionValueException 
+  public List<CLError> parse(String[] args)
   { return parse(args, false); }
 
   /**
@@ -47,7 +43,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public boolean parseAlternate(String[] args) throws AutomatonException, InvalidOptionValueException 
+  public List<CLError> parseAlternate(String[] args) 
   { return parse(args, true); }
 
   /**
@@ -55,8 +51,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public boolean parse(String[] args, boolean infiniteLookahead) 
-  throws AutomatonException, InvalidOptionValueException {
+  public List<CLError> parse(String[] args, boolean infiniteLookahead) {
     return parse(new GenericCLParser(), args, infiniteLookahead);
   }
   
@@ -66,18 +61,10 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not.
    */
-  // TODO(rgrig): I think this should throw exceptions rather than log them.
-  public boolean parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) 
-  throws AutomatonException, InvalidOptionValueException {
-    try {
-      if (infiniteLookahead) return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
-      else return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
-    } catch (IllegalCharacterException e) {
-      CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
-      return false;
-    } catch (UnknownOptionException e) { 
-      CLOLogger.getLogger().log(Level.SEVERE, "Error initialising automaton. " + e);
-      return false;
-    }
+  public List<CLError> parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) {
+    if (infiniteLookahead) 
+      return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
+    else 
+      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
   }
 }

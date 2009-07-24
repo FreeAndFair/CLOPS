@@ -77,8 +77,9 @@ ARGS::
      :"give output suitable for concatenation"
    xml:{"--xml"}
      :"output in XML"
-   extensions:{"-x","--extensions"}:{enum}:[choices="-u(unified),--unified(unified),-b(ignore_space_change),--ignore-space-change(ignore_space_change),-w(ignore_all_space),--ignore-all-space(ignore_all_space),--ignore-eol-style(ignore_eol_style),-p(show_c_function),--show-c-function(show_c_function)"]
-     : "Default: '-u'. When Subversion is invoking an
+   extensions:{"-x","--extensions"}:{enum}:
+        [choices="-u|--unified(unified),-b|--ignore-space-change(ignore_space_change),-w|ignore_all_space(ignore_all_space),--ignore-eol-style(ignore_eol_style),-p|--show-c-function(show_c_function)"]
+        : "Default: '-u'.    When Subversion is invoking an
                              external diff program, ARG is simply passed along
                              to the program. But when Subversion is using its
                              default internal diff implementation, or when

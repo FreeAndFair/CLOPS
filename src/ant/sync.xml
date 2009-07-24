@@ -1,0 +1,46 @@
+<project name="sync" default="sync2all" basedir="../../">
+  <description>Copies needed jars and clops' jars to examples.</description>
+  <import file="basic.xml" />
+
+  <property name="wc-clops-jar" value="clops.jar"/>
+  <property name="wc-clops-runtime-jar" value="clops-runtime.jar"/>
+
+  <target name="sync2all"> 
+    <antcall target="sync2wc">
+      <param name="wc-dir" value="doc/web/examples/wc/jars" />
+    </antcall>
+    <antcall target="sync2wc">
+      <param name="wc-dir" value="doc/web/examples/wc1/jars" />
+    </antcall>
+  </target>
+
+  <target name="sync2wc" depends="sync-clops2wc,sync-deps2wc"
+          description="A generic target using wc-dir property to
+          determine where things should be copied, see sync2all target
+          for exampl usage."> 
+    <echo message="Copying clops to dir ${wc-dir}"/>
+  </target>
+    
+  <target name="sync-clops2wc" description="Generate the lib directory" depends="compile">
+    <jar jarfile="${wc-dir}/${wc-clops-runtime-jar}">
+      <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/** ie/ucd/clops/util/**"/>
+      <fileset dir="." includes="LICENSE templates/**"/>
+    </jar>
+    
+    <jar jarfile="${wc-dir}/${wc-clops-jar}">
+      <fileset dir="${build}"/>
+      <fileset dir="." includes="LICENSE templates/**"/>
+      <manifest>
+        <attribute name="Main-Class" value="ie.ucd.clops.dsl.Main" />
+        <attribute name="Class-Path" value="antlr-runtime-3.1.3.jar velocity-1.6.2.jar velocity-1.6.2-dep.jar" />
+      </manifest>
+    </jar>          
+  </target>
+    
+  <target name="sync-deps2wc">
+    <copy todir="${wc-dir}">
+     <filelist dir="." files="antlr-runtime-3.1.3.jar, velocity-1.6.2.jar, velocity-1.6.2-dep.jar" />
+    </copy>
+  </target>
+  
+</project>

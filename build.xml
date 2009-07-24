@@ -9,6 +9,7 @@
   <import file="src/ant/compile.xml"/>
   <import file="src/ant/test.xml"/>
   <import file="src/ant/update.xml"/>
+  <import file="src/ant/sync.xml"/>
 
   <target name="compile" depends="src,compile-build" description="compile java and tests"/>
   <target name="test" depends="compile,dist-exec,test-build" description="Run the tests"/>

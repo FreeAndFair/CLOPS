@@ -270,7 +270,7 @@ WHERE::
   
 FLY::
   quiet { $(verbose?) } -> verbose := { false };
-  verbose { $(quiet?) } -> quiet := { false }; 
+  verbose { $(quiet?) && $(verbose) } -> quiet := { false }; 
   recursive -> depth := { "infinity" };
 
   //Improve error message by storing the set subcommand

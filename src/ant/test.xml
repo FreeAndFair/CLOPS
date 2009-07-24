@@ -1,4 +1,4 @@
-<project name="test" default="test-build" basedir="../../">
+<project name="test" default="test-all" basedir="../../">
   <description>Test related stuff build File</description>
   <import file="basic.xml" />
   <path id="test.path">
@@ -21,6 +21,9 @@
   <property name="test" location="test"/>
   <property name="test-temp" location="${test}/temp"/>
   <property name="reports.tests" location="${test}/test-reports"/>
+
+
+  <target name="test-all" depends="test-build, test-doc-examples"/>
 
   <target name="test-compile" description="Compile unit tests">
   	<echo>${toString:test.path}</echo>
@@ -105,5 +108,18 @@
       <compilerarg value="-Xlint:all"/>
       <classpath refid="test.path"/>
     </javac>
+  </target>
+
+
+  <target name="test-doc-examples" depends="sync2all">
+    <echo message="trying to build the examples in docs"/>
+    <ant antfile="build.xml"
+         dir="doc/web/examples/wc"
+         inheritAll="false"
+         />
+    <ant antfile="build.xml"
+         dir="doc/web/examples/wc1"
+         inheritAll="false"
+         />
   </target>
 </project>

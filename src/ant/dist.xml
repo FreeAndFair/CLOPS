@@ -10,13 +10,15 @@
   </path>
   <target name="dist-build" depends="dist-init, dist-bin, dist-lib, dist-doc" description="Generate the distribution"/>
 
-  <target name="dist-init" description="Initialiasation to build the distribution.">
+  <target name="dist-init"  description="Initialiasation to build the distribution.">
     <mkdir dir="${dist}"/>
     <copy todir="${dist}">
      <filelist dir="." files="CHANGELOG,INSTALL,README,LICENSE" />
     </copy>
   </target>
-  <target name="dist-doc" description="Generate the doc directory">
+
+  <!--   The depends ensures that the examples have appropriate libs inside. -->
+  <target name="dist-doc" depends="sync2all" description="Generate the doc directory">
       <mkdir dir="${dist-doc}" />
       <echo message="${doc}" />
     <copy todir="${dist-doc}/java">
@@ -79,5 +81,6 @@
     <move todir="${dist}" file="clops-${release-version}.zip"/>
     <move todir="${dist}" file="clops-${release-version}.tar.gz"/>
   </target>
+
   
 </project>

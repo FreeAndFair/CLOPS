@@ -25,7 +25,7 @@ public class ${info.getParserName()}Main {
       CLOLogger.setLogLevel(Level.FINE);
     }
     ${parserName}Parser parser = new ${parserName}Parser();
-    return parser.parse(args);
+    return !parser.parse(args).isEmpty();
   }
   
 }

@@ -3,9 +3,9 @@ import generated.WcParser;
 import generated.WcOptionsInterface;
 
 public class Main {
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args)  {
     WcParser parser = new WcParser();
-    if (!parser.parse(args)) {
+    if (!parser.parse(args).isEmpty()) {
       System.out.println("Usage: java Main [OPTIONS] file...");
       System.exit(1);
     }

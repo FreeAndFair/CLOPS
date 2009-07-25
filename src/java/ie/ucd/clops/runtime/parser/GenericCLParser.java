@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  */
 public class GenericCLParser {
 
-  public static final boolean DO_ERROR_RECOVERY = true;
+  public static final boolean DO_ERROR_RECOVERY = false;
 
   private static final Logger log = Logger.getLogger("ie.ucd.clops");
 

@@ -6,6 +6,7 @@ import ie.ucd.clops.test.generatedinterface.CLOTestParser;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
@@ -87,21 +88,21 @@ public class Main {
       }
 
       //Reflection method, as done by ant's javac
-      //      try {
-      //        Class<?> c = Class.forName ("com.sun.tools.javac.Main");
-      //        Object compiler = c.newInstance ();
-      //        Method compile = c.getMethod ("compile", new Class [] {(new String [] {}).getClass ()});
-      //        int result = (Integer)compile.invoke(compiler, new Object[] {args});
-      //        return result == 0;
-      //      } catch (Exception e) {
-      //        System.out.println("An error occurred when trying to run javac.");
-      //        e.printStackTrace();
-      //        return false;
-      //      }
+      try {
+        Class<?> c = Class.forName ("com.sun.tools.javac.Main");
+        Object compiler = c.newInstance ();
+        Method compile = c.getMethod ("compile", new Class [] {(new String [] {}).getClass ()});
+        int result = (Integer)compile.invoke(compiler, new Object[] {args});
+        return result == 0;
+      } catch (Exception e) {
+        System.out.println("An error occurred when trying to run javac.");
+        e.printStackTrace();
+        return false;
+      }
 
       //Direct invocation, must compile against tools.jar
-      int result = com.sun.tools.javac.Main.compile(args);
-      return result == 0;
+      //      int result = com.sun.tools.javac.Main.compile(args);
+      //return result == 0;
     } else {
       System.out.println("Not an URLClassLoader, cannot extract existing classpath to compile automatically.");
       return false;

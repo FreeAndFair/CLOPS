@@ -121,6 +121,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   }
 
   private void updateSuffix() {
+      //"(?:" here denotes a non-capturing group 
     setMatchingSuffix("(?:" + between + "(" + argumentShape + "))?" + SEP);
   }
   

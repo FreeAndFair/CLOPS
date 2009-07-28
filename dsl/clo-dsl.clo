@@ -30,9 +30,15 @@ Custom:{"-c","--custom"}:{file-list}:[mustExist,canBeDir="false"]
 
 Target:{"-t", "--target"}:{file}
   :"Specify the target directory / or the target file for the generation from some templates."
+
+StaticCheck:{"-sc","--static-check"}:[default="true"]
+  :"Perform static checks on the input data."
   
 Verbose:{"-v","--verbose"}:[default="false"]
   :"Print debugging messages."
+  
+Quiet:{"-q","--quiet"}:[default="false"]
+  :"Print only error messages."
 
 Version:{"-version"}
   :"Print version information and exit"

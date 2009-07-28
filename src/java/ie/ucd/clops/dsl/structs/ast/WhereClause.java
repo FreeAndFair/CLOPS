@@ -5,6 +5,7 @@
  */
 package ie.ucd.clops.dsl.structs.ast;
 
+import ie.ucd.clops.dsl.parser.SourceLocation;
 import java.util.List;
 
 public class WhereClause extends BaseAST {

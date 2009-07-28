@@ -1,6 +1,7 @@
 package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.parser.SourceLocation;
 import ie.ucd.clops.util.Pair;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class BasicOptionDescription implements OptionDescription {
   private final List<Pair<String,String>> properties;
   private OptionType type;
   private String description;
+  private SourceLocation sourceLocation;
 
   public BasicOptionDescription() {
     this.prefixRegexps = new LinkedList<String>();
@@ -54,8 +56,8 @@ public class BasicOptionDescription implements OptionDescription {
   /* (non-Javadoc)
    * @see ie.ucd.clo.dsl.structs.OptionDescription#setProperty(java.lang.String, java.lang.String)
    */
-  public void setProperty(String key, String value) {
-    properties.add(new Pair<String,String>(key,value));
+  public void setProperty(Pair<String,String> property) {
+    properties.add(property);
   }
 
   public String getPropertyValue(String key) {
@@ -124,4 +126,13 @@ public class BasicOptionDescription implements OptionDescription {
   public List<String> getAliases() {
     return getPrefixRegexps();
   }
+  
+  public SourceLocation getSourceLocation() {
+    return sourceLocation;
+  }
+
+  public void setSourceLocation(SourceLocation sourceLocation) {
+    this.sourceLocation = sourceLocation;
+  }
+  
 }

@@ -5,6 +5,8 @@
  */
 package ie.ucd.clops.test;
 
+import ie.ucd.clops.dsl.parser.SourceLocation;
+
 import java.util.List;
 
 public class TestSet extends BaseAST {

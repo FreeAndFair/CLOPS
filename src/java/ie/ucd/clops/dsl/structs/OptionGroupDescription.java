@@ -2,6 +2,7 @@ package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.parser.SourceLocation;
 import ie.ucd.clops.dsl.structs.ast.OptionGroupChild;
 import ie.ucd.clops.util.Pair;
 
@@ -31,6 +32,8 @@ public class OptionGroupDescription implements OptionDescription {
   private final Set<OptionGroupChild> ogChildren;
   //TODO: add description
   private final Set<String> children;
+  
+  private SourceLocation sourceLocation;
   
   /** true if the children have already been computed. */
   private boolean isExpanded;
@@ -123,8 +126,8 @@ public class OptionGroupDescription implements OptionDescription {
 
 
   /** {@inheritDoc} */
-  public void setProperty(final String key, final String value) {
-    prop.add(new Pair<String, String>(key, value));
+  public void setProperty(Pair<String,String> property) {
+    prop.add(property);
   }
   
   // TODO: need review
@@ -184,4 +187,14 @@ public class OptionGroupDescription implements OptionDescription {
   public List<String> getAliases() {
     return empty;
   }
+
+  public SourceLocation getSourceLocation() {
+    return sourceLocation;
+  }
+
+  public void setSourceLocation(SourceLocation sourceLocation) {
+    this.sourceLocation = sourceLocation;
+  }
+  
+  
 }

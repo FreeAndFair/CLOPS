@@ -14,6 +14,7 @@ options {
   import ie.ucd.clops.dsl.OptionType;
   import ie.ucd.clops.dsl.UnknownOptionTypeException;
   import ie.ucd.clops.dsl.parser.DSLParseException;
+  import ie.ucd.clops.util.Pair;
   
   import java.util.LinkedList;
   import java.util.List;
@@ -68,7 +69,8 @@ args_section  :  SECTION_ARGS (arg_definition)+
 arg_definition  
 @init { BasicOptionDescription option = new BasicOptionDescription(); }
                 :  id=arg_name
-                   { option.setId($id.text); } 
+                   { option.setId($id.text);
+                     option.setSourceLocation(getSLoc($id.start,$id.stop)); } 
                    ':' '{'
                    ( 
                      a1=arg_regexp 
@@ -89,17 +91,26 @@ arg_definition
                    ) 
                    ( ':' '['
                      pn1=property_name  
+                     { Pair<String,String> property = null; }
                      ( '=' pv1=property_value
-                       { option.setProperty($pn1.text, $pv1.text); }
+                       { property = new Pair<String,String>($pn1.text, $pv1.text); 
+                         getDslInformation().setPropertyValueLocation(property,getSLoc($pv1.start,$pv1.stop)); }
                       |
-                       { option.setProperty($pn1.text, "true"); }
+                       { property = new Pair<String,String>($pn1.text, "true"); 
+                         getDslInformation().setPropertyValueLocation(property,getSLoc($pn1.start,$pn1.stop)); }
                      )
+                     { option.setProperty(property); 
+                       getDslInformation().setPropertyNameLocation(property,getSLoc($pn1.start,$pn1.stop)); }
                      ( ','? pn=property_name 
                        ( '=' pv=property_value
-                         { option.setProperty($pn.text, $pv.text); }
+                         { property = new Pair<String,String>($pn.text, $pv.text);
+                           getDslInformation().setPropertyValueLocation(property,getSLoc($pv.start,$pv.stop)); }
                         |
-                         { option.setProperty($pn.text, "true"); }
-                       ) 
+                         { property = new Pair<String,String>($pn.text, "true");
+                           getDslInformation().setPropertyValueLocation(property,getSLoc($pn.start,$pn.stop)); }
+                       )
+                       { option.setProperty(property); 
+                         getDslInformation().setPropertyNameLocation(property,getSLoc($pn.start,$pn.stop)); } 
                      )*
                      ']' 
                    )?
@@ -137,7 +148,8 @@ option_comment  :  STRING_CONSTANT
 /**********************************************/
 
 args_format_section  :  SECTION_FORMAT format_clause  
-                        { getDslInformation().setFormatString($format_clause.text); }                  
+                        { getDslInformation().setFormatString($format_clause.text); 
+                          getDslInformation().setFormatSourceLocation(getSLoc($format_clause.start,$format_clause.stop)); }                  
                         (':' s=option_comment
                               { getDslInformation().setFormatDescription($s.text); }
                    
@@ -169,6 +181,7 @@ where_section  :  SECTION_WHERE (where_clause)*
 where_clause returns [WhereClause clause] :  
   group=NAME
   { OptionGroupDescription opGroup = new OptionGroupDescription($group.text); 
+    opGroup.setSourceLocation(getSLoc($group));
     List<OptionGroupChild> children = new LinkedList<OptionGroupChild>();    } 
   ':' 
   ( child
@@ -182,11 +195,11 @@ where_clause returns [WhereClause clause] :
 ;
 
 child returns [OptionGroupChild child] :    
-  ( '-' NAME 
-    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), false); } 
+  ( '-' n=NAME 
+    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), false, getSLoc($n)); } 
   )
-| ( ('+'|'OR'|'|')? NAME
-    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), true); } 
+| ( ('+'|'OR'|'|')? n=NAME
+    { $child = OptionGroupChild.mk($NAME.text.replaceAll("-", "_"), true, getSLoc($n)); } 
   )
 ;
 

@@ -87,6 +87,17 @@ public abstract class CLODSLAntTaskBase
         "Error: " + e);
     }
   }
+  public void setStaticCheck(String value) 
+  throws org.apache.tools.ant.BuildException {
+    try {
+      options.getOptionByIdentifier("StaticCheck")
+        .setFromString(value);
+    } catch (Exception e) {
+      throw new org.apache.tools.ant.BuildException(
+        "Can't set StaticCheck to " + value + ".\n" + 
+        "Error: " + e);
+    }
+  }
   public void setVerbose(String value) 
   throws org.apache.tools.ant.BuildException {
     try {
@@ -95,6 +106,17 @@ public abstract class CLODSLAntTaskBase
     } catch (Exception e) {
       throw new org.apache.tools.ant.BuildException(
         "Can't set Verbose to " + value + ".\n" + 
+        "Error: " + e);
+    }
+  }
+  public void setQuiet(String value) 
+  throws org.apache.tools.ant.BuildException {
+    try {
+      options.getOptionByIdentifier("Quiet")
+        .setFromString(value);
+    } catch (Exception e) {
+      throw new org.apache.tools.ant.BuildException(
+        "Can't set Quiet to " + value + ".\n" + 
         "Error: " + e);
     }
   }

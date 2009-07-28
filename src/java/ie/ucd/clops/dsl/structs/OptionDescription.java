@@ -1,6 +1,7 @@
 package ie.ucd.clops.dsl.structs;
 
 import ie.ucd.clops.dsl.OptionType;
+import ie.ucd.clops.dsl.parser.SourceLocation;
 import ie.ucd.clops.util.Pair;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public interface OptionDescription {
    * @param key the property key to set.
    * @param value the property value to set.
    */
-  void setProperty(final String key, final String value);
+  void setProperty(final Pair<String,String> property);
   
   /**
    * Get the properties associated with this option.
@@ -74,4 +75,10 @@ public interface OptionDescription {
   List<String> getPrefixRegexps();
   
   List<String> getAliases();
+  
+  /**
+   * Get the source location (from the input dsl) of this option description.
+   * @return
+   */
+  SourceLocation getSourceLocation();
 }

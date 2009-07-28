@@ -3,12 +3,12 @@ package ie.ucd.clops.test.generatedinterface;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import java.util.List;
 import java.io.File;
 import ie.ucd.clops.runtime.options.BooleanOption;
 import ie.ucd.clops.runtime.options.FileOption;
 import ie.ucd.clops.runtime.options.FileListOption;
-import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 
 public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInterface {
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2007-2009, Fintan Fairmichael, University College Dublin under the BSD licence.
  * See LICENCE.TXT for details.
  */
-package ie.ucd.clops.dsl.structs.ast;
+package ie.ucd.clops.dsl.parser;
 
 import java.io.File;
 
@@ -11,12 +11,10 @@ import org.antlr.runtime.Token;
 
 public class SourceLocation implements Comparable<SourceLocation> {
 
-	public static final int GENERAL_PROBLEM = -1;
-	public static final int FILE_PROBLEM = -2;
-	public static final int UNKNOWN_LINE = -3;
-	public static final int EOF_LINE = -4;
-	public static final int UNKNOWN_CHAR_POSITION = -5;
+  public static final int UNKNOWN = -1;
 
+	public static final SourceLocation NO_LOCATION = new SourceLocation(null, UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN);
+	
 	public static final String STDIN_TEXT = "<stdin>";
 
 	private final File sourceFile;
@@ -52,16 +50,16 @@ public class SourceLocation implements Comparable<SourceLocation> {
 		if (start instanceof CommonToken) {
 			CommonToken cToken = (CommonToken)start;
 			this.absoluteCharPositionStart = cToken.getStartIndex();
+			//System.out.println("Set absolute start: " + this.absoluteCharPositionStart);
 		} else {
-		  //Main.logDebug(("Not CommonToken. " + start.getClass()));
 			this.absoluteCharPositionStart = -1;  
 		}
 
 		if (end instanceof CommonToken) {
 			CommonToken cToken = (CommonToken)end;
 			this.absoluteCharPositionEnd = cToken.getStopIndex();
+			//System.out.println("Set absolute end: " + this.absoluteCharPositionEnd);
 		} else {
-			//Main.logDebug("Not CommonToken. " + (end==null? null : end.getClass()));
 			this.absoluteCharPositionEnd = -1;  
 		}
 	}
@@ -184,19 +182,9 @@ public class SourceLocation implements Comparable<SourceLocation> {
 
 	private int compareLineNumber(final SourceLocation o) {
 		//Compare line number
-		if (this.getLineNumber() == FILE_PROBLEM) {
-			return o.getLineNumber() == FILE_PROBLEM ? 0 : -1;      
-		} else if (o.getLineNumber() == FILE_PROBLEM) {
-			return 1;
-		} else if (this.getLineNumber() == UNKNOWN_LINE) {
-			if (o.getLineNumber() == UNKNOWN_LINE) {
-				return 0;
-			} else {
-				return 1;
-			}
-		} else if (o.getLineNumber() == UNKNOWN_LINE) {
-			return -1;
-		} else if (o.getLineNumber() == EOF_LINE) {
+		if (this.getLineNumber() == UNKNOWN) {
+			return o.getLineNumber() == UNKNOWN ? 0 : -1;      
+		} else if (o.getLineNumber() == UNKNOWN) {
 			return 1;
 		} else {
 			return this.getLineNumber() - o.getLineNumber();      
@@ -205,9 +193,9 @@ public class SourceLocation implements Comparable<SourceLocation> {
 
 	private int compareCharacterPosition(final SourceLocation o) {
 		//Compare character position
-		if (this.getCharPositionInLine() == UNKNOWN_CHAR_POSITION) {
-			return o.getCharPositionInLine() == UNKNOWN_CHAR_POSITION ? 0 : -1;      
-		} else if (o.getCharPositionInLine() == UNKNOWN_CHAR_POSITION) {
+		if (this.getCharPositionInLine() == UNKNOWN) {
+			return o.getCharPositionInLine() == UNKNOWN ? 0 : -1;      
+		} else if (o.getCharPositionInLine() == UNKNOWN) {
 			return 1;
 		} else {
 			return this.getCharPositionInLine() - o.getCharPositionInLine();
@@ -216,9 +204,7 @@ public class SourceLocation implements Comparable<SourceLocation> {
 
   @Override
   public int hashCode() {
-    return this.sourceFile.hashCode() + (this.lineNumber*1024*1024) + (this.absoluteCharPositionStart*1024) + this.charPositionInLine;
+    return (this.sourceFile == null ? 0 : this.sourceFile.hashCode()) + (this.lineNumber*1024*1024) + (this.absoluteCharPositionStart*1024) + this.charPositionInLine;
   }
-
-	
 	
 }

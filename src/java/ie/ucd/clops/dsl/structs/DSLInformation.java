@@ -1,6 +1,8 @@
 package ie.ucd.clops.dsl.structs;
 
 
+import ie.ucd.clops.dsl.parser.SourceLocation;
+
 import java.util.Set;
 
 /**
@@ -28,6 +30,7 @@ public class DSLInformation extends RuleStoreDescription {
 
   
   private String formatString = "";
+  private SourceLocation formatSourceLocation;
   private String formatDesc = "";
   
   public DSLInformation() {
@@ -43,6 +46,13 @@ public class DSLInformation extends RuleStoreDescription {
     this.formatString = formatString;
   }
   
+  public void setFormatSourceLocation(SourceLocation formatSourceLocation) {
+    this.formatSourceLocation = formatSourceLocation;
+  }
+
+  public SourceLocation getFormatSourceLocation() {
+    return formatSourceLocation;
+  }
 
   public String getParserName() {
     return name;
@@ -113,8 +123,11 @@ public class DSLInformation extends RuleStoreDescription {
     assert (!isPacked);
     formatDesc = st;
   }
+  
   public String getFormatDescription() {
     return formatDesc;
   }
+  
+  
   
 }

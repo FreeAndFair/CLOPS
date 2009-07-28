@@ -91,7 +91,8 @@ public interface CLODSLOptionsInterface {
    * The enumeration type used to represent the string enum option.
    */
   static enum  Builtin {
-    help("help"),    manpage("manpage"),    usage("usage"),    html("html"),    htmldev("htmldev");
+    htmldev("htmldev"),    html("html"),    manpage("manpage"),    usage("usage"),    help("help");
+
     private final String[] matchStrings;
     private Builtin(final String... s) {
       matchStrings = s;
@@ -101,7 +102,7 @@ public interface CLODSLOptionsInterface {
     }
     /**
      * Returns the appropriate enum value for the given string
-     * @param s one of the following strings: [{help="help", manpage="manpage", usage="usage", html="html", htmldev="htmldev"}]
+     * @param s one of the following strings: [[ie.ucd.clops.util.Pair@36b8bef7, ie.ucd.clops.util.Pair@1b016632, ie.ucd.clops.util.Pair@78dc6a77, ie.ucd.clops.util.Pair@4ed1e89e, ie.ucd.clops.util.Pair@36ff057f]]
      * @return a valid Builtin member.
      */
     public static Builtin get(final String s) {
@@ -165,6 +166,23 @@ public interface CLODSLOptionsInterface {
   File getTarget();
   
 
+// Option StaticCheck. 
+// Aliases: [-sc, --static-check]
+
+  /**
+   * @return true if the option StaticCheck has been used
+   * in the command line.
+   */
+  boolean isStaticCheckSet();
+
+  /**
+   * Get the value of {@code Option} StaticCheck.
+   * @return the value of the option StaticCheck if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getStaticCheck();
+  
+
 // Option Verbose. 
 // Aliases: [-v, --verbose]
 
@@ -180,6 +198,23 @@ public interface CLODSLOptionsInterface {
    * using the arguments. Throws an {@code IllegalStateException} otherwise.
    */ 
   boolean getVerbose();
+  
+
+// Option Quiet. 
+// Aliases: [-q, --quiet]
+
+  /**
+   * @return true if the option Quiet has been used
+   * in the command line.
+   */
+  boolean isQuietSet();
+
+  /**
+   * Get the value of {@code Option} Quiet.
+   * @return the value of the option Quiet if it has been set
+   * using the arguments. Throws an {@code IllegalStateException} otherwise.
+   */ 
+  boolean getQuiet();
   
 
 // Option Version. 

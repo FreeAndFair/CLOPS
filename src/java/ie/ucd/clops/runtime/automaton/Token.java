@@ -8,8 +8,8 @@ package ie.ucd.clops.runtime.automaton;
  * @param <T> the type of the entity that has generated this token
  */
 public class Token<T> {
-	TokenType type;
-	T match;
+	public TokenType type;
+	public T match;
 
 	public Token( TokenType type) {
             this.type = type;

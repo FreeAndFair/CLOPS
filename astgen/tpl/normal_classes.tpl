@@ -7,6 +7,7 @@ This template generates java classes for the normal classes.
  */
 package \Userdefine{pkg};
 
+import ie.ucd.clops.dsl.parser.SourceLocation;
 import java.util.List;
 
 public class \ClassName extends \Basename {

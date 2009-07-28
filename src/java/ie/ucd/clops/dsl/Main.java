@@ -1,6 +1,7 @@
 package ie.ucd.clops.dsl;
 
 import ie.ucd.clops.Version;
+import ie.ucd.clops.dsl.errors.DSLParseResult;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
@@ -120,11 +121,14 @@ public class Main {
    * @param options the parsed options to use for running the program.
    */
   public boolean execute(final CLODSLOptionsInterface options) {
-    if (options.isVerboseSet() && options.getVerbose()) {
+    if (options.getVerbose()) {
       CLOLogger.setLogLevel(Level.FINE);
     }
+    if (options.getQuiet()) {
+      CLOLogger.setLogLevel(Level.WARNING);
+    }
 
-    CLOLogger.getLogger().log(Level.INFO, Version.getVersion());
+    CLOLogger.getLogger().log(Level.FINE, Version.getVersion());
     if (options.isVersionSet() && options.getVersion()) {
       return true;
     }
@@ -134,6 +138,7 @@ public class Main {
     final File input = options.getInput();
     final File output = options.getOutput();
     
+    //TODO error reporting for the below
     if (options.isOptionFactorySet()) {
       setOptionTypeFactory(options.getOptionFactory());
     }
@@ -145,12 +150,33 @@ public class Main {
     infos.setTransitiveFlyRules(options.isTransitiveFlyRulesSet() &&  
                                 options.getTransitiveFlyRules());
 
-    
     //Override package name from commandline
     if (options.isOutputPackageSet()) {
       infos.setPackageName(options.getOutputPackage());
     }
     infos.pack();
+    
+    DSLParseResult parseResult = infos.getParseResult();
+    if (!parseResult.successfulParse()) {
+      System.out.println("Input contained errors:");
+      parseResult.printToStream(System.out);
+      return false;
+    }
+    
+    if (options.getStaticCheck()) {
+      StaticChecker checker = new StaticChecker(infos);
+      DSLParseResult result = checker.runAllChecks();
+      parseResult.addAll(result);
+      if (!result.successfulParse()) {
+        System.out.println("Input contained errors:");
+        parseResult.printToStream(System.out);
+        return false;
+      }
+    }
+    
+    //No errors, but print warnings (if any).
+    parseResult.printToStream(System.out);
+    
     CodeGenerator code = null;
     DocumentGenerator docs = null;
     try {
@@ -255,6 +281,7 @@ public class Main {
       final CharStream cs = new ANTLRFileStream(input.getAbsolutePath());
       final CLOLexer cl = new CLOLexer(cs);
       final CLOParser parser = new CLOParser(new CommonTokenStream(cl));
+      parser.setSourceFile(input);
       try {
         parser.prog();
       }
@@ -262,7 +289,7 @@ public class Main {
         CLOLogger.getLogger().log(Level.SEVERE, "Caught recognition error");
       }   
       if (parser.isValidParse()) {
-        CLOLogger.getLogger().log(Level.INFO, "Successfully parsed dsl file!");
+        CLOLogger.getLogger().log(Level.FINE, "Successfully parsed dsl file!");
         return parser.getDslInformation();
       }
       CLOLogger.getLogger().log(Level.SEVERE, "Did not parse successfully.");

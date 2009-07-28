@@ -3,6 +3,7 @@ package ie.ucd.clops.dsl.generatedinterface;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
 import ie.ucd.clops.runtime.options.OptionGroup;
 import ie.ucd.clops.runtime.options.OptionStore;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import java.util.List;
 import java.io.File;
 import ie.ucd.clops.runtime.options.BooleanOption;
@@ -10,7 +11,6 @@ import ie.ucd.clops.runtime.options.FileOption;
 import ie.ucd.clops.runtime.options.EnumListOption;
 import ie.ucd.clops.runtime.options.StringOption;
 import ie.ucd.clops.runtime.options.FileListOption;
-import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 
 public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInterface {
 
@@ -21,7 +21,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   private final EnumListOption ogBuiltin;
   private final FileListOption ogCustom;
   private final FileOption ogTarget;
+  private final BooleanOption ogStaticCheck;
   private final BooleanOption ogVerbose;
+  private final BooleanOption ogQuiet;
   private final BooleanOption ogVersion;
   private final StringOption ogOptionFactory;
   private final BooleanOption ogTransitiveFlyRules;
@@ -67,11 +69,21 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogTarget);
     ogTarget.setProperty("aliases", "-t,--target");
     ogTarget.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
+    ogStaticCheck = new BooleanOption("StaticCheck", "(?:-sc)|(?:--static-check)");
+    addOption(ogStaticCheck);
+    ogStaticCheck.setProperty("default", "true");
+    ogStaticCheck.setProperty("aliases", "-sc,--static-check");
+    ogStaticCheck.setProperty("description", "Perform static checks on the input data.");
     ogVerbose = new BooleanOption("Verbose", "(?:-v)|(?:--verbose)");
     addOption(ogVerbose);
     ogVerbose.setProperty("default", "false");
     ogVerbose.setProperty("aliases", "-v,--verbose");
     ogVerbose.setProperty("description", "Print debugging messages.");
+    ogQuiet = new BooleanOption("Quiet", "(?:-q)|(?:--quiet)");
+    addOption(ogQuiet);
+    ogQuiet.setProperty("default", "false");
+    ogQuiet.setProperty("aliases", "-q,--quiet");
+    ogQuiet.setProperty("description", "Print only error messages.");
     ogVersion = new BooleanOption("Version", "(?:-version)");
     addOption(ogVersion);
     ogVersion.setProperty("aliases", "-version");
@@ -110,17 +122,19 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     //Setup groupings
     ogAll.addOptionOrGroup(ogOutputPackage);
     ogAll.addOptionOrGroup(ogVerbose);
-    ogAll.addOptionOrGroup(ogTest);
     ogAll.addOptionOrGroup(ogOptionFactory);
-    ogAll.addOptionOrGroup(ogTarget);
-    ogAll.addOptionOrGroup(ogBuiltin);
     ogAll.addOptionOrGroup(ogOutput);
     ogAll.addOptionOrGroup(ogCustom);
-    ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogTransitiveFlyRules);
+    ogAll.addOptionOrGroup(ogQuiet);
+    ogAll.addOptionOrGroup(ogTest);
+    ogAll.addOptionOrGroup(ogTarget);
+    ogAll.addOptionOrGroup(ogBuiltin);
+    ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogDocs);
-    ogBase.addOptionOrGroup(ogOutputPackage);
+    ogAll.addOptionOrGroup(ogStaticCheck);
     ogBase.addOptionOrGroup(ogVerbose);
+    ogBase.addOptionOrGroup(ogOutputPackage);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);
@@ -137,7 +151,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAllOptions.addOptionOrGroup(ogBuiltin);
     ogAllOptions.addOptionOrGroup(ogCustom);
     ogAllOptions.addOptionOrGroup(ogTarget);
+    ogAllOptions.addOptionOrGroup(ogStaticCheck);
     ogAllOptions.addOptionOrGroup(ogVerbose);
+    ogAllOptions.addOptionOrGroup(ogQuiet);
     ogAllOptions.addOptionOrGroup(ogVersion);
     ogAllOptions.addOptionOrGroup(ogOptionFactory);
     ogAllOptions.addOptionOrGroup(ogTransitiveFlyRules);
@@ -313,6 +329,30 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTarget;
   }
   
+// Option StaticCheck.
+// Aliases: [-sc, --static-check]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isStaticCheckSet() {
+    return ogStaticCheck.hasValue();
+  }
+  
+  /** {@inheritDoc} */
+  public boolean getStaticCheck() {
+    return ogStaticCheck.getValue();
+  }
+
+  /** {@inheritDoc} */
+  public boolean getRawStaticCheck() {
+    return ogStaticCheck.getRawValue();
+  }
+  
+  public BooleanOption getStaticCheckOption() {
+    return ogStaticCheck;
+  }
+  
 // Option Verbose.
 // Aliases: [-v, --verbose]
   
@@ -335,6 +375,30 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
   
   public BooleanOption getVerboseOption() {
     return ogVerbose;
+  }
+  
+// Option Quiet.
+// Aliases: [-q, --quiet]
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean isQuietSet() {
+    return ogQuiet.hasValue();
+  }
+  
+  /** {@inheritDoc} */
+  public boolean getQuiet() {
+    return ogQuiet.getValue();
+  }
+
+  /** {@inheritDoc} */
+  public boolean getRawQuiet() {
+    return ogQuiet.getRawValue();
+  }
+  
+  public BooleanOption getQuietOption() {
+    return ogQuiet;
   }
   
 // Option Version.

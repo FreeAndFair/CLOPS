@@ -4,12 +4,15 @@ import ie.ucd.clops.dsl.DefaultOptionTypeFactory;
 import ie.ucd.clops.dsl.OptionTypeFactory;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 
+import java.io.File;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.MismatchedTokenException;
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
 /**
@@ -24,6 +27,7 @@ public abstract class AbstractParser extends Parser {
   private boolean validParse;
   private OptionTypeFactory optionTypeFactory;
   private String customErrorMessage;
+  private File sourceFile;
   
   private DSLInformation dslInformation;
   
@@ -32,6 +36,10 @@ public abstract class AbstractParser extends Parser {
     validParse = true;
     optionTypeFactory = new DefaultOptionTypeFactory();
     dslInformation = new DSLInformation();
+  }
+
+  public void setSourceFile(File file) {
+    this.sourceFile = file;
   }
 
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
@@ -90,5 +98,27 @@ public abstract class AbstractParser extends Parser {
 
   public DSLInformation getDslInformation() {
     return dslInformation;
+  }
+  
+  public final SourceLocation getSourceLocation(Token t) {
+    return new SourceLocation(t, this.sourceFile);
+  }
+  
+  public final SourceLocation getSourceLocation(Token tStart, Token tEnd) {
+    return new SourceLocation(tStart, tEnd, this.sourceFile);
+  }
+  
+  //Just a shorter version
+  public final SourceLocation getSLoc(Token t) {
+    return getSourceLocation(t);
+  }
+  
+  //Just a shorter version
+  public final SourceLocation getSLoc(Token tStart, Token tEnd) {
+    return getSourceLocation(tStart, tEnd);
+  }
+  
+  public final SourceLocation getSLoc(SourceLocation start, SourceLocation end) {
+  return new SourceLocation(start, end);
   }
 }

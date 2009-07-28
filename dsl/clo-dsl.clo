@@ -72,6 +72,8 @@ Advanced: OptionFactory | TransitiveFlyRules;
 
 FLY::
 
+//TODO -v and -q overriding
+
 OVERRIDES::
 
 VALIDITY::

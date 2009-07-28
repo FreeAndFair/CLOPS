@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -88,15 +91,10 @@ public class StringUtil {
    * @return a java list ["a", "b", "c", "d"]
    */
   public static List<String> mkList(final String list, final String sep) {
-    final String[] arr = list.split(sep);
+    final String[] arr = list.split(sep, -1);
     final List<String> res = new ArrayList<String>();
-    if (arr.length == 0) {
-      res.add(list);
-    }
-    else {
-      for (String s:arr) {
-        res.add(s.trim());
-      }
+    for (String s:arr) {
+      res.add(s.trim());
     }
     return res;
   }
@@ -105,31 +103,6 @@ public class StringUtil {
     return mkList(list, ",");
   }
 
-  public static List<Pair<String, List<String>>> parseChoice(String choice) {
-    final List<Pair<String, List<String>>> r = 
-      new ArrayList<Pair<String, List<String>>>();
-    if (choice == null) {
-      return r;
-    }
-    for (String part : mkList(choice)) {
-      parseChoicePart(part, r);
-    }
-    return r;
-  }
-  
-  private static void parseChoicePart(String part, List<Pair<String, List<String>>> r) {
-    String name, parseStrings;
-    final int index = part.indexOf('(');
-    if (index != -1) {
-      parseStrings = part.substring(0, index);
-      name = part.substring(index + 1, part.length() - 1);
-    } else {
-      parseStrings = part;
-      name = part;
-    }
-    r.add(Pair.mk(name, mkList(parseStrings, "\\|")));
-  }
-  
   public static String collectionToString(Collection<?> collection, String separator) {
     StringBuilder sb = new StringBuilder();
     for (Object o : collection) {
@@ -142,5 +115,36 @@ public class StringUtil {
       sb.delete(sb.length()-separator.length(), sb.length());
     }    
     return sb.toString();
+  }
+
+  private static final Pattern javaIdPattern = Pattern.compile("[_a-zA-Z]\\w*");
+
+  private static final Set<String> javaKeywords = new HashSet<String>();
+
+  static {
+    // Taken from http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
+    // on 29 July 2009.
+    Collections.addAll(javaKeywords, new String[] {
+      "abstract", "continue", "for", "new", "switch",
+      "assert", "default", "goto", "package", "synchronized",
+      "boolean", "do", "if", "private", "this",
+      "break", "double", "implements", "protected", "throw",
+      "byte", "else", "import", "public", "throws",
+      "case", "enum", "instanceof", "return", "transient",
+      "catch", "extends", "int", "short", "try",
+      "char", "final", "interface", "static", "void",
+      "class", "finally", "long", "strictfp", "volatile",
+      "const", "float", "native", "super", "while"});
+  }
+
+  /** 
+    Checks if {@code id} is usable as a Java identifier.
+    The word "nice" is meant to suggest that the check is stronger
+    than it could be: We only allow ASCII chars, not UNICODE.
+   */
+  public static boolean isNiceJavaId(String id) {
+    return 
+      javaIdPattern.matcher(id).matches() &&
+      !javaKeywords.contains(id);
   }
 }

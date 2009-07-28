@@ -5,6 +5,7 @@ import ie.ucd.clops.dsl.structs.BasicOptionDescription;
 import ie.ucd.clops.dsl.structs.DSLInformation;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.options.CLOPSErrorOption;
+import ie.ucd.clops.runtime.options.EnumOption;
 import ie.ucd.clops.util.StringUtil;
 
 import java.io.File;
@@ -75,6 +76,7 @@ public abstract class AGenerator {
     ctxt.put("info", infos);
     ctxt.put("Boolean", Boolean.class);
     ctxt.put("StringUtil", StringUtil.class);
+    ctxt.put("EnumOption", EnumOption.class);
     ctxt.put("BasicOptionDescription", BasicOptionDescription.class);
     ctxt.put("CLOPSErrorOption", CLOPSErrorOption.class);
     ctxt.put("OptionType", OptionType.class);

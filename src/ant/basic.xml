@@ -2,6 +2,7 @@
   <description>Basic stuff needed by everybody</description>
   <property name="src" location="src"/>
   <property name="src-java" location="${src}/java"/>
+  <property name="src-parser" location="${src-java}/ie/ucd/clops/dsl/parser"/>
   <property name="lib"  location="lib"/>	
   <property name="build" location="bin"/>
   <property name="dist"  location="dist"/>

@@ -81,7 +81,7 @@
          inheritAll="false"/>
   </target -->
 
-  <target name="test-parser" description="simple test">
+  <target name="test-parser" description="simple test" depends="dist-exec">
   	<echo message="${lib}"/>
   	<echo message="Using ${test-file}"/>
   	<echo message="Using ${toString:test-dist.path}"/>

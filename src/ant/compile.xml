@@ -19,8 +19,22 @@
   <target name="compile-init" description="Initialize the process" >
   	<mkdir dir="${build}"/>
   </target>
+
+  <target 
+      name="compile-parser"
+      depends="src"
+      description="Compiles the ANTLR generated parser">
+    <javac 
+        srcdir="${src-parser}"
+        sourcepath="${src-java}"
+        destdir="${build}"
+        target="${java-target-version}"
+        debug="yes">
+      <classpath refid="compile.path"/>
+    </javac>
+  </target>
 	
-  <target name="compile-build" depends="compile-init,compile-version" description="compile the source">
+  <target name="compile-build" depends="compile-init,compile-version,compile-parser" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
 
     <javac srcdir="${src-java}" 

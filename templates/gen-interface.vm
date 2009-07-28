@@ -29,9 +29,8 @@ public interface $info.getParserName()OptionsInterface {
   boolean is$desc.getIdentifier()Set();
 #set($typename = ${info.getValueTypeClass($desc)})
 #if( $type.implementsInterface("ie.ucd.clops.runtime.options.IEnumOption"))
-#set ($choices=$desc.getPropertyValue("choices")) 
 #set ($typename =  "$desc.getIdentifier()")
-#set ($options =  ${StringUtil.parseChoice($desc.getPropertyValue("choices"))})
+#set ($options = ${EnumOption.parseChoices($desc.getPropertyValue("choices"))})
 #set ($sensitive=$desc.getPropertyValue("casesensitive"))
 #if ($Boolean.parseBoolean(${sensitive}))
 #set ($equals = "equals")

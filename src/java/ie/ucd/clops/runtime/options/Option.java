@@ -16,11 +16,7 @@ import java.util.List;
  */
 public interface Option<T> extends IMatchable {
 
-  /**
-   * Deprecated: Use {@code getMatchingValueString} and {@code
-   * setFromString} directly.
-   */
-  @Deprecated ProcessingResult process();
+  ProcessingResult process();
 
   /**
    * Does this Option have a value?

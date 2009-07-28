@@ -343,7 +343,9 @@ UNCHECKED_CODE :
 
 STRING_CONSTANT : '"' .* '"' 
   { /* FIXME */ 
-    setText($text.substring(1, $text.length() - 1));
+    setText($text.substring(1, $text.length() - 1)
+        .replaceAll("\n", " ")
+        .replaceAll("\r", " "));
   }
                 ;
 

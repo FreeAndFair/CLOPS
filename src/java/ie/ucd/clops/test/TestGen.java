@@ -36,7 +36,7 @@ public class TestGen {
   public static void main(String[] args) {
 
     if (args.length != 2) {
-      System.err.println("usage java TestGen <inputfile> <outputdir>");
+      System.err.println("usage java ie.ucd.clops.test.TestGen <inputfile> <outputdir>");
       System.exit(1);
     }
     //Need output dir

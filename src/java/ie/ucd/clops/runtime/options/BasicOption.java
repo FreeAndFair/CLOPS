@@ -122,6 +122,7 @@ public abstract class BasicOption<T> implements Option<T> {
       acceptedPropertyNames.add("suffixregexp");
       acceptedPropertyNames.add("description");
       acceptedPropertyNames.add("aliases");
+      acceptedPropertyNames.add("virtual");
     }
     return acceptedPropertyNames;
   }
@@ -155,6 +156,8 @@ public abstract class BasicOption<T> implements Option<T> {
       this.description = propertyValue;
     } else if (propertyName.equalsIgnoreCase("aliases")) {
       this.aliases = propertyValue.split(",");
+    } else if (propertyName.equalsIgnoreCase("virtual")) {
+      //Do nothing
     } else {
       throw new InvalidOptionPropertyValueException("Unknown property " + propertyName);
     }

@@ -78,10 +78,22 @@ public class StaticChecker {
     Set<String> unusedIdentifiers = new HashSet<String>(allIdentifiers);
     unusedIdentifiers.removeAll(allUsedIdentifiers);
     for (String unused : unusedIdentifiers) {
-      result.addWarning(new UnusedIdentifierWarning(dslInfo.getFormatSourceLocation(), dslInfo.getOptionNameMap().containsKey(unused), unused));
+      OptionDescription unusedOption = dslInfo.getOptionNameMap().get(unused);
+      if (unusedOption != null && !virtualOption(unusedOption)) {
+        result.addWarning(new UnusedIdentifierWarning(dslInfo.getFormatSourceLocation(), dslInfo.getOptionNameMap().containsKey(unused), unused));
+      }
     }    
 
     return result;
+  }
+  
+  private static boolean virtualOption(OptionDescription option) {
+    for (Pair<String,String> property : option.getProperties()) {
+      if (property.getFirst().equalsIgnoreCase("virtual") && property.getSecond().equalsIgnoreCase("true")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private Set<String> expandUsedIdentifiers(Set<String> usedInFormat) {

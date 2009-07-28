@@ -175,7 +175,7 @@ ARGS::
      :"relocate via URL-rewriting"
      
    //virtual option
-   chosen_subcommand:{""}:{string}
+   chosen_subcommand:{""}:{string}:[virtual]
      :"the selected subcommand (hidden option)."  
      
    //global options
@@ -250,7 +250,7 @@ update [PATH...]
 path - file list, must exist (! maybe not, most cases you can give a file that doesn't exist) can be dir
 */
 
-    ( option* subcommand option* )
+    ( option* subcommand option* arg_path_list option*)
   | ( help subcommand+ )
   | ( version quiet? )
   ;

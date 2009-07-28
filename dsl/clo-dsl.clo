@@ -51,7 +51,7 @@ TransitiveFlyRules:{"-tfr","--transitive-fly-rules"}:[default="false"]
   :"Fly rules in the generated parser will be applied
   transitively. Meaning that assigning to an option in a fly-rule
   triggers fly-rules associated with that opion. This is an advanced
-  and experimental feature. The issue with is it that the parser
+  and experimental feature. The issue with it is that the parser
   becomes potentially non-terminating due to rules triggering one
   another."
 

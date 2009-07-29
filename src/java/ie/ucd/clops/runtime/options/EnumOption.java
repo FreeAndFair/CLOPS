@@ -1,18 +1,16 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.util.Pair;
 import ie.ucd.clops.util.StringUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -145,7 +143,7 @@ public class EnumOption extends StringOption implements IEnumOption {
   public static List<Pair<String, List<String>>> parseChoices(String choice) {
     final List<Pair<String, List<String>>> r = 
       new ArrayList<Pair<String, List<String>>>();
-    if (choice == null || choice.isEmpty()) {
+    if (choice == null || choice.length() == 0) {
       return r;
     }
     for (String part : StringUtil.mkList(choice)) {
@@ -197,7 +195,6 @@ public class EnumOption extends StringOption implements IEnumOption {
       throw new InvalidOptionPropertyValueException(
           "Enum " + c + " can't be empty.");
     }
-    Matcher m = specialCharacters.matcher(s);
     if (specialCharacters.matcher(s).find()) {
       throw new InvalidOptionPropertyValueException(
           "The format for the 'choices' property is " +

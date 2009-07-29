@@ -1,0 +1,189 @@
+\documentclass[a4paper]{article}
+
+\usepackage{color}
+\usepackage{booktabs}
+\definecolor{citeblue}{rgb}{0.4,0,.6}
+\definecolor{refcolor}{rgb}{0,0.1,0.5}
+\usepackage[pdftex,a4paper=true,colorlinks=true,bookmarks=false,
+            linkcolor=refcolor,citecolor=citeblue,urlcolor=blue]{hyperref}
+\usepackage{listings}
+
+\def\lstinlinen{\lstinline[basicstyle=\normalsize\sffamily]}
+
+\begin{document}
+
+\section{Options}
+
+\subsection{Option Types}
+\label{subsec:option-types}
+
+Recall that when a user declares an option in the DSL, they must
+specify the type of the option. An option type determines the Java
+type used to represent the option's value and, consequently, the
+parsing mechanism used for the corresponding option.
+\autoref{tbl:builtin-types} lists the built-in option
+types. 
+
+In order to extend the CLOPS DSL, new option types may be implemented and
+registered for use. An \emph{option factory} defines the known set of options. Thus,
+to extend the CLOPS system and provide additional types, a developer
+extends the default option factory to make the system
+aware of new developer-provided types. The implementation of new option types 
+can extend the built-in types to reuse and refine their functionality, or one
+may be written from the ground up, so long as the \lstinlinen|Option| interface
+is satisfied.
+
+\begin{table}[th]
+  \centering
+  \begin{tabular}{llll}
+   \toprule 
+    Name           & Inherits\quad\quad & Java type & Properties   \\
+                   & from               &           &              \\
+    \midrule
+    \textit{basic} & None  & $T$      & \hyperref[prop:default]{default[T]}, \hyperref[prop:suffixregexp]{suffixregexp[string]}\\
+                   &       &          & \hyperref[prop:sanitizeprefix]{sanitizeprefix[boolean]}\\
+                   &       &          & \hyperref[prop:description]{description[string]}\\
+                   &       &          & \hyperref[prop:aliases]{aliases[string]}\\
+    \hline
+    
+    boolean        & basic & $boolean$& \hyperref[prop:allowarg]{allowarg[boolean]} \\
+    \midrule
+          
+    counted-boolean& basic & $int$    & \hyperref[prop:countstart]{countstart[int]}, \hyperref[prop:countmax]{countmax[int]}, \\
+                                  & & & \hyperref[prop:warnonexceedingmax]{warnonexceedingmax[boolean]}, \\
+                                  & & & \hyperref[prop:erroronexceedingmax]{erroronexceedingmax[boolean]} \\
+    \midrule
+                                  
+    string         & basic  & $String$ & \hyperref[prop:stripquotesifpresent]{stripquotesifpresent[boolean]}\\
+    \midrule
+    
+    string-regexp  & string & $String$& \hyperref[prop:regexp]{regexp[string]} \\
+    \midrule
+    
+    enum           & string & $enum$\footnote{Generated enum. See \ldots}
+                                      & \hyperref[prop:choices]{choices[string]}, \hyperref[prop:casesensitive]{casesensitive[boolean]}
+    \\
+    \midrule
+    
+    int            & basic  & int     & \hyperref[prop:minvalue]{minvalue[int]}, \hyperref[prop:maxvalue]{maxvalue[int]} \\
+    \midrule
+    
+    float          & basic  & $float$ & \hyperref[prop:minvalue]{minvalue[float]}, \hyperref[prop:maxvalue]{maxvalue[float]} \\
+    \midrule
+    
+    file           & basic  & $File$  & \hyperref[prop:canexist]{canexist[boolean]}, \hyperref[prop:mustexist]{mustexist[boolean]}, \\
+                                      & & & \hyperref[prop:canbedir]{canbedir[boolean]}, \hyperref[prop:mustbedir]{mustbedir[boolean]}, \\
+                                      & & & \hyperref[prop:allowdash]{allowdash[boolean]} \\
+    \midrule
+                                      
+    \textit{list}  & basic  & $List\langle T \rangle$ & \hyperref[prop:allowmultiple]{allowmultiple[boolean]}, \hyperref[prop:splitter]{splitter[string]} \\
+    \midrule
+     
+    string-list    & list   & $List\langle String \rangle$ &  \\
+    \midrule
+    
+    file-list      & list   & $List\langle File \rangle$ & \hyperref[prop:canexist]{canexist[boolean]}, \hyperref[prop:mustexist]{mustexist[boolean]},   \\
+                   &        &                            & \hyperref[prop:canbedir]{canbedir[boolean]}, \hyperref[prop:mustbedir]{mustbedir[boolean]},   \\
+                   &        &                            & \hyperref[prop:allowdash]{allowdash[boolean]}                       \\
+    \midrule
+    
+    enum-list      & list   & $List\langle enum \rangle$ & \hyperref[prop:choices]{choices[string]}, \hyperref[prop:casesensitive]{casesensitive[boolean]} \\
+    \midrule
+    
+    \bottomrule
+  \end{tabular}
+  \caption{Built-in option types and properties. Abstract types are typeset in \textit{italics}. $T$ is the type of the concrete option's value. }
+  \label{tbl:builtin-types}
+\end{table}
+
+While parsing each option declaration, the DSL parser queries the option factory for 
+the corresponding option type. The option factory provides the necessary details of
+an option type: the class representing the option at runtime, as well as the Java type
+that is used for the value of the option. 
+
+The information provided by the option factory about each option's type is used in the code generation
+phase. An interface is generated that provides access to the value for each option. For instance, for a
+string option, a \emph{getter} method with return type $String$ is created. For each option there is also
+a method with return type $boolean$ that determines whether an option has been set at all.
+
+Each option type has a mechanism for indicating the properties that it accepts.
+When parsing a given input specification, we can check that the option will
+actually accept all provided properties. Assuming there are no problems, code is
+generated that sets the option properties to their specified values during the
+initialization phase.
+
+\subsection{Properties}
+
+%TODO alphabetize
+
+\label{prop:default}
+\paragraph{default} gives the option a default value of the correct type.
+
+\label{prop:maxvalue}
+\paragraph{maxvalue} gives an upper bound for the allowed value. Exceeding this will produce an error.
+
+\label{prop:minvalue}
+\paragraph{minvalue} gives a lower bound for the allowed value. Values lower than this will produce an error.
+
+\label{prop:suffixregexp}
+\paragraph{suffixregexp} TBD.
+
+\label{prop:sanitizeprefix}
+\paragraph{sanitizeprefix} TBD.
+
+\label{prop:description}
+\paragraph{description} TBD.
+
+\label{prop:aliases}
+\paragraph{aliases} TBD.
+
+\label{prop:allowarg}
+\paragraph{allowarg} TBD.
+
+\label{prop:allowdash}
+\paragraph{allowdash} TBD.
+
+\label{prop:canbedir}
+\paragraph{canbedir} TBD.
+
+\label{prop:canexist}
+\paragraph{canexist} TBD.
+
+\label{prop:choices}
+\paragraph{choices} TBD.
+
+\label{prop:countstart}
+\paragraph{countstart} TBD.
+
+\label{prop:mustbedir}
+\paragraph{mustbedir} TBD.
+
+\label{prop:mustexist}
+\paragraph{mustexist} TBD.
+
+\label{prop:countmax}
+\paragraph{countmax} TBD.
+
+\label{prop:splitter}
+\paragraph{splitter} TBD.
+
+\label{prop:regexp}
+\paragraph{regexp} TBD.
+
+\label{prop:allowmultiple}
+\paragraph{allowmultiple} TBD.
+
+\label{prop:casesensitive}
+\paragraph{casesensitive} TBD.
+
+\label{prop:erroronexceedingmax}
+\paragraph{erroronexceedingmax} TBD.
+
+\label{prop:stripquotesifpresent}
+\paragraph{stripquotesifpresent} TBD.
+
+\label{prop:warnonexceedingmax}
+\paragraph{warnonexceedingmax} TBD.
+
+
+\end{document}

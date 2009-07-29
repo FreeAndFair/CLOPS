@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Wed Jul 29 17:10:28 IST 2009
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=optionsproperties.tex
+outputFile=optionsproperties.pdf
+langSpell=en
+markDer=true
+srcDir=

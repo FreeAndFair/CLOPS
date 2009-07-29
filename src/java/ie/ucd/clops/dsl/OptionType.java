@@ -1,6 +1,9 @@
 package ie.ucd.clops.dsl;
 
+import ie.ucd.clops.logging.CLOLogger;
+
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Represents information regarding a specific Option.
@@ -117,8 +120,7 @@ public class OptionType {
       return face.isAssignableFrom(clazz);
     } 
     catch (ClassNotFoundException cnfe) {
-      //TODO Log error!
-      System.out.println("ClassNotFoundException: " + cnfe);
+      CLOLogger.getLogger().log(Level.WARNING, "ClassNotFoundException: " + cnfe);
       cnfe.printStackTrace();
       return false;
     }

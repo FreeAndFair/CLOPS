@@ -4,6 +4,8 @@
  */
 package ie.ucd.clops.util;
 
+import ie.ucd.clops.logging.CLOLogger;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Manages reading from Files as well as from standard input.
@@ -109,7 +112,7 @@ public final class SourceReader {
       }      
       return new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
     } catch (IOException ioe) {
-      System.out.println("Something went wrong when reading from stdin");
+      CLOLogger.getLogger().log(Level.WARNING, "Something went wrong when reading from stdin");
       return null;
     }
   }

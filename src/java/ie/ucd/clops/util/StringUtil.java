@@ -117,8 +117,6 @@ public class StringUtil {
     return sb.toString();
   }
 
-  private static final Pattern javaIdPattern = Pattern.compile("[_a-zA-Z]\\w*");
-
   private static final Set<String> javaKeywords = new HashSet<String>();
 
   static {
@@ -137,14 +135,18 @@ public class StringUtil {
       "const", "float", "native", "super", "while"});
   }
 
-  /** 
-    Checks if {@code id} is usable as a Java identifier.
-    The word "nice" is meant to suggest that the check is stronger
-    than it could be: We only allow ASCII chars, not UNICODE.
-   */
-  public static boolean isNiceJavaId(String id) {
-    return 
-      javaIdPattern.matcher(id).matches() &&
-      !javaKeywords.contains(id);
+  public static boolean isJavaId(String id) {
+    if (id == null || id.equals("")) {
+      return false;
+    }
+    if (!Character.isJavaIdentifierStart(id.charAt(0))) {
+      return false;
+    }
+    for (int i = 1; i < id.length(); ++i) {
+      if (!Character.isJavaIdentifierPart(id.charAt(i))) {
+        return false;
+      }
+    }
+    return !javaKeywords.contains(id);
   }
 }

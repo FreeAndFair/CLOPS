@@ -111,15 +111,20 @@
   </target>
 
 
-  <target name="test-doc-examples" depends="sync2all">
-    <echo message="trying to build the examples in docs"/>
+  <target name="test-doc-examples" 
+          depends="sync2all"
+          description="tries to build the examples in docs">
     <ant antfile="build.xml"
          dir="doc/web/examples/wc"
-         inheritAll="false"
-         />
+         inheritAll="false">
+         <target name="clean"/>
+         <target name="compile"/>
+    </ant>
     <ant antfile="build.xml"
          dir="doc/web/examples/wc1"
-         inheritAll="false"
-         />
+         inheritAll="false">
+         <target name="clean"/>
+         <target name="compile"/>
+    </ant>
   </target>
 </project>

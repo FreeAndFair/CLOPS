@@ -1,6 +1,8 @@
 <project name="Wc1" default="compile" basedir=".">
   <property name="clofile" location="src/wc.clo"/>
   <property name="generate.dir" location="src/generated"/>
+  <property name="wcjar" location="jars/wc.jar" />
+  <property name="bin" location="classes" />
 
   <!--   generate the parser according to wc.clo -->
   <target name="compile" description="do everything">
@@ -11,15 +13,20 @@
     </java>
 
     <!--   compile the generated parser -->
-    <mkdir dir="classes"/>
-    <javac destdir="classes" srcdir="src" classpath="jars/clops-runtime.jar" debug="yes"/>
+    <mkdir dir="${bin}"/>
+    <javac destdir="${bin}" srcdir="src" classpath="jars/clops-runtime.jar" debug="yes"/>
 
     <!--   jar the generated parser, note that it requires clops-runtime.jar -->
-    <jar destfile="jars/wc.jar" basedir="classes">
+    <jar destfile="${wcjar}" basedir="${bin}">
       <manifest>
         <attribute name="Main-Class" value="Main"/>
         <attribute name="Class-Path" value="clops-runtime.jar"/>
       </manifest>
     </jar>
+  </target>
+
+  <target name="clean">
+     <delete file="${wcjar}"/>
+     <delete dir="${bin}"/>
   </target>
 </project>

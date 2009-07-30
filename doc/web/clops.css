@@ -80,6 +80,7 @@ tt {
 .gotcha {
   margin-left: 3cm;
   margin-right: 3cm;
+  width: auto;
   font-size: small;
   background-color: #ffeeee;
 }

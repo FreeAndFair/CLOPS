@@ -116,6 +116,9 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     }
   }
 
+  /** Returns the string that matched the value of the option's
+   * argument. The implementation is dependent on {@code
+   * updateSuffix}, which determines the groups. */
   public String getMatchingValueString() {
     return match.group(2);
   }
@@ -124,7 +127,10 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
       //"(?:" here denotes a non-capturing group 
     setMatchingSuffix("(?:" + between + "(" + argumentShape + "))?" + SEP);
   }
-  
+
+  /** Name of the placeholder used in documentaion to refer to the
+   * argument, the defauls name can be changed by the "argumentname"
+   * property. */
   public final String getArgumentName() {
     return argumentName;
   }

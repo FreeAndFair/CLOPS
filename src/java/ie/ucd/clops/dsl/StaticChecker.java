@@ -2,6 +2,7 @@ package ie.ucd.clops.dsl;
 
 import ie.ucd.clops.dsl.errors.DSLParseResult;
 import ie.ucd.clops.dsl.errors.DuplicateOptionIdentifier;
+import ie.ucd.clops.dsl.errors.MissingPropertyError;
 import ie.ucd.clops.dsl.errors.PropertyValueError;
 import ie.ucd.clops.dsl.errors.UnknownIdentifierError;
 import ie.ucd.clops.dsl.errors.UnusedIdentifierWarning;
@@ -10,6 +11,7 @@ import ie.ucd.clops.dsl.structs.OptionDescription;
 import ie.ucd.clops.dsl.structs.OptionGroupDescription;
 import ie.ucd.clops.runtime.automaton.Token;
 import ie.ucd.clops.runtime.automaton.Tokenizer;
+import ie.ucd.clops.runtime.options.IEnumOption;
 import ie.ucd.clops.runtime.options.IMatchString;
 import ie.ucd.clops.runtime.options.IMatchable;
 import ie.ucd.clops.runtime.options.Option;
@@ -181,12 +183,17 @@ public class StaticChecker {
             Object instance = constructor.newInstance(args);
             if (instance instanceof Option<?>) {
               Option<?> optionInstance = (Option<?>)instance;
+              boolean hasChoices = false;
               for (Pair<String,String> property : option.getProperties()) {
                 try {
                   optionInstance.setProperty(property.getFirst(), property.getSecond());
                 } catch (InvalidOptionPropertyValueException e) {
                   result.addError(new PropertyValueError(dslInfo.getPropertyValueLocation(property), property.getFirst(), option.getIdentifier(), e.getMessage()));
                 }
+                hasChoices |= "choices".equals(property.getFirst());
+              }
+              if (optionInstance instanceof IEnumOption && !hasChoices) {
+                result.addError(new MissingPropertyError(option.getSourceLocation(), option.getIdentifier(), "choices"));
               }
             }
           }

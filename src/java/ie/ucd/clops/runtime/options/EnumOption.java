@@ -206,7 +206,7 @@ public class EnumOption extends StringOption implements IEnumOption {
   private static final void checkId(String id) {
     if (!StringUtil.isJavaId(id)) {
       throw new InvalidOptionPropertyValueException(
-        "\"" + id + "\" is not a nice Java identifier.");
+        "\"" + id + "\" is not a valid Java identifier.");
     }
   }
 }

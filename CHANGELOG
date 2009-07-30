@@ -42,7 +42,7 @@ Version 0.3.0
       format string and is not virtual (tagged through the "virtual" property").
 
 - Tutorial examples are using the current version of CLOPS, the ant
-  test target will fail if they do not parse.
+  test-all target will fail if they do not parse.
 
 - A small language was added to test CLOPS descriptions enabling
   expressing test option combinations and whether they are valid or

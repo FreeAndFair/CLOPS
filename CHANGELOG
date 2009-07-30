@@ -39,7 +39,7 @@ Version 0.3.0
     + Uniqness of individual choices in the "choices" property of the enum option
     + Warning if an option that doesn't exist is used (e.g. in format string)
     + Warning if an option is defined but isn't used in any way by the
-      format string.
+      format string and is not virtual.
 
 - Tutorial examples are using the current version of CLOPS, the ant
   test target will fail if they do not parse.

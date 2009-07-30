@@ -5,27 +5,8 @@ blockquote {
   font-size: small;
 }
 
-body {
-  font-family: Verdana, Helvetica, sans-serif;
-  font-size: normal;
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 code {
   font-family: courier, monospace;
-}
-
-h1 {
-  font-size: x-large;
-  font-weight: bold;
-  padding-top: 5px;
-}
-
-h2 {
-  font-size: large;
-  font-weight: bold;
 }
 
 pre {
@@ -73,8 +54,32 @@ tt {
   font-family: courier, monospace;
 }
 
+.center {
+  text-align: center;
+}
+
 .cmdline {
   background-color: #eeeeee;
+}
+
+.colors-1 {
+  background: #FFE9B7;
+  color: #000000;
+}
+
+.colors-2 {
+  background: #B5463F;
+  color: #FFFFFF;
+}
+
+.colors-3 {
+  background: #EEEEEE;
+  color: #000000;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
 }
 
 .gotcha {
@@ -97,9 +102,22 @@ tt {
   padding-bottom: 5px;
 }
 
+.section-start {
+  margin-top: 15px;
+  text-align:center; 
+  background: #9AB54F; 
+  color: #240;
+}
+
+.square { 
+  padding: 15px;
+  margin: 5px;
+}
+
 .title {
-  font-size: xx-large;
+  font-size: 250%;
   font-weight: bold;
+  text-align: center;
 }
 
 .todo {
@@ -108,4 +126,8 @@ tt {
 	font-weight: bold;
 }
 
-
+#ver {
+  font-size: 200%; 
+  color: #630; 
+  font-weight: bold;
+}

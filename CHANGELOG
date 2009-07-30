@@ -1,3 +1,36 @@
+Version 0.3.0
+- license file
+
+- removed unnecessary runtime classpath
+
+- compile path fix
+
+- don't crash if 'choices' isn't specified for enums
+
+- nested enums in generated datastructures are static
+
+- better error message when -t is not given to CLOPS
+
+- better handling of multiline descriptions
+
+- generation of ant task base class for a given CLOPS description
+
+- (simple) ant task for CLOPS
+
+- quiet mode
+
+- In enum options the generated java enum will respect the order of
+  choices given in the CLOPS description. This required a change of
+  the syntax for the property "choices" of the type "enum" (and of the
+  type "enum-list"), which is now:
+  choices="string1|string2(VALUE1),string3(VALUE2)". It is guaranteed
+  that VALUE1.compareTo(VALUE2) < 0. This is useful if enum to
+  represents verbosity levels, for instance.
+
+- The generated "parse" method now only throws runtime exceptions and
+  returns a list or errors that occured during the parsin of a command
+  line. The code for calling "parse" is cleaner as such.
+
 Version 0.2.1
 - Fixed the builtin template bug on windows.
  

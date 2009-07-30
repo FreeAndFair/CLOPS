@@ -39,8 +39,8 @@ ARGS::
 		: "display this help and exit"
 	version:{"--version"}
 		: "output version information and exit"
-	header_mode:{}:{enum}:[choices="multiple_files,always,never",default="multiple_files"]
-	follow_x:{}:{enum}:[choices="nofollow,name,descriptor",default="nofollow"]
+	header_mode:{}:{enum}:[choices="multiple_files,always,never",default="multiple_files",virtual="true"]
+	follow_x:{}:{enum}:[choices="nofollow,name,descriptor",default="nofollow",virtual="true"]
 	files:{}:{file-list}:[between="", allowMultiple="false"]
 	dashfiles:{}:{file-list}:[between="", allowMultiple="false", allowDash="true"]
 	dashdash:{"--"}

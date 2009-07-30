@@ -110,7 +110,6 @@
     </javac>
   </target>
 
-
   <target name="test-doc-examples" 
           depends="sync2all"
           description="tries to build the examples in docs">

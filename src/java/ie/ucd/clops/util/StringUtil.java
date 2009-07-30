@@ -1,16 +1,14 @@
 package ie.ucd.clops.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -148,5 +146,36 @@ public class StringUtil {
       }
     }
     return !javaKeywords.contains(id);
+  }
+
+  /**
+   * Returns a String which simply contains a caret character to indicate the location of
+   * the error.
+   * @param caretPosition The character position of the error.
+   * @return A String to indicate the position of the error.
+   */
+  public static String getErrorPosition(int caretPosition) {
+    StringBuilder sb = new StringBuilder();
+    for (int i=0; i < caretPosition; i++) {
+      sb.append(' ');
+    }
+    sb.append('^');
+    return sb.toString();
+  }
+  
+  public static String appendWithSeparator(Collection<?> items, String sep, boolean separatorAtEnd) {
+    StringBuilder sb = new StringBuilder();
+    for (Object o : items) {
+      sb.append(o.toString());
+      sb.append(sep);
+    }
+    if (sb.length() > 0 && !separatorAtEnd) {
+      sb.delete(sb.length()-sep.length(), sb.length());
+    }
+    return sb.toString();
+  }
+  
+  public static String appendWithSeparator(String[] items, String sep, boolean separatorAtEnd) {
+    return appendWithSeparator(Arrays.asList(items), sep, separatorAtEnd);
   }
 }

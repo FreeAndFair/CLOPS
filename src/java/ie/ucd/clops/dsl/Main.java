@@ -12,7 +12,7 @@ import ie.ucd.clops.generation.CodeGenerator;
 import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
-import ie.ucd.clops.runtime.errors.CLError;
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -89,9 +88,9 @@ public class Main {
    * @throws InvalidOptionValueException
    */
   public boolean start(String[] args, boolean terminateSystem) throws AutomatonException, InvalidOptionValueException {
-    List<CLError> errorList = parser.parse(args);
+    ParseResult argsParseResult = parser.parse(args);
     
-    if (errorList.isEmpty()) {
+    if (argsParseResult.successfulParse()) {
       final CLODSLOptionStore options = parser.getOptionStore();
        boolean result = execute(options);
        if (!result && terminateSystem) {
@@ -99,10 +98,10 @@ public class Main {
        }
        return result;
     } else {
-      //TODO print out errors from errorList
-      CLOLogger.getLogger().log(
-        Level.SEVERE, "Format:" + parser.getFormatString());
-      CLOLogger.getLogger().log(Level.SEVERE, "Fail!");
+      
+      System.err.println("Invalid arguments:");
+      argsParseResult.printErrorsAndWarnings(System.err);
+      //TODO print usage
       
       if (terminateSystem) {
         System.exit(1);

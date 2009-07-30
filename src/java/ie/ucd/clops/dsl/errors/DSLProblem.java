@@ -2,6 +2,7 @@ package ie.ucd.clops.dsl.errors;
 
 import ie.ucd.clops.dsl.parser.SourceLocation;
 import ie.ucd.clops.util.SourceReader;
+import ie.ucd.clops.util.StringUtil;
 
 import java.io.PrintStream;
 
@@ -68,7 +69,7 @@ public class DSLProblem implements Comparable<DSLProblem> {
 
       ps.println(sb.toString());
 
-      ps.println(getErrorPosition(sourceLocation.getCharPositionInLine() + tabCount));
+      ps.println(StringUtil.getErrorPosition(sourceLocation.getCharPositionInLine() + tabCount));
     }
   }
   
@@ -79,21 +80,6 @@ public class DSLProblem implements Comparable<DSLProblem> {
     return SourceReader.getInstance().getSource(sourceLocation.getSourceFile(), sourceLocation.getLineNumber());
   }
   
-  /**
-   * Returns a String which simply contains a caret character to indicate the location of
-   * the error.
-   * @param caretPosition The character position of the error.
-   * @return A String to indicate the position of the error.
-   */
-  private static String getErrorPosition(int caretPosition) {
-    StringBuilder sb = new StringBuilder();
-    for (int i=0; i < caretPosition; i++) {
-      sb.append(' ');
-    }
-    sb.append('^');
-    return sb.toString();
-  }
-
   @Override
   public int compareTo(DSLProblem o) {
     if (this.sourceLocation == null) {

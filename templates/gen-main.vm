@@ -6,6 +6,7 @@ package $info.getPackageName();
 
 import java.util.logging.Level;
 import ie.ucd.clops.logging.CLOLogger;
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 
 public class ${info.getParserName()}Main {
@@ -25,7 +26,9 @@ public class ${info.getParserName()}Main {
       CLOLogger.setLogLevel(Level.FINE);
     }
     ${parserName}Parser parser = new ${parserName}Parser();
-    return parser.parse(args).isEmpty();
+    ParseResult result = parser.parse(args);
+    result.printErrorsAndWarnings(System.out);
+    return result.successfulParse();
   }
   
 }

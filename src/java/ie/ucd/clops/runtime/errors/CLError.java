@@ -1,16 +1,13 @@
 package ie.ucd.clops.runtime.errors;
 
-public class CLError {
+public class CLError extends CLProblem {
 
-  private final String message;
-  
   public CLError(String message) {
-    this.message = message;
+    super(message);
   }
 
-  public String getMessage() {
-    return message;
+  public CLError(String message, int problemIndex) {
+    super(message, problemIndex);
   }
 
-  
 }

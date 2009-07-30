@@ -1,8 +1,9 @@
 package ie.ucd.clops.runtime.rules;
 
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.errors.CLError;
+import ie.ucd.clops.runtime.errors.CLProblem;
 import ie.ucd.clops.runtime.errors.InvalidOptionValueError;
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
@@ -58,8 +59,8 @@ public class RuleStore {
     return getFlyRulesForOption(option.getIdentifier());
   }
 
-  public List<CLError> applyFlyRulesTraditional(Option<?> matchedOption, OptionStore optionStore) {
-    List<CLError> errorList = new ArrayList<CLError>();
+  public ParseResult applyFlyRulesTraditional(Option<?> matchedOption, OptionStore optionStore) {
+    ParseResult result = new ParseResult();
     List<FlyRule> rules = getFlyRulesForOption(matchedOption);
     if (rules != null) {
       CLOLogger.getLogger().log(Level.FINE, "Rules for " + matchedOption);
@@ -68,14 +69,14 @@ public class RuleStore {
         try {
           rule.applyRule(optionStore);
         } catch (InvalidOptionValueException e) {
-          errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
+          result.addError(new InvalidOptionValueError(e.getMessage()));
         }        
       }          
     }
-    return errorList;
+    return result;
   }
 
-  public List<CLError> applyFlyRules(Option<?> matchedOption, OptionStore optionStore) {
+  public ParseResult applyFlyRules(Option<?> matchedOption, OptionStore optionStore) {
     if (shouldApplyFlyRulesTransitively()) {
       return applyFlyRulesTransitive(matchedOption, optionStore);      
     } else {
@@ -83,8 +84,8 @@ public class RuleStore {
     }
   }
 
-  public List<CLError> applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) {
-    List<CLError> errorList = new ArrayList<CLError>();
+  public ParseResult applyFlyRulesTransitive(Option<?> matchedOption, OptionStore optionStore) {
+    ParseResult result = new ParseResult();
     Set<Option<?>> triggers = new HashSet<Option<?>>(1);
     triggers.add(matchedOption); matchedOption=null;
 
@@ -114,12 +115,12 @@ public class RuleStore {
               }
             }
           } catch (InvalidOptionValueException e) {
-            errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
+            result.addError(new InvalidOptionValueError(e.getMessage()));
           }
         }          
       }
     }
-    return errorList;
+    return result;
   }
 
   private static boolean isSame(Object o1, Object o2) {
@@ -137,16 +138,16 @@ public class RuleStore {
     return vals; 
   }
 
-  public List<CLError> applyOverrideRules(OptionStore optionStore) {
-    List<CLError> errorList = new ArrayList<CLError>();
+  public ParseResult applyOverrideRules(OptionStore optionStore) {
+    ParseResult result = new ParseResult();
     for (OverrideRule rule : overrideRules) {
       try {
         rule.applyRule(optionStore);
       } catch (InvalidOptionValueException e) {
-        errorList.add(new InvalidOptionValueError(-1, e.getMessage()));
+        result.addError(new InvalidOptionValueError(e.getMessage()));
       } 
     }
-    return errorList;
+    return result;
   }
 
   public void applyValidityRules(OptionStore optionStore) {

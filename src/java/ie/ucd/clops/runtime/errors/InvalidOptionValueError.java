@@ -1,17 +1,13 @@
 package ie.ucd.clops.runtime.errors;
 
 public class InvalidOptionValueError extends CLError {
+ 
+  public InvalidOptionValueError(String message, int position) {
+    super(message, position);
+  }
 
-  private final int position;
-  
-  public InvalidOptionValueError(int position, String message) {
+  public InvalidOptionValueError(String message) {
     super(message);
-    this.position = position;
   }
-
-  public int getPosition() {
-    return position;
-  }
-
   
 }

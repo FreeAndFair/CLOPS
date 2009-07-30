@@ -1,6 +1,7 @@
 package ie.ucd.clops.runtime.parser;
 
-import ie.ucd.clops.runtime.errors.CLError;
+import ie.ucd.clops.runtime.errors.CLProblem;
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.rules.RuleStore;
 
@@ -35,7 +36,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public List<CLError> parse(String[] args)
+  public ParseResult parse(String[] args)
   { return parse(args, false); }
 
   /**
@@ -43,7 +44,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public List<CLError> parseAlternate(String[] args) 
+  public ParseResult parseAlternate(String[] args) 
   { return parse(args, true); }
 
   /**
@@ -51,7 +52,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public List<CLError> parse(String[] args, boolean infiniteLookahead) {
+  public ParseResult parse(String[] args, boolean infiniteLookahead) {
     return parse(new GenericCLParser(), args, infiniteLookahead);
   }
   
@@ -61,7 +62,7 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not.
    */
-  public List<CLError> parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) {
+  public ParseResult parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) {
     if (infiniteLookahead) 
       return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
     else 

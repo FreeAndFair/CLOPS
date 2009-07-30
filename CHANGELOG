@@ -28,8 +28,21 @@ Version 0.3.0
   represents verbosity levels, for instance.
 
 - The generated "parse" method now only throws runtime exceptions and
-  returns a list or errors that occured during the parsin of a command
+  returns a list or errors that occurred during the parsing of a command
   line. The code for calling "parse" is cleaner as such.
+
+- Parsing of the property "choices" of for the enum option is more
+  flexible, spaces and newlines are permitted between the individual
+  choices.
+
+- Adding static checks when CLOPS is processing a CLOPS description.
+    + Uniqness of individual choices in the "choices" property of the enum option
+    + Warning if an option that doesn't exist is used (e.g. in format string)
+    + Warning if an option is defined but isn't used in any way by the
+      format string.
+
+- Tutorial examples are using the current version of CLOPS, the ant
+  test target will fail if they do not parse.
 
 Version 0.2.1
 - Fixed the builtin template bug on windows.

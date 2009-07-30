@@ -95,7 +95,9 @@ public class DSLInformation extends RuleStoreDescription {
   @Override
   public void pack() {
     super.pack();
-    setFormatString(formatString);
+    /* Make sure no newlines in the format string. 
+    This should probably be done whilst processing the DSL */
+    setFormatString(formatString.replaceAll("\\n", " "));
     dict = new NameDict(getOptionDescriptions());
     isPacked = true;
   }

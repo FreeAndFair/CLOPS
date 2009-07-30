@@ -95,11 +95,14 @@ line interface. Next, we'll place <tt>Main.java</tt> under
 import java.io.File;
 import generated.WcParser;
 import generated.WcOptionsInterface;
+import ie.ucd.clops.runtime.errors.ParseResult;
 
 public class Main {
   public static void main(String[] args) throws Exception {
     WcParser parser = new WcParser();
-    if (!parser.parse(args).isEmpty()) {
+    ParseResult argsParseResult = parser.parse(args);
+    if (!argsParseResult.successfulParse()) {
+      argsParseResult.printErrorsAndWarnings(System.err);
       System.out.println("Usage: java Main [OPTIONS] file...");
       System.exit(1);
     }

@@ -1,17 +1,16 @@
 /* Pretty printing styles. Used with prettify.js. */
 
-.str { color: #080; }
-.kwd { color: #008; }
-.com { color: #800; }
-.typ { color: #606; }
-.lit { color: #066; }
-.pun { color: #660; }
-.pln { color: #000; }
-.tag { color: #008; }
-.atn { color: #606; }
-.atv { color: #080; }
-.dec { color: #606; }
-pre.prettyprint { border: 1px solid #888; }
+.str { color: #A30008; }
+.kwd { color: #00665E; }
+.com { color: #6B9B00; }
+.typ { color: #A30008; }
+.lit { color: #6B9B00; }
+.pun { color: #6B9B00; }
+.pln { color: #000000; }
+.tag { color: #00665E; }
+.atn { color: #A30008; }
+.atv { color: #00665E; }
+.dec { color: #6B9B00; }
 
 @media print {
   .str { color: #060; }
@@ -25,3 +24,14 @@ pre.prettyprint { border: 1px solid #888; }
   .atn { color: #404; }
   .atv { color: #060; }
 }
+
+code, pre {
+  font-family: courier, monospace;
+}
+
+pre {
+  padding-left: 30px;
+  margin-bottom: 2px;
+  border: 1px solid black;
+}
+

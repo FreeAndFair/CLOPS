@@ -1,24 +1,5 @@
 /* tags, then classes; sorted alphabetically */
 
-blockquote {
-  font-style: italic;
-  font-size: small;
-}
-
-code {
-  font-family: courier, monospace;
-}
-
-pre {
-  font-family: courier, monospace;
-  font-size: large;
-  padding-left: 1cm;
-}
-
-table {
-  width: 100%;
-}
-
 /* TODO: pick a unifying style for tables; there's no reason
  * to limit the below to the related-work table */
 table#related-work {
@@ -50,6 +31,10 @@ table#related-work .high {
   background-color: #8f8;
 }
 
+td {
+  padding: 4px;
+}
+
 tt {
   font-family: courier, monospace;
 }
@@ -59,20 +44,28 @@ tt {
 }
 
 .cmdline {
-  background-color: #eeeeee;
 }
 
-.colors-1 {
-  background: #FFE9B7;
+.colors-1,
+.gotcha {
+  background: #FD7279;
   color: #000000;
 }
 
-.colors-2 {
-  background: #B5463F;
-  color: #FFFFFF;
+.colors-2,
+.section-start {
+  background: #5DCEC6;
+  color: #000000;
 }
 
 .colors-3 {
+  background: #CDF76F;
+  color: #000000;
+}
+
+.colors-4,
+.cmdline,
+pre {
   background: #EEEEEE;
   color: #000000;
 }
@@ -85,9 +78,9 @@ tt {
 .gotcha {
   margin-left: 3cm;
   margin-right: 3cm;
+  padding: 10px;
   width: auto;
   font-size: small;
-  background-color: #ffeeee;
 }
 
 .question {
@@ -105,8 +98,6 @@ tt {
 .section-start {
   margin-top: 15px;
   text-align:center; 
-  background: #9AB54F; 
-  color: #240;
 }
 
 .square { 
@@ -115,7 +106,7 @@ tt {
 }
 
 .title {
-  font-size: 250%;
+  font-size: 38px;
   font-weight: bold;
   text-align: center;
 }
@@ -128,6 +119,5 @@ tt {
 
 #ver {
   font-size: 200%; 
-  color: #630; 
   font-weight: bold;
 }

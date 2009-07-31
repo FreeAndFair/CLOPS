@@ -3,12 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <style type="text/css">@import url('clops.css');</style>
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+  <style type="text/css" media="screen,projection">
+    @import url('css/blueprint/screen.css');
+  </style>
+  <style type="text/css" media="print">
+    @import url('css/blueprint/print.css');
+  </style>
   <style type="text/css">@import url('prettify.css');</style>
+  <style type="text/css">@import url('clops.css');</style>
   <script type="text/javascript" src="prettify.js"></script>
+  <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="jquery.corner.js"></script>
   <title>CLOPS tutorial</title>
+
+  <script  type="text/javascript">
+  $(function() { $('.rounded').corner();});
+  </script>
 </head>
-<body onload="prettyPrint()">
+<body onload="prettyPrint()" class="container">
 
 <div class="title">CLOPS tutorial</div>
 
@@ -224,7 +237,7 @@ more flexibility and power then read on.</p>
 showing how you can deal with tricky command line conventions.
 </p>
 
-<h2><a name="dashdash"/>Dealing with <tt>--</tt></h2>
+<h2><a name="dashdash"/>Dealing with <tt>--</tt></a></h2>
 
 <p>The <tt>wc</tt> command line implementation above is
 <i>almost</i> OK. One problem is that it doesn't allow the user
@@ -480,8 +493,9 @@ and the parser generated from the description above. </p>
 <p class="todo">TODO. Show how to implement an ENUM for
 excluding booleans.</p>
 
-<hr/>
-<p>
+
+<div class="span-20">
+<p class="footer">
   <a href="http://sourceforge.net/projects/clops">
     <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=257014&amp;type=13" width="120" height="30" alt="Get CLOPS at SourceForge.net. Fast, secure and Free Open Source software downloads" />
     </a>
@@ -489,6 +503,8 @@ excluding booleans.</p>
      src="http://www.w3.org/Icons/valid-xhtml10-blue"
      alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
 </p>
+</div>
+
 </body>
 </html>
 <!--

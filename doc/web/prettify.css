@@ -1,16 +1,7 @@
 /* Pretty printing styles. Used with prettify.js. */
 
-.str { color: #A30008; }
-.kwd { color: #00665E; }
-.com { color: #6B9B00; }
-.typ { color: #A30008; }
-.lit { color: #6B9B00; }
-.pun { color: #6B9B00; }
+.str, .typ, .atn, .kwd, .tag, .atv, .com, .lit, .pun, .dec { color: #6B6995; }
 .pln { color: #000000; }
-.tag { color: #00665E; }
-.atn { color: #A30008; }
-.atv { color: #00665E; }
-.dec { color: #6B9B00; }
 
 @media print {
   .str { color: #060; }

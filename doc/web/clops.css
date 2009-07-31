@@ -47,19 +47,18 @@ tt {
 }
 
 .colors-1,
-.gotcha {
-  background: #FD7279;
+.section-start {
+  background: #8A89AA;
   color: #000000;
 }
 
-.colors-2,
-.section-start {
-  background: #5DCEC6;
+.colors-2 {
+  background: #E8E4B3;
   color: #000000;
 }
 
 .colors-3 {
-  background: #CDF76F;
+  background: #E8D2B3;
   color: #000000;
 }
 
@@ -73,14 +72,6 @@ pre {
 .footer {
   text-align: center;
   margin-top: 30px;
-}
-
-.gotcha {
-  margin-left: 3cm;
-  margin-right: 3cm;
-  padding: 10px;
-  width: auto;
-  font-size: small;
 }
 
 .mar, .square {

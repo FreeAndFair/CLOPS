@@ -56,7 +56,7 @@ distribution. This file is needed to compile your code and to run
 your application. Then create another subdirectory <tt>src</tt>
 and in it create a file <tt>wc.clo</tt> with the content: </p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 NAME::
   Wc
 
@@ -251,7 +251,7 @@ to handle such situations is to use a special option (<tt>--</tt>)
 and treat all that follows as being an operand (not an option).
 We can handle this by changing <tt>wc.clo</tt> a little.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 ARGS::
   DashFiles: {}: {file-list}: 
     [between="", allowMultiple="false", allowDash="true"]
@@ -322,7 +322,7 @@ aliases and from the option type. This regular expression is used
 to split the command line into meaningful bits. Let's say we
 declared the following option: </p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
   Foo: {"-f", "--foo"}: {int} 
 </pre>
 
@@ -358,7 +358,7 @@ the option.</p>
 
 <p>We can now describe the solution.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
   CompressionLevel: {"-"}: {int}: [suffixregexp="([0-9])\0"]
 </pre>
 
@@ -412,7 +412,7 @@ tar fcz foo.tgz foo/
 <p>Let's see how this can be handled with CLOPS. We begin
 with the easy bits.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 NAME::
   Tar
 
@@ -433,7 +433,7 @@ ARGS::
 
 <p>To recognize the old-style options we introduce dummy options.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
   ShortCreate: {"c"}: [suffixregexp=""]
   ShortExtract: {"x"}: [suffixregexp=""]
   ShortBzipTwo: {"j"}: [suffixregexp=""]
@@ -447,7 +447,7 @@ ever ask about their value in our implementation of TAR. Instead,
 we tell CLOPS to set the corresponding long versions on the
 fly.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 FLY::
   ShortArchiveValue -> Archive := {$(ShortArchiveValue)};
   ShortCreate -> Create := {true};
@@ -459,7 +459,7 @@ FLY::
 <p>The mysterious regular expressions used by the old-style options
 can be understood only after you see the format.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 FORMAT::
   (ShortOption* ShortArchive ShortOption* ShortArchiveValue 
       (LongOption | File)*
@@ -479,7 +479,7 @@ required, as is usual.</p>
 <p>Finally, we can instruct CLOPS to issue error messages if
 certain conditions hold.</p>
 
-<pre class="prettyprint">
+<pre class="cmdline">
 VALIDITY::
   {$(Create?) &amp;&amp; $(Extract?)}: 
     "You can't create and extract at the same time";

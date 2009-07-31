@@ -38,7 +38,7 @@ p img.left  { float: left; margin: 1.5em 1.5em 1.5em 0; padding: 0; }
 p img.right { float: right; margin: 1.5em 0 1.5em 1.5em; }
 
 a:link,
-a:visited   { color: #6B6995;}
+a:visited   { color: #00104D;}
 a:hover     { color: #000000; }
 
 blockquote  { margin: 30px; font-style: italic; }

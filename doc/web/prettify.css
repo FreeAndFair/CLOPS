@@ -1,6 +1,8 @@
 /* Pretty printing styles. Used with prettify.js. */
 
-.str, .typ, .atn, .kwd, .tag, .atv, .com, .lit, .pun, .dec { color: #6B6995; }
+.str, .lit, .dec { color: #4D2600; }
+.typ, .kwd, .tag { color: #4D4100; }
+.atn, .atv, .com, .pun { color: #00104D; }
 .pln { color: #000000; }
 
 @media print {

@@ -29,7 +29,7 @@
 and then presents a few advanced features. However, it barely
 scratches the surface of what can be done with CLOPS.</p>
 
-<h1>Basic usage</h1>
+<h1 class="section-start">Basic usage</h1>
 
 <p>Typically, CLOPS is called by the build system to generate
 files before the actual compilation. Before seeing how to
@@ -80,11 +80,13 @@ WHERE::
     FilesFrom | Help | Ver;
 </pre>
 
-<table class="gotcha">
-<tr><td><img src="attention.png" alt="!"/></td><td>
+<div class="prepend-2 span-16 append-2">
+<div class="rounded square colors-3">
+<p>
 The <i>properties</i> <tt>between</tt> and <tt>allowMultiple</tt>
-will be explained in the <a href="#dashdash">Dealing with --</a> section.
-</td></tr></table>
+will be explained in the <a href="#dashdash">Dealing with --</a>
+section. </p>
+</div></div>
 
 <p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
 Generate the parser with:</p>
@@ -144,12 +146,14 @@ javac -cp lib/clops-runtime.jar\
   -sourcepath src -d classes src/Main.java src/generated/*
 </pre>
 
-<table class="gotcha">
-<tr><td><img src="attention.png" alt="!"/></td><td>
+<div class="prepend-2 span-16 append-2">
+<div class="rounded square colors-1">
+<p><b>Warning:</b>
 Errors during compilation might be caused by an incorrect
 <tt>.clo</tt> file, because CLOPS only detects obvious mistakes.
 More subtle ones are detected down the road by the Java compiler.
-</td></tr></table>
+</p>
+</div></div>
 
 <p>You can now run your program with:</p>
 
@@ -231,7 +235,7 @@ must include the <tt>clops-runtime.jar</tt> as a dependency. </p>
 <p>You are now ready to use CLOPS. But if you feel that you need
 more flexibility and power then read on.</p>
 
-<h1>Advanced features</h1>
+<h1 class="section-start">Advanced features</h1>
 
 <p>This section illustrates a few advanced features of CLOPS by
 showing how you can deal with tricky command line conventions.
@@ -360,9 +364,12 @@ the option.</p>
 
 <p>That's all.</p>
 
-<p><i>Exercise:</i> How would you handle TAIL? (You can
+<div class="prepend-2 span-16 append-2">
+<div class="rounded square colors-3">
+<p><b>Exercise:</b> How would you handle TAIL? (You can
 say <tt>tail -50 foo</tt> to display the last 50 lines of
 <tt>foo</tt>.)</p>
+</div></div>
 
 
 <h2>TAR's Old Style Options</h2>
@@ -485,16 +492,14 @@ VALIDITY::
 <p>With relatively little effort we obtained a parser for the
 insanely complicated conventions of TAR!</p>
 
-<p><i>Exercise:</i> Find the remaining differences between TAR
+<div class="prepend-2 span-16 append-2 last">
+<div class="rounded square colors-3">
+<p><b>Exercise:</b> Find the remaining differences between TAR
 and the parser generated from the description above. </p>
+</div>
+</div>
 
-<h2>Custom options</h2>
-
-<p class="todo">TODO. Show how to implement an ENUM for
-excluding booleans.</p>
-
-
-<div class="span-20">
+<div class="span-20 last">
 <p class="footer">
   <a href="http://sourceforge.net/projects/clops">
     <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=257014&amp;type=13" width="120" height="30" alt="Get CLOPS at SourceForge.net. Fast, secure and Free Open Source software downloads" />

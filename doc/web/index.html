@@ -24,25 +24,34 @@
 
 <body onload="prettyPrint()" class="container">
 
-<div class="title span-20 last">CLOPS &mdash; Command Line OPtionS</div>
+<div class="span-20 last">
+<div class="title rounded square colors-3">
+CLOPS &mdash; Command Line OPtionS
+</div></div>
 
 <div class="span-13">
 <div class="rounded square colors-1">
 <h2>CLOPS is&hellip;</h2>
 <p>CLOPS is a <b>Java parser generator for command line
 options</b>. It is also a <b>documentation generator for command
-line interfaces</b>. Using CLOPS guarantees that your code and
+line interfaces</b>. CLOPS guarantees that your code and
 your documentation are in sync. </p>
-</div>
-</div>
+
+<p>CLOPS makes it easy to evolve the command line interface of a
+Java application. Once the options multiply and the syntax of the
+command line becomes more complicated it becomes more and more
+advantageous to use CLOPS. </p>
+</div></div>
 
 <div class="span-7 rounded last">
 <div class="rounded square colors-3 center">
 <h3 class="colors-3">Download CLOPS</h3>
 <div class="rounded square colors-1">
 The latest stable release of CLOPS is
-  <div id="ver">v0.2.1</div>
-<a href="">Other Download Options</a>
+  <div id="ver">
+  <a href="http://sourceforge.net/projects/clops/files/clops/0.3/clops-0.3.zip/download">
+  v0.3</a></div>
+<a href="http://sourceforge.net/projects/clops/files/">Other Download Options</a>
 </div>
 </div>
 </div>
@@ -53,12 +62,23 @@ The latest stable release of CLOPS is
 <div class="span-10">
 <div class="rounded square colors-1">
 <h3>1. Describe the command line</h3>
+
+<p><tt>src/clops/foo.clo</tt>:</p>
 <pre class="prettyprint">
 NAME:: Foo
 ARGS::
-  SayHi: {"--say-hi", "-sh" }
-  SayBye: {"--say-bye", "-sb"}
-  Help: {"--help", "-h"}
+  SayHi
+    :{"--say-hi", "-sh" }
+    :[allowArg="false",default="false"]
+    :"Greets the user."
+  SayBye
+    :{"--say-bye", "-sb"} :{int}
+    :[minValue="0",default="0"]
+    :"Leaves."
+  Help 
+    :{"--help", "-h"}
+    :[allowArg="false",default="false"]
+    :"Displays this message."
 FORMAT:: (SayHi | SayBye)* | Help;
 </pre>
 </div>
@@ -66,37 +86,43 @@ FORMAT:: (SayHi | SayBye)* | Help;
 
 <div class="span-10">
 <div class="rounded square colors-1">
-<h3>3. FooBar</h3>
-<pre class="prettyprint">
-NAME:: Foo
-ARGS::
-  SayHi: {"--say-hi", "-sh" }
-  SayBye: {"--say-bye", "-sb"}
-  Help: {"--help", "-h"}
-FORMAT:: (SayHi | SayBye)* | Help;
+<h3>2. Generate the parser</h3>
+<p>Execute:</p>
+<pre class="cmdline">
+clops 
+  src/clops/foo.clo 
+  -o=src/java/foo/clops -p=foo.clops
 </pre>
-</div>
-</div>
+</div></div>
 </div>
 
 <div class="span-10 last">
 <div class="rounded square colors-1">
-<h3>2. Use the generated parser</h3>
+<h3>3. Use the generated parser</h3>
+<p><tt>src/java/foo/Main.java</tt>:</p>
 <pre class="prettyprint">
-FooParser p = new FooParser();
-List<CLError> errors = p.parse(args);
-if (!errors.isEmpty()) {
-  report(errors, System.err);
-  p.printUsage(System.out);
-}
-FooOptionsInterface opt = 
+package foo;
+import java.util.*;
+import foo.clops.*;
+
+public class Main {
+ public static void main(String[]args){
+  FooParser p = new FooParser();
+  List&lt;CLError&gt; errors = p.parse(args);
+  if (!errors.isEmpty()) {
+   report(errors, System.err);
+   p.printUsage(System.out);
+  }
+  FooOptionsInterface opt = 
     p.getOptionsInterface();
-if (opt.isHelpSet())
-  p.printUsage(System.out);
-if (opt.isSayHiSet()) 
-  System.out.println("hi");
-if (opt.isSayByeSet())
-  System.out.println("bye");
+  if (opt.getHelp())
+   p.printUsage(System.out);
+  if (opt.getSayHi())
+   System.out.println("hi");
+  for (int i=opt.getSayBye(); --i&gt;=0;)
+   System.out.println("bye");
+ }
+}
 </pre>
 </div>
 </div>
@@ -106,17 +132,18 @@ if (opt.isSayByeSet())
 <div class="span-10">
 <div class="rounded square colors-1">
 <h3><a href="tutorial.html">Tutorial</a></h3>
-<p>If you are new to CLOPS, this is the place to start.
-The tutorial takes you through...
-</p>
+<p>If you are new to CLOPS, this is the place to start.</p>
+<p>Make sure you downloaded the latest release of CLOPS before
+going through the tutorial.</p>
 </div>
 </div>
 
 <div class="span-10 last">
 <div class="rounded square colors-1">
 <h3><a href="reference.html">Reference</a></h3>
-<p>
-</p>
+<p>You are using CLOPS for a while but you can't remember the
+syntax for the <tt>choices</tt> property of the <tt>enum</tt>
+option type? The reference is what you want. </p>
 </div>
 </div>
 
@@ -127,7 +154,7 @@ The tutorial takes you through...
 <div class="rounded square colors-1">
 <h3>Mailing list</h3>
 <p>The best way to get help on using CLOPS is to write to its
-mailing list <a href="mailto:clops-users@lists.sourceforge.net">
+mailing list, <a href="mailto:clops-users@lists.sourceforge.net">
 clops-users@lists.sourceforge.net</a>. To subscribe, use
 <a href="https://lists.sourceforge.net/lists/listinfo/clops-users">
 mailman</a>.</p>

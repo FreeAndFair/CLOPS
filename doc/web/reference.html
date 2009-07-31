@@ -4,17 +4,17 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta http-equiv="Content-Script-Type" content="text/javascript"/>
-  <style type="text/css">@import url('prettify.css');</style>
   <style type="text/css" media="screen,projection">
     @import url('css/blueprint/screen.css');
   </style>
   <style type="text/css" media="print">
     @import url('css/blueprint/print.css');
   </style>
+  <style type="text/css">@import url('prettify.css');</style>
   <style type="text/css">@import url('clops.css');</style>
-  <script type="text/javascript" src="prettify.js"></script>
   <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="jquery.corner.js"></script>
+  <script type="text/javascript" src="prettify.js"></script>
   <title>CLOPS reference</title>
 
   <script  type="text/javascript">
@@ -25,12 +25,82 @@
 
 <div class="title">CLOPS reference</div>
 
-<h1>Command Line Interface</h1>
+<h1 class="section-start">Option Types and Their Properties</h1>
 
-<p>CLOPS generates this <a href="clo-cli.html">description of its
-own command line interface</a>. </p>
+<!-- Template for option descriptions
+<a name="option-boolean"/>
+<div class="rounded square colors-1">
+  <p><span class="option">boolean</span>
+  inherits from <a href="#option-basic">basic</a></p>
+  <div class="rounded square colors-3">
+    <p><span class="property">allowArg</span></p>
+    <p>Description of property.</p>
+  </div>
+</div>
+-->
 
-<h1>Option Types and Their Properties</h1>
+<a name="option-basic"/>
+<div class="rounded square colors-1">
+  <p><span class="option">basic</span> is abstract</p>
+  <div class="rounded square colors-3">
+    <p><span class="property">default</span> is a string that
+      can be parsed by the current option</p>
+    <p>If the option is not set when the end of the command line
+    is reached then it is set to the default.</p>
+  </div>
+  <div class="rounded square colors-3">
+    <p><span class="property">suffixRegExp</span> is a Java
+      regular expression</p>
+    <p>Each option has an associated regular expression used to
+    match it against the command line. The regular expression is
+    built from a prefix and a suffix. The prefix matches any of
+    the aliases specified in the <tt>clo</tt> file. The suffix
+    is usually used to match the argument of an option. It <i>must</i>
+    contain exactly one capture group, whose match is used to
+    set the value of the option.</p>
+  </div>
+</div>
+
+<a name="option-boolean"/>
+<div class="rounded square colors-1">
+  <p><span class="option">boolean</span>
+    inherits from <a href="#option-basic">basic</a>
+    and has the Java type <code class="prettyprint">boolean</code></p>
+  <div class="rounded square colors-3">
+    <p><span class="property">allowArg</span> is a Java 
+      <code class="prettyprint">boolean</code> and has the
+      default <code class="prettyprint">true</code></p>
+    <p>If <tt>allowArg</tt> is set to <code class="prettyprint">false</code>
+    then only strings of the form <tt>--alias</tt> are matched and
+    the value of the option is set to <code class="prettyprint">true</code>.
+    If <tt>allowArg</tt> is set to <code class="prettyprint">true</code>
+    then the strings <tt>--alias=true</tt> and <tt>--alias=false</tt> also
+    match and the value of the option is set to the one explicitly given.</p>
+  </div>
+</div>
+
+<a name="option-counted-boolean"/>
+<div class="rounded square colors-1">
+  <p><span class="option">counted-boolean</span>
+    inherits from <a href="#option-basic">basic</a>
+    and has the Java type <code class="prettyprint">int</code></p>
+  <div class="rounded square colors-3">
+    <p><span class="property">countMax</span></p>
+    <p>Description of property.</p>
+  </div>
+  <div class="rounded square colors-3">
+    <p><span class="property">countStart</span></p>
+    <p>Description of property.</p>
+  </div>
+  <div class="rounded square colors-3">
+    <p><span class="property">errorOnExceedingMax</span></p>
+    <p>Description of property.</p>
+  </div>
+  <div class="rounded square colors-3">
+    <p><span class="property">warnOnExceedingMax</span></p>
+    <p>Description of property.</p>
+  </div>
+</div>
 
 <p><a href="#OptTable">Table 1</a> provides an overview of the
 built-in option types and their properties. Each option-type has all
@@ -233,28 +303,22 @@ Built-in option types and properties. Abstract types are typeset in
 <a name="tbl:builtin-types"></a></td></tr>
 </table>
 
+<h1 class="section-start">Command Line Interface</h1>
 
-<h1>API</h1>
+<p>CLOPS generates this <a href="clo-cli.html">description of its
+own command line interface</a>. </p>
 
+
+<!--
+<h1 class="section-start">API</h1>
 <p class="todo">Describe the programming interface.</p>
 
-
-<h1>Rules</h1>
-
+<h1 class="section-start">Rules</h1>
 <p class="todo">General type of rules. Then a description of each
 of them.</p>
+-->
 
-<h1>Other Documentation</h1>
-
-<p>Theoretical details are given in the paper <a
-href="janota2009clo.pdf">CLOPS: A DSL for Command Line
-Options</a> by M. Janota, F. Fairmichael, V. Holub, R. Grigore,
-D. Cochran, and J.R. Kiniry. <a href="janota2009clo.bib">bib</a>
-</p>
-
-
-<hr/>
-<p>
+<p class="footer">
   <a href="http://sourceforge.net/projects/clops">
     <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=257014&amp;type=13" width="120" height="30" alt="Get CLOPS at SourceForge.net. Fast, secure and Free Open Source software downloads" />
     </a>

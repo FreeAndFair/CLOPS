@@ -83,6 +83,24 @@ pre {
   font-size: small;
 }
 
+.mar, .square {
+  margin: 10px;
+}
+
+.option {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.pad, .square {
+  padding: 10px;
+}
+
+.property {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .question {
   padding-top: 10px;
   font-size: large;
@@ -100,11 +118,6 @@ pre {
   text-align:center; 
 }
 
-.square { 
-  padding: 15px;
-  margin: 5px;
-}
-
 .title {
   font-size: 38px;
   font-weight: bold;
@@ -118,6 +131,6 @@ pre {
 }
 
 #ver {
-  font-size: 200%; 
+  font-size: 40px; 
   font-weight: bold;
 }

@@ -52,7 +52,7 @@ public class CodeGenerator extends DocumentGenerator {
     codeGen.generate(output, OP_INTERFACE_TEMPLATE, "Code generation");
     codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
     codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
-    codeGen.generate(output, ANT_TEMPLATE, "Code generation");
+    //codeGen.generate(output, ANT_TEMPLATE, "Code generation");
 
     if (genTest) {
       codeGen.generate(output, MAIN_TEMPLATE, "Code generation");

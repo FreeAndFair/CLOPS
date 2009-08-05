@@ -152,6 +152,19 @@ public class EnumOption extends StringOption implements IEnumOption {
     return check(r);
   }
   
+  /**
+   * Get all the valid inputs for an enum based on the choice string.
+   * @return
+   */
+  public static List<String> getAllChoiceStrings(String choice) {
+    List<Pair<String, List<String>>> parsedChoices = parseChoices(choice);
+    List<String> allChoiceStrings = new ArrayList<String>();
+    for (Pair<String, List<String>> pair : parsedChoices) {
+      allChoiceStrings.addAll(pair.getSecond());
+    }
+    return allChoiceStrings;
+  }
+  
   private static void parseChoicePart(String part, List<Pair<String, List<String>>> r) {
     String name, parseStrings;
     final int index = part.indexOf('(');

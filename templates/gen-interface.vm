@@ -56,7 +56,7 @@ public interface $info.getParserName()OptionsInterface {
     }
     /**
      * Returns the appropriate enum value for the given string
-     * @param s one of the following strings: [$options]
+     * @param s one of the following strings: ${EnumOption.getAllChoiceStrings($desc.getPropertyValue("choices"))}
      * @return a valid $typename member.
      */
     public static $typename get(final String s) {

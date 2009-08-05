@@ -49,8 +49,8 @@ public class SourceLineReader {
    * Gets the line requested from the source file. If the source file does not exist, 
    * if there is a problem reading from the file, or if the line asked for is past the end
    * of the file, then null will be returned.
-   * @param lineNumber
-   * @return
+   * @param lineNumber the line number to fetch.
+   * @return a string with contents matching the specified line in the file.
    */
   public String getLine(int lineNumber) {
     if (lineNumber < 1) {

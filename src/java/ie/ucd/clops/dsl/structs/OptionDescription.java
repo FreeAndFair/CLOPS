@@ -47,8 +47,7 @@ public interface OptionDescription {
   
   /**
    * Set a property key,value pair for this option.
-   * @param key the property key to set.
-   * @param value the property value to set.
+   * @param property the key,value pair to set.
    */
   void setProperty(final Pair<String,String> property);
   
@@ -78,7 +77,7 @@ public interface OptionDescription {
   
   /**
    * Get the source location (from the input dsl) of this option description.
-   * @return
+   * @return the SourceLocation for this option's description.
    */
   SourceLocation getSourceLocation();
 }

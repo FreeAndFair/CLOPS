@@ -55,7 +55,7 @@ public class Main {
   /**
    * Programmatic entry point.
    * @param args
-   * @param terminate if System.exit should be called after execution
+   * @param terminateSystem if System.exit should be called after execution
    * @throws InvalidOptionValueException 
    * @throws AutomatonException 
    */
@@ -83,7 +83,7 @@ public class Main {
    * Parse the args and execute the program with the parsed option values.
    * @param args
    * @param terminateSystem
-   * @return
+   * @return a boolean indicating the success of the execution.
    * @throws AutomatonException
    * @throws InvalidOptionValueException
    */

@@ -59,7 +59,6 @@ public class TestGenerator {
    * @param output if it is a directory, gets the name of the file from the
    * template file
    * @param templateFileName the name of the template file that is being used
-   * @param explanationText text used for error reporting
    *
    * <JML>
    *   requires velocity.resourceExists(templateName);

@@ -7,7 +7,7 @@
     <mkdir dir="${java-docs}"/>
     <javadoc sourcepath="${src-java}" destdir="${java-docs}" Verbose="no">
     	<classpath>
-    	  <pathelement path="${toString:runtime.path}"/>
+    	  <pathelement path="${toString:test.path}"/>
     	  <pathelement path="${java.class.path}"/>
     	</classpath>
       <packageset dir="${src-java}">    

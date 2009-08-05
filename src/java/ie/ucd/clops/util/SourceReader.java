@@ -45,7 +45,7 @@ public final class SourceReader {
   
   /**
    * Get the singleton instance of SourceReader
-   * @return
+   * @return the singleton instance of this class.
    */
   public static SourceReader getInstance() {
     if (instance == null) {
@@ -55,10 +55,10 @@ public final class SourceReader {
   }
   
   /**
-   * 
-   * @param sourceFile
-   * @param lineNumber
-   * @return
+   * Gets a specific line from a chosen File.
+   * @param sourceFile the File from which to get the line. 
+   * @param lineNumber the line number to fetch.
+   * @return the chosen line from the given File, if it exists.
    */
   public String getSource(File sourceFile, int lineNumber) {
     if (sourceFile == null) {
@@ -97,8 +97,9 @@ public final class SourceReader {
   }
   
   /**
-   * 
-   * @return
+   * Reads from standard input, storing the data into a string. An InputStream
+   * is then created to read from this stored data.
+   * @return an input stream for the data read from standard input.
    */
   public InputStream readStandardInput() {
     try {
@@ -110,7 +111,7 @@ public final class SourceReader {
         stdInLines.add(line);
         sb.append('\n');
       }      
-      return new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
+      return new ByteArrayInputStream(sb.toString().getBytes());
     } catch (IOException ioe) {
       CLOLogger.getLogger().log(Level.WARNING, "Something went wrong when reading from stdin");
       return null;

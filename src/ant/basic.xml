@@ -13,8 +13,6 @@
 
   <property name="src-dsl" location="dsl"/>
 
-
-
   <path id="base.path">
     <filelist dir="${lib}">
       <file name="velocity-1.6.2.jar"/>
@@ -24,7 +22,7 @@
 
   <path id="runtime.path">
    <path refid="base.path"/>
-   <filelist dir="${lib}" files="antlr-runtime-3.1.3.jar"/>
+   <filelist dir="${lib}" files="antlr-runtime-3.1.3.jar logging.jar"/>
   </path>	 
 
 

@@ -28,7 +28,7 @@ public class CLODSLParser extends AbstractSpecificCLParser {
   }
 
   /**
-   * Get the {@link OptionStore} containing the option instances for this parser.
+   * Get the {@link ie.ucd.clops.runtime.options.OptionStore} containing the option instances for this parser.
    * @return the option store.
    */
   public CLODSLOptionStore getOptionStore() {

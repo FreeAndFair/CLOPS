@@ -1,14 +1,12 @@
 package ie.ucd.clops.runtime.rules;
 
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.errors.CLProblem;
 import ie.ucd.clops.runtime.errors.InvalidOptionValueError;
 import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.Option;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -162,7 +160,7 @@ public class RuleStore {
 
   /**
    * Should the fly rules be applied transitively?
-   * @return
+   * @return a boolean indicating if the fly rules should be applied transitively.
    */
   protected boolean shouldApplyFlyRulesTransitively() {
     return false;

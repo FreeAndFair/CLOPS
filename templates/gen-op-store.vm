@@ -116,7 +116,9 @@ public class $info.getParserName()OptionStore extends OptionStore implements $in
 #end
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option ${id} without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public ${info.getValueTypeClass($desc)} getRaw${id}() {
     return og${id}.getRawValue();
   }

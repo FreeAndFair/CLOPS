@@ -79,7 +79,9 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     return ogOutput.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Output without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public File getRawOutput() {
     return ogOutput.getRawValue();
   }
@@ -103,7 +105,9 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     return ogCompile.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Compile without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawCompile() {
     return ogCompile.getRawValue();
   }
@@ -127,7 +131,9 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     return ogRunTests.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option RunTests without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawRunTests() {
     return ogRunTests.getRawValue();
   }
@@ -151,7 +157,9 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     return ogDebug.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Debug without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawDebug() {
     return ogDebug.getRawValue();
   }
@@ -175,7 +183,9 @@ public class CLOTestOptionStore extends OptionStore implements CLOTestOptionsInt
     return ogInput.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Input without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public List<java.io.File> getRawInput() {
     return ogInput.getRawValue();
   }

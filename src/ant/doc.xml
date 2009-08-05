@@ -5,11 +5,14 @@
   <property name="java-docs" location="${doc}/javadoc"/>
   <target name="javadocs" description="Generate javadocs">
     <mkdir dir="${java-docs}"/>
-    <javadoc sourcepath="${src-java}" destdir="${java-docs}" classpathref="runtime.path"
-             Verbose="no">
-            <packageset dir="${src-java}">    
-                <include name="**"/>
-            </packageset>
+    <javadoc sourcepath="${src-java}" destdir="${java-docs}" Verbose="no">
+    	<classpath>
+    	  <pathelement path="${toString:runtime.path}"/>
+    	  <pathelement path="${java.class.path}"/>
+    	</classpath>
+      <packageset dir="${src-java}">    
+         <include name="**"/>
+      </packageset>
     </javadoc>
   </target>
   <target name="doc-build" depends="javadocs" />

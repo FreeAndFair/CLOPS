@@ -102,7 +102,7 @@ public interface CLODSLOptionsInterface {
     }
     /**
      * Returns the appropriate enum value for the given string
-     * @param s one of the following strings: [[ie.ucd.clops.util.Pair@36b8bef7, ie.ucd.clops.util.Pair@1b016632, ie.ucd.clops.util.Pair@78dc6a77, ie.ucd.clops.util.Pair@4ed1e89e, ie.ucd.clops.util.Pair@36ff057f]]
+     * @param s one of the following strings: [[ie.ucd.clops.util.Pair@72e8e8f9, ie.ucd.clops.util.Pair@19176e5f, ie.ucd.clops.util.Pair@514f2bd7, ie.ucd.clops.util.Pair@24c759f5, ie.ucd.clops.util.Pair@1be2f6b0]]
      * @return a valid Builtin member.
      */
     public static Builtin get(final String s) {

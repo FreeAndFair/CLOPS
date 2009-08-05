@@ -96,7 +96,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogTransitiveFlyRules);
     ogTransitiveFlyRules.setProperty("default", "false");
     ogTransitiveFlyRules.setProperty("aliases", "-tfr,--transitive-fly-rules");
-    ogTransitiveFlyRules.setProperty("description", "Fly rules in the generated parser will be applied   transitively. Meaning that assigning to an option in a fly-rule   triggers fly-rules associated with that opion. This is an advanced   and experimental feature. The issue with is it that the parser   becomes potentially non-terminating due to rules triggering one   another.");
+    ogTransitiveFlyRules.setProperty("description", "Fly rules in the generated parser will be applied   transitively. Meaning that assigning to an option in a fly-rule   triggers fly-rules associated with that opion. This is an advanced   and experimental feature. The issue with it is that the parser   becomes potentially non-terminating due to rules triggering one   another.");
     ogInput = new FileOption("Input", "");
     addOption(ogInput);
     ogInput.setProperty("between", "");
@@ -175,7 +175,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOutput.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Output without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public File getRawOutput() {
     return ogOutput.getRawValue();
   }
@@ -199,7 +201,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTest.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Test without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawTest() {
     return ogTest.getRawValue();
   }
@@ -223,7 +227,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOutputPackage.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option OutputPackage without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public String getRawOutputPackage() {
     return ogOutputPackage.getRawValue();
   }
@@ -247,7 +253,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogDocs.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Docs without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawDocs() {
     return ogDocs.getRawValue();
   }
@@ -272,7 +280,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return Builtin.get(ogBuiltin.getValue());
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Builtin without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public List<String> getRawBuiltin() {
     return ogBuiltin.getRawValue();
   }
@@ -296,7 +306,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogCustom.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Custom without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public List<java.io.File> getRawCustom() {
     return ogCustom.getRawValue();
   }
@@ -320,7 +332,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTarget.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Target without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public File getRawTarget() {
     return ogTarget.getRawValue();
   }
@@ -344,7 +358,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogStaticCheck.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option StaticCheck without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawStaticCheck() {
     return ogStaticCheck.getRawValue();
   }
@@ -368,7 +384,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogVerbose.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Verbose without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawVerbose() {
     return ogVerbose.getRawValue();
   }
@@ -392,7 +410,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogQuiet.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Quiet without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawQuiet() {
     return ogQuiet.getRawValue();
   }
@@ -416,7 +436,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogVersion.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Version without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawVersion() {
     return ogVersion.getRawValue();
   }
@@ -440,7 +462,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogOptionFactory.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option OptionFactory without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public String getRawOptionFactory() {
     return ogOptionFactory.getRawValue();
   }
@@ -464,7 +488,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogTransitiveFlyRules.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option TransitiveFlyRules without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public boolean getRawTransitiveFlyRules() {
     return ogTransitiveFlyRules.getRawValue();
   }
@@ -488,7 +514,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     return ogInput.getValue();
   }
 
-  /** {@inheritDoc} */
+  /** Gets the value of option Input without checking if it is set.
+   *  This method will not throw an exception, but may return null. 
+   */
   public File getRawInput() {
     return ogInput.getRawValue();
   }

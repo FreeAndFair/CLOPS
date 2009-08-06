@@ -27,281 +27,269 @@
 
 <h1 class="section-start">Option Types and Their Properties</h1>
 
-<!-- Template for option descriptions
-<a name="option-boolean"/>
-<div class="rounded square colors-2">
-  <p><span class="option">boolean</span>
-  inherits from <a href="#option-basic">basic</a></p>
-  <div class="rounded square colors-3">
-    <p><span class="property">allowArg</span></p>
-    <p>Description of property.</p>
-  </div>
-</div>
--->
+<!-- Begin generated HTML {{{ -->
 
 <a name="option-basic"/>
 <div class="rounded square colors-2">
-  <p><span class="option">basic</span> is abstract</p>
+  <p><span class="option">basic</span>  is abstract</p>
+  
+
   <div class="rounded square colors-3">
-    <p><span class="property">default</span> is a string that
-      can be parsed by the current option</p>
-    <p>If the option is not set when the end of the command line
-    is reached then it is set to the default.</p>
+    <p><span class="property">default</span>  is a string that can be parsed by the current option</p>
+    
   </div>
+
   <div class="rounded square colors-3">
-    <p><span class="property">suffixRegExp</span> is a Java
-      regular expression</p>
-    <p>Each option has an associated regular expression used to
-    match it against the command line. The regular expression is
-    built from a prefix and a suffix. The prefix matches any of
-    the aliases specified in the <tt>clo</tt> file. The suffix
-    is usually used to match the argument of an option. It <i>must</i>
-    contain exactly one capture group, whose match is used to
-    set the value of the option.</p>
+    <p><span class="property">suffixRegExp</span>  is a regular expression</p>
+     <p>Each option has an associated regular expression used to match it against the command line. The regular expression is built from a prefix and a suffix. The prefix matches any of the aliases specified in the clo file. The suffix is usually used to match the argument of an option. It <i>must</i> contain exactly one capture group, whose match is used to set the value of the option.</p>
   </div>
+
 </div>
 
 <a name="option-boolean"/>
 <div class="rounded square colors-2">
-  <p><span class="option">boolean</span>
-    inherits from <a href="#option-basic">basic</a>
-    and has the Java type <code class="prettyprint">boolean</code></p>
+  <p><span class="option">boolean</span>  inherits properties from <a href="#option-basic">basic</a> and its value is a <code class="prettyprint">boolean</code></p>
+  
+
   <div class="rounded square colors-3">
-    <p><span class="property">allowArg</span> is a Java 
-      <code class="prettyprint">boolean</code> and has the
-      default <code class="prettyprint">true</code></p>
-    <p>If <tt>allowArg</tt> is set to <code class="prettyprint">false</code>
-    then only strings of the form <tt>--alias</tt> are matched and
-    the value of the option is set to <code class="prettyprint">true</code>.
-    If <tt>allowArg</tt> is set to <code class="prettyprint">true</code>
-    then the strings <tt>--alias=true</tt> and <tt>--alias=false</tt> also
-    match and the value of the option is set to the one explicitly given.</p>
+    <p><span class="property">allowArg</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">true</code></p>
+     <p>If <code class="prettyprint">allowArg</code> is set to <code class="prettyprint">false</code> then only strings of the form <tt>--alias</tt> are matched and the value of the option is set to true. If <code class="prettyprint">allowArg</code> is set to <code class="prettyprint">true</code> then the strings <tt>--alias=true</tt> and <tt>--alias=false</tt> also match and the value of the option is set to the one explicitly given.</p>
   </div>
+
 </div>
 
 <a name="option-counted-boolean"/>
 <div class="rounded square colors-2">
-  <p><span class="option">counted-boolean</span>
-    inherits from <a href="#option-basic">basic</a>
-    and has the Java type <code class="prettyprint">int</code></p>
+  <p><span class="option">counted-boolean</span>  inherits properties from <a href="#option-basic">basic</a> and its value is an <code class="prettyprint">int</code></p>
+  
+
   <div class="rounded square colors-3">
-    <p><span class="property">countMax</span></p>
-    <p>Description of property.</p>
+    <p><span class="property">countMax</span>  is an <code class="prettyprint">int</code> and has the default <code class="prettyprint">Integer.MAX_VALUE</code></p>
+    
   </div>
+
   <div class="rounded square colors-3">
-    <p><span class="property">countStart</span></p>
-    <p>Description of property.</p>
+    <p><span class="property">countStart</span>  is an <code class="prettyprint">int</code> and has the default <code class="prettyprint">0</code></p>
+    
   </div>
+
   <div class="rounded square colors-3">
-    <p><span class="property">errorOnExceedingMax</span></p>
-    <p>Description of property.</p>
+    <p><span class="property">errorOnExceedingMax</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+     <p>If <code class="prettyprint">true</code> and the value of the option is greater than <code class="prettyprint">countMax</code> then parsing of the command line stops with an error.</p>
   </div>
+
   <div class="rounded square colors-3">
-    <p><span class="property">warnOnExceedingMax</span></p>
-    <p>Description of property.</p>
+    <p><span class="property">warnOnExceedingMax</span>  is a <code class="prettyprint">boolan</code> and has the default <code class="prettyprint">false</code></p>
+     <p>If <code class="prettyprint">true</code> and the value of the option is greater than <code class="prettyprint">countMax</code> then a warning is issued but parsing continues.</p>
   </div>
+
 </div>
 
-<p><a href="#OptTable">Table 1</a> provides an overview of the
-built-in option types and their properties. Each option-type has all
-of the properties that are defined in one of its predecessors. Options
-that cannot appear in an CLOPS description are called <em>abstract</em>.
-</p>
-<p>
-All option types derive from the abstract
-option-type <b><i>basic</i></b>. The property
-<code>default</code> is the value to which the option is set before
-parsing begins and thus it will have this value if no assignments were
-performed to this option.  The property <code>suffixregexp</code> is
-the regular expression appended to the aliases given in the option
-declaration. The following snippet declares a declaration of the option 
-<code>lines</code> whose alias (prefix) is <code>-</code> (hyphen) and
-the suffix is a nonempty sequence of digits followed by the
-separator.
-</p>
-<pre class="prettyprint"> lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
-<p>
-In effect the option lines will match on inputs
-as <code>-12345</code>. The separator (<code>\0</code>) means that the
-user needs to separate the following option on the command line (by
-space for example). The property <code>suffixregexp</code> is rather
-advanced and is needed only for strangely shaped options.
-</p>
-<p>
-The abstract option-type <b><i>oneArgumentOption</i></b> is for the
-options that are specified as <code>OptAlias VALUE</code>
-or <code>OptAlias=VALUE</code>. The regular
-expression <code>between</code> determines how the alias is separated
-from the value and the regular expression <code>argumentshape</code>
-determines the form of the value string. The default value for 
-<code>between</code> is <code>[\0=]</code> (a separator or the equals sign);
-the default value for <code>argumentshape</code>
-is <code>.*</code>. If the value is empty or not provided, the property 
-<code>defaultvalue</code> determines the
-value. The <code>oneArgumentOption</code> is used as a base class for
-most of the other options.
-</p>
-<p> The following declaration exemplifies the difference
-  between <code>defaultvalue</code> and <code>default</code>. The
-  option <code>n</code> will have the value 0, if not specified on the command line at all.
-It will have the value 123, if specified as <code>-n</code> (no value).
-Otherwise the value can be specified as <code>-nVALUE</code>.
-</p>
+<a name="option-enum"/>
+<div class="rounded square colors-2">
+  <p><span class="option">enum</span>  inherits properties from <a href="#option-string">string</a> and <a href="#option-enum-part">enum-part</a> and its value is an <code class="prettyprint">enum</code></p>
+  
 
-<pre class="prettyprint">
-  n:{"-n"}:{int}:[between="" argumentshape="[0-9]*" 
-                  defaultvalue="123" default="0"]
-</pre>
+</div>
 
-<p>The type <b><i>boolean</i></b> is for options that are either
-<code>false</code>, <code>true</code>, or unset. The property
-<i>allowarg</i> determines whether the user may explicitly
-specify the option's value (e.g. <code>-o=false</code>). Setting
-<i>allowarg</i> and <i>default</i> to <code>false</code> yields
-the behavior we usually see in command-line programs. An option
-is <code>false</code> unless it appears on the command-line. The
-following declaration exemplifies an option verbose defaulting
-to <code>false</code>, which cannot be set explicitly to
-<code>false</code> by the end-user.</p>
+<a name="option-enum-list"/>
+<div class="rounded square colors-2">
+  <p><span class="option">enum-list</span>  inherits properties from <a href="#option-string-list">string-list</a> and from <a href="#option-enum-part">enum-part</a> and its value is a <code class="prettyprint">List&lt;String&gt;</code></p>
+  
 
-<pre class="prettyprint">
-verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]
-</pre>
+</div>
 
-<p>The option-type <b><i>counted-boolean</i></b> is for options
-for which we want to know how many times it was written on
-the command-line. The property <tt>countstart</tt> specifies
-where the count should start (default is 0), <tt>countmax</tt>
-is the maximum for the counter. If <tt>warnonexceedingmax</tt>
-or <tt>erroronexceedingmax</tt> is set, an error or warning,
-respectively, is produced when the maximum is exceeded. The
-following is an example from <code>gzip</code> for which one may
-write <code>gzip -v -v</code> to increase verbosity level.</p>
+<a name="option-enum-part"/>
+<div class="rounded square colors-2">
+  <p><span class="option">enum-part</span>  is abstract</p>
+  
 
-<pre class="prettyprint">
-verbose:{"-v","--verbose"}:{counted-boolean}:
-  [countmax="3",warnonexceedingmax]
-</pre>
+  <div class="rounded square colors-3">
+    <p><span class="property">caseSensitive</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+    
+  </div>
 
-<p>The option-types <b><i>string</i></b>, <b><i>int</i></b>, and
-<b><i>float</i></b> are self-explanatory.</p>
+  <div class="rounded square colors-3">
+    <p><span class="property">choices</span>  is a <code class="prettyprint">String</code> with a special format and is required</p>
+     <p>A valid setting would be <code class="prettyprint">"valueA,stringB(valueB),stringCA|stringCB(valueC)".</code> This means that the string <code class="prettyprint">"valueA"</code> will set the enum value <code class="prettyprint">valueA,</code> the string <code class="prettyprint">stringB"</code> will set the enum value <code class="prettyprint">valueB,</code> and any of the strings <code class="prettyprint">"stringCA"</code> and <code class="prettyprint">"stringCB"</code> will set the enum value <code class="prettyprint">valueC</code> .</p> <p>All strings and all values must be unique.</p> <p>It is guaranteed that <code class="prettyprint">valueA.compareTo(valueB)&lt;0</code> if <code class="prettyprint">valueA</code> appears before <code class="prettyprint">valueB</code> in the <code class="prettyprint">choices</code> string.</p>
+  </div>
 
-<p>The option-type <b><i>string-regexp</i></b> enables to
-specify a regular expression limiting the strings that
-the user may write on the command line as a value. The
-option-type <b><i>string-enum</i></b> is a restricted version of
-<tt>string-regexp</tt> for which we can specify a finite number
-of string values. These values are specified as a comma-separated
-list. If one of these values is an empty string, the user may
-decide not to provide a value. </p>
+</div>
 
-<p>The option-type <b><i>file</i></b> accepts a file-name as
-an argument and its properties can be used to require the
-file's (non)existence and whether is must or must not be a
-directory.</p>
+<a name="option-file"/>
+<div class="rounded square colors-2">
+  <p><span class="option">file</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and from <a href="#option-file-constraints">file-constraints</a> and its value is a <code class="prettyprint">File</code></p>
+  
 
-<p>The option-type <b><i>list</i></b> is an abstract predecessor for
-options which the end-user several values on the command-line.
-These values are separated according to the regular expression
-given by the property <tt>splitter</tt> (it is "," if not
-specified). The option-types <b><i>string-list</i></b> and
-<b><i>file-list</i></b> are list of string and lists, respectively.
-</p>
+  <div class="rounded square colors-3">
+    <p><span class="property">allowDash</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+    
+  </div>
 
-<table>
-<caption><a name="OptTable"><strong>Table 1:</strong></a>
-Built-in option types and properties. Abstract types are typeset in 
-<i>italics</i>. <i>T</i>
- is the type of the concrete option's value. </caption>
-<tr><td> 
-<table cellpadding="3" border="1">
-<tr><th>Name</th><th>Inherits from</th><th>Java type</th><th>Properties</th></tr>
-<tr>
-  <td><span  class="textit">basic</span></td>
-  <td>None</td>
-  <td><i>T</i></td>
-  <td>default[T], suffixregexp[string]</td>
-</tr>
-<tr>
-  <td>oneArgumentOption</td>
-  <td>basic</td>
-  <td><i>T</i></td>
-  <td>between[string], argumentshape[string], defaultvalue[T]</td>
-</tr>
-<tr>
-  <td>boolean</td>
-  <td>basic</td>
-  <td><i>boolean</i></td>
-  <td>allowarg[boolean]</td>
-</tr>
-<tr>
-  <td>counted-boolean</td>
-  <td>basic</td>
-  <td><i>int</i></td>
-  <td>countstart[int], countmax[int], 
-     warnonexceedingmax[boolean], erroronexceedingmax[boolean]</td>
-</tr>
-<tr>
-  <td>string</td>
-  <td>oneArgumentOption</td>
-  <td><i>String</i></td>
-  <td></td>
-</tr>
-<tr>
-  <td>string-regexp</td>
-  <td>string</td>
-  <td><i>String</i></td>
-  <td>regexp[string]</td>
-</tr>
-<tr>
-  <td>string-enum</td>
-  <td>string</td>
-  <td><i>String</i></td>
-  <td>choices[string], casesensitive[boolean]</td>
-</tr>
-<tr>
-  <td>int</td>
-  <td>oneArgumentOption</td>
-  <td>int</td>
-  <td>minvalue[int], maxvalue[int]</td>
-</tr>
-<tr>
-  <td>float</td>
-  <td>oneArgumentOption</td>
-  <td><i>float</i></td>
-  <td>minvalue[float], maxvalue[float]</td>
-</tr>
-<tr>
-  <td>file</td>
-  <td>oneArgumentOption</td>
-  <td><i>file</i></td>
-  <td>canexist[boolean], mustexist[boolean],
-      canbedir[boolean], mustbedir[boolean],
-      allowdash[boolean]</td>
-</tr>
-<tr>
-  <td><span class="textit">list</span></td>
-  <td>oneArgumentOption</td>
-  <td><i>List&lt;T&gt;</i></td>
-  <td>allowmultiple[boolean], splitter[string]</td>
-</tr>
-<tr>
-  <td>string-list</td>
-  <td>list</td>
-  <td><i>List&lt;String&gt;</i> </td>
-  <td></td>
-</tr>
-<tr>
-  <td>file-list</td>
-  <td>list</td>
-  <td><i>List&lt;File&gt;</i></td>
-  <td>canexist[boolean], mustexist[boolean],
-      canbedir[boolean], mustbedir[boolean],
-      allowdash[boolean]</td>
-</tr>
-</table>  
-<a name="tbl:builtin-types"></a></td></tr>
-</table>
+</div>
+
+<a name="option-file-constraints"/>
+<div class="rounded square colors-2">
+  <p><span class="option">file-constraints</span>  is abstract</p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">canBeDir</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">true</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">canExist</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">true</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">mustBeDir</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">mustExist</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+    
+  </div>
+
+</div>
+
+<a name="option-file-list"/>
+<div class="rounded square colors-2">
+  <p><span class="option">file-list</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and from <a href="#option-file-constraints">file-constraints</a> and its value is a <code class="prettyprint">List&lt;File&gt;</code></p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">allowDash</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+     <p>TODO: this also appears in <a href="#option-file">file</a> .</p>
+  </div>
+
+</div>
+
+<a name="option-float"/>
+<div class="rounded square colors-2">
+  <p><span class="option">float</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and its value is a <code class="prettyprint">float</code></p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">maxValue</span>  is a <code class="prettyprint">float</code> and has the default <code class="prettyprint">1.0f/0.0f</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">minValue</span>  is a <code class="prettyprint">float</code> and has the default <code class="prettyprint">-1.0f/0.0f</code></p>
+    
+  </div>
+
+</div>
+
+<a name="option-int"/>
+<div class="rounded square colors-2">
+  <p><span class="option">int</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and its value is an <code class="prettyprint">int</code></p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">maxValue</span>  is an <code class="prettyprint">int</code> and has the default <code class="prettyprint">Integer.MAX_VALUE</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">minValue</span>  is an <code class="prettyprint">int</code> and has the default <code class="prettyprint">Integer.MIN_VALUE</code></p>
+    
+  </div>
+
+</div>
+
+<a name="option-list"/>
+<div class="rounded square colors-2">
+  <p><span class="option">list</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and is abstract</p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">allowMultiple</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">true</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">splitter</span>  is a <code class="prettyprint">String</code> and has the default <code class="prettyprint">","</code></p>
+    
+  </div>
+
+</div>
+
+<a name="option-one-argument-option"/>
+<div class="rounded square colors-2">
+  <p><span class="option">one-argument-option</span>  inherits properties from <a href="#option-basic">basic</a> and is abstract</p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">argumentName</span>  is a <code class="prettyprint">String</code> and has the default <code class="prettyprint">"&lt;arg&gt;"</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">argumentShape</span>  is a regular expression and has the default <code class="prettyprint">"[^\0]*"</code></p>
+     <p>The value <code class="prettyprint">\0</code> is special and stands for a separator between arguments on the command line as it is understood by the shell. In other words it separates the elements of the array <code class="prettyprint">args</code> that is passed to the main function.</p>
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">between</span>  is a regular expression ant has the default <code class="prettyprint">"[=\0]"</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">blankParamAllowed</span>  is a boolean and has the default <code class="prettyprint">false</code></p>
+    
+  </div>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">defaultValue</span>  has the type of the current option (which inherits this property) and has the default <code class="prettyprint">null</code></p>
+    
+  </div>
+
+</div>
+
+<a name="option-string"/>
+<div class="rounded square colors-2">
+  <p><span class="option">string</span>  inherits properties from <a href="#option-one-argument-option">one-argument-option</a> and its value is a <code class="prettyprint">String</code></p>
+  
+
+  <div class="rounded square colors-3">
+    <p><span class="property">stripQuotesIfPresent</span>  is a <code class="prettyprint">boolean</code> and has the default <code class="prettyprint">false</code></p>
+     <p>If both the first and the last character are double quotes then they are removed. Note that no check is done whether there are other double quotes inside and note that other types of quotes are ignores.</p>
+  </div>
+
+</div>
+
+<a name="option-string-list"/>
+<div class="rounded square colors-2">
+  <p><span class="option">string-list</span>  inherits properties from <a href="#option-string">string</a> and from <a href="#option-list">list</a> and its value is a <code class="prettyprint">List&lt;String&gt;</code></p>
+  
+
+</div>
+
+<a name="option-string-regexp"/>
+<div class="rounded square colors-2">
+  <p><span class="option">string-regexp</span>  inherits properties from <a href="#option-string">string</a> and its value is a <code class="prettyprint">String</code></p>
+   <p>Same as <a href="#option-string">string</a> except that the value of the option must match a regular expression given by the property <code class="prettyprint">regexp.</p></code>
+
+  <div class="rounded square colors-3">
+    <p><span class="property">regexp</span>  is a regular expression and its default value is <code class="prettyprint">".*"</code></p>
+    
+  </div>
+
+</div>
+
+
+<!-- End generated HTML }}} --->
+
+<p><b>Notes:</b></p>
+<ul>
+<li>&quot;is abstract&quot; means that you cannot use that
+  option in a CLOPS file; it is here only to group properties
+  inherited by multiple other options
+</ul>
 
 <h1 class="section-start">Command Line Interface</h1>
 

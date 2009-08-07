@@ -1,5 +1,8 @@
 basic is abstract
   default is a string that can be parsed by the current option
+      <p>This property determines the value to which the option is set
+      before parsing begins, and thus, it will have this value if no
+      assignments were performed to this option.</p>
   suffixRegExp is a regular expression
     <p>Each option has an associated regular expression used to 
     match it against the command line. The regular expression 
@@ -8,6 +11,16 @@ basic is abstract
     used to match the argument of an option. It <i>must</i> contain 
     exactly one capture group, whose match is used to set the 
     value of the option.</p>
+    <p>The following snippet declares the option 
+    <code>lines</code> whose alias (prefix) is <code>-</code> (hyphen) and
+    the suffix is a nonempty sequence of digits followed by the
+    separator.</p>
+    <pre class="prettyprint"> lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
+    <p> In effect the option lines will match on inputs as
+    <code>-12345</code>. The separator (<code>\0</code>) means that the
+    user needs to separate the following option on the command line (by
+    space for example). The property <code>suffixregexp</code> is rather
+    advanced and is needed only for strangely shaped options.  </p>
 
 boolean inherits properties from @basic and its value is a $boolean
   allowArg is a $boolean and has the default $true
@@ -34,13 +47,13 @@ enum-list inherits properties from @string-list and from @enum-part and its valu
 enum-part is abstract
   caseSensitive is a $boolean and has the default $false
   choices is a $String with a special format and is required
-    <p>A valid setting would be $"valueA,stringB(valueB),stringCA|stringCB(valueC)".
+    <p>An example of a string valid of this property is $"valueA,stringB(valueB),stringCA|stringCB(valueC)".
     This means that the string $"valueA" will set the enum value
-    $valueA, the string $stringB" will set the enum value $valueB,
+    $valueA, the string $"stringB" will set the enum value $valueB,
     and any of the strings $"stringCA" and $"stringCB" will set the
-    enum value $valueC .</p>
+    enum value $valueC. </p>
     <p>All strings and all values must be unique.</p>
-    <p>It is guaranteed that $valueA.compareTo(valueB)&lt;0 if $valueA
+    <p>It is guaranteed that $valueA.compareTo(valueB)&lt;0 iff $valueA
     appears before $valueB in the $choices string.</p>
 
 file inherits properties from @one-argument-option and from @file-constraints and its value is a $File
@@ -75,7 +88,9 @@ one-argument-option inherits properties from @basic and is abstract
     arguments on the command line as it is understood by the shell.
     In other words it separates the elements of the array $args
     that is passed to the main function.</p>
-  between is a regular expression ant has the default $"[=\0]"
+  between is a regular expression and has the default $"[=\0]"
+    <p>The regular expression detemines the separator between the option alias and the argument value. 
+       Hence The default allows either $= or $\0 (essentially white space).</p>
   blankParamAllowed is a boolean and has the default $false
   defaultValue has the type of the current option (which inherits this property) and has the default $null
 

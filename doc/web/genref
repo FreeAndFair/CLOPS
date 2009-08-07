@@ -1,0 +1,4 @@
+rm -rf ./reference.html
+g++ genref.cpp -o generator
+./generator options.descr reference.tpl.html >reference.html
+chmod -w ./reference.html

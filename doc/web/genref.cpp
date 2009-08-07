@@ -61,6 +61,11 @@ string uglify(istringstream& iss) {
   return r;
 }
 
+string uglify(const string& s) {
+  istringstream iss(s);
+  return string(s.find_first_not_of(' '), ' ') + uglify(iss) + "\n";
+}
+
 int advance(int t) {
   int cnt = 1;
   while (cnt) {
@@ -114,19 +119,20 @@ int main(int argc, char* argv[]) {
   ifstream descr_file(argv[1]);
   ifstream tpl_file(argv[2]);
   while (getline(descr_file, line)) {
-    istringstream iss(line);
     if (line.substr(0,4) == "    ") { // a line of description
       if (last_prop.name.empty()) { // for the option
-        last_opt.descr += uglify(iss) +"\n";
+        last_opt.descr += uglify(line.substr(4));
       } else { // for the property
-        last_prop.descr += uglify(iss) +"\n";
+        last_prop.descr += uglify(line.substr(4));
       }
     } else if (line.substr(0, 2) == "  ") { // a new property
       add_prop();
+      istringstream iss(line);
       iss >> last_prop.name;
       last_prop.idescr = uglify(iss);
     } else { // a new option
       add_opt();
+      istringstream iss(line);
       iss >> last_opt.name;
       last_opt.idescr = uglify(iss);
     }

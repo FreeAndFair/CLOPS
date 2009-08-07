@@ -89,3 +89,12 @@ file: ../doc/web/examples/wc1/src/wc.clo
 name: Wc
 valid: {-- -x}
 invalid: {-x}
+
+file: ../dsl/test03.clo
+name: Test03
+valid: {-n foo}
+valid: {-n999 foo}
+valid: {-n999}
+valid: {-n}
+
+

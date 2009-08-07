@@ -12,14 +12,14 @@ basic is abstract
     exactly one capture group, whose match is used to set the 
     value of the option.</p>
     <p>The following snippet declares the option 
-    <code>lines</code> whose alias (prefix) is <code>-</code> (hyphen) and
+    $lines whose alias (prefix) is $- (a hyphen) and
     the suffix is a nonempty sequence of digits followed by the
     separator.</p>
-    <pre class="prettyprint"> lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
-    <p> In effect the option lines will match on inputs as
-    <code>-12345</code>. The separator (<code>\0</code>) means that the
+    <pre class="cmdline"> lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
+    <p> In effect the option $lines will match on inputs as
+    $-12345. The separator (a $\0) means that the
     user needs to separate the following option on the command line (by
-    space for example). The property <code>suffixregexp</code> is rather
+    space for example). The property $suffixregexp is rather
     advanced and is needed only for strangely shaped options.  </p>
 
 boolean inherits properties from @basic and its value is a $boolean
@@ -29,6 +29,15 @@ boolean inherits properties from @basic and its value is a $boolean
     true. If $allowArg is set to $true then the strings 
     <tt>--alias=true</tt> and <tt>--alias=false</tt> also match 
     and the value of the option is set to the one explicitly given.</p>
+    <p> Setting both $allowarg and $default to $false yields
+    the behavior we usually see in command line programs. An option
+    is $false unless it appears on the command-line. The
+    following declaration exemplifies an option $verbose defaulting
+    to $false; the user cannot set it  explicitly to $false.</p>
+    <pre class="cmdline">
+    verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]
+    </pre>
+
 
 counted-boolean inherits properties from @basic and its value is an $int
   countMax is an $int and has the default $Integer.MAX_VALUE
@@ -86,20 +95,32 @@ one-argument-option inherits properties from @basic and is abstract
   argumentShape is a regular expression and has the default $"[^\0]*"
     <p>The value $\0 is special and stands for a separator between
     arguments on the command line as it is understood by the shell.
-    In other words it separates the elements of the array $args
-    that is passed to the main function.</p>
+    In other words it separates the elements of the array $args that
+    is passed to the main function. The default value of
+    $argumentShape matches any sequence of non-separators.</p>
   between is a regular expression and has the default $"[=\0]"
     <p>The regular expression detemines the separator between the option alias and the argument value. 
-       Hence The default allows either $= or $\0 (essentially white space).</p>
+       Hence The default allows either $= or $\0 (effectively white space).</p>
   blankParamAllowed is a boolean and has the default $false
   defaultValue has the type of the current option (which inherits this property) and has the default $null
-
+     <p>If the argument to this option is not provided on the command
+     line, this property determines determines the value. </p>
+     <p>The following declaration exemplifies the difference between
+     $defaultvalue and $default. The option $n will have the value $0,
+     if not specified on the command line at all.  It will have the
+     value $123, if specified as $-n (and no value).  Otherwise the
+     value can be specified as $-nVALUE. It is advisable to override
+     the property $between if $-n (no argument) is to match otherwise
+     a next option would be matched as the arugment</p>
+     <pre class="cmdline">n:{"-n"}:{int}:[between="" blankParamAllowed="true" argumentshape="[0-9]*" 
+                       defaultvalue="123" default="0"]</pre>
+     
 string inherits properties from @one-argument-option and its value is a $String
   stripQuotesIfPresent is a $boolean and has the default $false
     <p>If both the first and the last character are double quotes then
     they are removed. Note that no check is done whether there are
     other double quotes inside and note that other types of quotes are
-    ignores.</p>
+    ignored.</p>
 
 string-list inherits properties from @string and from @list and its value is a $List&lt;String&gt;
 

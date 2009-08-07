@@ -1,0 +1,14 @@
+NAME::
+  Test03
+
+ARGS::
+  n:{"-n"}:{int}
+   :[between="" blankParamAllowed="true" argumentshape="[0-9]*" defaultvalue="123" default="0"]
+   :"'-n' yields the value 123, not mentioning '-n' yields '0'"  
+
+
+  dummy:{"foo"}:"just an option for testing"
+
+FORMAT::
+  (n | dummy)*;
+	

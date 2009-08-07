@@ -48,19 +48,21 @@ tt {
 
 .colors-1,
 .section-start {
-  /*background: #80a7FF;*/
   background: #ddf;
   color: #000000;
 }
 
 .colors-2 {
-  /*background: #FFECC0;*/
   background: #f8f8f8;
   color: #000000;
 }
 
 .colors-3 {
-  /*background: #FFBF80;*/
+  background: #eee;
+  color: #000000;
+}
+
+.emph-download {
   background: #afa;
   color: #000000;
 }

@@ -117,9 +117,9 @@ int main(int argc, char* argv[]) {
     istringstream iss(line);
     if (line.substr(0,4) == "    ") { // a line of description
       if (last_prop.name.empty()) { // for the option
-        last_opt.descr += uglify(iss);
+        last_opt.descr += uglify(iss) +"\n";
       } else { // for the property
-        last_prop.descr += uglify(iss);
+        last_prop.descr += uglify(iss) +"\n";
       }
     } else if (line.substr(0, 2) == "  ") { // a new property
       add_prop();

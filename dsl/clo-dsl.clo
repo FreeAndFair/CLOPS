@@ -16,7 +16,7 @@ Test:{"-m","--main"}
  
   
 //Strip quotes so we can write -p="" or -p "" for default package.
-OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed]
+OutputPackage:{"-p","--package"}:{string}:[stripquotesifpresent,blankparamallowed,defaultvalue=""]
   :"Output Java package. If left empty, the default package is used."
   
 Docs:{"-d","--docs"}

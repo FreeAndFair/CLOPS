@@ -26,7 +26,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
   private String argumentShape = "[^" + SEP + "]*"; // format of the argument
-  private String defaultVal = null; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
+  private String defaultVal = ""; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
 
   private String argumentName;
   private boolean blankparamAllowed;
@@ -98,15 +98,10 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
    */
   public ProcessingResult process() {
     String arg = match.group(2);
-    if (arg == null || 
-        (arg.equals("") && !blankparamAllowed)) {
-        // no arg specified
-        if (defaultVal != null) arg = defaultVal;// use defaultVal, if available
-        else {
-            return ProcessingResult.erroneousProcess( "Parameter expected for "
-                                                      + match.group(0));
-        }
-    } 
+    if (arg==null || arg.equals("") ) {
+        if (blankparamAllowed) arg=defaultVal; 
+        else return ProcessingResult.erroneousProcess("Parameter expected for " + match.group(0));
+    }
 
     try {
         setFromString(arg);

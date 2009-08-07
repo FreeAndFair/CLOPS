@@ -48,6 +48,7 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     addOption(ogOutputPackage);
     ogOutputPackage.setProperty("stripquotesifpresent", "true");
     ogOutputPackage.setProperty("blankparamallowed", "true");
+    ogOutputPackage.setProperty("defaultvalue", "");
     ogOutputPackage.setProperty("aliases", "-p,--package");
     ogOutputPackage.setProperty("description", "Output Java package. If left empty, the default package is used.");
     ogDocs = new BooleanOption("Docs", "(?:-d)|(?:--docs)");
@@ -133,8 +134,8 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogAll.addOptionOrGroup(ogVersion);
     ogAll.addOptionOrGroup(ogDocs);
     ogAll.addOptionOrGroup(ogStaticCheck);
-    ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogOutputPackage);
+    ogBase.addOptionOrGroup(ogVerbose);
     ogBase.addOptionOrGroup(ogTest);
     ogBase.addOptionOrGroup(ogOutput);
     ogTemplates.addOptionOrGroup(ogTarget);

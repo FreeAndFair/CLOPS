@@ -29,9 +29,31 @@
 
 <p>&nbsp;</p> <!-- rounded corners fix -->
 
-<h1 class="section-start rounded">Option Types and Their Properties</h1>
+<p>Section <a href="#optiontypes">Option Types and Their
+Properties</a> lists and details the option types that may appear in
+the CLOPS description.
+Section <a href="#interface">Command Line Interface</a> describes the
+interface of the CLOPS generator.
+</p>
 
-<!-- Beginning of template for option table -->
+<h1 id="optiontypes" class="section-start rounded">Option Types and Their Properties</h1>
+
+<!--======= Beginning of template for option table===== -->
+<!-- Quick overview table -->
+<div class="rounded square colors-light-1">
+<table id="options-overview">
+<!-- <tr><th>Name</th><th>Inherits from</th><th>Java type</th><th>Properties</th></tr> -->
+\foreach_option
+<tr>
+  <td><a href="#\option_anchor">\option</a></td>
+  <td>\option_inline_descr</td>
+</tr>
+\next
+</table>
+
+
+</div>
+<!-- Detailed overview -->
 \foreach_option
 <div class="rounded square colors-light-1">
 <a name="\option_anchor"/>
@@ -45,7 +67,7 @@
 \next
 </div>
 \next
-<!-- End of template for option table -->
+<!--======= End of template for option table =======-->
 
 <p><b>Notes:</b></p>
 <ul>
@@ -54,7 +76,7 @@
   inherited by multiple other options</li>
 </ul>
 
-<h1 class="section-start rounded">Command Line Interface</h1>
+<h1 id="interface" class="section-start rounded">Command Line Interface</h1>
 
 <p>CLOPS generates this <a href="clo-cli.html">description of its
 own command line interface</a>. </p>

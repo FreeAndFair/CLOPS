@@ -15,7 +15,7 @@ basic is abstract
     $lines whose alias (prefix) is $- (a hyphen) and
     the suffix is a nonempty sequence of digits followed by the
     separator.</p>
-    <pre class="cmdline"> lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
+    <pre class="cmdline">lines:{"-"}:{int}:[suffixregexp="([0-9]+)\0"]</pre>
     <p> In effect the option $lines will match on inputs as
     $-12345. The separator (a $\0) means that the
     user needs to separate the following option on the command line (by
@@ -33,10 +33,8 @@ boolean inherits properties from @basic and its value is a $boolean
     the behavior we usually see in command line programs. An option
     is $false unless it appears on the command-line. The
     following declaration exemplifies an option $verbose defaulting
-    to $false; the user cannot set it  explicitly to $false.</p>
-    <pre class="cmdline">
-    verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]
-    </pre>
+    to $false; the user cannot set it  explicitly to $false. </p>
+    <pre class="cmdline">verbose:{"-v", "--verbose"}:[default="false", allowarg="false"]</pre>
 
 
 counted-boolean inherits properties from @basic and its value is an $int

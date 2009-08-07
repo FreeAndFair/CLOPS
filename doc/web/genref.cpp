@@ -62,8 +62,10 @@ string uglify(istringstream& iss) {
 }
 
 string uglify(const string& s) {
+  int cnt = s.find_first_not_of(' ');
+  if (cnt == string::npos) return s;
   istringstream iss(s);
-  return string(s.find_first_not_of(' '), ' ') + uglify(iss) + "\n";
+  return string(cnt, ' ') + uglify(iss) + "\n";
 }
 
 int advance(int t) {

@@ -1,5 +1,6 @@
 package ie.ucd.clops.dsl.generatedinterface;
 
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
 import ie.ucd.clops.runtime.rules.RuleStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
@@ -8,7 +9,7 @@ import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueExceptio
 /**
  * The arguments parser.
  * This is the main entry point for the option's handling.
- * @author The CLOPS team (kind@ucd.ie)
+ * @author The CLOPS team
  */
 public class CLODSLParser extends AbstractSpecificCLParser { 
 
@@ -49,5 +50,25 @@ public class CLODSLParser extends AbstractSpecificCLParser {
    */
   public String getFormatString() {
     return "(All* Input All*) | Version"; 
+  }
+  
+  /**
+   * Parse the given command line arguments using a new CLODSLParser,
+   * with normal lookahead. 
+   */
+  public static CLODSLParseResult parse(String[] args) {
+    CLODSLParser parser = new CLODSLParser();
+    ParseResult parseResult = parser.parseInternal(args);
+    return new CLODSLParseResult(parseResult, parser.getOptionStore());
+  }
+  
+  /**
+   * Parse the given command line arguments using a new CLODSLParser,
+   * with infinite lookahead.
+   */
+  public static CLODSLParseResult parseAlternate(String[] args) {
+    CLODSLParser parser = new CLODSLParser();
+    ParseResult parseResult = parser.parseAlternateInternal(args);
+    return new CLODSLParseResult(parseResult, parser.getOptionStore());
   }
 }

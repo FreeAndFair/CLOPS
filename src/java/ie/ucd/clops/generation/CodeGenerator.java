@@ -29,6 +29,8 @@ public class CodeGenerator extends DocumentGenerator {
     TEMPLATE_BASE + "gen-main.vm";
   private static final String ANT_TEMPLATE =
     TEMPLATE_BASE + "gen-ant-task.vm";
+  private static final String RESULT_TEMPLATE =
+    TEMPLATE_BASE + "gen-parseresult.vm";
 
   /**
    * Creates a code generator from the collected informations.
@@ -53,6 +55,7 @@ public class CodeGenerator extends DocumentGenerator {
     codeGen.generate(output, OP_STORE_TEMPLATE, "Code generation");
     codeGen.generate(output, RULE_STORE_TEMPLATE, "Code generation");
     //codeGen.generate(output, ANT_TEMPLATE, "Code generation");
+    codeGen.generate(output, RESULT_TEMPLATE, "Code generation");
 
     if (genTest) {
       codeGen.generate(output, MAIN_TEMPLATE, "Code generation");

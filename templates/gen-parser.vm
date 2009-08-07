@@ -4,6 +4,7 @@ package $info.getPackageName();
 
 #end
 #set( $parsername = $info.getParserName() )
+import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
 import ie.ucd.clops.runtime.rules.RuleStore;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
@@ -12,7 +13,7 @@ import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueExceptio
 /**
  * The arguments parser.
  * This is the main entry point for the option's handling.
- * @author The CLOPS team (kind@ucd.ie)
+ * @author The CLOPS team
  */
 public class ${parsername}Parser extends AbstractSpecificCLParser { 
 
@@ -53,5 +54,25 @@ public class ${parsername}Parser extends AbstractSpecificCLParser {
    */
   public String getFormatString() {
     return "$info.getFormatString()"; 
+  }
+  
+  /**
+   * Parse the given command line arguments using a new ${parsername}Parser,
+   * with normal lookahead. 
+   */
+  public static ${parsername}ParseResult parse(String[] args) {
+    ${parsername}Parser parser = new ${parsername}Parser();
+    ParseResult parseResult = parser.parseInternal(args);
+    return new ${parsername}ParseResult(parseResult, parser.getOptionStore());
+  }
+  
+  /**
+   * Parse the given command line arguments using a new ${parsername}Parser,
+   * with infinite lookahead.
+   */
+  public static ${parsername}ParseResult parseAlternate(String[] args) {
+    ${parsername}Parser parser = new ${parsername}Parser();
+    ParseResult parseResult = parser.parseAlternateInternal(args);
+    return new ${parsername}ParseResult(parseResult, parser.getOptionStore());
   }
 }

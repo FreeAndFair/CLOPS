@@ -19,7 +19,14 @@ public class ParseResult {
   }
   
   public ParseResult() {
-    this(null);
+    this((String)null);
+  }
+  
+  public ParseResult(ParseResult toClone) {
+    this.commandLineInput = toClone.commandLineInput;
+    this.errors = new TreeSet<CLProblem>(toClone.errors);
+    this.warnings = new TreeSet<CLProblem>(toClone.warnings);
+    this.combined = new TreeSet<CLProblem>(toClone.combined);
   }
   
   public void addError(CLError error) {
@@ -76,5 +83,5 @@ public class ParseResult {
       problem.printToStream(ps, commandLineInput);
     }
   }
-  
+
 }

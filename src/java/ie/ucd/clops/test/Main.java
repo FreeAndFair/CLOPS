@@ -1,8 +1,8 @@
 package ie.ucd.clops.test;
 
 import ie.ucd.clops.logging.CLOLogger;
-import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.test.generatedinterface.CLOTestOptionsInterface;
+import ie.ucd.clops.test.generatedinterface.CLOTestParseResult;
 import ie.ucd.clops.test.generatedinterface.CLOTestParser;
 
 import java.io.File;
@@ -22,12 +22,10 @@ public class Main {
    */
   public static void main(final String[] args) {
     try {
-      CLOTestParser parser = new CLOTestParser();
-      
-      ParseResult argsParseResult = parser.parse(args);
+      CLOTestParseResult argsParseResult = CLOTestParser.parse(args);
       
       if (argsParseResult.successfulParse()) {
-        execute(parser.getOptionStore());
+        execute(argsParseResult.getOptionStore());
       } else {
         //TODO print usage  
         System.err.println("Invalid arguments:");

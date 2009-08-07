@@ -1,11 +1,8 @@
 package ie.ucd.clops.runtime.parser;
 
-import ie.ucd.clops.runtime.errors.CLProblem;
 import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.OptionStore;
 import ie.ucd.clops.runtime.rules.RuleStore;
-
-import java.util.List;
 
 /**
  * This class is used as a base class for the automatically generated parser.
@@ -36,23 +33,23 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parse(String[] args)
-  { return parse(args, false); }
+  public ParseResult parseInternal(String[] args)
+  { return parseInternal(args, false); }
 
   /**
    * Parse the given command line arguments using this parser with the infiniteLookahead. 
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parseAlternate(String[] args) 
-  { return parse(args, true); }
+  public ParseResult parseAlternateInternal(String[] args) 
+  { return parseInternal(args, true); }
 
   /**
    * Parse the given command line arguments using this parser. 
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parse(String[] args, boolean infiniteLookahead) {
+  public ParseResult parseInternal(String[] args, boolean infiniteLookahead) {
     return parse(new GenericCLParser(), args, infiniteLookahead);
   }
   

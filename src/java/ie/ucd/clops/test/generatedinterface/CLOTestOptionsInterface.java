@@ -5,7 +5,7 @@ import java.io.File;
 
 /**
  * The interface used to handle the options on the user side.
- * @author The CLOPS team (kind@ucd.ie)
+ * @author The CLOPS team
  */
 public interface CLOTestOptionsInterface {
 

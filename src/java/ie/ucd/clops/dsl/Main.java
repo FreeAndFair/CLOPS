@@ -4,6 +4,7 @@ import ie.ucd.clops.Version;
 import ie.ucd.clops.dsl.errors.DSLParseResult;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionStore;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLOptionsInterface;
+import ie.ucd.clops.dsl.generatedinterface.CLODSLParseResult;
 import ie.ucd.clops.dsl.generatedinterface.CLODSLParser;
 import ie.ucd.clops.dsl.parser.CLOLexer;
 import ie.ucd.clops.dsl.parser.CLOParser;
@@ -12,7 +13,6 @@ import ie.ucd.clops.generation.CodeGenerator;
 import ie.ucd.clops.generation.DocumentGenerator;
 import ie.ucd.clops.logging.CLOLogger;
 import ie.ucd.clops.runtime.automaton.exception.AutomatonException;
-import ie.ucd.clops.runtime.errors.ParseResult;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
@@ -33,10 +33,7 @@ import org.antlr.runtime.RecognitionException;
  * The main entry point of CLOPS.
  * @author Fintan (fintanf@gmail.com)
  */
-public class Main {
-  /** the parser that will be used to parse the arguments. */
-  private final CLODSLParser parser;
-  
+public class Main {  
   /** 
    * The main method of this project, runs the dsl parser, 
    * followed by the code generator.
@@ -88,10 +85,10 @@ public class Main {
    * @throws InvalidOptionValueException
    */
   public boolean start(String[] args, boolean terminateSystem) throws AutomatonException, InvalidOptionValueException {
-    ParseResult argsParseResult = parser.parse(args);
+    CLODSLParseResult argsParseResult = CLODSLParser.parse(args);
     
     if (argsParseResult.successfulParse()) {
-      final CLODSLOptionStore options = parser.getOptionStore();
+      final CLODSLOptionStore options = argsParseResult.getOptionStore();
        boolean result = execute(options);
        if (!result && terminateSystem) {
          System.exit(1);
@@ -110,8 +107,7 @@ public class Main {
     } 
   }
 
-  public Main() throws InvalidOptionPropertyValueException {
-    parser = new CLODSLParser();    
+  public Main() {
   }
   
   /**

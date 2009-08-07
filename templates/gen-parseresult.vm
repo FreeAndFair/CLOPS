@@ -1,0 +1,25 @@
+##! ${info.getParserName()}ParseResult.java
+#if( "$!info.getPackageName()" != "" ) 
+package $info.getPackageName();
+
+#end
+import ie.ucd.clops.runtime.errors.ParseResult;
+
+/**
+ * A parse result for the ${info.getParserName()}Parser.
+ * @author The CLOPS team
+ */
+public class ${info.getParserName()}ParseResult extends ParseResult {
+
+  private ${info.getParserName()}OptionStore optionStore;
+
+  public ${info.getParserName()}ParseResult(ParseResult parseResult, ${info.getParserName()}OptionStore optionStore) {
+    super(parseResult);
+    this.optionStore = optionStore;
+  }
+
+  public ${info.getParserName()}OptionStore getOptionStore() {
+    return optionStore;
+  }
+
+} 

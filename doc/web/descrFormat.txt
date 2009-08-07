@@ -1,0 +1,14 @@
+
+The .descr file contains description of options and their properties and is used to generate documentation therof.
+
+
+OPTION_NAME short descr
+    (option descr)?
+  PROP_NAME short descr
+    (prop descr)?
+  PROP_NAME ...
+
+OPTION_NAME ...
+
+
+Anywhere in the text: $A is code, @A is a link to an option.

@@ -48,12 +48,12 @@ tt {
 
 .colors-1,
 .section-start {
-  background: #0037FF;
+  background: #80a7FF;
   color: #000000;
 }
 
 .colors-2 {
-  background: #FFEC80;
+  background: #FFECC0;
   color: #000000;
 }
 
@@ -125,3 +125,23 @@ pre {
   font-size: 40px; 
   font-weight: bold;
 }
+
+/*
+ * Pretiffy styles
+ */
+
+.lit, .dec { color: #4D2600; }
+.str { color: #800; }
+.tag { color: #008; }
+.typ { color: #008; }
+.kwd { color: #080; font-weight: bold; }
+.atn {color: #606; }
+.atv {color: #060; }
+.com { color: #444; }
+.pun { color: #000; }
+.pln { color: #111; }
+pre {
+	padding-left: 8px;
+	border: 1px solid #888;
+}
+

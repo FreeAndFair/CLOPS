@@ -91,7 +91,7 @@ section. </p>
 <p>Create a subdirectory <tt>generated</tt> under <tt>src</tt>.
 Generate the parser with:</p>
 
-<pre class="cmdline">
+<pre class="cmdline prettyprint lang-sh">
 java -jar CLOPSPATH/lib/clops.jar\
   src/wc.clo -o src/generated -p generated\
   -d cli.html -b html
@@ -106,7 +106,7 @@ that gives an easy to read description of your tool's command
 line interface. Next, we'll place <tt>Main.java</tt> under
 <tt>src</tt>.</p>
 
-<pre class="prettyprint">
+<pre class="prettyprint lang-java">
 import java.io.File;
 import generated.WcParser;
 import generated.WcOptionsInterface;
@@ -141,7 +141,7 @@ public class Main {
 
 <p>Create a subdirectory <tt>classes</tt>. To compile, say:</p>
 
-<pre class="cmdline">
+<pre class="cmdline prettyprint lang-sh">
 javac -cp lib/clops-runtime.jar\
   -sourcepath src -d classes src/Main.java src/generated/*
 </pre>
@@ -157,7 +157,7 @@ More subtle ones are detected down the road by the Java compiler.
 
 <p>You can now run your program with:</p>
 
-<pre class="cmdline">
+<pre class="cmdline prettyprint lang-sh">
 java -cp classes:lib/clops-runtime.jar Main ARGUMENTS
 </pre>
 
@@ -177,7 +177,7 @@ hopefully you use a good build system that can handle the dirty
 details for you. In this section you'll see how ANT can help.
 Create the <tt>build.xml</tt> file:</p>
 
-<pre class="prettyprint">
+<pre class="prettyprint lang-xml">
 &lt;project name="Wc" default="compile" basedir="."&gt;
   &lt;!-- to be filled later --&gt;
 &lt;/project&gt;
@@ -187,49 +187,49 @@ Create the <tt>build.xml</tt> file:</p>
 depends on a code generation phase and that <tt>javac</tt> needs
 to have the file <tt>clops-runtime.jar</tt> in the classpath.</p>
 
-<pre class="prettyprint">
-  &lt;target name="compile" 
-          description="compiles Java files" 
-          depends="clops-generate"&gt;
-    &lt;mkdir dir="classes"/&gt;
-    &lt;javac destdir="classes" 
-           srcdir="src" 
-           classpath="lib/clops-runtime.jar"/&gt;
-  &lt;/target&gt;
+<pre class="prettyprint lang-xml">
+&lt;target name="compile" 
+        description="compiles Java files" 
+        depends="clops-generate"&gt;
+  &lt;mkdir dir="classes"/&gt;
+  &lt;javac destdir="classes" 
+         srcdir="src" 
+         classpath="lib/clops-runtime.jar"/&gt;
+&lt;/target&gt;
 </pre>
 
 <p>The code generation phase is simply an invocation of CLOPS.
 You may need to change the path for <code>clops.jar</code> to fit your
 clops installation.</p>
 
-<pre class="prettyprint">
-  &lt;target name="clops-generate" 
-          description="use CLOPS to generate files"&gt;
-    &lt;mkdir dir="src/generated"/&gt;
-    &lt;java fork="yes" dir="." jar="../../lib/clops.jar"&gt;
-      &lt;arg value="src/wc.clo"/&gt;
-      &lt;arg value="-o=src/generated"/&gt;
-      &lt;arg value="-p=generated"/&gt;
-    &lt;/java&gt;
-  &lt;/target&gt;
+<pre class="prettyprint lang-xml">
+&lt;target name="clops-generate" 
+        description="use CLOPS to generate files"&gt;
+  &lt;mkdir dir="src/generated"/&gt;
+  &lt;java fork="yes" dir="." jar="../../lib/clops.jar"&gt;
+    &lt;arg value="src/wc.clo"/&gt;
+    &lt;arg value="-o=src/generated"/&gt;
+    &lt;arg value="-p=generated"/&gt;
+  &lt;/java&gt;
+&lt;/target&gt;
 </pre>
 
 <p>Finally, when packaging your application for a release you
 must include the <tt>clops-runtime.jar</tt> as a dependency. </p>
 
-<pre class="prettyprint">
-  &lt;target name="dist" 
-          description="build a distribution" 
-          depends="compile"&gt;
-    &lt;mkdir dir="dist"/&gt;
-    &lt;jar destfile="dist/wc.jar" basedir="classes"&gt;
-      &lt;manifest&gt;
-        &lt;attribute name="Main-Class" value="Main"/&gt;
-        &lt;attribute name="Class-Path" value="clops-runtime.jar"/&gt;
-      &lt;/manifest&gt;
-    &lt;/jar&gt;
-    &lt;copy file="lib/clops-runtime.jar" todir="dist"/&gt;
-  &lt;/target&gt;
+<pre class="prettyprint lang-xml">
+&lt;target name="dist" 
+        description="build a distribution" 
+        depends="compile"&gt;
+  &lt;mkdir dir="dist"/&gt;
+  &lt;jar destfile="dist/wc.jar" basedir="classes"&gt;
+    &lt;manifest&gt;
+      &lt;attribute name="Main-Class" value="Main"/&gt;
+      &lt;attribute name="Class-Path" value="clops-runtime.jar"/&gt;
+    &lt;/manifest&gt;
+  &lt;/jar&gt;
+  &lt;copy file="lib/clops-runtime.jar" todir="dist"/&gt;
+&lt;/target&gt;
 </pre>
 
 <p>You are now ready to use CLOPS. But if you feel that you need
@@ -264,13 +264,13 @@ FORMAT::
 <p>Also, add the following line at the end of your <tt>main</tt>
 method:</p>
 
-<pre class="prettyprint">
+<pre class="prettyprint lang-java">
     for (File f : opt.getDashFiles()) checkFile(f);
 </pre>
 
 <p>Recompile and run.</p>
 
-<pre class="cmdline">
+<pre class="cmdline prettyprint lang-sh">
 ant dist
 java -jar dist/wc.jar ARGUMENTS
 </pre>
@@ -328,7 +328,7 @@ declared the following option: </p>
 
 <p>Then, its default regular expression is</p>
 
-<pre class="prettyprint">
+<pre>
   "((?:-f)|(?:--foo))(?:[=\0]([0-9]+))?\0"
 </pre>
 

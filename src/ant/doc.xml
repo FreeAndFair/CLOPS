@@ -2,7 +2,6 @@
   <description>Doc stuff build File</description>
   <import file="basic.xml" />
 
-  <property name="java-docs" location="${doc}/javadoc"/>
   <target name="javadocs" description="Generate javadocs">
     <mkdir dir="${java-docs}"/>
     <javadoc sourcepath="${src-java}" destdir="${java-docs}" Verbose="no">

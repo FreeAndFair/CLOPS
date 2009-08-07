@@ -1,0 +1,4 @@
+The ../build.xml file assumes that these files contain
+  NAME:: X
+iff they are named
+  X.clo

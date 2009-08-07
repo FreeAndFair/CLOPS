@@ -1,12 +1,8 @@
 <project name="dist" default="dist-build" basedir="../../">
   <description>All the distribution related things</description>
   <import file="basic.xml" />
-  <property name="dist-jar" value="clops-${release-version}.jar"/>
-  <property name="dist-runtime-jar" value="clops-${release-version}-runtime.jar"/>
-  <property name="dist-lib" value="${dist}/lib" />
-  <property name="dist-doc" value="${dist}/doc" />
   <path id="dist.path">
-    <filelist dir="${dist}/lib" files="${dist-runtime-jar}"/>
+    <filelist dir="${dist}/lib" files="${clops-runtime-jar}"/>
   </path>
   <target name="dist-build" depends="dist-init, dist-bin, dist-lib, dist-doc" description="Generate the distribution"/>
 
@@ -55,12 +51,12 @@
         <path refid="runtime.path"/>
     </copy>
         
-    <jar jarfile="${dist-lib}/${dist-runtime-jar}">
+    <jar jarfile="${dist-lib}/${clops-runtime-jar}">
       <fileset dir="${build}" includes="ie/ucd/clops/runtime/** ie/ucd/clops/logging/** ie/ucd/clops/util/**"/>
       <fileset dir="." includes="LICENSE templates/**"/>
     </jar>
     
-    <jar jarfile="${dist-lib}/${dist-jar}">
+    <jar jarfile="${dist-lib}/${clops-jar}">
       <fileset dir="${build}"/>
       <fileset dir="." includes="LICENSE templates/**"/>
       <manifest>
@@ -74,7 +70,7 @@
     <delete dir="${dist}"/>
   </target>
   
-  <target name="dist-release" description="Create release">
+  <target name="dist-release" description="Create release" depends="dist">
     <zip destfile="clops-${release-version}.zip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
     <tar destfile="clops-${release-version}.tar.gz" compression="gzip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
     

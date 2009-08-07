@@ -2,14 +2,6 @@
   <description>Update the dsl of clops</description>
   <import file="basic.xml"/>
 	
-  <property name="src-dsl-interface" value="${src-java}/ie/ucd/clops/dsl/generatedinterface"/>
-  <property name="src-dsl-interface-package" value="ie.ucd.clops.dsl.generatedinterface"/>
-  <property name="dsl-interface-file" value="dsl/clo-dsl.clo"/>
-	
-	<property name="src-test-interface" value="${src-java}/ie/ucd/clops/test/generatedinterface"/>
-	<property name="src-test-interface-package" value="ie.ucd.clops.test.generatedinterface"/>
-	<property name="test-interface-file" value="dsl/clo-test.clo"/>
-
   <target name="update-dslcli">
     <java fork="yes" classname="ie.ucd.clops.dsl.Main">
       <assertions>

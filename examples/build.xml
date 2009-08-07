@@ -1,0 +1,42 @@
+<project default="all">
+  <property file="build.properties"/>
+
+  <target name="all">
+    <!-- Is it possible to automate this part? -->
+    <antcall target="example"><param name="example" value="Wc"/></antcall>
+    <antcall target="example"><param name="example" value="SVN"/></antcall>
+
+    <echo message="Now try 'java -jar jars/wc.jar'!"/>
+  </target>
+
+  <target name="example">
+    <fail message="Set 'clops-jar' in build.properties!" unless="clops-jar"/>
+    <fail message="Set 'clops-runtime-jar' in build.properties!" unless="clops-runtime-jar"/>
+    <fail message="Set 'example'!" unless="example"/>
+    <property name="src" value="generated/${example}/src"/>
+    <property name="tgt" value="generated/${example}/classes"/>
+    <mkdir dir="jars"/>
+    <mkdir dir="${src}"/>
+    <mkdir dir="${tgt}"/>
+    <java jar="${clops-jar}" fork="true">
+      <arg value="-q"/>
+      <arg value="-o=${src}"/>
+    	<arg value='-p=""'/>
+    	<arg value="-m"/>
+      <arg value="clo/${example}.clo"/>
+    </java>
+    <javac srcdir="${src}" destdir="${tgt}" classpath="${clops-runtime-jar}"/>
+    <jar jarfile="jars/${example}.jar">
+      <fileset dir="${tgt}"/>
+      <manifest>
+        <attribute name="Main-Class" value="${example}Main" />
+        <attribute name="Class-Path" value="../${clops-runtime-jar}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete dir="jars"/>
+    <delete dir="generated"/>
+  </target>
+</project>

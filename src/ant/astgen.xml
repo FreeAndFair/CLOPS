@@ -1,10 +1,8 @@
 <project name="astgen" default="astgen-build" basedir=".">
- <description>ASTgen related stuff build File</description>
- <!-- needs src-java and lib dir from the file -->
- <import file="basic.xml" />
- <property name="astgen-dir" location="astgen"/>
+  <description>ASTgen related stuff build File</description>
+  <import file="basic.xml" />
  
- <target name="astgen-test" description="generates AST">
+  <target name="astgen-test" description="generates AST">
     <echo message="Running AST Gen"/>
     <java fork="yes" dir="${src-java}/ie/ucd/clops/test" jar="lib/astgen.jar">
       <arg value="-b"/>

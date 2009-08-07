@@ -2,7 +2,6 @@
   <description>Compilation stuff build File</description>
   <import file="basic.xml" />
 	
-  <property name="version-file" location="${build}/version"/>
   <path id="compile.path">
     <path refid="runtime.path"/>
     <pathelement location="${build}"/>

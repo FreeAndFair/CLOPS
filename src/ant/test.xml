@@ -6,8 +6,6 @@
     <pathelement location="${build}"/>
     <pathelement path="${lib}/junit-4.6.jar"/>
   </path>
-  <property name="test-src" location="${src}/test"/>
-  <property name="test-enable-transflyrules" value="false"/>	
 	
 	<path id="test-dist.path">
 	  <fileset dir="${dist}/lib">
@@ -15,12 +13,6 @@
 	  </fileset>
 	  <pathelement path="${lib}/junit-4.6.jar"/>
 	</path>
-  <property name="test-file" value="dsl/clo-dsl.clo"/>
-  <property name="unit-test-file" value="test/tests"/>
-  <property name="unit-test-dir" value="test/unittests"/>
-  <property name="test" location="test"/>
-  <property name="test-temp" location="${test}/temp"/>
-  <property name="reports.tests" location="${test}/test-reports"/>
 
 
   <target name="test-all" depends="test-build, test-doc-examples"/>

@@ -1,6 +1,7 @@
 <project name="CLO" default="compile" basedir=".">
   <description>CLO Build File</description>
 
+  <property file="build.properties"/>
   <import file="src/ant/basic.xml"/>
   <import file="src/ant/antlr.xml"/>
   <import file="src/ant/astgen.xml"/>

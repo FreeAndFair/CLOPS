@@ -2,8 +2,6 @@
   <description>Copies needed jars and clops' jars to examples.</description>
   <import file="basic.xml" />
 
-  <property name="wc-clops-jar" value="clops.jar"/>
-  <property name="wc-clops-runtime-jar" value="clops-runtime.jar"/>
 
   <target name="sync2all"> 
     <antcall target="sync2wc">

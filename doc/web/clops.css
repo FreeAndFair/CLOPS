@@ -155,9 +155,9 @@ pre {
 
 .lit, .dec { color: #4D2600; }
 .str { color: #800; }
-.tag { color: #008; }
-.typ { color: #008; }
-.kwd { color: #080; font-weight: bold; }
+.tag { color: #00104D; }
+.typ { color: #00104D; }
+.kwd { color: #4D2600; font-weight: bold; }
 .atn {color: #606; }
 .atv {color: #060; }
 .com { color: #444; }
@@ -167,4 +167,3 @@ pre {
 	padding-left: 8px;
 	border: 1px solid #ccc;
 }
-

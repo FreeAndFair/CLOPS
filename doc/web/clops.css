@@ -61,7 +61,7 @@ tt {
 
 .colors-3 {
   /*background: #FFBF80;*/
-  background: #8f8;
+  background: #afa;
   color: #000000;
 }
 
@@ -145,6 +145,6 @@ pre {
 .pln { color: #111; }
 pre {
 	padding-left: 8px;
-	border: 1px solid #888;
+	border: 1px solid #ccc;
 }
 

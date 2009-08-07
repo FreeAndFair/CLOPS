@@ -105,6 +105,6 @@ string-list inherits properties from @string and from @list and its value is a $
 
 string-regexp inherits properties from @string and its value is a $String
     <p>Same as @string except that the value of the option
-    must match a regular expression given by the property $regexp.</p>
+    must match a regular expression given by the property $regexp. </p>
   regexp is a regular expression and its default value is $".*"
 

@@ -46,14 +46,32 @@ tt {
 .cmdline {
 }
 
-.colors-1,
-.section-start {
-  background: #ddf;
+.colors-light-1 {
+	background-color: #FFFBE6;
+}
+
+.colors-light-2 {
+	background-color: #FFF2E6;
+}
+
+.colors-light-3 {
+	background-color: #E6EBFF;
+}
+
+.colors-1
+ {
+  background: #FFBF80;
   color: #000000;
 }
 
-.colors-2 {
+.bk-box {
   background: #f8f8f8;
+  color: #000000;
+}
+
+.colors-2,
+.section-start {
+  background: #FFEC80;
   color: #000000;
 }
 
@@ -63,7 +81,7 @@ tt {
 }
 
 .emph-download {
-  background: #afa;
+  background: #809BFF;
   color: #000000;
 }
 

@@ -19,7 +19,37 @@ option <code>Foo</code>? </p>
 <p>Any option either is unset or is set and has a value: Options
 whose value is a boolean are no exception. If you want to know if
 a certain string (alias) appeared on the command line then you
-want to use <code>isFooSet()</code>.</p>
+want to use <code>isFooSet()</code>. 
+<!---->
+For boolean option, however, you can achieve more traditional behavior
+by setting the properties right, 
+see the <a href="reference.html#option-boolean">reference</a>
+</p>
+
+<p class="question">2. Why does CLOPS use the special character <code class="prettyprint">\0</code> to separate strings?</p>
+
+<p>It is customary that the shell process the command line and chops it
+up into a list of strings. In Java this is reflected
+by <code class="prettyprint">String[] args</code> in
+the <code class="prettyprint">main</code> method of any program. 
+It is not true, however, that each of the strings in the string input
+list would correspond to exactly one options. One string may represent
+multiple options (e.g., <tt>ps aux</tt>) or
+multiple string may correspond to one option
+(e.g., <tt>head -n 999</tt>).
+</p>
+<p>For this reason CLOPS turns the list of options given to the
+program by the shell into a single string where the original
+substrings are delimited by a special character <code class="prettyprint">\0</code>.  For
+instance the above example results in the string <tt>"-n\0999"</tt>
+
+As a result each option may freely specify to which sequence of
+characters or strings it corresponds. For the example above, we may
+choose the regular expression <tt>"-n\0[0-9]*"</tt>. CLOPS,
+however, have mechanisms that let the user not deal with the special
+character for the most common cases, such
+as <a href="reference.html#option-one-argument-option">one-argument-option</a>.
+</p>
 
 
 <hr/>

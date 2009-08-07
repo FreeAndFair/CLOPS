@@ -31,6 +31,12 @@ table#related-work .high {
   background-color: #8f8;
 }
 
+table#options-overview {
+/*  border: 1px solid gray;*/
+  font-size: 13px;
+  table-layout:auto;       
+}
+
 td {
   padding: 4px;
 }

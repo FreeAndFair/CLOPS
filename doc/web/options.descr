@@ -23,6 +23,7 @@ basic is abstract
     advanced and is needed only for strangely shaped options.  </p>
 
 boolean inherits properties from @basic and its value is a $boolean
+    This type is used for the options with no type given in the CLOPS description.
   allowArg is a $boolean and has the default $true
     <p>If $allowArg is set to $false then only strings of the form 
     <tt>--alias</tt> are matched and the value of the option is set to 
@@ -108,10 +109,10 @@ one-argument-option inherits properties from @basic and is abstract
      if not specified on the command line at all.  It will have the
      value $123, if specified as $-n (and no value).  Otherwise the
      value can be specified as $-nVALUE. It is advisable to override
-     the property $between if $-n (no argument) is to match otherwise
-     a next option would be matched as the arugment</p>
+     the property $between if $-n followed by no argument is to match, otherwise
+     the next option would be matched as the arugment.</p>
      <pre class="cmdline">n:{"-n"}:{int}:[between="" blankParamAllowed="true" argumentshape="[0-9]*" 
-                       defaultvalue="123" default="0"]</pre>
+                   defaultvalue="123" default="0"]</pre>
      
 string inherits properties from @one-argument-option and its value is a $String
   stripQuotesIfPresent is a $boolean and has the default $false

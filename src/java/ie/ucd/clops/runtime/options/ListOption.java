@@ -17,6 +17,9 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
 
   public static final String DEFAULT_SPLIT = ",";
 
+  /** A variable indicating if this list option has been set. */
+  private boolean isSet;
+  
   private List<T> value;
   private boolean allowMultiple;
   protected String splittingString;
@@ -26,7 +29,8 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     this.value = new LinkedList<T>();
     this.allowMultiple = true;
     this.splittingString = DEFAULT_SPLIT;
-
+    this.isSet = false;
+    
     try {
       super.setProperty(ARGUMENTNAME, "<args>");
     } catch (InvalidOptionPropertyValueException e) {};
@@ -38,6 +42,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
 
   public void set(List<T> value) throws InvalidOptionValueException {
     this.value = value;
+    this.isSet = true;
   }
 
   public void setFromString(String valueString) throws InvalidOptionValueException {
@@ -51,6 +56,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
       T newValue = convertFromStringToListValue(valueString);
       value.add(newValue);
     }
+    isSet = true;
   }
 
   /**
@@ -60,8 +66,6 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
    * @throws InvalidOptionValueException if the String provided is invalid.
    */
   public abstract T convertFromStringToListValue(String valueString) throws InvalidOptionValueException;
-
-
 
   /**
    * This should never be used, but is required by the interface of Option.
@@ -74,6 +78,12 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
 
   public void unset() {
     this.value = new LinkedList<T>();
+    this.isSet = false;
+  }
+
+  @Override
+  public boolean hasValue() {
+    return isSet;
   }
 
   //Static for space/time efficiency (we don't need one per instance) 

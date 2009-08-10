@@ -223,7 +223,7 @@ public class GenericCLParser {
    * @param ruleStore collection of fly rules that should be used during parsing
    * @param optionStore collection of options that will be matched against the input
    * @param args the commandline as given to the main method
-   * @return {@code true} iff the commmandline has been successfully parsed
+   * @return {@code true} iff the commmand line has been successfully parsed.
    */
   public ParseResult parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args) {
     ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false));

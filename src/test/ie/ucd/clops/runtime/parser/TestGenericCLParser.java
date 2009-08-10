@@ -37,37 +37,37 @@ public class TestGenericCLParser {
   
   @Test
   public void testArg() throws Exception { 
-      Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"xxxx"}).isEmpty());
+      Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"xxxx"}).successfulParse());
   }
   
   @Test(expected=Tokenizer.UnknownOptionException.class) 
   public void testParserUnknownOptionException2() throws Exception {
-    Assert.assertFalse(gp.parse("xxx", os, flyStore, new String[] {"-boo"}).isEmpty());
+    Assert.assertFalse(gp.parse("xxx", os, flyStore, new String[] {"-boo"}).successfulParse());
   }
   
   
   @Test 
   public void testParse() throws Exception {
-    Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"}).isEmpty()); 
+    Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"}).successfulParse()); 
                          // shouldn't parse
-    Assert.assertTrue(gp.parse("bo2", os, flyStore, new String[] {"-boo"}).isEmpty()); // should parse
-    Assert.assertTrue(gp.parse("bo2?", os, flyStore, new String[] {"-boo"}).isEmpty()); // should parse
-    Assert.assertTrue(gp.parse("bo2*", os, flyStore, new String[] {"-boo" , "-boo" , "-boo"}).isEmpty());
+    Assert.assertTrue(gp.parse("bo2", os, flyStore, new String[] {"-boo"}).successfulParse()); // should parse
+    Assert.assertTrue(gp.parse("bo2?", os, flyStore, new String[] {"-boo"}).successfulParse()); // should parse
+    Assert.assertTrue(gp.parse("bo2*", os, flyStore, new String[] {"-boo" , "-boo" , "-boo"}).successfulParse());
                          // should parse
 
     Assert.assertTrue(gp.parse("bo2* bo1*", os, flyStore, 
                                new String[] {"-boo" , "-boo" , "-boo", 
-                                             "-bo", "-bo"}).isEmpty()); // should parse
+                                             "-bo", "-bo"}).successfulParse()); // should parse
 
     Assert.assertFalse(gp.parse("bo2+ bo1*", os, flyStore, 
-                                new String[] {"-bo"}).isEmpty()); // shouldn't go thru
+                                new String[] {"-bo"}).successfulParse()); // shouldn't go thru
 
     Assert.assertTrue(gp.parse("(bo2 | bo1)*", os, flyStore, 
                                new String[] {"-bo", "-boo", "-bo", 
-                                             "-bo", "-boo"}).isEmpty()); // should parse
+                                             "-bo", "-boo"}).successfulParse()); // should parse
 
     Assert.assertTrue(gp.parse("bo2*", os, flyStore, 
-                               new String[] {"-boo", "-boo", "-boo"}).isEmpty()); // should parse
+                               new String[] {"-boo", "-boo", "-boo"}).successfulParse()); // should parse
   }
 
 }

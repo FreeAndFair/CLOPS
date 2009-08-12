@@ -31,7 +31,7 @@ public class RegularExpressionStringOption extends StringOption {
   @Override
   public void set(String value) throws InvalidOptionValueException {
     if (!pattern.matcher(value).matches()) {
-      throw new InvalidOptionValueException("");
+      throw new InvalidOptionValueException(value + " doesn't match on " + pattern.pattern());
     } else {
       super.set(value);
     }

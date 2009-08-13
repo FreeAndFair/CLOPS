@@ -143,7 +143,7 @@ public class GenericCLParser {
     ruleStore.applyValidityRules(optionStore);
     List<String> validityErrorList = 
       ((CLOPSErrorOption)optionStore.getOptionByIdentifier(
-          CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
+          CLOPSErrorOption.ERROR_OPTION_ID)).getRawValue();
     for (String error : validityErrorList) {
       log.fine(error);
       result.addError(new AmbiguousCommandLineError(error));
@@ -339,7 +339,7 @@ public class GenericCLParser {
       ruleStore.applyValidityRules(optionStore);
       CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
 
-      List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getValue();
+      List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getRawValue();
       if (validityErrorList.size() > 0) {
         //We had a validity error.
         CLOLogger.getLogger().log(Level.FINE, "Validity check failed.");

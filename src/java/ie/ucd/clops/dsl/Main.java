@@ -191,8 +191,8 @@ public class Main {
                               "Created code in " + output.getAbsolutePath());    
 
     if (options.isDocsSet() || 
-        options.getBuiltin().size() > 0 || 
-        options.getCustom().size() > 0) {
+        options.isBuiltinSet() || 
+        options.isCustomSet()) {
       // we are doing some template generation
       
       final File target = getTemplateTarget(options);

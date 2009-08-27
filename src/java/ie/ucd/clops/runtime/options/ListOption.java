@@ -18,7 +18,7 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
   public static final String DEFAULT_SPLIT = ",";
 
   /** A variable indicating if this list option has been set. */
-  private boolean isSet;
+  protected boolean isSet;
   
   private List<T> value;
   private boolean allowMultiple;
@@ -36,6 +36,10 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     } catch (InvalidOptionPropertyValueException e) {};
   }
 
+  protected List<T> internalGetList() {
+    return value;
+  }
+  
   public List<T> getRawValue() {
     return value;
   }

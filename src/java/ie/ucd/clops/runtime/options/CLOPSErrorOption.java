@@ -27,7 +27,8 @@ public class CLOPSErrorOption extends StringListOption {
 
   @Override
   public void set(List<String> value) throws InvalidOptionValueException {
-    getValue().addAll(value);
+    internalGetList().addAll(value);
+    this.isSet = true;
   }
   
   

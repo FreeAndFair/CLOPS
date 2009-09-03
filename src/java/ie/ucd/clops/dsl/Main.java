@@ -201,8 +201,12 @@ public class Main {
       if (options.isDocsSet() && options.getDocs()) {
         docs.generateDefault(target);
       }
-      docs.generateBuiltin(output, options.getBuiltin());
-      docs.generateCustom(target, options.getCustom());
+      if (options.isBuiltinSet()) {
+        docs.generateBuiltin(output, options.getBuiltin());
+      }
+      if (options.isCustomSet()) {
+        docs.generateCustom(target, options.getCustom());
+      }
     }
     
     return true;

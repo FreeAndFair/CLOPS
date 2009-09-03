@@ -71,11 +71,11 @@
   </target>
   
   <target name="dist-release" description="Create release" depends="dist">
-    <zip destfile="clops-${release-version}.zip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
-    <tar destfile="clops-${release-version}.tar.gz" compression="gzip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
+    <zip destfile="clops-${clops-version}.zip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
+    <tar destfile="clops-${clops-version}.tar.gz" compression="gzip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
     
-    <move todir="${dist}" file="clops-${release-version}.zip"/>
-    <move todir="${dist}" file="clops-${release-version}.tar.gz"/>
+    <move todir="${dist}" file="clops-${clops-version}.zip"/>
+    <move todir="${dist}" file="clops-${clops-version}.tar.gz"/>
   </target>
 
   

@@ -10,6 +10,8 @@ import java.util.LinkedList;
 /**
  * Option that requires one argument.
  * Either -op1=value or ... -op1 value ...
+ * The form of the argument is determined by {@code ARGUMENTSHAPE} and the form of
+ * the separation between the alias and argument is determined by {@code BETWEEN}.
  * 
  * @author Fintan
  * @author Mikolas Janota

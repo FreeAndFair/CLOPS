@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author Viliam Holub
  * 
  */
-public class TabCompleteTest {
+public class TestTabComplete {
 	
 
 	/** Test tab completion.

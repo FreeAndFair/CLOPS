@@ -15,7 +15,7 @@
 	</path>
 
 
-  <target name="test-all" depends="test-build, test-doc-examples"/>
+  <target name="test-all" depends="test-build, test-doc-examples,test-src-junit"/>
 
   <target name="test-compile" description="Compile unit tests">
   	<echo>${toString:test.path}</echo>
@@ -27,6 +27,24 @@
       <classpath refid="test.path"/>
     </javac>
   </target>
+
+  <target name="test-src-junit" depends="test-compile" description="run junit tests in ${test-src}">
+    <delete dir="${reports.src.tests}" includes="TEST-*.txt"/>
+    <mkdir dir="${reports.src.tests}"/>
+    <junit fork="yes" printsummary="yes" haltonfailure="no">
+      <jvmarg value="-ea"/>
+      <classpath refid="test.path" />
+      <formatter type="plain"/>
+
+      <batchtest fork="yes" todir="${reports.src.tests}">
+        <fileset dir="${test-src}">
+          <include name="**/*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+
 	
   <target name="test-build" depends="test-init,test-unit,test-parser,test-automaton" description="clean up"/>
   <target name="test-init" description="Prepare everything for the tests.">

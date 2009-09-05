@@ -8,6 +8,7 @@ import ie.ucd.clops.runtime.rules.RuleStore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * A class testing the generic command line parser.
@@ -46,7 +47,7 @@ public class TestGenericCLParser {
   }
   
   
-  @Test 
+  @Ignore
   public void testParse() throws Exception {
     Assert.assertFalse(gp.parse("bo1", os, flyStore, new String[] {"-boo"}).successfulParse()); 
                          // shouldn't parse

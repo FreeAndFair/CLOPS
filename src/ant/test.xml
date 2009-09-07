@@ -136,4 +136,17 @@
          <target name="compile"/>
     </ant>
   </target>
+
+
+  <target name="run-Variants" 
+          depends="compile" 
+          description="dry run of edit variants">
+     <java fork="yes" classname="ie.ucd.clops.runtime.spellcheck.Variants">
+      <assertions>
+         <enable/>
+      </assertions>
+      <classpath refid="test.path"/>
+    </java>
+  </target>
+
 </project>

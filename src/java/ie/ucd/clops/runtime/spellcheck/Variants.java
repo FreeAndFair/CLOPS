@@ -46,8 +46,13 @@ public class Variants implements Iterator<String> {
         suffixes=new String[maxIndex+2];
         prefixes=new String[maxIndex+2];
         for (int i=0; i<=(maxIndex+1); i++) {
-            suffixes[i]=str.substring(i,str.length());
-            prefixes[i]=str.substring(0,i);
+            if (i >= str.length()) {
+                suffixes[i]="";
+                prefixes[i]=str;
+            } else {
+                suffixes[i]=str.substring(i,str.length());
+                prefixes[i]=str.substring(0,i);
+            }
         }
 
         // initialize change letters
@@ -82,21 +87,28 @@ public class Variants implements Iterator<String> {
     //@ ensures \fresh(\result);
     /*@pure*/private Set<String> getCurrentEdits() {
         Set<String> retv=new HashSet<String>(60);
+        assert i<= maxIndex;
         // overwrite and inserts
-        for (Character c : changeLetters) {
-            retv.add(prefixes[i] + c + suffixes[i+1]);
+        for (Character c : changeLetters) 
             retv.add(prefixes[i] + c + suffixes[i]);
-        }
-
         // swap
-        if (i < maxIndex) {
+        if (i < maxIndex) 
             retv.add(prefixes[i] + 
                      str.charAt(i+1) + str.charAt(i) + 
                      suffixes[i+2]);
-        }
-
+        
         // delete
         retv.add(prefixes[i]+suffixes[i+1]);
+        
+        // inserts
+        for (Character c : changeLetters) 
+            retv.add(prefixes[i] + c + suffixes[i+1]);
+
+        // inserts the last character
+        if (i==maxIndex) 
+            for (Character c : changeLetters) 
+                retv.add(prefixes[maxIndex+1] + c + 
+                         suffixes[maxIndex+1]);
 
         return retv;
     }

@@ -34,7 +34,7 @@ public class Variants implements Iterator<String> {
     private String[] prefixes;
 
 
-    private static final boolean debug=true;
+    private static final boolean debug=false;
 
     /** Initialize the iterator with a given String. */
     /*@pure*/public Variants(final String str) {

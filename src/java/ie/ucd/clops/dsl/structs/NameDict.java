@@ -15,6 +15,7 @@ public class NameDict {
     new HashMap<String, String>();
   private final Set<String> shrtz = new HashSet<String>();
   private final Set<String> valueClzz = new HashSet<String>();
+  private final Set<String> objectClzz = new HashSet<String>();
   private final Set<String> typeClzz = new HashSet<String>();
   
   public NameDict(List<OptionDescription> desc) {
@@ -28,6 +29,8 @@ public class NameDict {
       getShortClassName(clzz, typeClzz);
       clzz = od.getType().getOptionValueTypeClass();
       getShortClassName(clzz, valueClzz);
+      clzz = od.getType().getOptionValueTypeParameterisation();
+      getShortClassName(clzz, objectClzz);
     }
   }
 
@@ -74,6 +77,10 @@ public class NameDict {
            clzz.equals("float") || clzz.equals("double") || 
            clzz.equals("long") || clzz.equals("short") || 
            clzz.equals("byte") || clzz.equals("char");
+  }
+  
+  public String getObjectClass(OptionDescription od) {
+    return clzzShrt.get(od.getType().getOptionValueTypeParameterisation());
   }
   
   public String getTypeClass(OptionDescription od) {

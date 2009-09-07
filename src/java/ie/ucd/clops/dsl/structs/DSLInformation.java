@@ -80,7 +80,10 @@ public class DSLInformation extends RuleStoreDescription {
     assert (isPacked);
     return dict.getValueTypeImports();
   }
-  
+  public String getObjectTypeClass(OptionDescription od) {
+    assert(isPacked);
+    return dict.getObjectClass(od);
+  }
 
   public String getTypeClass(OptionDescription od) {
     assert (isPacked);

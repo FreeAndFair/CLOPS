@@ -117,7 +117,7 @@ public class GenericCLParser {
 
     this.optionStore = optionStore;
     this.ruleStore = ruleStore;
-    buildAutomaton(formatString);
+    automaton = buildAutomaton(formatString, optionStore);
     commandLine = StringUtil.appendWithSeparator(args, SEP_STRING, true);
 
     parsingPossibilities = new HashSet<ArrayList<ParseStep>>();
@@ -205,7 +205,7 @@ public class GenericCLParser {
     return result;
   }
 
-  private void buildAutomaton(String formatString) 
+  private static Automaton<IMatchable> buildAutomaton(String formatString, OptionStore optionStore) 
   throws 
   Tokenizer.IllegalCharacterException, 
   Tokenizer.UnknownOptionException,
@@ -213,55 +213,74 @@ public class GenericCLParser {
   {
     List<Token<IMatchable>> tokens =
       new Tokenizer().tokenize(formatString, optionStore);
-    automaton = new Automaton<IMatchable>(tokens);
+    return new Automaton<IMatchable>(tokens);
   }
 
 
-  /**
-   * Parse the given commandline.
-   * @param formatString the format regular expression in a string form
-   * @param ruleStore collection of fly rules that should be used during parsing
-   * @param optionStore collection of options that will be matched against the input
-   * @param args the commandline as given to the main method
-   * @return {@code true} iff the commmand line has been successfully parsed.
-   */
-  public ParseResult parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args) {
-    ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false));
-
+  private static void logParseStart(String[] args, RuleStore ruleStore) {
     CLOLogger.getLogger().log(Level.FINE, "Number of args: " + args.length);
     CLOLogger.getLogger().log(Level.FINE, Arrays.asList(args).toString());
-
     CLOLogger.getLogger().log(Level.FINE, ruleStore.toString());
+  }
 
-    //Set up automaton
-    List<Token<IMatchable>> tokens = null;
-    Automaton<IMatchable> automaton = null;
-    try {
-      tokens = new Tokenizer().tokenize(formatString, optionStore);
-    }
-    catch (Tokenizer.UnknownOptionException e) {
-      CLOLogger.getLogger().log(Level.SEVERE, "Error: Unkown option name \"" +e.opt_name +"\".");
-      throw e;
-    }
-    catch (Tokenizer.IllegalCharacterException e) {
-      //TODO: logger?
-      CLOLogger.getLogger().log(Level.SEVERE, "Error: Illegal character \"" +formatString.charAt( e.index)
-          +"\" at position " +e.index +".");
-      throw e;
-    }
+  private static void logPossibleTransitions(Collection<IMatchable> transitions, OptionStore optionStore) {
+    CLOLogger.getLogger().log(Level.FINE, "Transitions: " + transitions);
+    CLOLogger.getLogger().log(Level.FINE, "Set options: ");
+    CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
+  }
 
-    automaton = new Automaton<IMatchable>(tokens);
+  private static void logFinishedParsing(OptionStore optionStore, Automaton<IMatchable> automaton) {
+    CLOLogger.getLogger().log(Level.FINE, "finished parsing");
+    CLOLogger.getLogger().log(Level.FINE, "Final Option values: ");
+    CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
+    CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
+  }
 
+  private static ParseResult applyOverridesAndCheckValidity(ParseResult result, OptionStore optionStore, Automaton<IMatchable> automaton, RuleStore ruleStore) {
+    if (automaton.isAccepting()) {
+
+      result.addAll(ruleStore.applyOverrideRules(optionStore));
+      CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
+
+      if (!result.successfulParse()) {
+        return result;
+      }
+
+      ruleStore.applyValidityRules(optionStore);
+      CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
+
+      List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getRawValue();
+      if (!validityErrorList.isEmpty()) {
+        CLOLogger.getLogger().log(Level.FINE, "Validity check failed.");
+        for (String errorMessage : validityErrorList) {
+          if (errorMessage != null && !errorMessage.equals("")) { 
+            CLOLogger.getLogger().log(Level.FINE, errorMessage);
+            result.addError(new ValidityError(errorMessage));
+          }
+        }
+        return result;
+      } else {
+        CLOLogger.getLogger().log(Level.FINE, "Validity checks passed.");
+      }
+
+      return result;
+    } else {
+      CLOLogger.getLogger().log(Level.SEVERE, "Invalid arguments.");
+      //TODO print usage string? print possible next args?
+      result.addError(new IncompleteCommandLineError("Invalid arguments."));
+      return result;
+    }
+  }
+  
+  private static ParseResult mainParseLoop(String[] args, OptionStore optionStore, RuleStore ruleStore, Automaton<IMatchable> automaton) {
     //Convert args to single string
     String argumentString = StringUtil.appendWithSeparator(args, SEP_STRING, true);
-
+    ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false));
     //Main loop
     for (int i=0; i < argumentString.length(); ) {
       //Get available next options
       Collection<IMatchable> possibleTransitions = automaton.availableTransitionsUnique();
-      CLOLogger.getLogger().log(Level.FINE, "Transitions: " + possibleTransitions);
-      CLOLogger.getLogger().log(Level.FINE, "Set options: ");
-      CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
+      logPossibleTransitions(possibleTransitions, optionStore);
 
       //Matched option
       Option<?> matchedOption = null;
@@ -273,10 +292,8 @@ public class GenericCLParser {
         if (newMatchedOption != null) {
           //We cannot match on two different Options
           if (matchedOption != null && matchedOption != newMatchedOption) {
-            CLOLogger.getLogger().log(Level.SEVERE, "Matched two options: " 
-                + matchedOption + " and " + newMatchedOption);
-            result.addError(new AmbiguousCommandLineError("Matched two options: " 
-                + matchedOption + " and " + newMatchedOption));
+            CLOLogger.getLogger().log(Level.SEVERE, "Matched two options: " + matchedOption + " and " + newMatchedOption);
+            result.addError(new AmbiguousCommandLineError("Matched two options: " + matchedOption + " and " + newMatchedOption));
             return result;
           }
 
@@ -321,47 +338,26 @@ public class GenericCLParser {
       }
 
     }
+    return result;
+  }
 
-    CLOLogger.getLogger().log(Level.FINE, "finished parsing");
-    CLOLogger.getLogger().log(Level.FINE, "Final Option values: ");
-    CLOLogger.getLogger().log(Level.FINE, optionStore.toString());
-    CLOLogger.getLogger().log(Level.FINE, "Accepting: " + automaton.isAccepting());
+  /**
+   * Parse the given commandline.
+   * @param formatString the format regular expression in a string form
+   * @param ruleStore collection of fly rules that should be used during parsing
+   * @param optionStore collection of options that will be matched against the input
+   * @param args the commandline as given to the main method
+   * @return {@code true} iff the commmand line has been successfully parsed.
+   */
+  public ParseResult parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args) {
+    logParseStart(args, ruleStore);
 
-    if (automaton.isAccepting()) {
+    Automaton<IMatchable> automaton = buildAutomaton(formatString, optionStore);
+    ParseResult result = mainParseLoop(args, optionStore, ruleStore, automaton);
 
-      result.addAll(ruleStore.applyOverrideRules(optionStore));
-      CLOLogger.getLogger().log(Level.FINE, "Override rules complete.");
+    logFinishedParsing(optionStore, automaton);
 
-      if (!result.successfulParse()) {
-        return result;
-      }
-
-      ruleStore.applyValidityRules(optionStore);
-      CLOLogger.getLogger().log(Level.FINE, "Validity checks complete.");
-
-      List<String> validityErrorList = ((CLOPSErrorOption)optionStore.getOptionByIdentifier(CLOPSErrorOption.ERROR_OPTION_ID)).getRawValue();
-      if (validityErrorList.size() > 0) {
-        //We had a validity error.
-        CLOLogger.getLogger().log(Level.FINE, "Validity check failed.");
-        for (String errorMessage : validityErrorList) {
-          if (errorMessage != null && !errorMessage.equals("")) { 
-            CLOLogger.getLogger().log(Level.FINE, errorMessage);
-            result.addError(new ValidityError(errorMessage));
-          }
-        }
-        return result;
-      } else {
-        CLOLogger.getLogger().log(Level.FINE, "Validity checks passed.");
-      }
-
-      return result;
-    } else {
-      CLOLogger.getLogger().log(Level.SEVERE, "Invalid arguments.");
-      //TODO print usage string? print possible next args?
-      result.addError(new IncompleteCommandLineError("Invalid arguments."));
-      return result;
-    }
-
+    return applyOverridesAndCheckValidity(result, optionStore, automaton, ruleStore);
   }
 
   private static final Pattern unmatcher = Pattern.compile(Option.SEP + "*[^" + Option.SEP_STRING + "]+");

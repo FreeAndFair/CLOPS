@@ -14,8 +14,6 @@ class State<T> {
 	T match;
 	/** Successors of the state. */
 	State<T> next1, next2;
-	/** State index, used for effective generation of next-step lists. */
-	int state_index;
 
 	State( /*@ non_null @*/ StateType type,
 			/*@ non_null @*/ T match) {

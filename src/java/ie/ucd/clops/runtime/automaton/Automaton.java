@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.IdentityHashMap;
 
 
 
@@ -37,21 +38,180 @@ public class Automaton<T> {
 	/*
 	 * Automaton fields
 	 */
-
-	/** Step serial number.
-	 * Step number is used for effective creation of the list of active
-	 * states. */
-	int step_index;
-	/** Indication of error state.
-	 * If this variable is set, we are in the error state. */
-	boolean error;
 	/** Starting state of the automaton. */
 	State<T> /*@ non_null @*/ start_state;
-	/** List of active states.
-	 * The list is updated every step. */
-	ArrayList<State<T>> /*@ non_null @*/ arr;
-	/** Backup of active states. Used for backtracking. */
-	Stack<ArrayList<State<T>>> arr_backup; 
+
+
+	/** Automaton state.
+	 */
+	public class AutomatonRun {
+		/** Indication of error state.
+		 * If this variable is set, we are in the error state. */
+		boolean error;
+		/** List of active states.
+		 * The list is updated every step. */
+		IdentityHashMap<State<T>,Integer> /*@ non_null @*/ actives;
+		/** Backup of active states. Used for backtracking. */
+		Stack<IdentityHashMap<State<T>,Integer>> archive;
+
+		AutomatonRun() {
+			error = false;
+			actives = new IdentityHashMap<State<T>,Integer>();
+			archive = new Stack<IdentityHashMap<State<T>,Integer>>();
+			addSuccessors( start_state, actives);
+		}
+
+
+		/** Adds MATCH and END successors of a state.
+		 * To avoid duplicates in the output list (and avoid cycling as well),
+		 * we update each state with step index and process only those, which
+		 * state index is less than the current one. Uses recursion to
+		 * transitively explore the graph.
+		 * @param state state to add or follow
+		 * @param successors output list of states
+		 */
+		private void addSuccessors2(
+				/*@ non_null @*/ State<T> state,
+				/*@ non_null @*/ IdentityHashMap<State<T>,Integer> nexts) {
+			if (state == null || nexts.containsKey( state))
+				return;
+			nexts.put( state, null);
+			//state.state_index = step_index; //XXX
+			if (state.type == StateType.SPLIT) {
+				addSuccessors2( state.next1, nexts);
+				addSuccessors2( state.next2, nexts);
+			} else {
+				nexts.put( state, null);
+			}
+		}
+
+
+		/** Adds successors of s of the type MATCH or END to the list.
+		 * Type of the state s must by MATCH or END.
+		 * @param state state to follow
+		 * @param next output successor states
+		 */
+		private void addSuccessors(
+				/*@ non_null @*/ State<T> state,
+				/*@ non_null @*/ IdentityHashMap<State<T>,Integer> nexts) {
+			addSuccessors2( state.next1, nexts);
+			addSuccessors2( state.next2, nexts);
+		}
+
+
+		/** Follows specified transitions in the automaton and returns MATCH and END successor states.
+		 * @param state state to follow
+		 * @param transition_labels a collection of transition labels to process
+		 * @param actives list of currently active states
+		 * @param nexts output list of successor states
+		 */
+		private void follow(
+				/*@ non_null @*/ State<T> state,
+				/*@ non_null @*/ Collection<T> transition_labels,
+				/*@ non_null @*/ IdentityHashMap<State<T>,Integer> nexts) {
+
+			// Type of the state must be ready to match.
+			if (state.type != StateType.MATCH)
+				return;
+			// Follow all the transition labels.
+			for (T transition_label:transition_labels) {
+				if (state.match.equals( transition_label)) {
+					// We have a match, add succesors
+					addSuccessors( state, nexts);
+				}
+			}
+		}
+
+
+		/** Apply next step in automaton.
+		 * If possible (i.e. matched), we follow all the transitions for all the active states.
+		 * @param t a collection of transition labels to process
+		 * @return true iff we could follow at least one of the transition labels
+		 */
+		public boolean nextStep( /*@ non_null @*/ Collection<T> t) {
+			// Do not continue if we are in an error state
+			if (error)
+				return false;
+
+			// Process next step, store states
+			archive.push( actives);
+			IdentityHashMap<State<T>,Integer> nexts = new IdentityHashMap<State<T>,Integer>();
+			for (State<T> s:actives.keySet())
+				follow( s, t, nexts);
+			actives = nexts;
+
+			// If the resulting list of states is empty, we are in an error
+			// state
+			error = actives.isEmpty();
+
+			return !error;
+		}
+
+
+		/** Apply next step in automaton.
+		 * @param transition a transition label to process
+		 * @return true iff it was possible to follow the given transition 
+		 */
+		public boolean nextStep( /*@ non_null @*/ T transition) {
+			Collection<T> trans = new LinkedList<T>();
+			trans.add( transition);
+			return nextStep( trans);
+		}
+
+
+		/** Determines whether the automaton is in an accepting state.
+		 * Automaton is accepting if at least one of the current automaton
+		 * states is accepting.
+		 *
+		 * @return true iff the automaton is in an accepting state
+		 */
+		/*@pure*/public boolean isAccepting() {
+			for (State<T> s:actives.keySet()) {
+				if (s.type == StateType.END)
+					return true;
+			}
+			return false;
+		}
+
+
+		/** Determines whether the automaton is in an error state.
+		 * @return true iff the automaton is in an error state
+		 */
+		/*@pure*/public boolean inErrorState() {
+			return error;
+		}
+
+		
+		/** Computes a list of transitions that lead from the current state to 
+		 * a state that is not an error state.
+		 * @return list of available trantions
+		 */
+		//@ ensures \fresh(\result);
+		/*@pure*/public /*@non_null*/List<T> availableTransitions() {
+			List<T> transitions = new LinkedList<T>();
+			for (State<T> state : actives.keySet())
+				if (state.type == StateType.MATCH)
+					transitions.add( state.match);
+			return transitions;
+		}
+
+		
+		/** Computes a set of available transitions.
+		 * @see ie.ucd.clops.runtime.automaton.Automaton#availableTransitions()
+		 * @return set of available transitions
+		 */
+		//@ ensures \fresh(\result);
+		/*@pure*/public /*@non_null*/HashSet<T> availableTransitionsUnique() {
+		    return new HashSet<T>( availableTransitions());
+		}
+
+
+		/** Undo the last {@code nextStep()} call. */
+		public void previousStep() {
+			actives = archive.pop();
+		}
+
+	}
 
 
 	/*
@@ -67,14 +227,8 @@ public class Automaton<T> {
 			throws RightOpenBracketException, LeftOpenBracketException,
 			OpenQuestionException, EmptyAlternativeException,
 			OpenStarException, OpenPlusException, EmptyFormatException {
-		arr = new ArrayList<State<T>>();
-		arr_backup = new Stack<ArrayList<State<T>>>();
-		step_index = 1;
-		error = false;
 
 		build( tokens);
-		addSuccessors( start_state, arr);
-		step_index++;
 	}
 
 	/**
@@ -228,146 +382,8 @@ public class Automaton<T> {
 		start_state = new State<T>( StateType.SPLIT, null, fin.start, null);
 	}
 
-	/** Adds MATCH and END successors of a state.
-	 * To avoid duplicates in the output list (and avoid cycling as well),
-	 * we update each state with step index and process only those, which
-	 * state index is less than the current one. Uses recursion to
-	 * transitively explore the graph.
-	 * @param state state to add or follow
-	 * @param successors output list of states
-	 */
-	private void addSuccessors2(
-			/*@ non_null @*/ State<T> state,
-			/*@ non_null @*/ List<State<T>> successors) {
-		if (state == null || state.state_index == step_index)
-			return;
-		state.state_index = step_index;
-		if (state.type == StateType.SPLIT) {
-			addSuccessors2( state.next1, successors);
-			addSuccessors2( state.next2, successors);
-		} else {
-			successors.add( state);
-		}
-	}
 
-	/** Adds successors of s of the type MATCH or END to the list.
-	 * Type of the state s must by MATCH or END.
-	 * @param state state to follow
-	 * @param successors output list of states
-	 */
-	private void addSuccessors(
-			/*@ non_null @*/ State<T> state,
-			/*@ non_null @*/List<State<T>> successors) {
-		addSuccessors2( state.next1, successors);
-		addSuccessors2( state.next2, successors);
-		state.state_index = step_index;
-	}
-
-
-	/** Follows specified transitions in the automaton and returns MATCH and END successor states.
-	 * @param state state to follow
-	 * @param transition_labels a collection of transition labels to process
-	 * @param add list of successor states
-	 */
-	private void follow(
-			/*@ non_null @*/ State<T> state,
-			/*@ non_null @*/ Collection<T> transition_labels,
-			/*@ non_null @*/ List<State<T>> arr) {
-
-		// Type of the state must be ready to match.
-		if (state.type != StateType.MATCH)
-			return;
-		// Follow all the transition labels.
-		for (T transition_label:transition_labels) {
-			if (state.match.equals(transition_label)) {
-				// We have a match, add succesors
-				addSuccessors( state, arr);
-			}
-		}
-	}
-
-	/** Apply next step in automaton.
-	 * If possible (i.e. matched), we follow all the transitions for all the active states.
-	 * @param t a collection of transition labels to process
-	 * @return true iff we could follow at least one of the transition labels
-	 */
-	public boolean nextStep( /*@ non_null @*/ Collection<T> t) {
-		// Do not continue if we are in an error state
-		if (error)
-			return false;
-
-		// Process next step, store states
-		arr_backup.push(arr);
-		ArrayList<State<T>> arr2 = new ArrayList<State<T>>();
-		for (State<T> s:arr)
-			follow( s, t, arr2);
-		arr = arr2;
-
-		// Update step counter
-		step_index++;
-
-		// If the resulting list of states is empty, we are in an error
-		// state
-		error = arr2.isEmpty();
-
-		return !error;
-	}
-
-	/** Undo the last {@code nextStep()} call. */
-	public void previousStep() {
-		arr = arr_backup.pop();
-	}
-
-	/** Apply next step in automaton.
-	 * @param transition a transition label to process
-	 * @return true iff it was possible to follow the given transition 
-	 */
-	public boolean nextStep( /*@ non_null @*/ T transition) {
-		List<T> l = new LinkedList<T>();
-		l.add( transition);
-		return nextStep( l);
-	}
-
-	/** Determines whether the automaton is in an accepting state.
-	 * Automaton is accepting if at least one of the current automaton
-	 * states is accepting.
-	 *
-	 * @return true iff the automaton is in an accepting state
-	 */
-	/*@pure*/public boolean isAccepting() {
-		for (State<T> s:arr) {
-			if (s.type == StateType.END)
-				return true;
-		}
-		return false;
-	}
-
-	/** Determines whether the automaton is in an error state.
-	 * @return true iff the automaton is in an error state
-	 */
-	/*@pure*/public boolean inErrorState() {
-		return error;
-	}
-	
-	/** Computes a list of transitions that lead from the current state to 
-         * a state that is not an error state.
-	 * @return list of available trantions
-	 */
-	//@ ensures \fresh(\result);
-	/*@pure*/public /*@non_null*/List<T> availableTransitions() {
-		List<T> transitions = new LinkedList<T>();
-		for (State<T> state : arr)
-			if (state.type == StateType.MATCH)
-				transitions.add(state.match);
-		return transitions;
-	}
-	
-	/** Computes a set of available transitions.
-         * @see ie.ucd.clops.runtime.automaton.Automaton#availableTransitions()
-	 * @return set of available transitions
-	 */
-	//@ ensures \fresh(\result);
-	/*@pure*/public /*@non_null*/HashSet<T> availableTransitionsUnique() {
-	    return new HashSet<T>(availableTransitions());
+	public AutomatonRun run() {
+		return new AutomatonRun();
 	}
 }

@@ -85,7 +85,7 @@ public class GenericCLParser {
   private ArrayList<ParseStep> currentParse;
   private OptionStore optionStore;
   private RuleStore ruleStore;
-  private Automaton<IMatchable> automaton;
+  private Automaton<IMatchable>.AutomatonRun automaton;
   private String commandLine;
   private boolean lookahead = true;
   private int longestStuckLength;
@@ -222,7 +222,7 @@ public class GenericCLParser {
     return result;
   }
 
-  private static Automaton<IMatchable> buildAutomaton(String formatString, OptionStore optionStore) 
+  private static Automaton<IMatchable>.AutomatonRun buildAutomaton(String formatString, OptionStore optionStore) 
   throws 
   Tokenizer.IllegalCharacterException, 
   Tokenizer.UnknownOptionException,
@@ -230,7 +230,7 @@ public class GenericCLParser {
   {
     List<Token<IMatchable>> tokens =
       new Tokenizer().tokenize(formatString, optionStore);
-    return new Automaton<IMatchable>(tokens);
+    return new Automaton<IMatchable>(tokens).run();
   }
 
   /**

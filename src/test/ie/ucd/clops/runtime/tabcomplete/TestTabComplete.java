@@ -53,6 +53,14 @@ public class TestTabComplete {
 		completeSubTest( "a[bc", "",	20, "IllegalArgumentException");
 		completeSubTest( "a{bc", "",	20, "IllegalArgumentException");
 		completeSubTest( "a(bc", "",	20, "IllegalArgumentException");
+		
+		
+		//Fintan's tests
+		completeSubTest( "a((a|b)*c*)*", "", 4, "a ac aa ab -");
+		completeSubTest( "a((a|b)*c*)*", "ab", 4, "ab abb abc aba -");
+		completeSubTest( "[ab]*", "", 6, " b a ba aa ab -");
+		completeSubTest( "(c(a[ab]*)?d)?", "c", 6, "cd cad cabd caad caaad caabd -");
+		completeSubTest( "((a|1)+(b|c)?)+", "", 12, "1 a 1b a1 ac 1a aa 1c ab 11 aab aba -");
 	}
 	
 	

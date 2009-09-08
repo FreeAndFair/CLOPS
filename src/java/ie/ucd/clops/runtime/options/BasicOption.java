@@ -97,7 +97,7 @@ public abstract class BasicOption<T> implements Option<T> {
     }
   }
 
-  public void setFromString(String valueString) throws InvalidOptionValueException {
+  public void setFromString(String optionAlias, String valueString) throws InvalidOptionValueException {
     set(convertStringToValue(valueString));
   }
 
@@ -144,7 +144,7 @@ public abstract class BasicOption<T> implements Option<T> {
   public void setProperty(String propertyName, String propertyValue) throws InvalidOptionPropertyValueException {
     if (propertyName.equals("default")) {
       try {
-        this.setFromString(propertyValue);
+        this.setFromString("DEFAULT", propertyValue);
       } catch (InvalidOptionValueException iove) {
         throw new InvalidOptionPropertyValueException("Invalid default value: " + iove.getMessage(), iove);
       }
@@ -163,6 +163,7 @@ public abstract class BasicOption<T> implements Option<T> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof BasicOption) {

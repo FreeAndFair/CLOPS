@@ -31,7 +31,7 @@ public class CLOTestRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public Boolean evaluate(final OptionStore optionStore) {
-      return ((ie.ucd.clops.runtime.options.BooleanOption)optionStore.getOptionByIdentifier("RunTests")).getValue() && !((ie.ucd.clops.runtime.options.BooleanOption)optionStore.getOptionByIdentifier("Compile")).getValue();
+      return ((ie.ucd.clops.runtime.options.BooleanOption)optionStore.getOptionByIdentifier("RunTests")).getRawValue() && !((ie.ucd.clops.runtime.options.BooleanOption)optionStore.getOptionByIdentifier("Compile")).getRawValue();
     }
   }
     

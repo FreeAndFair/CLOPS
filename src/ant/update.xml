@@ -27,6 +27,10 @@
 	      <arg value="${src-test-interface}"/>
 	      <arg value="-p"/>
 	      <arg value="${src-test-interface-package}"/>
+	      <arg value="-c"/>
+	      <arg value="templates/gen-ant-task.vm"/>
+	      <arg value="-t"/>
+	      <arg value="${src-test-interface}"/>
 	      <arg value="${test-interface-file}"/>
 	    </java>
 	  </target>

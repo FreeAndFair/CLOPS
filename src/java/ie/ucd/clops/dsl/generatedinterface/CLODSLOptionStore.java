@@ -68,6 +68,9 @@ public class CLODSLOptionStore extends OptionStore implements CLODSLOptionsInter
     ogCustom.setProperty("description", "Use custom templates for generation.");
     ogTarget = new FileOption("Target", "(?:-t)|(?:--target)");
     addOption(ogTarget);
+    ogTarget.setProperty("default", ".");
+    ogTarget.setProperty("mustbedir", "true");
+    ogTarget.setProperty("mustexist", "true");
     ogTarget.setProperty("aliases", "-t,--target");
     ogTarget.setProperty("description", "Specify the target directory / or the target file for the generation from some templates.");
     ogStaticCheck = new BooleanOption("StaticCheck", "(?:-sc)|(?:--static-check)");

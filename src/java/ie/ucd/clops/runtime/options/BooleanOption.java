@@ -50,7 +50,7 @@ public class BooleanOption extends BasicOption<Boolean> {
     } else {
       if (allowArg) {
         try {
-          setFromString(arg);
+          setFromString(match.group(0), arg);
           return ProcessingResult.successfulProcess();
         } catch (InvalidOptionValueException iove) {
           return ProcessingResult.erroneousProcess(iove.getMessage());

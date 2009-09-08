@@ -28,7 +28,7 @@ Builtin:{"-b","--built-in"}:{enum-list}:[choices="htmldev,html,manpage,usage,hel
 Custom:{"-c","--custom"}:{file-list}:[mustExist,canBeDir="false"]
   :"Use custom templates for generation."
 
-Target:{"-t", "--target"}:{file}
+Target:{"-t", "--target"}:{file}:[default=".",mustbedir,mustexist]
   :"Specify the target directory / or the target file for the generation from some templates."
 
 StaticCheck:{"-sc","--static-check"}:[default="true"]

@@ -49,7 +49,8 @@ public abstract class ListOption<T> extends OneArgumentOption<List<T>> {
     this.isSet = true;
   }
 
-  public void setFromString(String valueString) throws InvalidOptionValueException {
+  public void setFromString(String optionAlias, String valueString) throws InvalidOptionValueException {
+    valueString = convertToDefaultIfNecessary(optionAlias, valueString);
     if (allowMultiple) {
       String[] parts = valueString.split(splittingString);
       for (String part : parts) {

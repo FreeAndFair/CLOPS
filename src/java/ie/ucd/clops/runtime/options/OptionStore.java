@@ -102,6 +102,7 @@ implements IMatchString  {
     return sb.toString();
   }
   
+  @SuppressWarnings("unchecked")
   public String listAsString(String separator) {
     StringBuilder sb = new StringBuilder();
     for (Option<?> op : options) {

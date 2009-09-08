@@ -5,7 +5,6 @@ import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 import ie.ucd.clops.runtime.parser.ProcessingResult;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This interface describes information about the option needed during option parsing.
@@ -15,8 +14,6 @@ import java.util.List;
  *
  */
 public interface Option<T> extends IMatchable {
-
-  ProcessingResult process();
 
   /**
    * Does this Option have a value?
@@ -59,7 +56,7 @@ public interface Option<T> extends IMatchable {
    * Sets the value of this Option from a string representation.
    * @param value a string representation of the value to set
    */
-  void setFromString(String value) throws InvalidOptionValueException;
+  void setFromString(String optionAlias, String value) throws InvalidOptionValueException;
 
   /**
    * Convert from a String to a value of this option's type.

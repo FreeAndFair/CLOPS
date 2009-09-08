@@ -28,11 +28,11 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
 
   private String between = "[=" + SEP + "]"; // a regex separating the prefix from the argument
   private String argumentShape = "[^" + SEP + "]*"; // format of the argument
-  private String defaultVal = ""; // The value of the arugment if none was specified. If set, it's advisable to remove SEP from between.
+  private String defaultVal = ""; // The value of the argument if none was specified. If set, it's advisable to remove SEP from between.
 
   private String argumentName;
   private boolean blankparamAllowed;
-  
+
   public OneArgumentOption(String identifier, String prefix) {
     super(identifier, prefix);
     updateSuffix();
@@ -54,7 +54,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     }
     return acceptedPropertyNames;
   }
-  
+
   @Override
   public Collection<String> getAcceptedPropertyNames() {
     return getStaticAcceptedPropertyNames();
@@ -82,7 +82,21 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   }
 
   private void setDefaultVal(String newDefaultVal) {
-      defaultVal = newDefaultVal;
+    defaultVal = newDefaultVal;
+  }
+
+  @Override
+  public void setFromString(String optionAlias, String valueString) throws InvalidOptionValueException {
+    valueString = convertToDefaultIfNecessary(optionAlias, valueString);
+    super.setFromString(optionAlias, valueString);
+  }
+  
+  protected String convertToDefaultIfNecessary(String optionAlias, String valueString) throws InvalidOptionValueException {
+    if (valueString==null || valueString.equals("") ) {
+      if (blankparamAllowed) valueString = defaultVal; 
+      else throw new InvalidOptionValueException("Parameter expected for " + optionAlias);
+    }
+    return valueString;
   }
 
   public void setBetween(String newBetween) {
@@ -95,24 +109,6 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
     updateSuffix();
   }
 
-  /* (non-Javadoc)
-   * @see ie.ucd.clo.runtime.options.Option#match(java.lang.String, int)
-   */
-  public ProcessingResult process() {
-    String arg = match.group(2);
-    if (arg==null || arg.equals("") ) {
-        if (blankparamAllowed) arg=defaultVal; 
-        else return ProcessingResult.erroneousProcess("Parameter expected for " + match.group(0));
-    }
-
-    try {
-        setFromString(arg);
-        return ProcessingResult.successfulProcess();
-    } catch (InvalidOptionValueException iove) {
-        return ProcessingResult.erroneousProcess(iove.getMessage());
-    }
-  }
-
   /** Returns the string that matched the value of the option's
    * argument. The implementation is dependent on {@code
    * updateSuffix}, which determines the groups. */
@@ -121,7 +117,7 @@ public abstract class OneArgumentOption<T> extends BasicOption<T> {
   }
 
   private void updateSuffix() {
-      //"(?:" here denotes a non-capturing group 
+    //"(?:" here denotes a non-capturing group 
     setMatchingSuffix("(?:" + between + "(" + argumentShape + "))?" + SEP);
   }
 

@@ -18,7 +18,7 @@ public abstract class ${info.getParserName()}AntTaskBase
   throws org.apache.tools.ant.BuildException {
     try {
       options.getOptionByIdentifier("$!desc.getIdentifier()")
-        .setFromString(value);
+        .setFromString("$desc.getIdentifier()", value);
     } catch (Exception e) {
       throw new org.apache.tools.ant.BuildException(
         "Can't set $!desc.getIdentifier() to " + value + ".\n" + 

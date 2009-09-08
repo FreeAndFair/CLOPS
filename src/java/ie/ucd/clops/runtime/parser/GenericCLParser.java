@@ -56,7 +56,7 @@ public class GenericCLParser {
    * call {@code s.option.setValueFromString(s.optionValue)} (and
    * the corresponding fly rules are applied).
    */
-  static final private class ParseStep {
+  static final public class ParseStep {
     public Option<?> option;
     public String optionValue;
     public int optionMatchLength;
@@ -92,6 +92,9 @@ public class GenericCLParser {
   private RuleStore ruleStore;
   private Automaton<IMatchable> automaton;
   private String commandLine;
+  private boolean lookahead;
+  private int longestStuckLength;
+  private HashSet<ArrayList<ParseStep>> longestStuck;
 
   /** 
    * If there is exactly one way to parse the command line
@@ -100,18 +103,15 @@ public class GenericCLParser {
    * this function to throw exception. Exceptions may also be
    * thrown if options refuse to set their values from the given
    * string.
-   *
-   * TODO(rgrig): The interface of this function should clearly
-   *    separate errors in the DSL from errors in the command line.
    */
   public ParseResult alternateParse(
       String formatString, 
       OptionStore optionStore,
       RuleStore ruleStore,
-      String[] args) 
+      String[] args)
   throws 
-  Tokenizer.IllegalCharacterException, 
-  Tokenizer.UnknownOptionException
+      Tokenizer.IllegalCharacterException, 
+      Tokenizer.UnknownOptionException
   {
     ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false));
 
@@ -122,18 +122,12 @@ public class GenericCLParser {
 
     parsingPossibilities = new HashSet<ArrayList<ParseStep>>();
     currentParse = new ArrayList<ParseStep>();
+    longestStuckLength = -1;
 
     recursiveParse(0);
-    if (parsingPossibilities.size() > 1) {
-      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
-      //TODO better errors here - index of divergence, other information
-      result.addError(new AmbiguousCommandLineError("There are " + parsingPossibilities.size() + " parsing possibilities."));
+    describeErrors(result);
+    if (!result.successfulParse()) {
       return result;
-    } else if (parsingPossibilities.size() == 0) {
-      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
-      //TODO better errors here - index of no match
-      result.addError(new UnknownOptionError("There are " + parsingPossibilities.size() + " parsing possibilities."));
-      return result;      
     }
     result.addAll(applyParse(parsingPossibilities.iterator().next()));
     if (!result.successfulParse()) {
@@ -151,10 +145,35 @@ public class GenericCLParser {
     return result;
   }
 
+  private void describeErrors(ParseResult result) {
+    if (parsingPossibilities.size() > 1) {
+      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
+      //TODO better errors here - index of divergence, other information
+      result.addError(new AmbiguousCommandLineError("There are " + parsingPossibilities.size() + " parsing possibilities."));
+    } else if (parsingPossibilities.size() == 0) {
+      log.fine("There are " + parsingPossibilities.size() + " parsing possibilities.");
+      result.addError(new UnknownOptionError(longestStuckLength, longestStuck));
+    }
+  }
+
+  private void recordStuck(int startIndex) {
+    if (startIndex < longestStuckLength) {
+      return;
+    }
+    if (startIndex > longestStuckLength) {
+      longestStuck = new HashSet<ArrayList<ParseStep>>();
+      longestStuckLength = startIndex;
+    }
+    longestStuck.add(new ArrayList<ParseStep>(currentParse));
+  }
+
   private void recursiveParse(int startIndex) {
     if (startIndex == commandLine.length()) {
-      if (automaton.isAccepting())
+      if (automaton.isAccepting()) {
         parsingPossibilities.add(new ArrayList<ParseStep>(currentParse));
+      } else {
+        recordStuck(startIndex);
+      }
       return;
     }
 
@@ -179,13 +198,16 @@ public class GenericCLParser {
       recursiveParse(startIndex + e.getKey().optionMatchLength);
       currentParse.remove(currentParse.size() - 1);
       automaton.previousStep();
+      if (!lookahead) break;
+    }
+    if (matches.isEmpty()) {
+      recordStuck(startIndex);
     }
   }
 
   private ParseResult applyParse(List<ParseStep> parse) {
     ParseResult result = new ParseResult();
     for (ParseStep step : parse) {
-
       try {
         step.option.setFromString(step.optionValue);
       } catch (InvalidOptionValueException e) {
@@ -307,7 +329,7 @@ public class GenericCLParser {
         // If no  match was found
         CLOLogger.getLogger().log(Level.SEVERE, "Illegal option: " + suggestUnmatchedOption(argumentString, i)); // debugging
         //TODO index of no match
-        result.addError(new UnknownOptionError("Illegal option: " + suggestUnmatchedOption(argumentString, i)));
+        result.addError(new UnknownOptionError(i, suggestUnmatchedOption(argumentString, i)));
         return result;
       } else {
         //We should have at least one transition

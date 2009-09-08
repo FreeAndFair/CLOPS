@@ -57,7 +57,7 @@ public class RuleDescription {
   }
 
   /**
-   * Sets the condition decsription used for document generation
+   * Sets the condition description used for document generation
    */
   public void setConditionDescription(String conditionDescription) {
     this.conditionDescription = conditionDescription;
@@ -118,7 +118,7 @@ public class RuleDescription {
         return s;
       }
     } else {
-      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).getValue()";
+      return "((" + desc.getType().getOptionTypeClass() + ")optionStore.getOptionByIdentifier(\"" + desc.getIdentifier() + "\")).getRawValue()";
     }
   }
 

@@ -8,6 +8,8 @@ import ie.ucd.clops.runtime.options.exception.InvalidOptionValueException;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,6 +99,13 @@ public abstract class BasicOption<T> implements Option<T> {
     }
   }
 
+  @Override
+  public Set<Option<?>> getAllOptions() {
+    Set<Option<?>> result = new HashSet<Option<?>>();
+    result.add(this);
+    return result;
+  }
+
   public void setFromString(String optionAlias, String valueString) throws InvalidOptionValueException {
     set(convertStringToValue(valueString));
   }
@@ -167,11 +176,10 @@ public abstract class BasicOption<T> implements Option<T> {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof BasicOption) {
-      this.getIdentifier().equals(((BasicOption<?>)obj).getIdentifier());
+      return this.getIdentifier().equals(((BasicOption<?>)obj).getIdentifier());
     } else {
       return false;
     }
-    return super.equals(obj);
   }
 
   @Override

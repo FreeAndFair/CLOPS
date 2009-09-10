@@ -2,6 +2,8 @@ package ie.ucd.clops.runtime.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class maintaining a collection of {@code IMatchable} objects and
@@ -46,6 +48,14 @@ public class MatchableCollection {
         if (matched.isEmpty()) return null;
         assert !assertForDuplicates || matched.size() == 1;
         return matched.get(0);
+    }
+
+    public Set<Option<?>> getAllOptions() {
+      Set<Option<?>> result = new HashSet<Option<?>>();
+      for (IMatchable m : ms) {
+        result.addAll(m.getAllOptions());
+      }
+      return result;
     }
 
     @Override

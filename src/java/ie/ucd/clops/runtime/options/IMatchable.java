@@ -1,5 +1,6 @@
 package ie.ucd.clops.runtime.options;
 
+import java.util.Set;
 
 /**
  * A base class for all structures that are used to describe
@@ -15,4 +16,6 @@ public interface IMatchable {
   Option<?> getMatchingOption(String argumentString, int index);
   
   boolean hasAtLeastOneOptionWithValue();
+
+  Set<Option<?>> getAllOptions();
 }

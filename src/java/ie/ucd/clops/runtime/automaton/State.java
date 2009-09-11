@@ -46,4 +46,18 @@ class State<T> {
 		else
 			next2 = s;
 	}
+
+
+	/** Returns the accepting state.
+	 */
+	boolean isAccepting() {
+		return type == StateType.END;
+	}
+
+
+	/** Returns associated matchable type.
+	*/
+	T getLabel() {
+		return match;
+	}
 }

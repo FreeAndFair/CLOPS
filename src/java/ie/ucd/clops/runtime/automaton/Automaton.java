@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.Set;
 import java.util.IdentityHashMap;
 
 
@@ -167,7 +168,7 @@ public class Automaton<T> {
 		 */
 		/*@pure*/public boolean isAccepting() {
 			for (State<T> s:actives.keySet()) {
-				if (s.type == StateType.END)
+				if (s.isAccepting())
 					return true;
 			}
 			return false;
@@ -211,6 +212,12 @@ public class Automaton<T> {
 			actives = archive.pop();
 		}
 
+
+		/** Returns a set of active states.
+		 */
+		public Set<State<T>> activeStates() {
+			return actives.keySet();
+		}
 	}
 
 
@@ -383,7 +390,29 @@ public class Automaton<T> {
 	}
 
 
+	/** Returns followable NDA state.
+	 */
 	public AutomatonRun run() {
 		return new AutomatonRun();
+	}
+
+
+	/** Returns initial state.
+	 */
+	public State<T> getInitialState() {
+		return start_state;
+	}
+
+		
+	/** Computes a list of transitions that lead from the state specified.
+	 *
+	 * @param state root state
+	 * @return list of available trantions
+	 */
+	/*@pure*/public /*@non_null*/List<T> getOutgoing( State<T> state) {
+		List<T> transitions = new LinkedList<T>();
+		if (state.type == StateType.MATCH)
+			transitions.add( state.match);
+		return transitions;
 	}
 }

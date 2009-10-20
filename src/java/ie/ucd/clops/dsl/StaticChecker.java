@@ -155,6 +155,11 @@ public class StaticChecker {
     }
 
     @Override
+    public Set<Option<?>> getAllOptions() {
+      return null;
+    }
+
+    @Override
     public Option<?> getMatchingOption(String argumentString, int index) {
       return null;
     }

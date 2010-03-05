@@ -1,8 +1,5 @@
 package ie.ucd.clops.runtime.options;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 
  * @author Fintan
@@ -17,16 +14,12 @@ import java.util.Set;
 public class OptionGroup extends MatchableCollection implements IMatchable {
   private String identifier;
 
-  //TODO: ensure uniqueness in a nicer way
-  private static Set<String> groupIds = new HashSet<String>();// debugging
 
   /**
    * Create an {@code OptionGroup} with the provided identifier.
    * @param identifier a unique identifier for this {@code OptionGroup}.
    */
   public OptionGroup(String identifier) {
-    assert !groupIds.contains(identifier);
-    groupIds.add(identifier); // debugging
     this.identifier = identifier;
   }
 

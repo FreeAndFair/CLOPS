@@ -59,6 +59,7 @@ implements IMatchString  {
    */
   public void addOptionGroup(/*@non_null*/OptionGroup og) {
     addMatchable(og);
+    assert !identifierOptionGroupMap.containsKey(og.getIdentifier());
     identifierOptionGroupMap.put(og.getIdentifier(), og);
   }
 

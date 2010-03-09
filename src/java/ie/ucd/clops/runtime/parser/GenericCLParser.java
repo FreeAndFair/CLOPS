@@ -103,12 +103,13 @@ public class GenericCLParser {
       String formatString, 
       OptionStore optionStore,
       RuleStore ruleStore,
-      String[] args)
+      String[] args,
+      String progName)
   throws 
       Tokenizer.IllegalCharacterException, 
       Tokenizer.UnknownOptionException
   {
-    ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false));
+    ParseResult result = new ParseResult(StringUtil.appendWithSeparator(args, " ", false), progName);
 
     this.optionStore = optionStore;
     this.ruleStore = ruleStore;
@@ -241,9 +242,9 @@ public class GenericCLParser {
    * @param args the commandline as given to the main method
    * @return {@code true} iff the commmand line has been successfully parsed.
    */
-  public ParseResult parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args) {
+  public ParseResult parse(String formatString, OptionStore optionStore, RuleStore ruleStore, String[] args, String progName) {
     lookahead = false;
-    return alternateParse(formatString, optionStore, ruleStore, args);
+    return alternateParse(formatString, optionStore, ruleStore, args, progName);
   }
 
   private static final Pattern unmatcher = Pattern.compile(Option.SEP + "*[^" + Option.SEP_STRING + "]+");

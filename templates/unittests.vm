@@ -11,9 +11,9 @@ public class UnitTests {
 @Test 
 public void test${i}() throws Exception {
 #if($testCase.getCondition())
-  assertTrue(${name}Main.test("$testCase.getTestInput()".split("\\s+"), ${logFine}));
+  assertTrue(${name}Main.test("$testCase.getTestInput()".split("\\s+"), "${name}", ${logFine}));
 #else
-  assertFalse(${name}Main.test("$testCase.getTestInput()".split("\\s+"), ${logFine}));
+  assertFalse(${name}Main.test("$testCase.getTestInput()".split("\\s+"), "${name}", ${logFine}));
 #end
 }
 

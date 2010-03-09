@@ -60,9 +60,9 @@ public class ${parsername}Parser extends AbstractSpecificCLParser {
    * Parse the given command line arguments using a new ${parsername}Parser,
    * with normal lookahead. 
    */
-  public static ${parsername}ParseResult parse(String[] args) {
+  public static ${parsername}ParseResult parse(String[] args, String progName) {
     ${parsername}Parser parser = new ${parsername}Parser();
-    ParseResult parseResult = parser.parseInternal(args);
+    ParseResult parseResult = parser.parseInternal(args, progName);
     return new ${parsername}ParseResult(parseResult, parser.getOptionStore());
   }
   
@@ -70,9 +70,9 @@ public class ${parsername}Parser extends AbstractSpecificCLParser {
    * Parse the given command line arguments using a new ${parsername}Parser,
    * with infinite lookahead.
    */
-  public static ${parsername}ParseResult parseAlternate(String[] args) {
+  public static ${parsername}ParseResult parseAlternate(String[] args, String progName) {
     ${parsername}Parser parser = new ${parsername}Parser();
-    ParseResult parseResult = parser.parseAlternateInternal(args);
+    ParseResult parseResult = parser.parseAlternateInternal(args, progName);
     return new ${parsername}ParseResult(parseResult, parser.getOptionStore());
   }
 }

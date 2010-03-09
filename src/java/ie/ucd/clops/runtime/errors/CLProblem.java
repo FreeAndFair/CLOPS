@@ -28,11 +28,13 @@ public class CLProblem implements Comparable<CLProblem> {
     return problemIndex;
   }
 
-  public void printToStream(PrintStream ps, String commandLine) {
+  public void printToStream(PrintStream ps, String commandLine, String progName) {
     ps.println(getMessage());
     if (problemIndex != UNKNOWN_INDEX && commandLine != null) {
+      ps.print(progName);
+      ps.print(' ');
       ps.println(commandLine);
-      ps.println(StringUtil.getErrorPosition(problemIndex));
+      ps.println(StringUtil.getErrorPosition(problemIndex + 1 + progName.length()));
     }
   }
 

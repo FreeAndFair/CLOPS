@@ -56,9 +56,9 @@ public class CLODSLParser extends AbstractSpecificCLParser {
    * Parse the given command line arguments using a new CLODSLParser,
    * with normal lookahead. 
    */
-  public static CLODSLParseResult parse(String[] args) {
+  public static CLODSLParseResult parse(String[] args, String progName) {
     CLODSLParser parser = new CLODSLParser();
-    ParseResult parseResult = parser.parseInternal(args);
+    ParseResult parseResult = parser.parseInternal(args, progName);
     return new CLODSLParseResult(parseResult, parser.getOptionStore());
   }
   
@@ -66,9 +66,9 @@ public class CLODSLParser extends AbstractSpecificCLParser {
    * Parse the given command line arguments using a new CLODSLParser,
    * with infinite lookahead.
    */
-  public static CLODSLParseResult parseAlternate(String[] args) {
+  public static CLODSLParseResult parseAlternate(String[] args, String progName) {
     CLODSLParser parser = new CLODSLParser();
-    ParseResult parseResult = parser.parseAlternateInternal(args);
+    ParseResult parseResult = parser.parseAlternateInternal(args, progName);
     return new CLODSLParseResult(parseResult, parser.getOptionStore());
   }
 }

@@ -12,7 +12,7 @@ import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueExceptio
 public class ${info.getParserName()}Main {
   
   public static void main(String[] args) throws Exception {
-    boolean success = test(args, true);
+    boolean success = test(args, "tool", true);
     if (success) {
       CLOLogger.getLogger().log(Level.INFO, "Successful parse.");
     } else {
@@ -21,11 +21,11 @@ public class ${info.getParserName()}Main {
     
   }
   
-  public static boolean test(String[] args, boolean logFine) throws Exception {
+  public static boolean test(String[] args, String progName, boolean logFine) throws Exception {
     if (logFine) {
       CLOLogger.setLogLevel(Level.FINE);
     }
-    ParseResult result = ${parserName}Parser.parse(args);
+    ParseResult result = ${parserName}Parser.parse(args, progName);
     result.printErrorsAndWarnings(System.out);
     return result.successfulParse();
   }

@@ -7,23 +7,26 @@ import java.util.TreeSet;
 public class ParseResult {
 
   private final String commandLineInput;
+  private final String progName;
   private final SortedSet<CLProblem> errors;
   private final SortedSet<CLProblem> warnings;
   private final SortedSet<CLProblem> combined;
   
-  public ParseResult(String commandLineInput) {
+  public ParseResult(String commandLineInput, String progName) {
     this.commandLineInput = commandLineInput;
+    this.progName = progName;
     errors = new TreeSet<CLProblem>();
     warnings = new TreeSet<CLProblem>();
     combined = new TreeSet<CLProblem>();
   }
   
   public ParseResult() {
-    this((String)null);
+    this((String)null, (String)null);
   }
   
   public ParseResult(ParseResult toClone) {
     this.commandLineInput = toClone.commandLineInput;
+    this.progName = toClone.progName;
     this.errors = new TreeSet<CLProblem>(toClone.errors);
     this.warnings = new TreeSet<CLProblem>(toClone.warnings);
     this.combined = new TreeSet<CLProblem>(toClone.combined);
@@ -80,7 +83,7 @@ public class ParseResult {
   
   private void print(SortedSet<CLProblem> problems, PrintStream ps) {
     for (CLProblem problem : problems) {
-      problem.printToStream(ps, commandLineInput);
+      problem.printToStream(ps, commandLineInput, progName);
     }
   }
 

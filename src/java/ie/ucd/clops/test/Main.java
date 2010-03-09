@@ -22,7 +22,7 @@ public class Main {
    */
   public static void main(final String[] args) {
     try {
-      CLOTestParseResult argsParseResult = CLOTestParser.parse(args);
+      CLOTestParseResult argsParseResult = CLOTestParser.parse(args, "clotest");
       
       if (argsParseResult.successfulParse()) {
         execute(argsParseResult.getOptionStore());

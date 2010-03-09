@@ -33,24 +33,24 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parseInternal(String[] args)
-  { return parseInternal(args, false); }
+  public ParseResult parseInternal(String[] args, String progName)
+  { return parseInternal(args, progName, false); }
 
   /**
    * Parse the given command line arguments using this parser with the infiniteLookahead. 
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parseAlternateInternal(String[] args) 
-  { return parseInternal(args, true); }
+  public ParseResult parseAlternateInternal(String[] args, String progName) 
+  { return parseInternal(args, progName, true); }
 
   /**
    * Parse the given command line arguments using this parser. 
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not
    */
-  public ParseResult parseInternal(String[] args, boolean infiniteLookahead) {
-    return parse(new GenericCLParser(), args, infiniteLookahead);
+  public ParseResult parseInternal(String[] args, String progName, boolean infiniteLookahead) {
+    return parse(new GenericCLParser(), args, progName, infiniteLookahead);
   }
   
   /**
@@ -59,10 +59,10 @@ public abstract class AbstractSpecificCLParser {
    * @param args the command line arguments to parse.
    * @return whether the parse was successful or not.
    */
-  public ParseResult parse(GenericCLParser parser, String[] args, boolean infiniteLookahead) {
+  public ParseResult parse(GenericCLParser parser, String[] args, String progName, boolean infiniteLookahead) {
     if (infiniteLookahead) 
-      return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      return parser.alternateParse(getFormatString(), getOptionStore(), getRuleStore(), args, progName);
     else 
-      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args);
+      return parser.parse(getFormatString(), getOptionStore(), getRuleStore(), args, progName);
   }
 }

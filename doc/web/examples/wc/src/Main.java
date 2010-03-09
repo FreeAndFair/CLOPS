@@ -6,7 +6,7 @@ import ie.ucd.clops.runtime.errors.ParseResult;
 public class Main {
   public static void main(String[] args)  {
     WcParser parser = new WcParser();
-    ParseResult argsParseResult = parser.parse(args);
+    ParseResult argsParseResult = parser.parse(args, "wc");
     if (!argsParseResult.successfulParse()) {
       argsParseResult.printErrorsAndWarnings(System.err);
       System.err.println("Usage: java Main [OPTIONS] file...");

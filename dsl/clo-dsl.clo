@@ -78,7 +78,7 @@ OVERRIDES::
 
 VALIDITY::
 
-{ !$(Output?) } : "The output should always be set to a valid value";
+{ !$(Output?) } : "The output must always be set to a valid value";
 
 //exclusive : gen_docs_builtin, gen_docs_custom   
 //          : "Only one type of documentation template may be used." 

@@ -1,13 +1,64 @@
-##! ${info.ParserName}_usage.txt
-## usage.vm
-$info.ParserName
+##! FbCliUtil.java
+/*** Generated from usage.vm. Do not edit FbCLiUtil.java. ***/
+package $info.getPackageName();
 
-Usage
-=====
-#parse("templates/all.vm")
+import java.util.*;
 
-#foreach($option in $info.getOptionDescriptions())
+import com.google.common.collect.Lists;
+import genericutils.StringUtil;
+import jline.Terminal;
 
-Name: $option.Identifier
-Description: $!option.Description
+public final class FbCliUtil {
+  private static class Option {
+    public List<String> aliases = Lists.newArrayList();
+    public String aliasData;
+    public String description;
+
+    public void print(int width) {
+      if (aliases.isEmpty()) {
+        System.out.println(aliasData);
+      }
+      for (String a : aliases) {
+        System.out.print(a);
+        if (!"<boolean>".equals(aliasData))
+          System.out.print("=" + aliasData + "");
+        System.out.println();
+      }
+      for (String line : StringUtil.format(description, width - 5))
+        System.out.println("     " + line);
+    }
+  }
+
+  public static void printUsage() {
+    List<Option> options = Lists.newArrayList();
+
+    Option newOption;
+#foreach ($option in $info.getOptionDescriptions())
+    newOption = new Option();
+#foreach ($alias in $option.getAliases())
+    newOption.aliases.add("$alias");
 #end
+    newOption.aliasData = "<$option.getType().getTypeDescriptionString()>";
+    if (newOption.aliasData.startsWith("<enum")) {
+      String x = "[" + "$!option.getPropertyValue("choices")" + "]";
+      x = x.replace(',','|').replaceAll("\\([^)]*\\)","").toLowerCase();
+      if (newOption.aliasData.endsWith("-list>")) x += "*";
+      String d = "$!option.getPropertyValue("default")";
+      if (!d.equals("")) x += "  (default: " + d + ")";
+      newOption.aliasData = x;
+    }
+    //newOption.description = "foo";
+    newOption.description = "$option.getDescription().replace('\n', ' ')";
+    if (!"".equals(newOption.description)) options.add(newOption);
+#end
+
+    Terminal t = Terminal.setupTerminal();
+    int w = t.getTerminalWidth() - 5;
+    for (String line : StringUtil.format("$info.getDescription()", w))
+      System.out.println(line);
+    for (Option o : options) {
+      System.out.println();
+      o.print(w);
+    }
+  }
+}

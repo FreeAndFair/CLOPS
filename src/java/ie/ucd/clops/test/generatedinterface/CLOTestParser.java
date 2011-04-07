@@ -1,17 +1,21 @@
 package ie.ucd.clops.test.generatedinterface;
 
+import java.io.PrintStream;
+import java.util.List;
+
 import ie.ucd.clops.runtime.errors.ParseResult;
+import ie.ucd.clops.runtime.options.Option;
+import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
 import ie.ucd.clops.runtime.parser.AbstractSpecificCLParser;
 import ie.ucd.clops.runtime.rules.RuleStore;
-import ie.ucd.clops.runtime.options.exception.InvalidOptionPropertyValueException;
-
+import ie.ucd.clops.util.OptionUtil;
 
 /**
  * The arguments parser.
  * This is the main entry point for the option's handling.
  * @author The CLOPS team
  */
-public class CLOTestParser extends AbstractSpecificCLParser { 
+public class CLOTestParser extends AbstractSpecificCLParser {
 
   /** The option store used to hold the option's status. */
   private final CLOTestOptionStore optionStore;
@@ -25,7 +29,7 @@ public class CLOTestParser extends AbstractSpecificCLParser {
    */
   public CLOTestParser() throws InvalidOptionPropertyValueException {
     optionStore = new CLOTestOptionStore();
-    ruleStore = new CLOTestRuleStore(); 
+    ruleStore = new CLOTestRuleStore();
   }
 
   /**
@@ -50,6 +54,16 @@ public class CLOTestParser extends AbstractSpecificCLParser {
    */
   public String getFormatString() {
     return "(AllOptions* Input AllOptions*)"; 
+  }
+
+  public void printUsage(PrintStream os) {
+    printUsage(os, 80, 0);
+  }
+
+  public void printUsage(PrintStream out, int width, int indent) {
+    List<Option<?>> all = optionStore.getOptionsWithoutErrorOption();
+    OptionUtil.printOptions(out, all, width, indent);
+    out.flush();
   }
   
   /**

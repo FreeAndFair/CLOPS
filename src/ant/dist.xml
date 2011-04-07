@@ -68,14 +68,17 @@
     
   <target name="dist-clean" description="Clean up the distribution">
     <delete dir="${dist}"/>
+    <delete>
+      <fileset dir="." includes="*.zip"/>
+    </delete>
   </target>
   
   <target name="dist-release" description="Create release" depends="dist">
-    <zip destfile="clops-${clops-version}.zip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
-    <tar destfile="clops-${clops-version}.tar.gz" compression="gzip" basedir="${dist}" excludes="*.zip *.tar.gz"/>
-    
-    <move todir="${dist}" file="clops-${clops-version}.zip"/>
-    <move todir="${dist}" file="clops-${clops-version}.tar.gz"/>
+    <copy todir="clops-${clops-version}">
+      <fileset dir="${dist}"/>
+    </copy>
+    <zip destfile="clops-${clops-version}.zip" basedir="." includes="clops-${clops-version}/**/*"/>
+    <delete dir="clops-${clops-version}"/>
   </target>
 
   

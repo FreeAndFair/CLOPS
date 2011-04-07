@@ -40,7 +40,7 @@ public class CLODSLRuleStore extends RuleStore {
      * {@inheritDoc}
      */
     public List<String> evaluate(final OptionStore optionStore) {
-      return Arrays.asList("The output should always be set to a valid value");
+      return Arrays.asList("The output must always be set to a valid value");
     }
   }
   

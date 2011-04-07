@@ -85,7 +85,8 @@ public class Main {
    * @throws InvalidOptionValueException
    */
   public boolean start(String[] args, boolean terminateSystem) throws AutomatonException, InvalidOptionValueException {
-    CLODSLParseResult argsParseResult = CLODSLParser.parse(args, "clops");
+    CLODSLParser cloParser = new CLODSLParser();
+    CLODSLParseResult argsParseResult = cloParser.parse(args, "clops");
     
     if (argsParseResult.successfulParse()) {
       final CLODSLOptionStore options = argsParseResult.getOptionStore();
@@ -98,7 +99,7 @@ public class Main {
       
       System.err.println("Invalid arguments:");
       argsParseResult.printErrorsAndWarnings(System.err);
-      //TODO print usage
+      cloParser.printUsage(System.out);
       
       if (terminateSystem) {
         System.exit(1);

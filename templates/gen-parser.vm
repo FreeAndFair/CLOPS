@@ -60,12 +60,12 @@ public class ${parsername}Parser extends AbstractSpecificCLParser {
     return "$info.getFormatString()"; 
   }
 
-  public void printUsage(PrintStream os) {
+  public static void printUsage(PrintStream os) {
     printUsage(os, 80, 0);
   }
 
-  public void printUsage(PrintStream out, int width, int indent) {
-    List<Option<?>> all = optionStore.getOptionsWithoutErrorOption();
+  public static void printUsage(PrintStream out, int width, int indent) {
+    List<Option<?>> all = new ${parsername}OptionStore().getOptionsWithoutErrorOption();
     OptionUtil.printOptions(out, all, width, indent);
     out.flush();
   }

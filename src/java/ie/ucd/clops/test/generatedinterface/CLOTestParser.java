@@ -56,12 +56,12 @@ public class CLOTestParser extends AbstractSpecificCLParser {
     return "(AllOptions* Input AllOptions*)"; 
   }
 
-  public void printUsage(PrintStream os) {
+  public static void printUsage(PrintStream os) {
     printUsage(os, 80, 0);
   }
 
-  public void printUsage(PrintStream out, int width, int indent) {
-    List<Option<?>> all = optionStore.getOptionsWithoutErrorOption();
+  public static void printUsage(PrintStream out, int width, int indent) {
+    List<Option<?>> all = new CLOTestOptionStore().getOptionsWithoutErrorOption();
     OptionUtil.printOptions(out, all, width, indent);
     out.flush();
   }

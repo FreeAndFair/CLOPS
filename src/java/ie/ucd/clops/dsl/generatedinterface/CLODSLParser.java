@@ -56,12 +56,12 @@ public class CLODSLParser extends AbstractSpecificCLParser {
     return "(All* Input All*) | Version"; 
   }
 
-  public void printUsage(PrintStream os) {
+  public static void printUsage(PrintStream os) {
     printUsage(os, 80, 0);
   }
 
-  public void printUsage(PrintStream out, int width, int indent) {
-    List<Option<?>> all = optionStore.getOptionsWithoutErrorOption();
+  public static void printUsage(PrintStream out, int width, int indent) {
+    List<Option<?>> all = new CLODSLOptionStore().getOptionsWithoutErrorOption();
     OptionUtil.printOptions(out, all, width, indent);
     out.flush();
   }

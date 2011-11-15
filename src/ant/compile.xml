@@ -28,6 +28,8 @@
         sourcepath="${src-java}"
         destdir="${build}"
         target="${java-target-version}"
+    	source="${java-target-version}"
+    	includeAntRuntime="false"
         debug="yes">
       <classpath refid="compile.path"/>
     </javac>
@@ -35,10 +37,12 @@
 	
   <target name="compile-build" depends="compile-init,compile-version,compile-parser" description="compile the source">
     <!-- Compile the java code from ${java-src} into ${build} -->
-
+  	<echo>target ${java-target-version}</echo>
     <javac srcdir="${src-java}" 
            destdir="${build}" 
            target="${java-target-version}"
+           source="${java-target-version}"
+           includeAntRuntime="true"
            debug="yes">
       <compilerarg value="-Xlint:all"/>
       <classpath refid="compile.path"/>

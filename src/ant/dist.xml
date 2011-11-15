@@ -77,7 +77,11 @@
     <copy todir="clops-${clops-version}">
       <fileset dir="${dist}"/>
     </copy>
-    <zip destfile="clops-${clops-version}.zip" basedir="." includes="clops-${clops-version}/**/*"/>
+  	<delete file="${basedir}/clops-${clops-version}.zip" quiet="true"/>
+    <zip destfile="clops-${clops-version}.zip" duplicate="add">
+      <zipfileset dir="." includes="clops-${clops-version}/**/*" excludes="clops-${clops-version}/bin/clops"/>
+      <zipfileset dir="." includes="clops-${clops-version}/bin/clops" filemode="755"/>
+  	</zip>
     <delete dir="clops-${clops-version}"/>
   </target>
 

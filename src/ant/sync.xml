@@ -37,7 +37,7 @@
     
   <target name="sync-deps2wc">
     <copy todir="${wc-dir}">
-     <filelist dir="." files="antlr-runtime-3.1.3.jar, velocity-1.6.2.jar, velocity-1.6.2-dep.jar" />
+     <filelist dir="${lib}" files="antlr-runtime-3.1.3.jar, velocity-1.6.2.jar, velocity-1.6.2-dep.jar" />
     </copy>
   </target>
   

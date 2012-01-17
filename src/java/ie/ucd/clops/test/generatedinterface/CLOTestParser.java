@@ -77,11 +77,29 @@ public class CLOTestParser extends AbstractSpecificCLParser {
   }
   
   /**
+   * Parse the given command line arguments using the provided CLOTestParser,
+   * with normal lookahead. 
+   */
+  public static CLOTestParseResult parse(String[] args, String progName, CLOTestParser parser) {
+    ParseResult parseResult = parser.parseInternal(args, progName);
+    return new CLOTestParseResult(parseResult, parser.getOptionStore());
+  }
+  
+  /**
    * Parse the given command line arguments using a new CLOTestParser,
    * with infinite lookahead.
    */
   public static CLOTestParseResult parseAlternate(String[] args, String progName) {
     CLOTestParser parser = new CLOTestParser();
+    ParseResult parseResult = parser.parseAlternateInternal(args, progName);
+    return new CLOTestParseResult(parseResult, parser.getOptionStore());
+  }
+  
+  /**
+   * Parse the given command line arguments using the provided CLOTestParser,
+   * with infinite lookahead. 
+   */
+  public static CLOTestParseResult parseAlternate(String[] args, String progName, CLOTestParser parser) {
     ParseResult parseResult = parser.parseAlternateInternal(args, progName);
     return new CLOTestParseResult(parseResult, parser.getOptionStore());
   }
